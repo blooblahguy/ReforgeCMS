@@ -1,0 +1,115 @@
+
+// Grid containers
+.container {max-width: 1200px;}
+.section {padding-top: $g2; padding-bottom: $g2; }
+
+.container, .container-fluid {
+	margin-left: auto; margin-right:auto; width: 100%; padding-left: $g2; padding-right: $g2;
+	&:after {content: ""; display:block; clear:both;}
+}
+
+// Row for flexboxing
+.row {
+	display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; 
+	&.g0 {margin: 0; }
+	&.g1 {margin-left: -$g1; margin-right: -$g1; }
+	&.g2 {margin-left: -$g2; margin-right: -$g2; }
+	&.g3 {margin-left: -$g3; margin-right: -$g3; }
+	&.g4 {margin-left: -$g4; margin-right: -$g4; }
+}
+
+// Full grid mixin
+@mixin grid_sizes($name, $size: false) {
+	// shortcuts
+	$prefix: '';
+	@if $size {$prefix: #{$name}-;}
+	@if $size {$name: -#{$name};}
+	
+	// typography
+	.#{$prefix}text-left {text-align:left;}
+	.#{$prefix}text-center {text-align:center;}
+	.#{$prefix}text-right {text-align:right;}
+
+	// Alignment
+	.#{$prefix}self-start, .#{$prefix}self-top {-ms-flex-item-align: start; align-self: flex-start;}
+	.#{$prefix}self-center, .#{$prefix}self-middle {-ms-flex-item-align: center; align-self: center;}
+	.#{$prefix}self-end, .#{$prefix}self-bottom {-ms-flex-item-align: end; align-self: flex-end;}
+
+	.#{$prefix}content-top {-webkit-box-align: start; -ms-flex-align: start; align-items: flex-start; }
+	.#{$prefix}content-middle {-webkit-box-align: center; -ms-flex-align: center; align-items: center; }
+	.#{$prefix}content-bottom {-webkit-box-align: end; -ms-flex-align: end; align-items: flex-end; }
+
+	.#{$prefix}content-start {-webkit-box-pack: start; -ms-flex-pack: start; justify-content: start;}
+	.#{$prefix}content-end {-webkit-box-pack: end; -ms-flex-pack: end; justify-content: end;}
+	.#{$prefix}content-center {-webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;}
+	.#{$prefix}content-space { -ms-flex-pack: distribute; justify-content: space-evenly; }
+	.#{$prefix}content-justify {-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;}
+
+	// Flex element ordering
+	.#{$prefix}order-first { -webkit-box-ordinal-group: 0; -ms-flex-order: -1; order: -1;}
+	@for $i from 1 through 6 {
+		.#{$prefix}order-#{$i} {-webkit-box-ordinal-group: $i + 1; -ms-flex-order: $i; order: $i;}
+	}
+	.#{$prefix}order-last { -webkit-box-ordinal-group: 8; -ms-flex-order: 7; order: 7;}
+
+	// visible and hidden at minimum size
+	.#{$prefix}hidden {display:none;}
+	.#{$prefix}display {
+		&, &#{-block} {display:block;}
+		&#{-inline} {display:inline;}
+		&#{-inline-block} {display:inline-block;}
+	}
+
+	// grid gutters
+	.g0 > [class*="os#{$name}"] {padding: 0;}
+	.g1 > [class*="os#{$name}"] {padding: $g1;}
+	.g2 > [class*="os#{$name}"] {padding: $g2;}
+	.g3 > [class*="os#{$name}"] {padding: $g3;}
+	.g4 > [class*="os#{$name}"] {padding: $g4;}
+
+	// grid dimensions
+	.os#{$name} {-ms-flex-preferred-size: 0; flex-basis: 0; -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; max-width: 100%;}
+	@for $i from 1 through 12 {
+		.os#{$name}#{-$i} {max-width: (100% / 12) * $i; -ms-flex: 0 0 (100% / 12) * $i; flex: 0 0 (100% / 12) * $i; width: 100%; }
+	}
+	.os#{$name}-min {max-width: 100%; -ms-flex: none; flex: none; width: auto; }
+
+	// margins in breakpoints
+	@for $i from 4 through 0 {
+		$amount: $g1 * $i;
+		.#{$prefix}#{marg}#{$i} {margin: $amount !important;}
+	}
+	@for $i from 04 through 0 {
+		$amount: $g1 * $i;
+		.#{$prefix}#{marg}t#{$i}, .#{$prefix}#{marg}y#{$i} {margin-top: $amount !important;}
+		.#{$prefix}#{marg}b#{$i}, .#{$prefix}#{marg}y#{$i} {margin-bottom: $amount !important;}
+		.#{$prefix}#{marg}l#{$i}, .#{$prefix}#{marg}x#{$i} {margin-left: $amount !important;}
+		.#{$prefix}#{marg}r#{$i}, .#{$prefix}#{marg}x#{$i} {margin-right: $amount !important;}
+	}
+
+	// padding in breakpoints
+	@for $i from 4 through 0 {
+		$amount: $g1 * $i;
+		.#{$prefix}#{pad}#{$i} {padding:$amount !important;}
+	}
+	@for $i from 4 through 0 {
+		$amount: $g1 * $i;
+		.#{$prefix}#{pad}t#{$i}, .#{$prefix}#{pad}y#{$i} {padding-top: $amount !important;}
+		.#{$prefix}#{pad}b#{$i}, .#{$prefix}#{pad}y#{$i} {padding-bottom: $amount !important;}
+		.#{$prefix}#{pad}l#{$i}, .#{$prefix}#{pad}x#{$i} {padding-left: $amount !important;}
+		.#{$prefix}#{pad}r#{$i}, .#{$prefix}#{pad}x#{$i} {padding-right: $amount !important;}
+	}
+}
+
+// baseline classes (non-responsive)
+@include grid_sizes('');
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $viewport_md) {
+	@include grid_sizes('md', true);
+}
+
+// Large devices (desktops, 1024px and up)
+@media (min-width: $viewport_lg) {
+	@include grid_sizes('lg', true);
+}

@@ -1,0 +1,3 @@
+<?
+	$schema->add("posts", array());
+?>

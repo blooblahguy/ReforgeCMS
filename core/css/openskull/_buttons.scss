@@ -1,0 +1,40 @@
+// Buttons
+%btn-base {
+	$bg: $primary;
+
+	font: inherit; border:none; background: $bg; text-decoration:none; padding: $g1 $g2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($bg); font-weight: $font-bold;
+	&:hover, &:focus {
+		$bg: hover($bg);
+
+		text-decoration:none; color: contrast($bg); background: $bg;
+	}
+
+	&#{-btn-lg}, &.btn-lg {font-size: 1.303rem; padding: $g2 $g4; }
+	&#{-btn-sm}, &.btn-sm {font-size: .707rem; padding: $g1 / 3 $g1; }
+}
+
+.btn, a.btn, button, input[type="submit"], input[type="button"] {
+	@extend %btn-base;
+}
+
+@each $name, $color in $button-colors {
+	.btn-#{$name}, input.btn-#{$name}, a.btn-#{$name} {
+		@extend %btn-base;
+		$bg: $color;
+
+		color: contrast($bg); background: $bg;
+		&:hover, &:focus {
+			$bg: hover($bg);
+
+			color: contrast($bg); background-color: $bg;
+		}
+	}
+}
+
+.btn-blank {
+	@extend %btn-base; 
+	background: none; border:none; color: inherit;
+	&.btn-blank:hover, &.btn-blank:focus {
+		background: $light-grey; color: contrast($light-grey);
+	}
+}

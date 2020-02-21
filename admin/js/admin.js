@@ -3,8 +3,6 @@ $(".role_wrapper .toggle").on("click", update_role_checks)
 function update_role_checks() {
 	var admin = $(".role_wrapper.administrator .toggle").prop("checked")
 
-	console.log(admin)
-
 	if (admin) {
 		$(".role_wrapper").not(".administrator").addClass("disabled")
 		$(".role_wrapper").not(".administrator").find(".toggle").prop("disabled", true)

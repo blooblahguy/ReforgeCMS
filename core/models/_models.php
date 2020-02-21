@@ -5,6 +5,7 @@
 	require_once("users.php");
 	require_once("roles.php");
 	require_once("post_types.php");
+	require_once("custom_fields.php");
 	require_once("post_metas.php");
 	require_once("posts.php");
 	require_once("options.php");

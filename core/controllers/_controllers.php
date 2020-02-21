@@ -3,6 +3,7 @@
 	require_once("role.php");
 	require_once("meta.php");
 	require_once("user.php");
+	require_once("custom_field.php");
 	require_once("post_type.php");
 	require_once("post.php");
 	require_once("comment.php");

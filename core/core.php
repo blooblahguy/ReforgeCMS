@@ -19,6 +19,9 @@
 		"{$configuration["database_password"]}"
 	);
 
+	// include custom fields
+	require_once("custom_fields/custom_fields.php");
+
 	// Models
 	require_once("models/_models.php");
 

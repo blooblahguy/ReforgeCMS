@@ -40,6 +40,24 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	&.disabled {background: $light-grey; color: $grey; }
 }
 
+//===========================================
+// Custom Fields
+//===========================================
+// .fieldset_outer .fieldset {border-bottom: 1px solid $light-grey; }
+// .fieldset_outer .fieldset:last-child {border: none; }
+.cf_fields .entry:nth-child(even) {background: $light-grey;}
+
+.accordion_handle {
+	@include prefix(transition, background $animation-speed ease-in-out, padding $animation-speed ease-in-out);
+	&.toggled {
+		background: $primary; padding-top: $g1; padding-bottom: $g1; color: $white;
+	}
+}
+.accordion {
+	overflow:hidden; opacity: 1;  background: $white; @include prefix(transition, max-height $animation-speed ease-in-out, padding $animation-speed ease-in-out, opacity $animation-speed ease-in-out);
+	&.collapsed { opacity: 0; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border: none; }
+}
+
 // Medium
 @media screen and (max-width : 1024px) {
 

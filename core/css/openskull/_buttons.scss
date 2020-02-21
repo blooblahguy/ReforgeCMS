@@ -2,11 +2,11 @@
 %btn-base {
 	$bg: $primary;
 
-	font: inherit; border:none; background: $bg; text-decoration:none; padding: $g1 $g2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($bg); font-weight: $font-bold;
+	font-family: inherit; border: 1px solid transparent; background: $bg; text-decoration:none; padding: $g1 $g2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($bg); font-weight: $font-bold; line-height: $g2; 
 	&:hover, &:focus {
 		$bg: hover($bg);
 
-		text-decoration:none; color: contrast($bg); background: $bg;
+		text-decoration:none; color: contrast($bg); background: $bg; border-color: $bg;
 	}
 
 	&#{-btn-lg}, &.btn-lg {font-size: 1.303rem; padding: $g2 $g4; }
@@ -22,11 +22,11 @@
 		@extend %btn-base;
 		$bg: $color;
 
-		color: contrast($bg); background: $bg;
+		color: contrast($bg); background: $bg; border-color: $bg;
 		&:hover, &:focus {
 			$bg: hover($bg);
 
-			color: contrast($bg); background-color: $bg;
+			color: contrast($bg); background-color: $bg; border-color: $bg;
 		}
 	}
 }

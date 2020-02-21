@@ -20,6 +20,7 @@ $success: #22ac73;
 $black: #252830;
 $white: #fafafa;
 $dark: #171c23;
+$light-info: rgba(mix($white, $info, 20%), 1);
 $light-grey: rgba(mix($black, $white, 4%), 1);
 $grey: rgba(mix($black, $white, 20%), 1);
 $dark-grey: rgba(mix($white, $black, 30%), 1);

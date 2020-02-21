@@ -1,5 +1,7 @@
-/content/*
+content/
 tmp/
 admin/tmp/
+admin/tmp/*
 
 !.gitkeep
+admin/tmp/cache/2ilx35won8ao4.1gzdlj9cfk4ki.schema

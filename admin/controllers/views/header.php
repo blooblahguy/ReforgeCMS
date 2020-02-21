@@ -15,26 +15,31 @@
 		"label" => "Users",
 		"icon" => "account_circle",
 		"link" => "users",
+		"permission" => "manage_users",
 	),
 	35 => array(
 		"label" => "Roles",
 		"icon" => "how_to_reg",
 		"link" => "roles",
+		"permission" => "manage_roles",
 	),
 	40 => array(
 		"label" => "Comments",
 		"icon" => "forums",
 		"link" => "comments",
+		"permission" => "manage_comments",
 	),
 	45 => array(
 		"label" => "Forms",
 		"icon" => "message",
 		"link" => "forms",
+		"permission" => "manage_forms",
 	),
 	50 => array(
 		"label" => "Menus",
 		"icon" => "menu",
 		"link" => "menus",
+		"permission" => "manage_menus",
 	),
 
 	// configuration
@@ -45,21 +50,25 @@
 		"label" => "Custom Post Types",
 		"icon" => "web",
 		"link" => "post_types",
+		"permission" => "manage_post_types",
 	),
 	75 => array(
 		"label" => "Custom Fields",
 		"icon" => "filter_list",
 		"link" => "custom_fields",
+		"permission" => "manage_custom_fields",
 	),
 	80 => array(
 		"label" => "Widgets",
 		"icon" => "widgets",
 		"link" => "widgets",
+		"permission" => "manage_widgets",
 	),
 	85 => array(
 		"label" => "Settings",
 		"icon" => "settings",
 		"link" => "settings",
+		"permission" => "manage_settings",
 	),
 ); 
 $cpts = $db->exec("SELECT * FROM post_types WHERE admin_menu = 1 ORDER BY `order` ASC");
@@ -69,7 +78,8 @@ foreach ($cpts as $post) {
 	$menu[5 + $post["order"]] = array(
 		"label" => $post["label_plural"],
 		"icon" => $post["icon"],
-		"link" => "posts/".$post['slug']
+		"link" => "posts/".$post['slug'],
+		"permission" => array("update_any_{$post['slug']}", "update_own_{$post['slug']}")
 	)
 	?>
 <? } 
@@ -92,7 +102,8 @@ ksort($menu);
 			<div class="os-min leftsidebar bg-black">
 				<? 
 				foreach ($menu as $menu) { ?>
-					<? if ($menu["type"]) { echo "<span></span>"; } else { ?>
+					<? if ($menu["type"]) { echo "<span></span>"; } else {
+						if (isset($menu["permission"]) &! $user->can($menu["permission"])) { continue; } ?>
 						<a href="/admin/<?= $menu["link"]; ?>" <? if ($menu["link"] == $MENU || $menu["link"] == $MENUPAIR) { echo 'class="active"'; }?>><i><?= $menu["icon"]; ?></i> <?= $menu["label"]; ?></a>
 					<? } ?>
 				<? } ?>

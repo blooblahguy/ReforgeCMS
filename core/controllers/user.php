@@ -1,7 +1,7 @@
 <?
 
 	class User extends \DB\SQL\Mapper {
-		private $logged_in = false, $self = false, $cookie_uid = 0, $token = 0;
+		private $logged_in = false, $self = false, $cookie_uid = 0, $token = 0, $permissions = false;
 
 		function __construct($id = 0) {
 			global $db;
@@ -47,7 +47,6 @@
 
 		static function login($core, $args) {
 			global $db;
-			global $alert;
 
 			$crypt = \Bcrypt::instance();
 			$email = $_POST['email'];
@@ -92,12 +91,12 @@
 						":email" => $email
 					));
 
-					$alert->success("Successfully logged in, welcome back {$user['name']}");
+					\Alerts::instance()->success("Successfully logged in, welcome back {$user['name']}");
 					redirect($redirect);
 				}
 			}
 
-			$alert->error("Invalid username or password");
+			\Alerts::instance()->error("Invalid username or password");
 			redirect($redirect);
 		}
 
@@ -139,6 +138,49 @@
 					return true;
 				}
 			}
+
+			return false;
+		}
+
+		// PERMISSIONS, YAY
+		function can($request) {
+
+			if (! $this->permissions) {
+				global $db;
+				$rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
+				$this->permissions = unserialize($rs[0]["permissions"]);
+			}
+			$permissions = $this->permissions;
+
+			if (is_array($request)) {
+				// return singular permission status
+				foreach ($request as $r) {
+					if ($this->can($r)) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			// administratos can do literally anything
+			if (in_array("administrator", $permissions)) { return true; }
+
+			// return singular permission status
+			if (in_array($request, $permissions)) { return true; }
+
+			// any of these permissions allows you backend access
+			if ($request == "access_admin") {
+				if (in_array("manage_settings", $permissions)) { return true; }
+				if (in_array("manage_users", $permissions)) { return true; }
+				if (in_array("manage_roles", $permissions)) { return true; }
+				if (in_array("manage_post_types", $permissions)) { return true; }
+				if (in_array("manage_custom_fields", $permissions)) { return true; }
+				if (in_array("manage_forms", $permissions)) { return true; }
+				if (in_array("manage_menus", $permissions)) { return true; }
+				if (in_array("manage_comments", $permissions)) { return true; }
+				if (in_array("manage_widgets", $permissions)) { return true; }
+			}
+	
 
 			return false;
 		}

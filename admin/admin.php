@@ -15,10 +15,6 @@
 		
 		$core->run();
 	} else {
-		// Basic routes
-		$core->route("GET /admin/logout", "User::logout");
-		$core->route("GET /", "Views->display_dashboard");
-
 		// Include controllers
 		require_once("controllers/_controllers.php");
 

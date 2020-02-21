@@ -40,8 +40,6 @@
 					<? } ?>
 				</select>
 			</div>
-
-		
 		</div>
 	</div>
 

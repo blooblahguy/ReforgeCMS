@@ -2,6 +2,7 @@
 	$core->route("GET /admin/users", "Users->index");
 	$core->route("GET /admin/users/edit/@id", "Users->edit");
 	$core->route("POST /admin/users/save/@id", "Users->save");
+	$core->route("GET /admin/logout", "User::logout");
 
 	class Users extends \Prefab {
 		function __construct() {

@@ -29,16 +29,29 @@
 			$crypt = \Bcrypt::instance();
 			$password = $crypt->hash($password, $core->get("secret"));
 
+
+			// set defaults
+			$role = new Role();
+			$role->slug = "administrator";
+			$role->label = "Administrator";
+			$role->priority = 0;
+			$role->locked = 1;
+			$role->permissions = serialize(array("administrator"));
+			$role->save();
+
 			$user = new User();
 			$user->username = $username;
 			$user->email = $email;
 			$user->password = $password;
+			$user->role_id = $role->id;
 			$user->save();
 
 			$option = new Option();
 			$option->key = "sitename";
 			$option->value = $sitename;
 			$option->save();
+
+			
 
 			$alert->message("First setup successful");
 			redirect("/admin");

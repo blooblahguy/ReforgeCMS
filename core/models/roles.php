@@ -10,21 +10,24 @@
 		"permissions" => array(
 			"type" => "LONGTEXT"
 		),
-		"post_type_permissions" => array(
-			"type" => "LONGTEXT"
-		),
 		"use_color" => array(
 			"type" => "INT(1)"
 		),
 		"color" => array(
 			"type" => "VARCHAR(7)"
 		),
-		"order" => array(
-			"type" => "INT(3)"
+		"locked" => array(
+			"type" => "INT(1)"
+		),
+		"default" => array(
+			"type" => "INT(1)",
 		),
 		"priority" => array(
 			"type" => "INT(3)",
 			"unique" => true
+		),
+		"display_seperately" => array(
+			"type" => "INT(1)",
 		)
 	));
 ?>

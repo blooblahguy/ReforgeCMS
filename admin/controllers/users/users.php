@@ -1,7 +1,7 @@
 <?
-	$core->route("GET {$admin_path}/users", "Users->index");
-	$core->route("GET {$admin_path}/users/edit/@id", "Users->edit");
-	$core->route("POST {$admin_path}/users/save", "Users->save");
+	$core->route("GET /admin/users", "Users->index");
+	$core->route("GET /admin/users/edit/@id", "Users->edit");
+	$core->route("POST /admin/users/save/@id", "Users->save");
 
 	class Users extends \Prefab {
 		function __construct() {
@@ -23,7 +23,23 @@
 			$core->set("view", "controllers/users/edit.php");
 		}
 		function save($core, $args) {
-			
+			$id = $args["id"];
+
+			$user = new User();
+			$changed = "created";
+			if ($id > 0) {
+				$changed = "updated";
+				$user->load("id = $id");
+			}
+
+			$user->username = $_POST['username'];
+			$user->email = $_POST['email'];
+			$user->role_id = $_POST['role_id'];
+
+			$user->save();
+
+			\Alerts::instance()->success("User $user->username $changed");
+			redirect("/admin/users/edit/{$user->id}");
 		}
 	}
 ?>

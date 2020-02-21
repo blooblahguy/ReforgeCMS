@@ -8,9 +8,9 @@
 </div>
 
 <? 
-$users = $db->exec("SELECT users.*, roles.label FROM users
+$users = $db->exec("SELECT users.*, roles.label AS role FROM users
 	LEFT JOIN roles ON roles.id = users.role_id
-	ORDER BY roles.order ASC, users.role_id ASC, users.id ASC
+	ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
 "); 
 
 display_results_table($users, array(

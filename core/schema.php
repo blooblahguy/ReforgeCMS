@@ -38,6 +38,8 @@
 			}
 			if ($info["index"]) {
 				$qry .= ", INDEX({$name})";
+			} else {
+
 			}
 
 			return $qry;
@@ -103,15 +105,30 @@
 					unset($columns['modified']);
 
 					foreach ($fields as $name => $info) {
+						
+
+
 						$col = $this->column_sql($name, $info);
+
 						if (! isset($columns[$name])) {
 							$qry = "ALTER TABLE `{$table}` ADD {$col}";
 							// debug($qry);
+							debug($qry);
 							$this->db->exec($qry);
 							// debug($qry);
 						} else {
-							$db_type = strtolower($columns['Name']['Type']);
+							if (! $info["default"]) {
+								$qry = "ALTER TABLE `{$table}` ALTER COLUMN `{$name}` DROP DEFAULT";
+								$this->db->exec($qry);
+							}
+							if (! $info["index"] && ! $info["unique"]) {
+								$qry = "ALTER TABLE `{$table}` DROP INDEX IF EXISTS `{$name}`";
+								$this->db->exec($qry);
+							}
+
+							// $db_type = strtolower($columns['Name']['Type']);
 							$qry = "ALTER TABLE `{$table}` MODIFY COLUMN {$col}";
+							debug($qry);
 							$this->db->exec($qry);
 							// debug($qry);
 						}
@@ -122,7 +139,7 @@
 
 					// anything left over should be dropped as a column
 					foreach ($columns as $name => $values) {
-						$qry = "ALTER TABLE `{$table}` drop column `{$name}` ";
+						$qry = "ALTER TABLE `{$table}` DROP COLUMN `{$name}` ";
 						$this->db->exec($qry);
 						// debug($qry);
 					}

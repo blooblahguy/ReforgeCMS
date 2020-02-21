@@ -8,7 +8,7 @@
 </div>
 
 <? 
-$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `order` ASC");
+$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
 
 display_results_table($roles, array(
 	'label' => array(
@@ -19,7 +19,30 @@ display_results_table($roles, array(
 		"label" => "Slug",
 		"html" => '<a href="/admin/roles/edit/%2$d">%1$s</a>',
 	),
-	'id' => array(
-		"label" => "ID",
+	'users' => array(
+		"label" => "Users",
+		"calculate" => function($s, $id) {
+			global $db;
+			$rs = $db->exec("SELECT id FROM `users` WHERE role_id = $id");
+			return (count($rs));
+		},
 	),
+	'default' => array(
+		"label" => "Default",
+		"class" => "min",
+		"calculate" => function($s) {
+			if ($s == 1) {
+				return "Yes";
+			} else {
+				return "No";
+			}
+		}
+	),
+	'actions' => array (
+		"label" => "Actions",
+		"class" => "min",
+		"calculate" => function($s, $id) {
+			return '<a href="/admin/roles/delete/'.$id.'" class="delete">Delete</a>';
+		}
+	)
 )); ?>

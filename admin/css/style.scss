@@ -2,29 +2,6 @@
 //===========================================
 // OS Overrides
 //===========================================
-/* fallback */
-@font-face {
-	font-family: 'Material Icons';
-	font-style: normal;
-	font-weight: 400;
-	src: url("/admin/css/materialicons.woff2") format('woff2');
-}
-
-i, .material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
 i.info {opacity:0.6; margin: -4px 6px; position: relative; top: 4px; }
 option.material-icons {
 	width: 45px;
@@ -54,6 +31,14 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 //===========================================
 // CONTENT
 //===========================================
+
+//===========================================
+// FORMS
+//===========================================
+.role_wrapper {
+	&.enabled {background: rgba(mix($success, $white, 6%), 1); }
+	&.disabled {background: $light-grey; color: $grey; }
+}
 
 // Medium
 @media screen and (max-width : 1024px) {

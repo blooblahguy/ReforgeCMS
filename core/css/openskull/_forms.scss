@@ -26,18 +26,34 @@ input[type="submit"] { margin-top: $g1; }
 input[type="radio"], input[type="checkbox"] {background: none;}
 input[type="radio"] {border-radius: 50%;}
 input[type="checkbox"], input[type="radio"] {
-	vertical-align: bottom; width: $g2; height: $g2; display: inline-block; position:relative; margin: 0 $g1/2 0 $g1; border-width: 1px; padding: 2px; top: -2px;
+	vertical-align: bottom; display: inline-block; position:relative; margin: 0 $g1/2 0 $g1; border-width: 1px; padding: 2px; top: -2px; height: $g2; border-radius: $g1;
+
+	// validation
 	&:first-of-type {margin-left:0;}
 	&:invalid {border-width:1px; border-color: $warning;}
 	&:invalid:focus, &:invalid:active {border-color: $error; }
 	&:not(:invalid) { border-color: $form-border-color; }
 
-	&:checked { 
-		border-color: $primary;
-		&:after {content: ''; background: $primary; position: absolute; top: 2px; left: 2px; right: 2px; bottom: 2px;}
-		&[type="radio"]:after {border-radius: 50%; }
+	&:after {content: '';  position: absolute; border-radius: 50%; }
+	&:focus { box-shadow: 0 0 6px rgba($black, .25); }
+	&:disabled { opacity: 0.4; cursor:not-allowed; }
+}
+
+input[type="checkbox"] {
+	width: $g4; background: $grey; 
+	&:after { background: $white; top: 0px; left: 0px; height: calc(#{$g2} - 2px); width: calc(#{$g2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
+	&:checked {
+		background: $success; border-color: $success;
+		&:after {left: $g2; background: $white;}
 	}
-	&:focus { box-shadow: 0 0 6px rgba($primary, .25); }
+}
+input[type="radio"] {
+	width: $g2; 
+	&::after { left: 2px; right: 2px; top: 2px; bottom: 2px;  }
+	&:checked {
+		background: $white; border-color: $success;
+		&:after {top: 2px; right: 2px; bottom: 2px; left: 2px; background: $success; }
+	}
 }
 
 // Selectboxes
@@ -48,15 +64,4 @@ option[disabled] {color: $grey; font-style: normal;}
 label {
 	display:block; font-weight: $font-medium;
 	span {color: $error; margin: 0 4px;}
-}
-
-input[type="checkbox"].toggle {
-	width: $g4; height: $g2; border-radius: $g1; background: $grey;
-
-	&:after {content: ''; background: $white; position: absolute; top: 0px; left: 0px; height: calc(#{$g2} - 2px); width: calc(#{$g2} - 2px); border-radius: 50%; @include prefix(transition, left $animation-speed ease-in-out); }
-
-	&:checked {
-		background: $primary;
-		&:after {left: $g2; }
-	}
 }

@@ -1,4 +1,8 @@
 <?
+	function slugify($string){
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $string), '_'));
+    }
+
 	function display_results_table($rs, $fields) { ?>
 		<table class="even">
 			<thead>
@@ -11,7 +15,8 @@
 			<tbody>
 				<? foreach ($rs as $k => $r) { ?>
 					<tr>
-						<? foreach ($fields as $i => $f) { ?>
+						<? 
+						foreach ($fields as $i => $f) { ?>
 							<td class="<?= $f["class"]; ?>">
 								<? if ($f["calculate"]) {
 									echo $f["calculate"]($r[$i], $r["id"]);

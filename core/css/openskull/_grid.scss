@@ -17,6 +17,12 @@
 	&.g3 {margin-left: -$g3; margin-right: -$g3; }
 	&.g4 {margin-left: -$g4; margin-right: -$g4; }
 }
+// grid gutters
+.g0 > [class*="os"] {padding: 0;}
+.g1 > [class*="os"] {padding: $g1;}
+.g2 > [class*="os"] {padding: $g2;}
+.g3 > [class*="os"] {padding: $g3;}
+.g4 > [class*="os"] {padding: $g4;}
 
 // Full grid mixin
 @mixin grid_sizes($name, $size: false) {
@@ -59,13 +65,6 @@
 		&#{-inline} {display:inline;}
 		&#{-inline-block} {display:inline-block;}
 	}
-
-	// grid gutters
-	.g0 > [class*="os#{$name}"] {padding: 0;}
-	.g1 > [class*="os#{$name}"] {padding: $g1;}
-	.g2 > [class*="os#{$name}"] {padding: $g2;}
-	.g3 > [class*="os#{$name}"] {padding: $g3;}
-	.g4 > [class*="os#{$name}"] {padding: $g4;}
 
 	// grid dimensions
 	.os#{$name} {-ms-flex-preferred-size: 0; flex-basis: 0; -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; max-width: 100%;}

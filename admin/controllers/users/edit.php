@@ -9,7 +9,7 @@
 		$subject = ucfirst($user->username);
 	}
 
-	$roles = $db->query("SELECT * FROM roles ORDER BY menu_order ASC");
+	$roles = $db->query("SELECT * FROM roles ORDER BY `priority` ASC");
 ?>
 
 <form action="<?= $core->get("admin_path"); ?>/users/save/<?= $id; ?>" method="POST" class="row">
@@ -36,7 +36,7 @@
 				<label for="">Role <span>*</span></label>
 				<select name="role_id" required>
 					<? foreach ($roles as $role) { ?>
-						<option value="<?= $role["id"]; ?>"><?= $role["label"]; ?></option>
+						<option value="<?= $role["id"]; ?>" <? if ($user->role_id == $role["id"]) {echo "selected"; }?>><?= $role["label"]; ?></option>
 					<? } ?>
 				</select>
 			</div>

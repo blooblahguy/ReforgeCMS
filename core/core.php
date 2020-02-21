@@ -3,6 +3,8 @@
 	$core->set("admin_path", $admin_path);
 	$core->set("CACHE", true);
 	$core->set("salt", $configuration["salt"]);
+	require_once("controllers/alerts.php");
+	$alert = new \Alerts;
 	
 	new Session();
 

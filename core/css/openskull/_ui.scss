@@ -3,7 +3,7 @@
 ////////////////////////////////////////////
 
 // simple Borders
-.border {border: 1px solid $light-grey; }
+.border {border: 1px solid $grey; }
 @each $name, $color in $system-colors {
 	.bg-#{$name} .border {
 		border: 1px solid contrast($color, $light-grey, $dark-grey)
@@ -51,7 +51,7 @@
 	$body_pos: calc(100% + #{$notch_size});
 	$notch_pos: calc(100%);
 	
-	position:relative; border:none;
+	position:relative; border:none; cursor: pointer; 
 	&::before, &::after {position: absolute; z-index: 100; opacity:1; left:50%;}
 	// Body
 	&:before {bottom: $body_pos; transform: translate(-50%, 0); max-width:300px; min-width: calc(100% + #{$g4 * 2}); background: $background; color: contrast($background); padding: $g1 $g2; pointer-events: none; text-align: center; font-size: 0.9rem;}
@@ -102,14 +102,22 @@
 
 
 // TABLES
-table, thead, tbody {width: 100%; border-spacing: 0; border-collapse: collapse; max-width:100%; margin-bottom:$g2;}
-table tr {border-bottom: 1px solid $light-grey;}
-table thead td {font-weight: $font-medium;}
-table th { @extend .text-cap; @extend .text-left; @extend .h5; }
-table th, table td { padding: $g1; word-wrap: normal; line-height: 1; }
-table.odd tbody tr:nth-child(odd), table.even tbody tr:nth-child(even) {background: $light-grey}
-table.bordered td {border:1px solid $light-grey;}
-table.noborder tr {border:none;}
+table, .table {
+	&, thead, tbody {width: 100%; border-spacing: 0; border-collapse: collapse; max-width:100%; margin-bottom:$g2;}
+
+	th, td { 
+		padding: $g1; word-wrap: normal; line-height: 1; vertical-align: middle; width: auto; 
+		&.min {width: 1%; white-space: nowrap; text-align:center; }
+	}
+	tr {border-bottom: 1px solid $light-grey;}
+	th { @extend .text-cap; @extend .text-left; font-weight: $font-bold; padding: $g2 $g1;}
+
+	&.odd tbody tr:nth-child(odd) {background: $light-grey}
+	&.even tbody tr:nth-child(even) {background: $light-grey}
+
+	&.bordered td {border:1px solid $light-grey;}
+	&.noborder tr {border:none;}
+}
 
 // MENUS
 .os_menu {

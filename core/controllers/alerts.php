@@ -15,7 +15,10 @@
 		}
 
 		function message($message) {
-			$this->add("message", $message);
+			$this->add("info", $message);
+		}
+		function info($message) {
+			$this->add("info", $message);
 		}
 		function error($message) {
 			$this->add("error", $message);

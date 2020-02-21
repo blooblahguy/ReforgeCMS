@@ -3,7 +3,7 @@
 
 // INPUTS
 input, select, textarea {
-	-webkit-appearance: none; display:block; border-radius: 0; padding: $g1; width: 100%; background: $form-input-background; color: contrast($form-input-background); border: 1px solid $form-border-color; background-clip: padding-box; font-family: inherit; margin:0;
+	-webkit-appearance: none; display:block; border-radius: 0; padding: $g1; width: 100%; background: $form-input-background; color: contrast($form-input-background); border: 1px solid $form-border-color; font-family: inherit; margin:0;
 	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $g1/4 rgba($primary, .25); }
 	&:required {border-left-width: 4px;}
 	&:invalid {border-left-color: $warning; font-style: italic; }
@@ -15,7 +15,7 @@ textarea {resize: vertical;}
 select[multiple] {height: auto; overflow:auto; padding: 0;}
 input[type="range"] {border: none; -webkit-appearance: slider-horizontal;}
 input[type="date"], input[type="datetime-local"] { padding: calc(#{$g1} - .1rem) $g1; }
-input[type="color"] { padding: $g1 / 4 $g1 /2; height: calc(#{$line-height}rem + #{$g1}); }
+input[type="color"] { padding: 2px; display: block;  height: calc(#{$line-height}rem);  }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto; }
 input[type="submit"] { margin-top: $g1; }
 
@@ -48,4 +48,15 @@ option[disabled] {color: $grey; font-style: normal;}
 label {
 	display:block; font-weight: $font-medium;
 	span {color: $error; margin: 0 4px;}
+}
+
+input[type="checkbox"].toggle {
+	width: $g4; height: $g2; border-radius: $g1; background: $grey;
+
+	&:after {content: ''; background: $white; position: absolute; top: 0px; left: 0px; height: calc(#{$g2} - 2px); width: calc(#{$g2} - 2px); border-radius: 50%; @include prefix(transition, left $animation-speed ease-in-out); }
+
+	&:checked {
+		background: $primary;
+		&:after {left: $g2; }
+	}
 }

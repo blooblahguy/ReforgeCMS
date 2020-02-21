@@ -1,5 +1,14 @@
 <?
 	$id = $core->get("post_id");
+	$user = new User();
+	$action = "Create";
+	$subject = "User";
+	if ($id > 0) {
+		$user->load("id = $id");
+		$action = "Edit";
+		$subject = ucfirst($user->username);
+	}
+
 	$roles = $db->query("SELECT * FROM roles ORDER BY menu_order ASC");
 ?>
 
@@ -7,7 +16,7 @@
 	<div class="os">
 		<div class="row content-middle">
 			<div class="os-min padr2">
-				<h2 class="marg0"><? echo $core->get("page_title"); ?></h2>
+				<h2 class="marg0"><? echo sprintf($core->get("page_title"), $action, $subject); ?></h2>
 			</div>
 			<div class="os padl2">
 				<a href="post_types/edit/0" class="btn">New User</a>
@@ -17,11 +26,11 @@
 		<div class="content pad2 padl0">
 			<div class="padb2">
 				<label for="">Username <span>*</span></label>
-				<input type="text" name="username" value="" required placeholder="Username">
+				<input type="text" name="username" value="<?= $user->username?>" required placeholder="Username">
 			</div>
 			<div class="padb2">
 				<label for="">Email <span>*</span></label>
-				<input type="text" name="email" value="" required placeholder="Email">
+				<input type="text" name="email" value="<?= $user->email?>" required placeholder="Email">
 			</div>
 			<div class="padb2">
 				<label for="">Role <span>*</span></label>

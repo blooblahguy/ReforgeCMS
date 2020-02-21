@@ -20,6 +20,7 @@
 	$icons[] = "sms";
 	$icons[] = "create";
 	$icons[] = "assignment_ind";
+	$icons[] = "gamepad";
 	$icons[] = "build";
 	$icons[] = "delete";
 	$icons[] = "alarm";
@@ -47,6 +48,8 @@
 	$icons[] = "apartment";
 	$icons[] = "storefront";
 	$icons[] = "star";
+	$icons[] = "view_compact";
+	$icons[] = "category";
 	$icons[] = "poll";
 ?>
 

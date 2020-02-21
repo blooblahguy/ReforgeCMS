@@ -10,27 +10,31 @@
 <? 
 $users = $db->exec("SELECT users.*, roles.label FROM users
 	LEFT JOIN roles ON roles.id = users.role_id
-	ORDER BY roles.menu_order ASC, users.role_id ASC, users.id ASC
+	ORDER BY roles.order ASC, users.role_id ASC, users.id ASC
 "); 
-?>
 
-<table>
-	<thead>
-		<tr>
-			<td>Username</td>
-			<td>Role</td>
-			<td>Email</td>
-			<td>Last Login</td>
-			<td>Member Since</td>
-		</tr>
-	</thead>
-	<tbody>
-		<? foreach ($users as $user) { ?>
-			<td><a href="users/edit/<?= $user["id"]; ?>"><?= $user["username"]; ?></a></td>
-			<td><a href="users/edit/<?= $user["id"]; ?>"><?= $user["label"]; ?></a></td>
-			<td><a href="users/edit/<?= $user["id"]; ?>"><?= $user["email"]; ?></a></td>
-			<td><a href="users/edit/<?= $user["id"]; ?>"><?= Date("Y-m-d", strtotime($user["last_login"])); ?></a></td>
-			<td><a href="users/edit/<?= $user["id"]; ?>"><?= Date("Y", strtotime($user["created"])); ?></a></td>
-		<? } ?>
-	</tbody>
-</table>
+display_results_table($users, array(
+	'username' => array(
+		"label" => "Username",
+		"html" => '<a href="/admin/users/edit/%2$d">%1$s</a>',
+	),
+	'email' => array(
+		"label" => "Email",
+		"html" => '<a href="/admin/users/edit/%2$d">%1$s</a>',
+	),
+	'role' => array(
+		"label" => "Role",
+	),
+	'last_login' => array(
+		"label" => "Last Login",
+		"calculate" => function($label, $id) {
+			return Date("Y-m-d", strtotime($label));
+		}
+	),
+	'created' => array(
+		"label" => "Member Since",
+		"calculate" => function($label, $id) {
+			return Date("Y-m", strtotime($label));
+		}
+	),
+)); ?>

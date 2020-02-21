@@ -19,7 +19,7 @@
 		}
 		function edit($core, $args) {
 			$core->set("post_id", $args["id"]);
-			$core->set("page_title", "Edit User");
+			$core->set("page_title", "%s %s");
 			$core->set("view", "controllers/users/edit.php");
 		}
 		function save($core, $args) {

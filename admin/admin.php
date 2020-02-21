@@ -9,7 +9,7 @@
 	// debug($admin_root);
 	if (! $user->logged_in()) {
 		$core->route("GET *", function($core, $args) {
-			require_once("views/login.php");
+			require_once("controllers/views/login.php");
 		});
 		$core->route("POST /admin/login", "User::login");
 		
@@ -17,13 +17,13 @@
 	} else {
 		// Basic routes
 		$core->route("GET /admin/logout", "User::logout");
-		$core->route("GET /", "Posts->display_dashboard");
+		$core->route("GET /", "Views->display_dashboard");
 
 		// Include controllers
 		require_once("controllers/_controllers.php");
 
 		// get header in first
-		require_once("views/header.php");
+		require_once("controllers/views/header.php");
 
 		// run routes now
 		$core->run();
@@ -34,7 +34,7 @@
 		}
 
 		// lastly, footer
-		require_once("views/footer.php");
+		require_once("controllers/views/footer.php");
 	}
 
 ?>

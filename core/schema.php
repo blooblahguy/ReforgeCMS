@@ -86,6 +86,8 @@
 
 					$this->db->exec($qry);
 
+					\Alerts::instance()->message("Created $table");
+
 				} elseif ($hashes[$table] !== $change_hash) {
 					// update an existing table
 					$columns = $this->db->exec("SHOW COLUMNS FROM {$table} ");
@@ -129,6 +131,8 @@
 					$qry = "UPDATE {$this->hashtable} SET change_hash = '{$change_hash}' WHERE table_name = '{$table}' ";
 					$this->db->exec($qry);
 					// debug($qry);
+
+					\Alerts::instance()->message("Upaded $table");
 				}
 			}
 		}

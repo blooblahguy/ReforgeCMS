@@ -1,4 +1,5 @@
 <?
+
 	$schema = new \DB\Schema($db);
 
 	require_once("users.php");

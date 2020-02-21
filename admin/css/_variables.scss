@@ -20,9 +20,9 @@ $success: #22ac73;
 $black: #252830;
 $white: #fafafa;
 $dark: #171c23;
-$light-grey: rgba(mix($black, $white, 5%), 1);
+$light-grey: rgba(mix($black, $white, 4%), 1);
 $grey: rgba(mix($black, $white, 20%), 1);
-$dark-grey: rgba(mix($black, $white, 5%), 1);
+$dark-grey: rgba(mix($white, $black, 30%), 1);
 
 // PAGE -- you can invert these values to automatically create a dark theme
 $background-color: $white;
@@ -53,12 +53,12 @@ $h1: (
 	, font-weight: 500
 );
 $h2: (
-	size: 2.0rem
+	size: 1.7rem
 	, color: inherit
 	, font-weight: 500
 );
 $h3: (
-	size: 1.6rem
+	size: 1.5rem
 	, color: inherit
 	, font-weight: 500
 );

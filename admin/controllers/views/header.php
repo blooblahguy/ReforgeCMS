@@ -52,13 +52,18 @@
 		"link" => "custom_fields",
 	),
 	80 => array(
+		"label" => "Widgets",
+		"icon" => "widgets",
+		"link" => "widgets",
+	),
+	85 => array(
 		"label" => "Settings",
 		"icon" => "settings",
 		"link" => "settings",
 	),
 ); 
 $cpts = $db->exec("SELECT * FROM post_types WHERE admin_menu = 1 ORDER BY `order` ASC");
-if (count($cpts) > 0 ) {$menu[4] = array("type" => "seperator"); }
+// if (count($cpts) > 0 ) {$menu[4] = array("type" => "seperator"); }
 foreach ($cpts as $post) {
 	// debug($post);
 	$menu[5 + $post["order"]] = array(
@@ -84,7 +89,7 @@ ksort($menu);
 <body class="h100">
 	<div class="wrapper h100">
 		<div class="content_outer row h100">
-			<div class="os-min leftsidebar pady2 bg-black">
+			<div class="os-min leftsidebar bg-black">
 				<? 
 				foreach ($menu as $menu) { ?>
 					<? if ($menu["type"]) { echo "<span></span>"; } else { ?>

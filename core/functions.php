@@ -1,10 +1,10 @@
 <?
 	function display_results_table($rs, $fields) { ?>
-		<table>
+		<table class="even">
 			<thead>
 				<tr>
 					<? foreach ($fields as $f) { ?>
-						<td class="<?= $f["class"]; ?>"><?= $f["label"]; ?></td>
+						<th class="<?= $f["class"]; ?>"><?= $f["label"]; ?></th>
 					<? } ?>
 				</tr>
 			</thead>
@@ -13,7 +13,9 @@
 					<tr>
 						<? foreach ($fields as $i => $f) { ?>
 							<td class="<?= $f["class"]; ?>">
-								<? if ($f["html"]) {
+								<? if ($f["calculate"]) {
+									echo $f["calculate"]($r[$i], $r["id"]);
+								} elseif ($f["html"]) {
 									echo sprintf($f["html"], $r[$i], $r["id"]);
 								} else {
 									echo $r[$i]; 

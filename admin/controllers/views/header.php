@@ -98,7 +98,7 @@ ksort($menu);
 </head>
 <body class="h100">
 	<div class="wrapper h100">
-		<div class="content_outer row h100">
+		<div class="row h100">
 			<div class="os-min leftsidebar bg-black">
 				<? 
 				foreach ($menu as $menu) { ?>
@@ -109,12 +109,12 @@ ksort($menu);
 				<? } ?>
 				
 			</div>
-			<div class="os">
+			<div class="os content_outer">
 				<div class="top_outer text-right pad1 bg-black">
 					<a href="/" class="view padx2 pady1">View Website</a>
 					<a href="/admin/logout" class="self-end padx2 pady1">Logout</a>
 				</div>
-				<div class="content pad2">
+				<div class="content_inner pad2">
 					<? display_alerts(); ?>
 				
 			

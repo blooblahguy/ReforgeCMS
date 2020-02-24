@@ -11,6 +11,11 @@
 	// Base Functionality
 	require_once("functions.php");
 	require_once("schema.php");
+
+	queue_script("/core/js/cash.js", 1);
+	queue_script("/core/js/ajax.min.js", 3);
+	queue_script("/core/js/core.js", 5);
+	queue_script("/core/js/custom_fields.js", 10);
 	
 	// Database
 	$db = new DB\SQL(

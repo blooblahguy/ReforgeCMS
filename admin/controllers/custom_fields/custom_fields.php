@@ -18,7 +18,9 @@
 			$core->set("view", "controllers/custom_fields/edit.php");
 		}
 		function save($core, $args) {
+			debug($_POST);
 
+			exit();
 		}
 	}
 ?>

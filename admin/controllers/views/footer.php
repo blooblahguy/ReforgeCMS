@@ -3,6 +3,8 @@
 		</div>
 	</div>
 
+	<? //rf_scripts(); ?>
+
 	<script src="/core/js/cash.js"></script>
 	<script src="/core/js/ajax.min.js"></script>
 	<script src="/core/js/custom_fields.js"></script>

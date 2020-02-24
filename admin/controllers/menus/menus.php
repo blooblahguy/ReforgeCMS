@@ -1,7 +1,7 @@
 <?
-	// $core->route("GET /admin/post_types", "PostTypes->index");
-	// $core->route("GET /admin/post_types/edit/@id", "PostTypes->edit");
-	// $core->route("POST /admin/post_types/save/@id", "PostTypes->save");
+	$core->route("GET /admin/menus", "Menus->index");
+	$core->route("GET /admin/menus/edit/@id", "Menus->edit");
+	$core->route("POST /admin/menus/save/@id", "Menus->save");
 
 	class Menus extends \Prefab {
 		function __construct() {
@@ -10,12 +10,12 @@
 
 		function index($core, $args) {
 			// $core->set("page_title", "Custom Post Types");
-			// $core->set("view", "controllers/post_types/index.php");
+			$core->set("view", "controllers/menus/index.php");
 		}
 		function edit($core, $args) {
 			// $core->set("post_id", $args["id"]);
 			// $core->set("page_title", "%s %s");
-			// $core->set("view", "controllers/post_types/edit.php");
+			$core->set("view", "controllers/menus/edit.php");
 		}
 		function save($core, $args) {
 

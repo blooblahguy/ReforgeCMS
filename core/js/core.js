@@ -1,10 +1,8 @@
 $("body").on("input change paste", "[data-bind]", function() {
-	var variable = $(this).attr("data-bind")
+	var variable = $(this).attr("name")
 	var type = this.tagName.toLowerCase()
 
 	var value = $(this).val() || $(this).html()
-	// console.log("[data-value='"+variable+"']")
-	// console.log(value)
 
 	$("[data-value='"+variable+"']").each(function(i, e) {
 		var type = e.tagName.toLowerCase()

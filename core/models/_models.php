@@ -10,6 +10,7 @@
 	require_once("posts.php");
 	require_once("options.php");
 	require_once("comments.php");
+	require_once("menus.php");
 
 	// Ensure database structure
 	$schema->setup();

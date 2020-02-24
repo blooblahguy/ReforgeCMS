@@ -1,5 +1,5 @@
 <?
-	$id = $core->get("post_id");
+	$id = $core->get("fieldset_id");
 	$cf = new CustomField();
 	$action = "Create";
 	$subject = "Custom Fields";
@@ -8,6 +8,8 @@
 		$action = "Edit";
 		$subject = ucfirst($cf->label);
 	}
+
+	// debug($top_key);
 
 ?>
 
@@ -21,9 +23,9 @@
 		</div>
 	</div>
 
-	<div class="content pad2 padl0">
+	<div class="content">
 		<label for="">Title</label>
-		<div class="row margb2">
+		<div class="row margb2 cfheader">
 			<div class="os padr2">
 				<input type="text" name="title" value="<?= $cf->label; ?>" placeholder="Title">
 			</div>
@@ -32,45 +34,48 @@
 			</div>
 		</div>
 		<div class="fieldset_outer row">
-			<div class="os-4 label strong pad1">Label</div>
-			<div class="os-4 slug strong pad1">Slug</div>
-			<div class="os-4 type strong pad1">Type</div>
+			<div class="os label strong pad1">Label</div>
+			<div class="os slug strong pad1">Slug</div>
+			<div class="os type strong pad1">Type</div>
+			<div class="os-2 type strong pad1">Actions</div>
 			<div class="os-12 cf_fields">
 
 			</div>
 		</div>
 		<div class="fieldset_footer pad1 margt1 bg-light-grey">
-			<a href="#" class="btn pull-right" data-template=".blank_field" data-target=".cf_fields" data-cf="create" data-index="1">+ Add Field</a>
+			<a href="#" class="btn pull-right cf-add" data-target=".cf_fields" data-id="<?= $id; ?>">+ Add Field</a>
 			<div class="clear"></div>
 		</div>
 
 		<div class="load_rules padt2">
 			<h3>Load Conditions</h3>
 		</div>
+
+		<div class="load_rules pady2">
+			<h3>Display Options</h3>
+		</div>
 	</div>
 
 
 	<!-- Basic Row Template -->
 	<template class="blank_field">
-		<div class="entry">
-			<a href="#" data-accordion=".accordion.settings_field_$i" class="row accordion_handle toggled">
-				<div data-value="field_$i_label" class="os-4 label pad1">(no label)</div>
-				<div data-value="field_$i_slug" class="os-4 slug pad1">(no slug)</div>
-				<div data-value="field_$i_type" class="os-4 type pad1">text</div>
+		<div class="entry entry$key" data-key="$key" data-parent="$parent">
+			<a href="#" data-accordion=".accordion.settings_$key" class="row accordion_handle toggled content-middle">
+				<div data-value="cfields[$key][label]" class="os label pad1">(no label)</div>
+				<div data-value="cfields[$key][slug]" class="os slug pad1">(no slug)</div>
+				<div data-value="cfields[$key][type]" class="os type pad1">text</div>
+				<div class="os-2 type"><span data-remove=".entry$key" class="remove pad1">Remove</span></div>
 			</a>
-			<div class="accordion settings_field_$i toggled pad1 border">
+			<div class="accordion settings_$key toggled pad1 border">
 				<div class="row content-middle g1 padx1">
 					<div class="os-4">
-						<!-- <label for="#field_$i_label">Label</label> -->
-						<input type="text" class="field_$i_label" name="field[$i][label]" data-bind="field_$i_label" value="" placeholder="Label">
+						<input type="text" class="label" required name="cfields[$key][label]" value="" placeholder="Label" data-bind>
 					</div>
 					<div class="os-4">
-						<!-- <label for="#field_$i_type">Slug</label> -->
-						<input type="text" class="field_$i_slug" name="field[$i][slug]" data-bind="field_$i_slug" value="" placeholder="Slug">
+						<input type="text" class="slug" required name="cfields[$key][slug]" value="" placeholder="Slug" data-bind>
 					</div>
 					<div class="os-4">
-						<!-- <label for="#field_$i_type">Type</label> -->
-						<select name="field[$i][type]" class="cf_type field_$i_type" data-id="field_$i" data-bind="field_$i_type">
+						<select name="cfields[$key][type]" class="cf_dropdown type" data-key="$key" data-parent="$parent" data-bind>
 							<optgroup label="Basic">
 								<option value="text">Text</option>
 								<option value="textarea">Textarea</option>
@@ -121,11 +126,10 @@
 						<div class="os">
 							<textarea name="" style="height: 44px"></textarea>
 						</div>
-						
 					</div>
 				</div>
 
-				<div class="field_options field_$i" data-id="field_$i">
+				<div class="field_options $key" data-id="$key">
 
 				</div>
 			</div>

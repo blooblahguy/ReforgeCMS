@@ -40,15 +40,34 @@
 			return $this->elements[$type];
 		}
 
+		private function build_meta($key, $parent_key, $menu_order) { ?>
+			<div class="meta">
+				<input type="hidden" name="cfields[<?= $key; ?>][key]" value="<?= $key; ?>">
+				<input type="hidden" name="cfields[<?= $key; ?>][parent]" value="<?= $parent_key; ?>">
+				<input type="hidden" name="cfields[<?= $key; ?>][menu_order]" value="<?= $menu_order; ?>">
+			</div>
+		<? }
+		function unique_key($key) {
+			global $user;
+			$str = md5(time().$key.$user->id);
+			$str = substr(base_convert($str, 16, 32), 0, 12);
+			
+			return "field_".$str.$key;
+		}
+
 		function get_settings_template($core, $args) {
 			$type = $args["type"];
-			$field_id = $args["field_id"];
-			$parent_id = $args["parent_id"];
+			$field_key = $_REQUEST["field_key"];
+			$parent_key = $_REQUEST["parent_key"];
+			$menu_order = $_REQUEST["menu_order"];
+
 			$values = isset($_POST["values"]) ? $_POST["values"] : array();
 
 			ob_start();
-			$this->elements[$type]["settings_template"]($field_id, $parent_id, $values);
+			$this->build_meta($field_key, $parent_key, $menu_order);
+			$this->elements[$type]["settings_template"]($field_key, $values);
 			$template = ob_get_contents();
+
 			ob_end_clean();
 			echo trim($template);
 		}

@@ -11,10 +11,12 @@
 		$core->route("GET *", function($core, $args) {
 			require_once("controllers/views/login.php");
 		});
-		$core->route("POST /admin/login", "User::login");
+		$core->route("POST /admin/login", "User::login", 0, 32);
 		
 		$core->run();
 	} else {
+		queue_script("/admin/js/admin.js", 15);
+
 		// Include controllers
 		require_once("controllers/_controllers.php");
 

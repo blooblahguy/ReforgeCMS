@@ -1,4 +1,93 @@
 <?
+	$rf_styles = array();
+	$rf_scripts = array();
+	function dequeue_style($path) {
+		global $rf_styles;
+		foreach ($rf_styles as $priority => $styles) {
+			foreach ($rf_styles[$priority] as $key => $style) {
+				if ($style == $path) {
+					unset($rf_styles[$priority][$key]);
+				}
+			}
+		}
+	}
+	function dequeue_script($path) {
+		global $rf_scripts;
+		foreach ($rf_scripts as $priority => $scripts) {
+			foreach ($rf_scripts[$priority] as $key => $script) {
+				if ($script == $path) {
+					unset($rf_scripts[$priority][$key]);
+				}
+			}
+		}
+	}
+	function queue_style($path, $priority = 10) {
+		global $rf_styles;
+
+		if (! isset($rf_styles[$priority])) {
+			$rf_styles[$priority] = array();
+		}
+
+		$rf_styles[$priority][] = $path;
+	}
+
+	function queue_script($path, $priority = 10) {
+		global $rf_scripts;
+
+		// debug($path);
+
+		if (! isset($rf_scripts[$priority])) {
+			$rf_scripts[$priority] = array();
+		}
+
+		$rf_scripts[$priority][] = $path;
+	}
+
+	function rf_styles() {
+		global $rf_styles;
+		ksort($rf_styles);
+
+		// print out queued styles
+		if (isset($rf_styles)) {
+			foreach ($rf_styles as $priority => $styles) {
+				foreach ($styles as $k => $path) { ?>
+					<link rel="stylesheet" href="<? echo $path; ?>">
+				<? }
+			}
+		}
+	}
+
+	function rf_scripts() {
+		global $core;
+		global $rf_scripts;
+		ksort($rf_scripts);
+
+
+		$scripts = $core->get("scripts");
+		if (! $scripts) {
+			$files = array();
+			$scripts_by_dirs = array();
+			foreach ($rf_scripts as $priority => $scripts) {
+				foreach ($scripts as $k => $file) {
+					$files[] = $_SERVER["DOCUMENT_ROOT"].$file;
+			// 		$path = $_SERVER['DOCUMENT_ROOT'].dirname($file)."/";
+			// 		// debug($path, basename($file));
+			// 		$scripts_by_dirs[$path][] = basename($file);
+				}
+			}
+			// debug($files);
+
+			// foreach ($scripts_by_dirs as $path => $files) {
+				// debug($files);
+				// $files = rtrim($files, ",");
+				// $scripts = trim(Web::instance()->minify($files, null, false, ''));
+			// }
+			// $core->set("scripts", $scripts);
+		}
+
+		echo "<script>$scripts</script>";
+	}
+
 	function slugify($string){
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $string), '_'));
     }

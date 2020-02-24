@@ -2,11 +2,15 @@
 //===========================================
 // OS Overrides
 //===========================================
+body {overflow: hidden; }
 i.info {opacity:0.6; margin: -4px 6px; position: relative; top: 4px; }
 option.material-icons {
 	width: 45px;
 }
 option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;}
+
+.sticky {position: sticky; position: -webkit-sticky; top: -1px; }
+// .cfheader {background: $white; margin: -$g2; padding: $g2; top: -$g2; box-shadow: 0 2px 10px rgba(0, 0, 0, .1)}
 
 //===========================================
 // TYPEOGRAPHY
@@ -31,6 +35,8 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 //===========================================
 // CONTENT
 //===========================================
+.content_outer {max-height: 100%; overflow: hidden; }
+.content_inner {max-height: 100%; overflow: auto; }
 
 //===========================================
 // FORMS

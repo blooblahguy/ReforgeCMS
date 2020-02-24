@@ -1,6 +1,6 @@
 <?
 
-$settings_template = function($field_id, $parent_id = 0, $values = array()) { ?>
+$settings_template = function($key, $parent_key, $values = array()) { ?>
 	<div class="fieldset">
 		<div class="row content-middle g1 padx1">
 			<div class="os-1">
@@ -13,12 +13,12 @@ $settings_template = function($field_id, $parent_id = 0, $values = array()) { ?>
 					<div class="os-4 type strong pad1">Type</div>
 				</div>
 
-				<div class="cf_field_<?= $field_id; ?>_subfields">
+				<div class="cf_subfields <?= $key; ?>_subfields">
 				
 				</div>
 				
 				<div class="bg-light-grey pad1 text-right border">
-					<a href="#" class="btn btn-mini" data-template=".blank_field" data-target=".cf_field_<?= $field_id; ?>_subfields" data-cf="create" >+ Add Row</a>
+					<a href="#" class="btn btn-mini cf-add" data-target=".<?= $key; ?>_subfields" data-id="<?= $key; ?>">+ Add Row</a>
 				</div>
 			</div>
 		</div>

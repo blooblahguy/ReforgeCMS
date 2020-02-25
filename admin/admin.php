@@ -15,6 +15,8 @@
 		
 		$core->run();
 	} else {
+		$on_admin = true;
+		
 		queue_script("/admin/js/admin.js", 15);
 
 		// Include controllers

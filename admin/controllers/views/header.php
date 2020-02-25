@@ -114,7 +114,7 @@ ksort($menu);
 					<a href="/" class="view padx2 pady1">View Website</a>
 					<a href="/admin/logout" class="self-end padx2 pady1">Logout</a>
 				</div>
-				<div class="content_inner pad2">
+				<div class="content_inner pad2 padb4">
 					<? display_alerts(); ?>
 				
 			

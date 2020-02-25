@@ -9,6 +9,7 @@
 	new Session();
 
 	// Base Functionality
+	require_once("hook.php");
 	require_once("functions.php");
 	require_once("schema.php");
 
@@ -25,7 +26,7 @@
 	);
 
 	// include custom fields
-	require_once("custom_fields/custom_fields.php");
+	require_once("custom-fields/rcf.php");
 
 	// Models
 	require_once("models/_models.php");

@@ -29,8 +29,8 @@ $form_template = function($field_id, $parent_id = 0, $values = array()) { ?>
 
 <? };
 
-$boolean = \CFS\Core::instance()->add_element("boolean", array(
-	"settings_template" => $settings_template,
-	"form_template" => $form_template,
-));
+// $boolean = \CFS\Core::instance()->add_element("boolean", array(
+// 	"settings_template" => $settings_template,
+// 	"form_template" => $form_template,
+// ));
 ?>

@@ -1,6 +1,6 @@
 <?
 	$schema->add("custom_fields", array(
-		"label" => array(
+		"title" => array(
 			"type" => "VARCHAR(256)",
 		),
 		"first_rule" => array(

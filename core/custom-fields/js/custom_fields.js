@@ -56,40 +56,40 @@ $("body").on("click", "[data-remove]", function() {
 
 	// Template replication
 
-
 	// dropdown field ajax
 	rf.fetch_cfield = function() {
-		$(".cf_dropdown").each(function(i, e) {
+		$(".rcf_dropdown").each(function(i, e) {
 			if ($(e).hasClass("loaded")) { return; }
 			$(e).addClass("loaded")
+
 			var type = $(e).val()
-			var key = $(e).data("key")
-			var parent = $(e).data("parent")
-			var order = $(".cf_fields > .entry").length
+
+			var owner = $(e).parents(".rcf_field").first()
+			var key = owner.data("key")
+			var parent = owner.data("parent")
+			var order = owner.siblings().length
 
 			nanoajax.ajax({
-					url:'/core/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order
+					url:'/core/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order,
 				},
 				function (code, response) {
-					// console.log("loaded", field)
-					console.log(".field_options."+key)
-					$(".field_options."+key).html(response)
+					owner.find(".field_settings").first().html(response)
 				}
 			)
 		})
 	}
-	$("body").on("change", ".cf_dropdown", function() {
+
+	$("body").on("change", ".rcf_dropdown", function() {
 		$(this).removeClass("loaded")
 		rf.fetch_cfield();
 	})
-	rf.fetch_cfield();
 
 	// add CF row
 	$("body").on("click", ".cf-add", function() {
 		var template = $(".blank_field").html()
 		var target = $($(this).data("target"))
 		var key = rf.uniqid("field_")
-		var parent = $(this).data("id")
+		var parent = $(this).data("parent")
 
 		var html = template.replace(/\$key/gi, key)
 		html = html.replace(/\$parent/gi, parent)

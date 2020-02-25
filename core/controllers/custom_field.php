@@ -6,6 +6,14 @@
 
 			parent::__construct( $db, 'custom_fields' );
 		}
+
+		function get_fields() {
+			if ($this->fieldset) {
+				return unserialize($this->fieldset);
+			} else {
+				return array();
+			}
+		}
 	}
 
 ?>

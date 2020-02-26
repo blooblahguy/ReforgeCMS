@@ -34,10 +34,11 @@
 
 	<? 
 	// Renders the fields
-	do_action("edit_rcf_fields", $id); ?>
+	do_action("rcf/admin_render_settings", $id); ?>
 		
 	<div class="load_rules padt2">
 		<h3>Load Conditions</h3>
+		
 	</div>
 
 	<div class="load_rules pady2">

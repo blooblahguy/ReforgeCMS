@@ -30,6 +30,8 @@ class admin_pages extends \Prefab {
 		$admin_menu[29] = array("type" => "seperator");
 		$admin_menu[69] = array("type" => "seperator");
 
+		$admin_menu = apply_filters("admin/menu", $admin_menu);
+
 		ksort($admin_menu);
 		foreach ($admin_menu as $menu) {
 			list($admin, $controller, $action) = explode("/", trim($menu["link"], "/"));

@@ -22,6 +22,8 @@
 		// Include controllers
 		require_once("controllers/controllers.php");
 
+		$core->route("GET /admin/post_types", "PostTypes->index");
+
 		// get header in first
 		do_action("admin_before_header");
 		require_once("controllers/views/header.php");

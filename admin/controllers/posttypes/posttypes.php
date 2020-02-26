@@ -13,12 +13,12 @@
 
 		function index($core, $args) {
 			$core->set("page_title", "Custom Post Types");
-			$core->set("view", "controllers/post_types/index.php");
+			$core->set("view", "controllers/posttypes/index.php");
 		}
 		function edit($core, $args) {
 			$core->set("post_id", $args["id"]);
 			$core->set("page_title", "%s %s");
-			$core->set("view", "controllers/post_types/edit.php");
+			$core->set("view", "controllers/posttypes/edit.php");
 		}
 		function save($core, $args) {
 			$id = $args["id"];

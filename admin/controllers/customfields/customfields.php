@@ -10,12 +10,12 @@
 
 		function index($core, $args) {
 			$core->set("page_title", "Custom Fields");
-			$core->set("view", "controllers/custom_fields/index.php");
+			$core->set("view", "controllers/customfields/index.php");
 		}
 		function edit($core, $args) {
 			$core->set("fieldset_id", $args["id"]);
 			$core->set("page_title", "%s %s");
-			$core->set("view", "controllers/custom_fields/edit.php");
+			$core->set("view", "controllers/customfields/edit.php");
 		}
 
 		private function build_hierarchy($source) {

@@ -1,7 +1,16 @@
 <?
 
 	class User extends \DB\SQL\Mapper {
-		private $logged_in = false, $self = false, $cookie_uid = 0, $token = 0, $permissions = false;
+		private $schema = array(
+
+		);
+
+		private $logged_in = false, 
+			$self = false, 
+			$cookie_uid = 0, 
+			$token = 0, 
+			$db_table = 0, 
+			$permissions = false;
 
 		function __construct($id = 0) {
 			global $db;

@@ -2,18 +2,18 @@
 	$core = require_once("vendor/fatfree-core/base.php");
 	require_once("functions.php");
 
+	// quick variables
 	$core->set("admin_path", $admin_path);
 	$core->set("CACHE", true);
 	$core->set("salt", $configuration["salt"]);
 
-
+	// Autoloader
 	$class_paths = array();
 	$class_paths["controllers"] = '/core/controllers/%s.php';
 	$class_paths["models"] = '/core/models/%s.php';
 	$class_paths["admin"] = '/admin/controllers/%1$s/%1$s.php';
-
 	spl_autoload_register(function($class) {
-		global $class_paths;
+		global $class_paths, $core, $db;
 		$root = $_SERVER['DOCUMENT_ROOT'];
 		$name = strtolower($class);
 
@@ -26,19 +26,11 @@
 		}
 	});
 
-	$alert = new Alerts;
 	
+
+	$alert = new Alerts;
 	new Session();
 
-	// Base Functionality
-	require_once("hook.php");
-	require_once("schema.php");
-
-	queue_script("/core/js/cash.js", 1);
-	queue_script("/core/js/ajax.min.js", 3);
-	queue_script("/core/js/core.js", 5);
-	queue_script("/core/js/custom_fields.js", 10);
-	
 	// Database
 	$db = new DB\SQL(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
@@ -46,6 +38,18 @@
 		"{$configuration["database_password"]}"
 	);
 
+	// Base Functionality
+	require_once("hook.php");
+	require_once("schema.php");
+
+	// models
+	require_once("models/_models.php");
+
+	queue_script("/core/js/cash.js", 1);
+	queue_script("/core/js/ajax.min.js", 3);
+	queue_script("/core/js/core.js", 5);
+	queue_script("/core/js/custom_fields.js", 10);
+	
 	// include custom fields
 	require_once("custom-fields/rcf.php");
 

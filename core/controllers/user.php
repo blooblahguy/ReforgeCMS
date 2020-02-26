@@ -36,7 +36,6 @@
 
 		static function logout($core, $args) {
 			global $db;
-			global $alert;
 			
 			$core->clear("SESSION.user_id");
 
@@ -50,7 +49,7 @@
 				));
 			}
 			
-			$alert->success("Logged out");
+			\Alerts::instance()->success("Logged out");
 			redirect("/");
 		}
 

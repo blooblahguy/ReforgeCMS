@@ -1,9 +1,13 @@
 <?
-	$core = require_once("vendor/fatfree-core/base.php");
+	// Base Functionality
 	require_once("functions.php");
+	require_once("hook.php");
+
+	// F3 Core
+	$core = require_once("vendor/fatfree-core/base.php");
+	new Session();
 
 	// quick variables
-	$core->set("admin_path", $admin_path);
 	$core->set("CACHE", true);
 	$core->set("salt", $configuration["salt"]);
 
@@ -24,12 +28,7 @@
 				require_once($path);
 			}
 		}
-	});
-
-	
-
-	$alert = new Alerts;
-	new Session();
+	});	
 
 	// Database
 	$db = new DB\SQL(
@@ -37,11 +36,7 @@
 		"{$configuration["database_user"]}",
 		"{$configuration["database_password"]}"
 	);
-
-	// Base Functionality
-	require_once("hook.php");
-	require_once("schema.php");
-
+	
 	// models
 	require_once("models/_models.php");
 
@@ -64,15 +59,13 @@
 		
 		$core->run();
 	} else {
-
 		// Determine Where we are now
-		if ("/".$CONTROLLER == $admin_path) {
+		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area
 			require_once($ROOT."/admin/admin.php");
 		} else {
 			// Functions
 			$content = new Content();
-			$view = new View();
 
 			$core->run();
 

@@ -26,7 +26,7 @@ $("body").on("click", "[data-template]", function() {
 })
 
 // Template accordions
-$("body").on("click", "[data-accordion]", function() {
+$("body").on("click", "[data-accordion]", function(event) {
 	var target = $(this).attr("data-accordion")
 
 	$(this).toggleClass("toggled")
@@ -93,8 +93,14 @@ $("body").on("click", "[data-remove]", function() {
 
 		var html = template.replace(/\$key/gi, key)
 		html = html.replace(/\$parent/gi, parent)
-		
+
+		var outer = $(this).parents('.fieldset_footer').first().prev()
+		target = outer.children(target).first()
+
 		target.append(html)
+
+		var inserted = target.children().last().find("[data-accordion]").first()
+		inserted.trigger("click")
 
 		rf.fetch_cfield();
 	})

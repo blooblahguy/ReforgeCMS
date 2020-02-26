@@ -66,9 +66,4 @@
 			echo "<div class='message-$level'>$message</div>";
 		}
 	}
-
-	function display_alerts($level = "all") {
-		$alerts = \Alerts::instance();
-		$alerts->display($level);
-	}
 ?>

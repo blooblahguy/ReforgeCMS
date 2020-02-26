@@ -2,6 +2,7 @@
 
 	class RCF extends \Prefab {
 		public $types = array();
+		public $rules = array();
 
 		function __construct() {
 			global $core;
@@ -71,6 +72,13 @@
 
 			// load view
 			rcf_get_view('group-fields', $view);
+		}
+
+		/**
+		 * Register Field Type From Class
+		 */
+		function register_rule_type($class) {
+			$this->rules[ $class->name ] = $class;
 		}
 
 		/**

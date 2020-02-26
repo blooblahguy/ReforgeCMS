@@ -18,13 +18,13 @@
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_irder']; ?>" >
 	</div>
-	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle toggled content-middle">
+	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
 		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1">(no label)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][slug]" class="os slug pad1">(no slug)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][type]" class="os type pad1">text</div>
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
-	<div class="accordion rcf_field_settings settings_<?= $key; ?>">
+	<div class="accordion rcf_field_settings collapsed settings_<?= $key; ?>">
 		<?
 			// label
 			rcf_render_field_setting($field, array(

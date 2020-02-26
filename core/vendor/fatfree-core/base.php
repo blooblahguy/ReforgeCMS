@@ -1658,6 +1658,7 @@ final class Base extends Prefab implements ArrayAccess {
 				$route=$routes[$ptr];
 			if (!$route)
 				continue;
+
 			if (isset($route[$this->hive['VERB']]) && !$preflight) {
 				if ($this->hive['VERB']=='GET' &&
 					preg_match('/.+\/$/',$this->hive['PATH']))

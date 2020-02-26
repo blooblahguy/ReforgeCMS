@@ -1,8 +1,7 @@
 <?
 	class Setup {
 		static function process($core, $args) {
-			global $alert;
-
+			$alert = \Alerts::instance();
 			$audit = \Audit::instance();
 
 			$sitename = $_POST['sitename'];

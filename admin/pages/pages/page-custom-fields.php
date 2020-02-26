@@ -5,8 +5,8 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		$this->name = "custom_fields";
 		$this->label = "Custom Field";
 		$this->label_plural = "Custom Fields";
-		$this->admin_menu = 70;
-		$this->icon = "post_types";
+		$this->admin_menu = 75;
+		$this->icon = "filter_list";
 		$this->base_permission = "manage_post_types";
 		$this->link_base = "/admin/{$this->name}";
 

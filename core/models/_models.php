@@ -26,6 +26,7 @@
 
 	if ($update) {
 		$cache->set("schema_last_updated", time());
+		$core->set("schema_updated", 1);
 		require_once("$root/../schema.php");
 		$schema = new RFSchema($db);
 

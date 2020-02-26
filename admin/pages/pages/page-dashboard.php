@@ -8,7 +8,8 @@ class admin_page_DASHBOARD extends admin_page {
 		$this->admin_menu = 0;
 		$this->icon = "speed";
 		$this->base_permission = "access_admin";
-		$this->link_base = "/";
+		$this->link_base = "/admin";
+		$this->route_base = "/";
 		$this->disable_header = true;
 
 		// CUSTOM Routes (index, edit, and save are automatically created)

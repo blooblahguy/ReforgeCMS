@@ -1,18 +1,12 @@
 <?
+	$admin_root = dirname(__FILE__);
 	require_once("functions.php");
 
-	$admin_root = dirname(__FILE__);
-	list($ADMIN, $MENU, $ACTION) = explode("/", $PATH);
-	$MENUPAIR = $MENU;
-	if ($ACTION) {
-		$MENUPAIR = implode("/", array($MENU, $ACTION));
-	}
-
-	// debug($admin_root);
 	if (! $user->logged_in()) {
 		$core->route("GET *", function($core, $args) {
 			require_once("pages/views/login.php");
 		});
+
 		$core->route("POST /admin/login", "User::login", 0, 32);
 		
 		$core->run();
@@ -40,8 +34,10 @@
 		}
 
 		// lastly, footer
+		// debug($db);
 		do_action("admin/before_footer");
 		require_once("pages/views/footer.php");
+
 	}
 
 ?>

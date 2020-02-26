@@ -14,45 +14,40 @@ class admin_page {
 			return false;
 		}
 
-		// add to user menu
-		if (isset($this->admin_menu) && $this->admin_menu !== false) {
-			$admin_menu[$this->admin_menu] = array(
-				"label" => $this->label,
-				"icon" => $this->icon,
-				"link" => $this->link_base,
-			);
-		}
-
 		/**
 		 * Default routes
 		 */
+		$this->route_base = isset($this->route_base) ? $this->route_base : $this->link_base;		
 		// Index
-		$core->route("GET {$this->link_base}", function($core, $args) { 
+		$core->route("GET {$this->route_base}", function($core, $args) { 
 			if ($this->can_view($args)) {
 				$this->pre_render_index($core, $args);
 			}
 		});
 
 		// Edit / Create
-		$core->route("GET {$this->link_base}/edit/@id", function($core, $args) { 
+		$core->route("GET {$this->route_base}/edit/@id", function($core, $args) { 
 			if ($this->can_edit($args)) {
 				$this->pre_render_edit($core, $args);
 			}
 		});
 
 		// Save
-		$core->route("POST {$this->link_base}/save/@id", function($core, $args) { 
+		$core->route("POST {$this->route_base}/save/@id", function($core, $args) { 
 			if ($this->can_save($args)) {
 				$this->save_page($core, $args);
 			}
 		});
 
 		// DELETE
-		$core->route("POST|GET {$this->link_base}/delete/@id", function($core, $args) { 
+		$core->route("POST|GET {$this->route_base}/delete/@id", function($core, $args) { 
 			if ($this->can_delete($args)) {
 				$this->delete_page($core, $args);
 			}
 		});
+
+		// Register with Parent
+		admin_pages::instance()->register_page($this);
 	}
 
 	/**

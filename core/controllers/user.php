@@ -1,37 +1,39 @@
 <?
 
 	class User extends \DB\SQL\Mapper {
-		private $schema = array(
-
-		);
-
+		private $schema = array();
 		private $logged_in = false, 
 			$self = false, 
-			$cookie_uid = 0, 
+			$uid = 0, 
 			$token = 0, 
 			$db_table = 0, 
 			$permissions = false;
 
-		function __construct($id = 0) {
-			global $db;
+		function get_user($id) {
+			$rs = $this->load("id = ".$this->uid);
+			if ($rs !== false) {
+				return $this;
+			}
+			return false;
+		}
+
+		function get_current_user() {
+			if ($this->remembered()) {
+				$rs = $this->load("id = ".$this->uid);
+				if ($rs !== false) {
+					$this->logged_in = true;
+					$this->self = true;
+				}
+			}
+		}
+
+		function __construct($ttl = 10000) {
+			global $db, $core;
+			if ($core->get("schema_updated")) {
+				$ttl = 0;
+			}
 
 			parent::__construct( $db, 'users' );
-
-
-			if (is_int($id) && $id == 0) {
-				// attempt to get currently logged in user
-				if ($this->remembered()) {
-
-					$this->load("id = ".$this->cookie_uid);
-					if ($this->count() == 1) {
-						$this->logged_in = true;
-						$this->self = true;
-					} 
-				}
-			} elseif (is_int($id)) {
-				// query user from database
-				$this->load("id = $id");
-			}
 		}
 
 		static function logout($core, $args) {
@@ -113,7 +115,8 @@
 			global $db;
 
 			// using session to see if they're logged in
-			if (isset($core->get['SESSION.user_id'])) { 
+			if ($core->get('SESSION.user_id')) { 
+				$this->uid = $core->get('SESSION.user_id');
 				return true;
 			}
 
@@ -124,16 +127,15 @@
 				return false;
 			}
 
-
+			// We don't have a session but we do have a cookie, lets reup this session if we can
 			$cookies = $db->exec("SELECT * FROM login_cookies WHERE token = :token AND user_id = :user_id", array(
 				":token" => $token,
 				":user_id" => $user_id,
 			));
 
-		
 			foreach ($cookies as $saved) {
 				if ($token == $saved["token"]) {
-					$core->set['SESSION.user_id'] = $saved['user_id'];
+					$core->set('SESSION.user_id', $saved['user_id']);
 					setcookie('rememberme', $user_id.":".$token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
 					$rs = $db->exec("UPDATE login_cookies SET created = NOW() WHERE token = :token AND user_id = :user_id", array(
 						":token" => $token,
@@ -141,7 +143,7 @@
 					)); // reup the database save date
 
 					$this->token = $token;
-					$this->cookie_uid = $user_id;
+					$this->uid = $user_id;
 
 					return true;
 				}

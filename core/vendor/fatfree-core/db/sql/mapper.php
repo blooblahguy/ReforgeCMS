@@ -744,7 +744,7 @@ class Mapper extends \DB\Cursor {
 	*	@param $fields array|string
 	*	@param $ttl int|array
 	**/
-	function __construct(\DB\SQL $db,$table,$fields=NULL,$ttl=60) {
+	function __construct(\DB\SQL $db,$table,$fields=NULL,$ttl=100) {
 		$this->db=$db;
 		$this->engine=$db->driver();
 		if ($this->engine=='oci')

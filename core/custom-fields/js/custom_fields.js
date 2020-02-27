@@ -22,7 +22,9 @@ $("body").on("click", "[data-template]", function() {
 	// .replace(/\$key/gi, key)
 
 	$(target).append(html);
-	// $(this).attr("data-index", parseInt(index) + 1)
+	if ($(this).attr("data-index")) {
+		$(this).attr("data-index", parseInt(index) + 1)
+	}
 })
 
 // Template accordions

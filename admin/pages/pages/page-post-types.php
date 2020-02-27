@@ -108,7 +108,7 @@ class admin_page_POSTTYPES extends admin_page {
 		$icons[] = "poll";
 		?>
 
-		<form action="<?= $core->get("admin_path"); ?>/post_types/save/<?= $id; ?>" method="POST" class="row">
+		<form action="/admin/post_types/save/<?= $id; ?>" method="POST" class="row">
 			<div class="os">
 				<div class="content pad2 padl0">
 					<label for="">Slug <span>*</span></label>
@@ -141,7 +141,7 @@ class admin_page_POSTTYPES extends admin_page {
 							<h3 class="marg0">Statuses</h3>
 						</div>
 						<div class="os padl2">
-							<a href="#" data-template=".statuses" data-target=".status_rows" data-index="<?= count($statuses) || 0; ?>" class="btn btn-sm">+</a>
+							<a href="#" data-template=".statuses" data-target=".status_rows" data-replace="index" data-index="<?= count($statuses) || 0; ?>" class="btn btn-sm">+</a>
 						</div>
 					</div>
 
@@ -172,7 +172,7 @@ class admin_page_POSTTYPES extends admin_page {
 						<div class="row g1 content-middle 1">
 							<input type="hidden" name="new_status[]" value="1">
 							<div class="os-min">
-								<input type="radio" name="default_status" value="$i"> Default
+								<input type="radio" name="default_status" value="$index"> Default
 							</div>
 							<div class="os">
 								<input type="text" name="name[]" value="" placeholder="Name">
@@ -244,6 +244,9 @@ class admin_page_POSTTYPES extends admin_page {
 		if (isset($default_status)) {
 			$statuses[$default_status]["default_status"] = 1;
 		}
+
+		// debug($default_status);
+		// debug($statuses);
 
 		$type->slug = $slug;
 		$type->label = $label;

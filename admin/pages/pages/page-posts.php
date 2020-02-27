@@ -40,7 +40,7 @@ class admin_page_POSTS extends admin_page {
 
 		?>
 
-		<form action="<?= $core->get("admin_path"); ?>/posts/<?= $post_type?>/save/<?= $id; ?>" method="POST" class="row">
+		<div class="row">
 			<div class="os">
 				<div class="content pad2 padl0">
 					<?
@@ -62,7 +62,7 @@ class admin_page_POSTS extends admin_page {
 				<input type="submit" class="marg0" value="Save">
 				<hr>
 			</div>
-		</form>
+		</div>
 
 		<?
 	}

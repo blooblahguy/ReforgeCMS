@@ -7,20 +7,24 @@ $conditions["user"] = "admin/user_logged_in";
 class rcf_rule {
 	var $conditions;
 
-	function __construct() {
+	protected function __construct() {
 		global $core;
 
-		// add_action("admin_before_edit_{$post_type}", array($this, "evaluate_conditions"));
+		// add_action($this->action, array($this, "rule_evaluate"));
+
+		RCF::instance()->register_rule_type($this);
 	}
 
-	function evaluate_conditions() {
-	}
+	// function rule_evaluate(...$args) {
+	// 	// add_action()
+	// 	$this->rule_match();
+	// }
 
-	function update_values() {
+	protected function update_values() {
 		global $db;
 	}
 
-	function get_values($key) {
+	protected function get_values($key) {
 		if ($key == "post_type") {
 
 		} elseif ($key == "user") {

@@ -21,7 +21,7 @@ function render_admin_title($title) {
 		</div>
 		<? if ($btn) { ?>
 			<div class="os padl2">
-				<a href="<?= "$link_base/edit/0"; ?>" class="btn">Add New <?= $title["label"]; ?></a>
+				<a href="<?= "$link_base/edit/0"; ?>" class="btn"><i><?= $title["icon"]; ?></i>New <?= $title["label"]; ?></a>
 			</div>
 		<? } ?>
 	</div>
@@ -30,7 +30,7 @@ function render_admin_title($title) {
 }
 function render_admin_field($field, $settings) {
 	$type = $settings["type"]; 
-	$name = $field['key']."[{$settings['name']}]"; // field_key1231[name]
+	$name = $settings['name']; // field_key1231[name]
 	$value = $field[$settings["name"]];
 	$bind = "";
 	if ($settings["bind"]) {

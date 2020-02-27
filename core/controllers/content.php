@@ -9,10 +9,12 @@
 		}
 
 		function home($core, $args) {
+			// add_action("admin/render_view");
 			$core->set("view", "home.php");
 		}
 
 		function page($core, $args) {
+			// add_action("admin/render_view");
 			$core->set("view", "page.php");
 		}
 	}

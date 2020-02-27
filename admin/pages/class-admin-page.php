@@ -20,29 +20,39 @@ class admin_page {
 		$this->route_base = isset($this->route_base) ? $this->route_base : $this->link_base;		
 		// Index
 		$core->route("GET {$this->route_base}", function($core, $args) { 
+			global $request;
+			$request["page_id"] = $args["id"];
+			$request["page_name"] = $this->name;
 			if ($this->can_view($args)) {
-				$this->pre_render_index($core, $args);
+				add_action("admin/content", array($this, "pre_render_index"));
+				// $this->pre_render_index($core, $args);
 			}
 		});
 
 		// Edit / Create
 		$core->route("GET {$this->route_base}/edit/@id", function($core, $args) { 
+			global $request;
+			$request["page_id"] = $args["id"];
+			$request["page_name"] = $this->name;
 			if ($this->can_edit($args)) {
-				$this->pre_render_edit($core, $args);
+				add_action("admin/content", array($this, "pre_render_index"));
+				// $this->pre_render_edit($core, $args);
 			}
 		});
 
 		// Save
 		$core->route("POST {$this->route_base}/save/@id", function($core, $args) { 
 			if ($this->can_save($args)) {
-				$this->save_page($core, $args);
+				add_action("admin/content", array($this, "pre_render_index"));
+				// $this->save_page($core, $args);
 			}
 		});
 
 		// DELETE
 		$core->route("POST|GET {$this->route_base}/delete/@id", function($core, $args) { 
 			if ($this->can_delete($args)) {
-				$this->delete_page($core, $args);
+				add_action("admin/content", array($this, "pre_render_index"));
+				// $this->delete_page($core, $args);
 			}
 		});
 
@@ -85,32 +95,48 @@ class admin_page {
 	/**
 	 * View Rendering
 	 */
-	private function pre_render_index($core, $args) {
+	function pre_render_index() {
+
 		// display template header
 		if (! $this->disable_header) {
 			render_admin_title(array(
 				"label" => $this->label,
 				"plural" => $this->label_plural,
 				"link_base" => $this->link_base,
+				"icon" => $this->icon,
 			));
 		}
-
+		
+		// action before
+		do_action("admin/page/index_before", $this->name);
 		// render child view
-		$this->render_index($core, $args);
+		$this->render_index();
+		// action after
+		do_action("admin/page/index_after", $this->name);
 	}
-	private function pre_render_edit($core, $args) {
+	function pre_render_edit() {
+		
+
 		// display template header
 		if (! $this->disable_header) {
 			render_admin_title(array(
 				"label" => $this->label,
 				"plural" => $this->label_plural,
 				"link_base" => $this->link_base,
-				"id" => $args["id"]
+				"icon" => $this->icon,
 			));
 		}
 
-		// render child view
-		$this->render_edit($core, $args);
+		// Form Start
+		echo "<form action='{$this->link_base}/save/{$args['id']}' method='POST'>";
+			// action before
+			do_action("admin/page/edit_before", $this->name);
+			// render child view
+			$this->render_edit();
+			// action after
+			do_action("admin/page/edit_after", $this->name);
+		// Form End
+		echo "</form>";
 	}
 }
 

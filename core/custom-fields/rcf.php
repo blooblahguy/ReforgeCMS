@@ -10,6 +10,7 @@
 			// Include Fields
 			require_once("functions.php");
 			require_once("class-field.php");
+			require_once("class-rule.php");
 
 			// Ajax field display
 			$core->route("GET /core/custom_fields/settings/@type", function($core, $args) {
@@ -57,6 +58,14 @@
 			require_once("fields/field-group.php");
 			require_once("fields/field-repeater.php");
 			require_once("fields/field-tab.php");
+
+			// now require rule class files
+			require_once("rules/rule-form.php");
+			require_once("rules/rule-page.php");
+			require_once("rules/rule-posttype.php");
+			require_once("rules/rule-user.php");
+			require_once("rules/rule-userrole.php");
+			require_once("rules/rule-widget.php");
 		}
 
 		function render_settings($id) {
@@ -127,10 +136,12 @@
 	}
 
 	$rcf = RCF::instance();
+
+	// field rendering
 	add_action("rcf/admin_render_settings", array($rcf, "load_files"));
 	add_action("rcf/admin_render_fields", array($rcf, "load_files"));
-
 	add_action("rcf/admin_render_settings", array($rcf, "render_settings"));
+
 	// add_action("rcf/admin_render_fields", array($rcf, "render_fields"));
 
 ?>

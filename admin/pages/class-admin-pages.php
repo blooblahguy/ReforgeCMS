@@ -3,6 +3,10 @@
 class admin_pages extends \Prefab {
 	public $pages = array();
 
+	function __construct() {
+		// add_action("admin/init", array($this, "build_active_page"));
+	}
+
 	function register_page($class) {
 		global $admin_menu;
 		$this->pages[ $class->name ] = $class;

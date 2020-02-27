@@ -10,7 +10,7 @@ $anchor-offset: 46px;
 
 // BRAND -- accent colors to match your brand
 $primary: #a02c2f;
-$secondary: #3b914e;
+$secondary: #09f;
 
 // HELPER COLORS -- wouldn't recommend changing
 $error: #e74c3c;
@@ -112,7 +112,7 @@ $system-colors: (
 
 // Button colors/classes
 $button-colors: (
-	primary: $primary
+	primary: $secondary
 	, secondary: $secondary
 
 	, success: $success

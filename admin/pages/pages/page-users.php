@@ -8,15 +8,13 @@ class admin_page_USERS extends admin_page {
 		$this->admin_menu = 30;
 		$this->icon = "account_circle";
 		$this->base_permission = "manage_users";
-		$this->link_base = "/admin/{$this->name}";
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->link = "/admin/{$this->name}";
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		global $db;
 
 		$users = $db->exec("SELECT users.*, roles.label AS role FROM users
@@ -52,10 +50,10 @@ class admin_page_USERS extends admin_page {
 		));
 	}
 
-	protected function render_edit($core, $args) {
+	protected function render_edit() {
 		global $db;
-		
-		$id = $args["id"];
+		$id = $this->id;
+
 		$user = new User();
 		$action = "Create";
 		$subject = "User";
@@ -67,8 +65,8 @@ class admin_page_USERS extends admin_page {
 
 		$roles = $db->query("SELECT * FROM roles ORDER BY `priority` ASC");
 	?>
+		<div class="row">
 
-		<form action="<?= $core->get("admin_path"); ?>/users/save/<?= $id; ?>" method="POST" class="row">
 			<div class="os">
 				<div class="content pad2 padl0">
 					<div class="padb2">
@@ -94,13 +92,13 @@ class admin_page_USERS extends admin_page {
 				<input type="submit" class="marg0" value="Save">
 				<hr>
 			</div>
-		</form>
-
+		</div>
+		
 		<?
 	}
 
 	protected function save_page($core, $args) {
-		$id = $args["id"];
+		$id = $this->id;
 
 		$user = new User();
 		$changed = "created";

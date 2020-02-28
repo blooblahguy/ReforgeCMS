@@ -8,7 +8,7 @@ class admin_page_COMMENTS extends admin_page {
 		$this->admin_menu = 40;
 		$this->icon = "forums";
 		$this->base_permission = "manage_comments";
-		$this->link_base = "/admin/{$this->name}";
+		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
@@ -17,11 +17,11 @@ class admin_page_COMMENTS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		
 	}
 
-	protected function render_edit($core, $args) {
+	protected function render_edit() {
 		
 	}
 

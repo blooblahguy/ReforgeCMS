@@ -8,7 +8,7 @@ class admin_page_ROLES extends admin_page {
 		$this->admin_menu = 35;
 		$this->icon = "how_to_reg";
 		$this->base_permission = "manage_roles";
-		$this->link_base = "/admin/{$this->name}";
+		$this->link = "/admin/{$this->name}";
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 
@@ -16,7 +16,7 @@ class admin_page_ROLES extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		global $db;
 		$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
 
@@ -58,10 +58,10 @@ class admin_page_ROLES extends admin_page {
 		));
 	}
 
-	protected function render_edit($core, $args) {
+	protected function render_edit() {
 		global $db;
 
-		$id = $args["id"];
+		$id = $this->id;
 		$role = new Role();
 		$action = "Create";
 		$subject = "Role";
@@ -153,7 +153,7 @@ class admin_page_ROLES extends admin_page {
 		);
 	?>
 
-	<form action="/admin/roles/save/<?= $id; ?>" method="POST" class="row">
+	<div class="row">
 		<div class="os">
 
 			<div class="content pad2 padl0">
@@ -223,14 +223,14 @@ class admin_page_ROLES extends admin_page {
 				<input type="checkbox" value="1" name="default" <? if ($role->default) { echo "checked"; }?>> Default Role
 			</div>
 		</div>
-	</form>
+	</div>
 
 	<?
 	}
 
 	protected function save_page($core, $args) {
 		global $db; 
-		$id = $args["id"];
+		$id = $this->id;
 		$permissions = serialize($_POST['permissions']);
 
 		$role = new Role();

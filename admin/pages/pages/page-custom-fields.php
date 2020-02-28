@@ -8,15 +8,13 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		$this->admin_menu = 75;
 		$this->icon = "filter_list";
 		$this->base_permission = "manage_post_types";
-		$this->link_base = "/admin/{$this->name}";
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->link = "/admin/{$this->name}";
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		global $db;
 
 		$fieldsets = $db->exec("SELECT * FROM custom_fields"); 
@@ -29,8 +27,8 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		));
 	}
 
-	protected function render_edit($core, $args) {
-		$id = $args["id"]; 
+	protected function render_edit() {
+		$id = $this->id;
 		$cf = new CustomField();
 		$action = "Create";
 		$subject = "Custom Fields";
@@ -45,7 +43,6 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		}
 		?>
 
-		<form action="<?= $core->get("admin_path"); ?>/custom_fields/save/<?= $id; ?>" target="_blank" method="POST">
 			<label for="title">Title</label>
 			<div class="row margb2 cfheader">
 				<div class="os padr2">
@@ -101,7 +98,6 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 			<!-- <div class="load_rules pady2">
 				<h3>Display Options</h3>
 			</div> -->
-		</form>
 
 		<?
 	}
@@ -129,7 +125,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 	}
 
 	protected function save_page($core, $args) {
-		$id = $args["id"];
+		$id = $this->id;
 		$cf = new CustomField();
 		$changed = "created";
 		if ($id > 0) {

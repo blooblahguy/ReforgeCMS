@@ -2,35 +2,40 @@
 
 class admin_page_DASHBOARD extends admin_page {
 	function __construct() {
+		global $core; 
+
 		$this->name = "dashboard";
 		$this->label = "Dashboard";
 		$this->label_plural = "Dashboard";
 		$this->admin_menu = 0;
 		$this->icon = "speed";
 		$this->base_permission = "access_admin";
-		$this->link_base = "/admin";
-		$this->route_base = "/";
-		$this->disable_header = true;
+		$this->link = "/admin/dashboard";
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
+		$core->route("GET /", "admin_page_DASHBOARD->goto_dashboard");
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
-		echo "index";
+	function goto_dashboard($core, $args) {
+		$core->reroute("/dashboard");
 	}
 
-	protected function render_edit($core, $args) {
-		echo "index";
+	function render_index() {
+		echo "index dashboard";
 	}
 
-	protected function save_page($core, $args) {
+	function render_edit() {
+		echo "edit dashboard";
+	}
+
+	function save_page() {
 
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page() {
 
 	}
 

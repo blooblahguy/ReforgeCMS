@@ -8,7 +8,7 @@ class admin_page_MENUS extends admin_page {
 		$this->admin_menu = 50;
 		$this->icon = "menus";
 		$this->base_permission = "manage_menus";
-		$this->link_base = "/admin/{$this->name}";
+		$this->link = "/admin/{$this->name}";
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 
@@ -16,11 +16,11 @@ class admin_page_MENUS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		
 	}
 
-	protected function render_edit($core, $args) {
+	protected function render_edit() {
 		
 	}
 

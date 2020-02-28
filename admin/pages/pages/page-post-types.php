@@ -8,7 +8,8 @@ class admin_page_POSTTYPES extends admin_page {
 		$this->admin_menu = 70;
 		$this->icon = "web";
 		$this->base_permission = "manage_post_types";
-		$this->link_base = "/admin/{$this->name}";
+		$this->link = "/admin/{$this->name}";
+
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 
@@ -16,7 +17,7 @@ class admin_page_POSTTYPES extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
 		global $db; 
 
 		$post_types = $db->exec("SELECT * FROM post_types ORDER BY `order` ASC");
@@ -59,8 +60,8 @@ class admin_page_POSTTYPES extends admin_page {
 		));
 	}
 
-	protected function render_edit($core, $args) {
-		$id = $args["id"];
+	protected function render_edit() {
+		$id = $this->id;
 		$post = new \PostType();
 
 		if ($id > 0) {
@@ -108,7 +109,7 @@ class admin_page_POSTTYPES extends admin_page {
 		$icons[] = "poll";
 		?>
 
-		<form action="/admin/post_types/save/<?= $id; ?>" method="POST" class="row">
+		<div class="row">
 			<div class="os">
 				<div class="content pad2 padl0">
 					<label for="">Slug <span>*</span></label>
@@ -214,12 +215,12 @@ class admin_page_POSTTYPES extends admin_page {
 				</div>
 				
 			</div>
-		</form>
+		</div>
 	<?
 	}
 
 	protected function save_page($core, $args) {
-		$id = $args["id"];
+		$id = $this->id;
 		$type = new \PostType();
 		$changed = "created";
 		if ($id > 0) {

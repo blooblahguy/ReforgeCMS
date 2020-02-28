@@ -1,12 +1,47 @@
 <?
 
 class admin_page {
+	/**
+	 * Permission Functionality
+	 */
+	function can_view($args = array()) {
+		global $user;
+		if (! $user->can($this->base_permission)) {
+			return false;
+		}
+		return true;
+	}
+	function can_edit($args = array()) {
+		global $user;
+		if (! $user->can($this->base_permission)) {
+			return false;
+		}
+		return true;
+	}
+	function can_save($args = array()) {
+		global $user;
+		if (! $user->can($this->base_permission)) {
+			return false;
+		}
+		return true;
+	}
+	function can_delete($args = array()) {
+		global $user;
+		if (! $user->can($this->base_permission)) {
+			return false;
+		}
+		return true;
+	}
+
 	function __construct() {
 		global $core, $user, $admin_menu;
 
-		if (! isset($this->base_permission)) {
-			debug("Permissions is required when setting up page {$this->name}");
-			return false;
+		if (! $this->link) {
+			$this->link = "/admin/{$this->name}";
+		}
+
+		if (! $this->route) {
+			$this->route = $this->link;
 		}
 
 		// allow user to do anything here
@@ -14,129 +49,57 @@ class admin_page {
 			return false;
 		}
 
-		/**
-		 * Default routes
-		 */
-		$this->route_base = isset($this->route_base) ? $this->route_base : $this->link_base;		
-		// Index
-		$core->route("GET {$this->route_base}", function($core, $args) { 
-			global $request;
-			$request["page_id"] = $args["id"];
-			$request["page_name"] = $this->name;
-			if ($this->can_view($args)) {
-				add_action("admin/content", array($this, "pre_render_index"));
-				// $this->pre_render_index($core, $args);
-			}
-		});
+		// INDEX
+		$core->route("GET @{$this->name}_index: {$this->route}", "RF_Admin_Pages->index");
+		// EDIT
+		$core->route("GET @{$this->name}_edit: {$this->route}/edit/@id", "RF_Admin_Pages->edit");
+		// // SAVE
+		$core->route("GET @{$this->name}_save: {$this->route}/save/@id", "RF_Admin_Pages->save");
+		// // DELETE
+		$core->route("GET @{$this->name}_delete: {$this->route}/delete/@id", "RF_Admin_Pages->delete");
 
-		// Edit / Create
-		$core->route("GET {$this->route_base}/edit/@id", function($core, $args) { 
-			global $request;
-			$request["page_id"] = $args["id"];
-			$request["page_name"] = $this->name;
-			if ($this->can_edit($args)) {
-				add_action("admin/content", array($this, "pre_render_index"));
-				// $this->pre_render_edit($core, $args);
-			}
-		});
-
-		// Save
-		$core->route("POST {$this->route_base}/save/@id", function($core, $args) { 
-			if ($this->can_save($args)) {
-				add_action("admin/content", array($this, "pre_render_index"));
-				// $this->save_page($core, $args);
-			}
-		});
-
-		// DELETE
-		$core->route("POST|GET {$this->route_base}/delete/@id", function($core, $args) { 
-			if ($this->can_delete($args)) {
-				add_action("admin/content", array($this, "pre_render_index"));
-				// $this->delete_page($core, $args);
-			}
-		});
-
-		// Register with Parent
-		admin_pages::instance()->register_page($this);
-	}
-
-	/**
-	 * Permission Functionality
-	 */
-	protected function can_view($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
-			return false;
-		}
-		return true;
-	}
-	protected function can_edit($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
-			return false;
-		}
-		return true;
-	}
-	protected function can_save($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
-			return false;
-		}
-		return true;
-	}
-	protected function can_delete($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
-			return false;
-		}
-		return true;
+		// Register with RF_Admin
+		RF_Admin_Pages::instance()->register_page($this);
 	}
 
 	/**
 	 * View Rendering
 	 */
-	function pre_render_index() {
+	protected function render_title() {
 
 		// display template header
 		if (! $this->disable_header) {
 			render_admin_title(array(
 				"label" => $this->label,
 				"plural" => $this->label_plural,
-				"link_base" => $this->link_base,
+				"link" => $this->link,
 				"icon" => $this->icon,
+				"id" => $this->id
 			));
 		}
-		
-		// action before
-		do_action("admin/page/index_before", $this->name);
-		// render child view
-		$this->render_index();
-		// action after
-		do_action("admin/page/index_after", $this->name);
 	}
-	function pre_render_edit() {
-		
 
-		// display template header
-		if (! $this->disable_header) {
-			render_admin_title(array(
-				"label" => $this->label,
-				"plural" => $this->label_plural,
-				"link_base" => $this->link_base,
-				"icon" => $this->icon,
-			));
-		}
+	function before_index($core, $args) {
+		$this->render_title();
 
-		// Form Start
-		echo "<form action='{$this->link_base}/save/{$args['id']}' method='POST'>";
-			// action before
-			do_action("admin/page/edit_before", $this->name);
-			// render child view
-			$this->render_edit();
-			// action after
-			do_action("admin/page/edit_after", $this->name);
-		// Form End
+		do_action("admin/content");
+		$this->render_index($core, $args);		
+	}
+	function before_edit($core, $args) {
+		// page title
+		$this->render_title();
+
+		echo "<form action='{$this->link_base}/save/{$this->id}' method='POST'>";
+			$this->render_edit($core, $args);
 		echo "</form>";
+	}
+
+	function before_save() {
+
+	}
+
+	function before_delete() {
+
 	}
 }
 

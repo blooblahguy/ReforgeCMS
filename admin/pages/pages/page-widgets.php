@@ -8,27 +8,25 @@ class admin_page_WIDGETS extends admin_page {
 		$this->admin_menu = 80;
 		$this->icon = "widgets";
 		$this->base_permission = "manage_widgets";
-		$this->link_base = "/admin/{$this->name}";
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->link = "/admin/{$this->name}";
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	protected function render_index($core, $args) {
+	protected function render_index() {
+		echo "widgets index";
+	}
+
+	protected function render_edit() {
 		
 	}
 
-	protected function render_edit($core, $args) {
-		
-	}
-
-	protected function save_page($core, $args) {
+	protected function save_page() {
 
 	}
 
-	protected function delete_page($core, $args) {
+	protected function delete_page() {
 
 	}
 

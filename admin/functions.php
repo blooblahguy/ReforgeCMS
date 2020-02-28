@@ -1,11 +1,44 @@
 <?
+
+function render_admin_menu() {
+	global $admin_menu, $PATH;
+
+	list($admin, $controller, $action) = explode("/", $PATH);
+	$menu_path = "$admin/$controller";
+	if ($action) {
+		$menu_path_action = "$admin/$controller/$action";
+	}
+
+	// add seperators
+	$admin_menu[29] = array("type" => "seperator");
+	$admin_menu[69] = array("type" => "seperator");
+
+	$admin_menu = apply_filters("admin/menu", $admin_menu);
+
+	ksort($admin_menu);
+	foreach ($admin_menu as $menu) {
+		list($admin, $controller, $action) = explode("/", trim($menu["link"], "/"));
+		$menu_key = "$admin/$controller";
+		if ($action) {
+			$menu_key = "$admin/$controller/$action";
+		}
+
+		if ($menu["type"]) { 
+			echo "<span></span>"; 
+		} else { ?>
+			<a href="<?= $menu["link"]; ?>" <? if ($menu_key == $menu_path || $menu_key == $menu_path_action) { echo 'class="active"'; }?>><i><?= $menu["icon"]; ?></i> <?= $menu["label"]; ?></a>
+		<? }
+	}
+}
+
 function render_admin_title($title) {
-	// debug($title);
-	$link_base = $title["link_base"];
+	global $PATH;
+
+	$link_base = ltrim($title["link"], "/");
 	$id = $title["id"];
 	$btn = true;
 
-	if (! isset($id)) {
+	if ($link_base == $PATH) {
 		$label = $title['plural'];
 	} elseif ($id == 0) {
 		$label = "Create ".$title['label'];
@@ -21,7 +54,7 @@ function render_admin_title($title) {
 		</div>
 		<? if ($btn) { ?>
 			<div class="os padl2">
-				<a href="<?= "$link_base/edit/0"; ?>" class="btn"><i><?= $title["icon"]; ?></i>New <?= $title["label"]; ?></a>
+				<a href="<?= "{$title["link"]}/edit/0"; ?>" class="btn"><i><?= $title["icon"]; ?></i>New <?= $title["label"]; ?></a>
 			</div>
 		<? } ?>
 	</div>

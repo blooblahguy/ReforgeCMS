@@ -11,7 +11,7 @@
 	<div class="wrapper h100">
 		<div class="row h100">
 			<div class="os-min leftsidebar bg-black">
-				<? admin_pages::instance()->render_admin_menu(); ?>
+				<? render_admin_menu(); ?>
 			</div>
 			<div class="os content_outer">
 				<div class="top_outer text-right pad1 bg-black">

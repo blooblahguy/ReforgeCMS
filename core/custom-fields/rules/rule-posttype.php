@@ -11,11 +11,11 @@ class rcf_rule_POSTTYPE extends rcf_rule {
 		parent::__construct();
 	}
 
-	protected function rule_match($request, $rule, $value) {
+	function rule_match() {
 
 	}
 
-	protected function rule_choices() {
+	function rule_choices() {
 		global $db;
 
 		$post_types = $db->query("SELECT * FROM post_types ORDER BY `order` ASC");

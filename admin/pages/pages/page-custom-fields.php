@@ -96,12 +96,29 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$fields = $_POST['rcf_fields'];
 		$fieldset = $this->build_hierarchy($fields);
 
-		// load options
+		// LOAD RULES
+		$load_conditions = $_POST["load_conditions"];
+		$rules = array();
+		foreach ($load_conditions as $group => $conditions) {
+			$set = array();
+			foreach ($conditions["key"] as $id => $value) {
+				$set[$id]["key"] = $value;
+			}
+			foreach ($conditions["expression"] as $id => $value) {
+				$set[$id]["expression"] = $value;
+			}
+			foreach ($conditions["value"] as $id => $value) {
+				$set[$id]["value"] = $value;
+			}
 
-		// display options			
+			$rules[$group] = $set;
+		}		
+
+		// debug($rules);
 
 		$cf->title = $title;
 		$cf->fieldset = serialize($fieldset);
+		$cf->load_rules = serialize($rules);
 		$cf->save();
 
 		\Alerts::instance()->success("Custom Field $title $changed");

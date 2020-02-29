@@ -50,7 +50,7 @@
 				$cf->load("id = $id", null, 1);
 			}
 
-			$rules = array("rules" => $cf->get_rules());
+			$rules = array("all_rules" => $cf->get_rules());
 
 			// load view
 			rcf_get_view('group-rules', $rules);
@@ -58,10 +58,13 @@
 
 
 		/**
-		 * Register Field Type From Class
+		 * Register Rule Type From Class
 		 */
 		function register_rule_type($class) {
 			$this->rules[ $class->name ] = $class;
+		}
+		function get_rule_type_choices($key, $value) {
+			echo $this->rules[$key]->render_choices($value);
 		}
 
 		/**

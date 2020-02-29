@@ -11,11 +11,11 @@ class rcf_rule_USER extends rcf_rule {
 		parent::__construct();
 	}
 
-	protected function rule_match($request, $rule, $value) {
-		
+	function rule_match() {
+		debug("test");
 	}
 
-	protected function rule_choices() {
+	function rule_choices() {
 		global $db;
 
 		$post_types = $db->query("SELECT * FROM users ORDER BY `username` ASC");

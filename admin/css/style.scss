@@ -56,6 +56,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 // .fieldset_outer .fieldset {border-bottom: 1px solid $light-grey; }
 // .fieldset_outer .fieldset:last-child {border: none; }
 .cf_fields .entry:nth-child(even) {background: $light-grey;}
+.rcf_rules .rule_group:nth-child(1) .condition_row:nth-child(1) .rcf-delete-rule {display: none;}
 
 .accordion_handle {
 	@include prefix(transition, background $animation-speed ease-in-out);

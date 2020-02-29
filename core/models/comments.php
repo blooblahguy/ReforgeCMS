@@ -1,3 +1,0 @@
-<?
-	$schema->add("comments", array());
-?>

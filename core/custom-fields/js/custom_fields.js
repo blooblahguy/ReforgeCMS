@@ -56,6 +56,56 @@ $("body").on("click", "[data-remove]", function() {
 	var rf = {}
 	window.rf = rf
 
+	// =========================================================================================
+	// Rules
+	// =========================================================================================
+	// add AND
+	$("body").on("click", ".rcf-add-rule", function() {
+
+	})
+	// add OR
+	$("body").on("click", ".rcf-add-rulegroup", function() {
+		var template = $(".blank_rule").html()
+		var target = $($(this).data("target"))
+		var index = $(this).data("index")
+
+		var html = template.replace(/\$group/gi, index)
+
+		target.append(html)
+
+		$(this).data("index", ++index)
+	})
+
+	// rules ajax
+	rf.fetch_rules = function() {
+		$(".rule_values").each(function(i, e) {
+			if ($(e).hasClass("loaded")) { return; }
+			$(e).addClass("loaded")
+
+			var parent = $(e).parents(".condition_row").first()
+			var rule = parent.find(".load_key").first().val()
+
+			console.log(rule)
+
+			nanoajax.ajax({
+					url:'/core/custom_fields/rules/'+rule,
+				},
+				function (code, response) {
+					$(e).html(response)
+					console.log(response)
+					// owner.find(".field_settings").first().html(response)
+				}
+			)
+		})
+	}
+	$("body").on("change", ".load_key", function() {
+		var parent = $(this).parents(".condition_row").first()
+		var dropdown = parent.find(".rule_values").first()
+
+		dropdown.removeClass("loaded")
+		rf.fetch_rules();
+	})
+
 	// Template replication
 
 	// dropdown field ajax

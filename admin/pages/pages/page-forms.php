@@ -1,6 +1,6 @@
 <?
 
-class admin_page_FORMS extends admin_page {
+class admin_page_FORMS extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "forms";
 		$this->label = "Form";
@@ -16,19 +16,19 @@ class admin_page_FORMS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		
 	}
 
-	protected function save_page($core, $args) {
+	function save_page($core, $args) {
 
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page($core, $args) {
 
 	}
 

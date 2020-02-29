@@ -1,6 +1,6 @@
 <?
 
-class admin_page_WIDGETS extends admin_page {
+class admin_page_WIDGETS extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "widgets";
 		$this->label = "Widget";
@@ -14,19 +14,19 @@ class admin_page_WIDGETS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		echo "widgets index";
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		
 	}
 
-	protected function save_page() {
+	function save_page() {
 
 	}
 
-	protected function delete_page() {
+	function delete_page() {
 
 	}
 

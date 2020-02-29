@@ -15,8 +15,10 @@
 			$this->page = $this->get_page($alias);
 			$this->page->id = isset($args["id"]) ? $args["id"] : 0;
 
+			$request["page"] = $this->page;
 			$request["page_id"] = $this->page->id;
-			$request["page_name"] = $this->page->name;			
+			$request["page_name"] = $this->page->name;
+			$request["page_label"] = $this->page->label;
 
 			// header
 			do_action("admin/before_header");
@@ -54,29 +56,33 @@
 
 		function index($core, $args) {
 			if ($this->page->can_view()) {
+				$this->page->render_title();
 				do_action("admin/page/index_before", $this->page);
-				$this->page->before_index($core, $args);
+				$this->page->render_index($core, $args);
 				do_action("admin/page/index_after", $this->page);
 			}
 		}
 		function edit($core, $args) {
 			if ($this->page->can_edit()) {
-				do_action("admin/page/edit_before", $this->page);
-				$this->page->before_edit($core, $args);
-				do_action("admin/page/edit_after", $this->page);
+				$this->page->render_title();
+				echo "<form action='{$this->page->route}/save/{$this->page->id}' method='POST'>";
+					do_action("admin/page/edit_before", $this->page);
+					$this->page->render_edit($core, $args);
+					do_action("admin/page/edit_after", $this->page);
+				echo "</form>";
 			}
 		}
 		function save($core, $args) {
 			if ($this->page->can_save()) {
 				do_action("admin/page/save_before", $this->page);
-				$this->page->before_save($core, $args);
+				$this->page->save_page($core, $args);
 				do_action("admin/page/save_after", $this->page);
 			}
 		}
 		function delete($core, $args) {
 			if ($this->page->can_delete()) {
 				do_action("admin/page/delete_before", $this->page);
-				$this->page->before_delete($core, $args);
+				$this->page->delete_page($core, $args);
 				do_action("admin/page/delete_after", $this->page);
 			}
 		}

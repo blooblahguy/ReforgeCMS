@@ -1,6 +1,6 @@
 <?
 
-class admin_page_USERS extends admin_page {
+class admin_page_USERS extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "users";
 		$this->label = "User";
@@ -14,7 +14,7 @@ class admin_page_USERS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		global $db;
 
 		$users = $db->exec("SELECT users.*, roles.label AS role FROM users
@@ -50,7 +50,7 @@ class admin_page_USERS extends admin_page {
 		));
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		global $db;
 		$id = $this->id;
 
@@ -97,7 +97,7 @@ class admin_page_USERS extends admin_page {
 		<?
 	}
 
-	protected function save_page($core, $args) {
+	function save_page($core, $args) {
 		$id = $this->id;
 
 		$user = new User();
@@ -117,7 +117,7 @@ class admin_page_USERS extends admin_page {
 		redirect("/admin/users/edit/{$user->id}");
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page($core, $args) {
 
 	}
 

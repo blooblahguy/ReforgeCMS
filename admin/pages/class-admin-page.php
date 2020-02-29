@@ -1,6 +1,35 @@
 <?
 
-class admin_page {
+class RF_Admin_Page {
+	function __construct() {
+		global $core, $user, $admin_menu;
+
+		if (! $this->link) {
+			$this->link = "/admin/{$this->name}";
+		}
+
+		if (! $this->route) {
+			$this->route = $this->link;
+		}
+
+		// allow user to do anything here
+		if (! $this->can_view()) {
+			return false;
+		}
+
+		// INDEX
+		$core->route("GET @{$this->name}_index: {$this->route}", "RF_Admin_Pages->index");
+		// EDIT
+		$core->route("GET @{$this->name}_edit: {$this->route}/edit/@id", "RF_Admin_Pages->edit");
+		// SAVE
+		$core->route("POST @{$this->name}_save: {$this->route}/save/@id", "RF_Admin_Pages->save");
+		// DELETE
+		$core->route("GET|POST @{$this->name}_delete: {$this->route}/delete/@id", "RF_Admin_Pages->delete");
+
+		// Register with RF_Admin
+		RF_Admin_Pages::instance()->register_page($this);
+	}
+
 	/**
 	 * Permission Functionality
 	 */
@@ -33,39 +62,7 @@ class admin_page {
 		return true;
 	}
 
-	function __construct() {
-		global $core, $user, $admin_menu;
-
-		if (! $this->link) {
-			$this->link = "/admin/{$this->name}";
-		}
-
-		if (! $this->route) {
-			$this->route = $this->link;
-		}
-
-		// allow user to do anything here
-		if (! $this->can_view()) {
-			return false;
-		}
-
-		// INDEX
-		$core->route("GET @{$this->name}_index: {$this->route}", "RF_Admin_Pages->index");
-		// EDIT
-		$core->route("GET @{$this->name}_edit: {$this->route}/edit/@id", "RF_Admin_Pages->edit");
-		// // SAVE
-		$core->route("GET @{$this->name}_save: {$this->route}/save/@id", "RF_Admin_Pages->save");
-		// // DELETE
-		$core->route("GET @{$this->name}_delete: {$this->route}/delete/@id", "RF_Admin_Pages->delete");
-
-		// Register with RF_Admin
-		RF_Admin_Pages::instance()->register_page($this);
-	}
-
-	/**
-	 * View Rendering
-	 */
-	protected function render_title() {
+	function render_title() {
 
 		// display template header
 		if (! $this->disable_header) {
@@ -79,27 +76,9 @@ class admin_page {
 		}
 	}
 
-	function before_index($core, $args) {
-		$this->render_title();
-
-		do_action("admin/content");
-		$this->render_index($core, $args);		
-	}
-	function before_edit($core, $args) {
-		// page title
-		$this->render_title();
-
-		echo "<form action='{$this->link_base}/save/{$this->id}' method='POST'>";
-			$this->render_edit($core, $args);
-		echo "</form>";
-	}
-
-	function before_save() {
-
-	}
-
-	function before_delete() {
-
+	function save_success($title, $changed, $id) {
+		\Alerts::instance()->success("{$this->label} $title $changed");
+		redirect("{$this->link}/edit/{$id}");
 	}
 }
 

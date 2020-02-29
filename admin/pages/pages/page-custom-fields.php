@@ -1,6 +1,6 @@
 <?
 
-class admin_page_CUSTOMFIELDS extends admin_page {
+class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "custom_fields";
 		$this->label = "Custom Field";
@@ -14,7 +14,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		global $db;
 
 		$fieldsets = $db->exec("SELECT * FROM custom_fields"); 
@@ -27,7 +27,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		));
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		$id = $this->id;
 		$cf = new CustomField();
 		$action = "Create";
@@ -35,7 +35,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		$fields = array();
 		$load_rules = array();
 		if ($id > 0) {
-			$cf->load("id = $id");
+			$cf->load("id = $id", null, 1);
 			$action = "Edit";
 			$subject = ucfirst($cf->title);
 			$fields = unserialize($cf->fieldset);
@@ -43,63 +43,22 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		}
 		?>
 
-			<label for="title">Title</label>
-			<div class="row margb2 cfheader">
-				<div class="os padr2">
-					<input type="text" name="title" value="<?= $cf->title; ?>" placeholder="Title">
-				</div>
-				<div class="os-2">
-					<input type="submit" class="marg0" value="Save">
-				</div>
+		<label for="title">Title</label>
+		<div class="row margb2 cfheader">
+			<div class="os padr2">
+				<input type="text" name="title" value="<?= $cf->title; ?>" placeholder="Title">
 			</div>
-
-			<? 
-			// Renders the fields
-			do_action("rcf/admin_render_settings", $id); ?>
-				
-			<div class="load_rules padt2">
-				<!-- <h3>Load Conditions</h3> -->
-
-				<div class="fieldset load_conditions">
-				<div class="row content-middle g1 padx1">
-					<div class="os-2">
-						<label for="">Load Conditions</label>
-						<p class="description em">Show these fields if the following conditions are met</p>
-					</div>
-					<div class="os">
-						<div class="row g1 condition_row">
-							<div class="os">
-								<select name="load_conditions[$i][key][]" class="load_key">
-									<option value="post_type">Post Type</option>
-								</select>
-							</div>
-							<div class="os-2">
-								<select name="load_conditions[$i][expression][]" class="load_expression">
-									<option value="==">Is Equal To</option>
-									<option value="!=">Is Not Equal To</option>
-								</select>
-							</div>
-							<div class="os">
-								<select name="load_conditions[$i][value][]" class="load_value">
-
-								</select>
-							</div>
-							<div class="os-min">
-								<a href="#" class="btn bt-mini rcf_add_and">And</a>
-							</div>
-						</div>
-						<a href="#" class="btn bt-mini rcf_add_and">Or</a>
-					</div>
-				</div>
-				
-				
+			<div class="os-2">
+				<input type="submit" class="marg0" value="Save">
 			</div>
+		</div>
 
-			<!-- <div class="load_rules pady2">
-				<h3>Display Options</h3>
-			</div> -->
+		<? 
+		// Renders the fields
+		do_action("rcf/admin_render_settings", $id);
 
-		<?
+		// render the rules
+		do_action("rcf/admin_render_rules", $id);
 	}
 
 	private function build_hierarchy($source) {
@@ -124,7 +83,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		return $nested;
 	}
 
-	protected function save_page($core, $args) {
+	function save_page($core, $args) {
 		$id = $this->id;
 		$cf = new CustomField();
 		$changed = "created";
@@ -149,7 +108,7 @@ class admin_page_CUSTOMFIELDS extends admin_page {
 		redirect("/admin/custom_fields/edit/{$cf->id}");
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page($core, $args) {
 
 	}
 

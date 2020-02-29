@@ -1,6 +1,6 @@
 <?
 
-class admin_page_DASHBOARD extends admin_page {
+class admin_page_DASHBOARD extends RF_Admin_Page {
 	function __construct() {
 		global $core; 
 

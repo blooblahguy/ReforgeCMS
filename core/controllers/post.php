@@ -1,21 +1,12 @@
 <?
-	class Post extends Magic {
-		protected $data;
+	class Post extends \DB\SQL\Mapper {
+		function __construct($ttl = 10000) {
+			global $db, $core;
+			if ($core->get("schema_updated")) {
+				$ttl = 0;
+			}
 
-		function exists($key) {
-			return array_key_exists($key,$this->data);
-		}
-
-		function set($key, $val) {
-			$this->data[$key] = $val;
-		}
-
-		function &get($key) {
-			return $this->data[$key];
-		}
-
-		function clear($key) {
-			unset($this->data[$key]);
+			parent::__construct( $db, 'posts' );
 		}
 	}
 ?>

@@ -19,7 +19,7 @@
 
 		function get_current_user() {
 			if ($this->remembered()) {
-				$rs = $this->load("id = ".$this->uid);
+				$rs = $this->load("id = ".$this->uid, null, 60 * 30);
 				if ($rs !== false) {
 					$this->logged_in = true;
 					$this->self = true;

@@ -56,9 +56,10 @@
 	$user = new User();
 	$user->get_current_user();
 
-	$options = new Option();
+	$options = $db->exec("SELECT * FROM options");
+	$options = rekey_array("key", $options);
 
-	if ($options->count() == 0) {
+	if (count($options) == 0) {
 		$core->route("GET *", function($core, $args) {
 			require_once("setup.php");
 		});

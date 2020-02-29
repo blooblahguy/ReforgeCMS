@@ -1,6 +1,6 @@
 <?
 
-class admin_page_POSTS extends admin_page {
+class admin_page_POSTS extends RF_Admin_Page {
 	function __construct($info) {
 		$this->name = $info["name"];
 		$this->label = $info["label"];
@@ -13,12 +13,43 @@ class admin_page_POSTS extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
-		debug("index");
-		debug($this);		
+	function render_index() {
+		global $db;
+
+		$this->post_type = $this->name;
+
+		$posts = $db->exec("SELECT * FROM posts WHERE post_type = '{$this->post_type}' ");
+
+		// display table
+		display_results_table($posts, array(
+			'title' => array(
+				"label" => "Title",
+				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
+			),
+			'author' => array(
+				"label" => "Author",
+				"calculate" => function($value, $id) {
+					$user = new User();
+					$user->load("id = $value", NULL, 10000);
+					return $user->username;
+				}
+			),
+			'modified' => array(
+				"label" => "Updated",
+				"calculate" => function($value, $id) {
+					return Date("Y-m", strtotime($value));
+				}
+			),
+			'created' => array(
+				"label" => "Created",
+				"calculate" => function($value, $id) {
+					return Date("Y-m", strtotime($value));
+				}
+			),
+		));	
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		$post_type = $this->name;
 		$id = $this->id;
 
@@ -33,7 +64,6 @@ class admin_page_POSTS extends admin_page {
 			<div class="os">
 				<div class="content pad2 padl0">
 					<?
-					do_action("admin/posts/before_title", $post_type);
 
 					render_admin_field($post, array(
 						"type" => "text",
@@ -42,7 +72,6 @@ class admin_page_POSTS extends admin_page {
 						"required" => true,
 					));
 
-					do_action("admin/posts/after_title", $post_type);
 					?>
 				</div>
 			</div>
@@ -56,11 +85,24 @@ class admin_page_POSTS extends admin_page {
 		<?
 	}
 
-	protected function save_page() {
+	function save_page() {
+		$id = $this->id;
 
+		$post = new Post();
+		$changed = "created";
+		if ($id > 0) {
+			$changed = "updated";
+			$post->load("id = $id");
+		}
+
+		$post->title = $_POST["title"];
+		$post->post_type = $this->name;
+		$post->save();
+
+		$this->save_success($post->title, $changed, $post->id);
 	}
 
-	protected function delete_page() {
+	function delete_page() {
 
 	}
 
@@ -71,19 +113,19 @@ class admin_page_POSTS extends admin_page {
 
 	/*
 
-	protected function can_view($args) {
+	function can_view($args) {
 
 	}
 
-	protected function can_edit($args) {
+	function can_edit($args) {
 
 	}
 
-	protected function can_save($args) {
+	function can_save($args) {
 
 	}
 
-	protected function can_delete($args) {
+	function can_delete($args) {
 
 	}
 	

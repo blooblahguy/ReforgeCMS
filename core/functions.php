@@ -1,4 +1,13 @@
 <?
+	function rekey_array($key, $array) {
+		$new = array();
+		foreach ($array as $v) {
+			$new[$v[$key]] = $v;
+		}
+
+		return $new;
+	}
+
 	function display_alerts($level = "all") {
 		\Alerts::instance()->display($level);
 	}

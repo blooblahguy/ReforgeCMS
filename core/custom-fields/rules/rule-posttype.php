@@ -5,6 +5,7 @@ class rcf_rule_POSTTYPE extends rcf_rule {
 		$this->name = 'post_type';
 		$this->label = "Post Type";
 		$this->action = "admin/page/edit_after";
+		$this->rule_class = __CLASS__;
 
 		// now register in parent
 		parent::__construct();
@@ -14,7 +15,7 @@ class rcf_rule_POSTTYPE extends rcf_rule {
 
 	}
 
-	protected function rule_values($choices) {
+	protected function rule_choices() {
 		global $db;
 
 		$post_types = $db->query("SELECT * FROM post_types ORDER BY `order` ASC");

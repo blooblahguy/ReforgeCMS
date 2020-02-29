@@ -1,6 +1,6 @@
 <?
 
-class admin_page_POSTTYPES extends admin_page {
+class admin_page_POSTTYPES extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "post_types";
 		$this->label = "Post Type";
@@ -17,7 +17,7 @@ class admin_page_POSTTYPES extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		global $db; 
 
 		$post_types = $db->exec("SELECT * FROM post_types ORDER BY `order` ASC");
@@ -60,7 +60,7 @@ class admin_page_POSTTYPES extends admin_page {
 		));
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		$id = $this->id;
 		$post = new \PostType();
 
@@ -219,7 +219,7 @@ class admin_page_POSTTYPES extends admin_page {
 	<?
 	}
 
-	protected function save_page($core, $args) {
+	function save_page($core, $args) {
 		$id = $this->id;
 		$type = new \PostType();
 		$changed = "created";
@@ -266,7 +266,7 @@ class admin_page_POSTTYPES extends admin_page {
 		redirect("/admin/post_types/edit/{$type->id}");
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page($core, $args) {
 
 	}
 

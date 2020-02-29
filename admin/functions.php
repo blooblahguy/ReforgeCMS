@@ -1,5 +1,13 @@
 <?
 
+function admin_page_title() {
+	global $request, $options;
+	$sitename = $options["sitename"]["value"];
+	$page_title = $request["page"]->label_plural;
+
+	echo "Admin | {$page_title} | {$sitename}";
+}
+
 function render_admin_menu() {
 	global $admin_menu, $PATH;
 

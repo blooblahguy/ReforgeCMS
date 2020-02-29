@@ -1,6 +1,6 @@
 <?
 
-class admin_page_ROLES extends admin_page {
+class admin_page_ROLES extends RF_Admin_Page {
 	function __construct() {
 		$this->name = "roles";
 		$this->label = "Role";
@@ -16,7 +16,7 @@ class admin_page_ROLES extends admin_page {
 		parent::__construct();
 	}
 
-	protected function render_index() {
+	function render_index() {
 		global $db;
 		$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
 
@@ -58,7 +58,7 @@ class admin_page_ROLES extends admin_page {
 		));
 	}
 
-	protected function render_edit() {
+	function render_edit() {
 		global $db;
 
 		$id = $this->id;
@@ -228,7 +228,7 @@ class admin_page_ROLES extends admin_page {
 	<?
 	}
 
-	protected function save_page($core, $args) {
+	function save_page($core, $args) {
 		global $db; 
 		$id = $this->id;
 		$permissions = serialize($_POST['permissions']);
@@ -259,7 +259,7 @@ class admin_page_ROLES extends admin_page {
 		redirect("/admin/roles/edit/{$role->id}");
 	}
 
-	protected function delete_page($core, $args) {
+	function delete_page($core, $args) {
 		$id = $args['id'];
 		$role = new Role();
 		$role->load("id = $id");

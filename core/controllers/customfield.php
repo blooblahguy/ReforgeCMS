@@ -17,6 +17,14 @@
 				return array();
 			}
 		}
+
+		function get_rules() {
+			if ($this->load_rules) {
+				return unserialize($this->load_rules);
+			} else {
+				return array();
+			}
+		}
 	}
 
 ?>

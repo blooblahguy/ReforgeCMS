@@ -1,4 +1,8 @@
 					<div class="clear"></div>
+
+					<? 
+					global $db; 
+					debug($db); ?>
 				</div>
 			</div>
 		</div>

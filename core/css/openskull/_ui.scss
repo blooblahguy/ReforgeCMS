@@ -1,0 +1,172 @@
+////////////////////////////////////////////
+// UI Elements
+////////////////////////////////////////////
+
+// simple Borders
+.border {border: 1px solid $grey; }
+@each $name, $color in $system-colors {
+	.bg-#{$name} .border {
+		border: 1px solid contrast($color, $light-grey, $dark-grey)
+	}
+}
+
+// Pagination
+.pagination {
+	margin: $g1 0 $g2;
+	& > * + * {margin-left: 4px;}
+	& > * {
+		$hover: hover($background-color);
+		border: none; display:inline-block; padding: $g1 / 4 $g2; text-align:center; color: contrast($background-color); background: $hover;
+		&:hover {background: hover($hover); color: contrast($hover); text-decoration:none;}
+		&.active {background: $primary; color: contrast($primary); cursor: default; }
+	}
+}
+
+// Tabs
+.tabs {
+	.tab_nav {
+		overflow:hidden; font-size:0; list-style:none; margin-bottom: -1px;
+		li {display:inline-block;}
+		a {
+			$hover: hover($background-color);
+			font-size: 1rem; border-bottom: 4px solid transparent; cursor:pointer; color: contrast($background-color); display:inline-block; padding: $g1 $g2;
+			&:hover {background: $hover; text-decoration:none; border-color: $grey;}
+			&:active, &:focus, &.active {border-color: $primary; color: contrast($hover);}
+		}
+		a + a {margin-left: $g1;}
+	}
+
+	.tab_content {
+		display:none; padding: $g3 0;
+		&.active, &:target {display:block;}
+	}
+}
+
+// Tooltips
+[tooltip] {
+	$background: $background-inverse;
+
+	$notch_size: 5px;
+	$offset: $g1;
+	$body_pos: calc(100% + #{$notch_size});
+	$notch_pos: calc(100%);
+	
+	position:relative; border:none; cursor: pointer; 
+	&::before, &::after {position: absolute; z-index: 100; opacity:1; left:50%;}
+	// Body
+	&:before {bottom: $body_pos; transform: translate(-50%, 0); max-width:300px; min-width: calc(100% + #{$g4 * 2}); background: $background; color: contrast($background); padding: $g1 $g2; pointer-events: none; text-align: center; font-size: 0.9rem;}
+	// Notch
+	&:after {bottom: $notch_pos; transform: translate(-50%, -50%) rotate(45deg); height: $notch_size; width: $notch_size; background: $background; }
+
+	&[tooltip-right] {
+		&:before {transform: translate(0, -50%); top: 50%; right: auto; bottom: auto; left: $body_pos; }
+		&:after {transform: translate(50%, -50%) rotate(45deg); top: 50%; right: auto; bottom: auto; left: $notch_pos;}
+	}
+	&[tooltip-bottom] {
+		&:before {transform: translate(-50%, 0); top: $body_pos; right: auto; bottom: auto; left: 50%; }
+		&:after {transform: translate(-50%, 50%) rotate(45deg); top: $notch_pos; right: auto; bottom: auto; left: 50%;}
+	}
+	&[tooltip-left] {
+		&:before {transform: translate(0, -50%); top: 50%; right: $body_pos; bottom: auto; left: auto; }
+		&:after {transform: translate(-50%, -50%) rotate(45deg); top: 50%; right: $notch_pos; bottom: auto; left: auto;}
+	}
+
+	&:hover, &:active {
+		&:before {content: attr(tooltip); }
+		&:after {content: ''; }
+	}
+}
+
+// Modal
+.modal {
+	display:none; padding: $g2; position:fixed; @include prefix(transform, translateY(-50%)); top:50%; left:0; right:0; width:100%; z-index: $z-high; max-height:100%;
+	&:target {display:block;}
+	.modal_body {@extend .container; color: contrast($background-color); padding: $g2; background: $background-color; position: relative; box-shadow: 0 0 $g4 rgba($background-inverse, .35); max-height:100%; }
+	.modal_bg, &:before {cursor:default; position: fixed; top: -50vh; bottom: -50vh; left: -25%; right: -25%; z-index: $z-bg;}
+
+	&:before { content: ''; background:rgba($background-inverse, .6);}
+	.modal_close {
+		font-size: $g3; position:absolute; top: -$g2; right: -$g2; cursor: pointer; height: $g4; width: $g4; border-radius: 50%; background: $background-color;
+		&:before, &:after {
+			content: ''; width: 50%; height: 3px; position:absolute; top: 50%; left: 50%; background: $background-inverse; 
+		}
+		&:before {transform: translate(-50%, -50%) rotate(45deg); }
+		&:after {transform: translate(-50%, -50%) rotate(-45deg); }
+		&:hover {
+			background: $background-inverse;
+			&:before, &:after {background: $background-color;}
+		}
+	}
+	&:after {@extend .clear;}
+}
+
+
+// TABLES
+table, .table {
+	&, thead, tbody {width: 100%; border-spacing: 0; border-collapse: collapse; max-width:100%; margin-bottom:$g2;}
+
+	th, td { 
+		padding: $g1; word-wrap: normal; line-height: 1; vertical-align: middle; width: auto; 
+		&.min {width: 1%; white-space: nowrap; text-align:center; }
+	}
+	tr {border-bottom: 1px solid $light-grey;}
+	th { @extend .text-cap; @extend .text-left; font-weight: $font-bold; padding: $g2 $g1;}
+
+	&.odd tbody tr:nth-child(odd) {background: $light-grey}
+	&.even tbody tr:nth-child(even) {background: $light-grey}
+
+	&.bordered td {border:1px solid $light-grey;}
+	&.noborder tr {border:none;}
+}
+
+// MENUS
+.os_menu {
+	list-style: none; padding: 0; margin: 0; right:0;
+	li {
+		display:inline-block; position: relative; 
+		& > a {display:block; padding: $g1 $g2; font-weight: $font-bold; }
+		&.active > a {}
+		&:hover > .sub-menu {display:block;}
+	}
+
+	.sub-menu {
+		display:none; padding:0; position: absolute; top: 100%; left: 50%; @include prefix(transform, translateX(-50%)); width: 200px; max-width: 80vw; z-index: $z-high; background: inherit; background: $grey;
+		li {display:block;}
+		li:hover {background: rgba($black, .25)}
+		a {display:block; padding: $g1 $g2;}
+	}
+}
+.os_menu_button {
+	display:none; float:right; text-align:right; border:none; padding:4px; margin: 0; width: $g4; line-height: 0; font-size:0;
+
+	span { height: 3px; width: 100%; background: $white; display: block;}
+	span + span {margin-top:4px;}
+
+	&.close {
+		text-align:center; display:none; padding:4px;
+		span {opacity:0; background: $primary; transform-origin: center; margin:0; }
+		span:first-child {opacity:1; transform: rotate(-45deg); margin-top: 3px; }
+		span:last-child {opacity:1; transform: rotate(45deg); margin-top: -3px; margin-bottom: 3px; }
+	}
+}
+
+//-------------------------------------
+// Mobile Menu
+//-------------------------------------
+@media (max-width: $viewport-lg) {
+	.os_menu_button.open {display: block; }
+	.mobile_menu {
+		height: 0; overflow: hidden; transition: height $animation-speed ease-in-out;
+		li {display:block;}
+		a {display:block;}
+	}
+
+	// Pure CSS hamburger menu, just add #body to body
+	#body:target, body.mobile_toggle {
+		.header_outer {@include prefix(box-shadow, 0 4px 10px rgba(#000, 0.3));}
+		.os_menu_button.open {display:none;}
+		.os_menu_button.close {display:block;}
+
+		.mobile_menu {height: auto;}
+	}
+}

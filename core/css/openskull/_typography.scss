@@ -1,0 +1,69 @@
+// Text manipulation
+small, .small {font-size: .707rem;}
+.muted {opacity:0.7;}
+
+.text-justify {text-align: justify; text-justify: inter-word;}
+.text-upper {text-transform: uppercase;}
+.text-lower {text-transform: lowercase;}
+.text-cap {text-transform: capitalize;}
+
+%ellipsis { overflow: hidden; text-overflow: ellipsis;}
+.ellipsis {@extend %ellipsis; white-space: nowrap; max-width: 100%; margin-right: -999999px; }
+@for $i from 1 through 6 {
+	.ellipsis#{$i} { @extend %ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: $i; }
+}
+
+// Text defaults
+%mono {font-family: $font-family-monospace;}
+.code, pre, samp, .mono {@extend %mono;}
+code, pre, samp {@extend %mono; border:none; clear:both; display:block; padding: $g1; font-size: 0.808rem; tab-size: $g3; margin-bottom: -1px;}
+pre > code, pre > code.hljs {margin: -$g1; border:none; padding: $g1 $g2;}
+mark, .mark, .highlight {background: $warning; padding: 0 $g1/2; }
+kbd, .kbd {@extend %mono; display:inline-block; padding: 2px $g1/2 0; position: relative; top: -2px; font-size: .707rem; color: contrast($background-inverse); background: $background-inverse; border-radius: $border-radius; }
+
+sub, sup {font-size: .707rem; line-height: 0; position: relative; vertical-align: baseline; }
+sup {top: -0.5rem;}
+sub {bottom: -0.25rem;}
+i, em, .em {font-style:italic;}
+b, strong, .strong {font-weight: $font-bold;}
+s, .strike {text-decoration:line-through;}
+u, .underline {text-decoration:underline;}
+
+// LINKS
+a {color: contrast($background-color, $secondary, $primary); text-decoration: none; }
+a:active, a:hover, *.active > a { outline: 0; color: hover(contrast($background-color, $secondary, $primary)); }
+
+// HEADERS
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+	margin: $g2 0 $g1; line-height: $header-line-height; 
+	&:first-child {margin-top: 0;}
+}
+.h1, h1 {margin-top: 0; font-size: map-get($h1, size); color: map-get($h1, color); font-weight: map-get($h1, font-weight); }
+.h2, h2 {font-size: map-get($h2, size); color: map-get($h2, color); font-weight: map-get($h2, font-weight); }
+.h3, h3 {font-size: map-get($h3, size); color: map-get($h3, color); font-weight: map-get($h3, font-weight); }
+.h4, h4 {font-size: map-get($h4, size); color: map-get($h4, color); font-weight: map-get($h4, font-weight); }
+.h5, h5 {font-size: map-get($h5, size); color: map-get($h5, color); font-weight: map-get($h5, font-weight); }
+.h6, h6 {font-size: map-get($h6, size); color: map-get($h6, color); font-weight: map-get($h6, font-weight); }
+
+// CONTENT
+p {margin: 0; margin: $g1 0 $g2;}
+p:first-child {margin-top: 0;}
+p:last-child {margin-bottom: 0;}
+blockquote {border:none; border-left: 4px solid $primary; padding: $g2; margin: 0; margin-bottom: $g1; font-size:1.1rem; background: rgba($grey, 0.25)}
+blockquote blockquote {background: rgba($white, 0.75); font-size:0.92em;}
+cite { @extend .muted; }
+
+blockquote p:nth-last-child(1) {margin-bottom: 0;}
+ul {list-style: disc outside; padding-left: $g3; margin-bottom: $g2; margin-top: $g1;}
+ol {list-style: decimal outside; padding-left: $g3; margin-bottom: $g2; margin-top: $g1;}
+ol.nolist, ul.nolist {list-style:none;}
+
+// Material Icons
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url("/admin/css/materialicons.woff2") format('woff2');
+}
+
+i, .material-icons { font-family: 'Material Icons'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }

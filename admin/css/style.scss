@@ -1,0 +1,79 @@
+
+//===========================================
+// OS Overrides
+//===========================================
+i.info {opacity:0.6; margin: -4px 6px; position: relative; top: 4px; }
+option.material-icons {
+	width: 45px;
+}
+option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;}
+
+.sticky {position: sticky; position: -webkit-sticky; top: -1px; }
+// .cfheader {background: $white; margin: -$g2; padding: $g2; top: -$g2; box-shadow: 0 2px 10px rgba(0, 0, 0, .1)}
+
+//===========================================
+// TYPEOGRAPHY
+//===========================================
+
+//===========================================
+// HEADER
+//===========================================
+.leftsidebar {
+	min-width: 220px; max-height: 100%; overflow-y: auto;
+	a {display:block; padding: $g1 $g3; }
+	a:hover {background: $dark; color: $white;}
+	a.active {background: $primary; color: $white;}
+	span {display:block; padding: $g1; }
+	i {position: relative; top: 6px; margin: -5px 6px -5px 0; max-width: 24px;}
+}
+
+.btn i {position: relative; top: 6px; margin: -8px 8px -8px 0; max-width: 24px;}
+
+//===========================================
+// FOOTER
+//===========================================
+
+//===========================================
+// CONTENT
+//===========================================
+.content_outer {max-height: 100%; overflow: hidden; }
+.content_inner {
+	max-height: 100%; overflow: auto;
+	&:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
+}
+
+//===========================================
+// FORMS
+//===========================================
+.role_wrapper {
+	&.enabled {background: rgba(mix($success, $white, 6%), 1); }
+	&.disabled {background: $light-grey; color: $grey; }
+}
+
+//===========================================
+// Custom Fields
+//===========================================
+// .fieldset_outer .fieldset {border-bottom: 1px solid $light-grey; }
+// .fieldset_outer .fieldset:last-child {border: none; }
+.cf_fields .entry:nth-child(even) {background: $light-grey;}
+
+.accordion_handle {
+	@include prefix(transition, background $animation-speed ease-in-out);
+	&.toggled {
+		background: $primary; color: $white; 
+	}
+}
+.accordion {
+	overflow:hidden; opacity: 1; background: $white; @include prefix(transition, max-height $animation-speed ease-in-out, padding $animation-speed ease-in-out, opacity $animation-speed ease-in-out);
+	&.collapsed { opacity: 0; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border: none; }
+}
+
+// Medium
+@media screen and (max-width : 1024px) {
+
+}
+
+// Small
+@media screen and (max-width : 768px) {
+
+}

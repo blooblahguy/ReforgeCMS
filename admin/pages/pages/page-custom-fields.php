@@ -114,7 +114,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 			$rules[$group] = $set;
 		}		
 
-		// debug($rules);
+		debug($rules);
 
 		$cf->title = $title;
 		$cf->fieldset = serialize($fieldset);

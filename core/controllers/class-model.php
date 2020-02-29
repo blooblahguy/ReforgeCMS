@@ -12,6 +12,8 @@ class RF_Model extends \DB\SQL\Mapper {
 	function __construct() {
 		global $db;
 
+		// $cache = \Cache::instance();
+
 		$this->sc_name = $this->model_table."_schema";
 		$this->sl_name = $this->model_table;
 
@@ -25,16 +27,16 @@ class RF_Model extends \DB\SQL\Mapper {
 
 		// Cache Wipers
 		$this->afterinsert(function($self, $pkeys) {
-			$this->clear_cache($this->sl_name);
+			\Cache::instance()->reset();
 		});
 		$this->afterupdate(function($self, $pkeys) {
-			$this->clear_cache($this->sl_name);
+			\Cache::instance()->reset();
 		});
 		$this->aftersave(function($self, $pkeys) {
-			$this->clear_cache($this->sl_name);
+			\Cache::instance()->reset();
 		});
 		$this->aftererase(function($self, $pkeys) {
-			$this->clear_cache($this->sl_name);
+			\Cache::instance()->reset();
 		});
 	}
 

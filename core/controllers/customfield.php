@@ -22,6 +22,16 @@
 				return array();
 			}
 		}
+
+		function load_all() {
+			global $db;
+			$cached = $this->get_cache($this->sl_name);
+			$cfs = $db->exec("SELECT * FROM `{$this->model_table}`", null, $cached);
+			$cfs = rekey_array("id", $cfs);
+			$this->set_cache($this->sl_name);
+
+			return $cfs;
+		}
 	}
 
 ?>

@@ -25,8 +25,52 @@
 				do_action("rcf/render_field_settings/type={$type}", $field);
 			});
 
+			// load fields and evalutate conditions
+			add_action("admin/page/edit_after", array($this, "fields_load"));
+
 			// $core->route("GET /core/custom_fields/form/@type", "\RCF->get_form_template");
 			// $core->route("GET /core/custom_fields/settings/@type", "\RCF->get_settings_template");
+		}
+
+		function fields_load($page) {
+			global $request;
+
+			$cfs = new CustomField();
+			$cfs = $cfs->load_all();
+
+			foreach ($cfs as $id => $field) {
+				$load_rules = unserialize($field["load_rules"]);
+
+				$load = false;
+				foreach ($load_rules as $group => $rules) {
+					$passed = true;
+					foreach ($rules as $rule) {
+						$rs = $this->get_rule($rule['key'])->rule_match($request, $rule);
+						if (! $rs) { $passed = false; }
+					}
+
+					if ($passed) { $load = true; }
+				}
+
+				if ($load) {
+					$this->render_fields($field["id"]);
+				}
+			}
+		}
+
+		function render_fields($id) {
+			$cf = new CustomField();
+			if ($id > 0) {
+				$cf->load("id = $id", null, 1);
+			}
+
+			$view = array(
+				"fields" => $cf->get_fields(),
+				"parent" => 0
+			);
+
+			// load view
+			rcf_get_view('group-edits', $view);
 		}
 
 		function render_settings($id) {
@@ -62,6 +106,9 @@
 		 */
 		function register_rule_type($class) {
 			$this->rules[ $class->name ] = $class;
+		}
+		function get_rule($key) {
+			return $this->rules[$key];
 		}
 		function get_rule_type_choices($key, $value) {
 			echo $this->rules[$key]->render_choices($value);

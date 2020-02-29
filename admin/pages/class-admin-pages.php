@@ -1,7 +1,7 @@
 <?
 
 	class RF_Admin_Pages extends \Prefab {
-		private $pages = array();
+		var $pages = array();
 
 		function beforeroute($core, $args) {
 			global $request;
@@ -15,10 +15,8 @@
 			$this->page = $this->get_page($alias);
 			$this->page->id = isset($args["id"]) ? $args["id"] : 0;
 
-			$request["page"] = $this->page;
 			$request["page_id"] = $this->page->id;
-			$request["page_name"] = $this->page->name;
-			$request["page_label"] = $this->page->label;
+			$request["page_slug"] = $this->page->name;
 
 			// header
 			do_action("admin/before_header");

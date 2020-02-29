@@ -11,8 +11,8 @@ class rcf_rule_USER extends rcf_rule {
 		parent::__construct();
 	}
 
-	function rule_match() {
-		debug("test");
+	function rule_match($request, $rule) {
+		return $this->compare($request['user_id'], $rule);
 	}
 
 	function rule_choices() {

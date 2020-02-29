@@ -5,16 +5,14 @@ class rcf_rule {
 	protected function __construct() {
 		global $core;
 
-		$this->choices = $this->rule_choices();
-
 		$core->route("GET /core/custom_fields/rules/{$this->name}", "{$this->rule_class}->render_choices");
-		add_action($this->action, array($this, "rule_match"));
 
 		// register in main class
 		RCF::instance()->register_rule_type($this);
 	}
 
 	function render_choices($current = false) {
+		$this->choices = $this->rule_choices();
 		foreach ($this->choices as $key => $value) {
 			$selected = "";
 			if ($key == $current) {$selected = " selected";}
@@ -27,7 +25,7 @@ class rcf_rule {
 		
         if ( $rule['value'] == 'all' ) $match = true;
 
-        if ( $rule['operator'] == '!=' ) {
+        if ( $rule['expression'] == '!=' ) {
         	$match = ! $match;
         }
  

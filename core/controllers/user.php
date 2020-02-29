@@ -1,8 +1,15 @@
 <?
 
 	class RF_Model extends \DB\SQL\Mapper {
+		var $cache;
+
 		function __construct() {
 			global $db;
+			$this->cache = \Cache::instance();
+
+			// add to schema builder
+
+			// hook into the mapper/cursor classes
 			parent::__construct($db, $this->table);
 		}
 

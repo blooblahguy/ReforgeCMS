@@ -1,21 +1,8 @@
 <?
-	// class reforge_model extends \DB\SQL\Mapper {
-	// 	var $table = '';
-
-	// 	function __construct() {
-	// 		global $db;
-
-	// 		// RFSchema::instance()->register_field_type($this);
-
-	// 		// $this->add_field_action('rcf/render_field', array($this, 'render_field'), 9);
-	// 		// $this->add_field_action('rcf/render_field_settings', array($this, 'render_field_settings'), 9);
-
-	// 		parent::__construct( $db, $this->table );
-	// 	}
-	// }
-
 	class RFSchema extends \Prefab {
-		protected $schema = array(), $db, $hashtable;
+		protected $schema = array(), 
+			$db, 
+			$hashtable;
 
 		function __construct($db, $prefix = "core_") {
 			$this->db = $db;
@@ -29,6 +16,8 @@
 			) ";
 			$rs = $this->db->exec($qry);
 		}
+
+		// function 
 
 		private function hash($array) {
 			return md5(serialize($array));

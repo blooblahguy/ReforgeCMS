@@ -1,13 +1,10 @@
 <?
 
-	class Role extends \DB\SQL\Mapper {
-		function __construct($ttl = 10000) {
-			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
+	class Role extends RF_Model {
+		function __construct() {
+			$this->model_table = "roles";
 
-			parent::__construct( $db, 'roles' );
+			parent::__construct( );
 		}
 	}
 

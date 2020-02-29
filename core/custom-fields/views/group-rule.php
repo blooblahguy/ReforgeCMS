@@ -5,9 +5,9 @@ $current_rule = false;
 
 ?>
 
-<div class="rule_group_<?= $group; ?>">
+<div class="rule_group padx2 margb2 rule_group_<?= $group; ?>">
 
-	<div class="row g1 condition_row">
+	<div class="row g1 condition_row content-middle">
 		<div class="os">
 			<select name="load_conditions[<?= $group; ?>][key][]" class="load_key">
 				<? foreach ($all_rules as $key => $value) { ?>
@@ -28,7 +28,11 @@ $current_rule = false;
 		</div>
 
 		<div class="os-min">
-			<a href="#" class="btn bt-mini rcf-add-rule" data-target=".rule_group_<?= $group; ?>">And</a>
+			<a href="#" class="btn btn-sm rcf-add-rule" data-target=".rule_group_<?= $group; ?>">And</a>
+		</div>
+
+		<div class="os-min">
+			<a href="#" class="btn btn-sm rcf-remove-rule">X</a>
 		</div>
 	</div>
 			

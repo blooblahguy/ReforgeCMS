@@ -1,39 +1,11 @@
 <?
 
-	class RF_Model extends \DB\SQL\Mapper {
-		var $cache;
-
-		function __construct() {
-			global $db;
-			$this->cache = \Cache::instance();
-
-			// add to schema builder
-
-			// hook into the mapper/cursor classes
-			parent::__construct($db, $this->table);
-		}
-
-		function load($filter = NULL, ?array $options = NULL, $ttl = 0) {
-			parent::load($filter, $options, $ttl);
-		}
-
-		function save() {
-			parent::save();
-		}
-	}
-
-	class User extends \DB\SQL\Mapper {
-		private $schema = array();
-		private $logged_in = false, 
-			$self = false, 
-			$uid = 0, 
-			$token = 0, 
-			$db_table = 0, 
+	class User extends RF_Model {
+		private $logged_in = false,
+			$uid = 0,
+			$token = 0,
 			$permissions = false;
 
-		function load($filter = NULL, ?array $options = NULL, $ttl = 0) {
-			parent::load($filter, $options, $ttl);
-		}
 		function get_user($id) {
 			$rs = $this->load("id = ".$this->uid);
 			if ($rs !== false) {
@@ -47,18 +19,16 @@
 				$rs = $this->load("id = ".$this->uid, null, 10 * 10);
 				if ($rs !== false) {
 					$this->logged_in = true;
-					$this->self = true;
 				}
 			}
 		}
 
-		function __construct($ttl = 10000) {
+		function __construct() {
 			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
 
-			parent::__construct( $db, 'users' );
+			$this->model_table = "users";
+
+			parent::__construct();
 		}
 
 		static function logout($core, $args) {
@@ -167,7 +137,7 @@
 						":user_id" => $user_id	
 					)); // reup the database save date
 
-					$this->token = $token;
+					// $this->token = $token;
 					$this->uid = $user_id;
 
 					return true;
@@ -181,9 +151,11 @@
 		function can($request) {
 
 			if (! $this->permissions) {
-				global $db;
-				$rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
-				$this->permissions = unserialize($rs[0]["permissions"]);
+				$role = new Role();
+				$role->load("id = {$this->role_id}");
+				
+				// $rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
+				$this->permissions = unserialize($role->permissions);
 			}
 			$permissions = $this->permissions;
 

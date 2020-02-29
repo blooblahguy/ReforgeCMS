@@ -1,12 +1,9 @@
 <?
-	class Post extends \DB\SQL\Mapper {
-		function __construct($ttl = 10000) {
-			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
+	class Post extends RF_Model {
+		function __construct() {
+			$this->model_table = "posts";
 
-			parent::__construct( $db, 'posts' );
+			parent::__construct();
 		}
 	}
 ?>

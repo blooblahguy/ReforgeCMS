@@ -1,13 +1,10 @@
 <?
 
-	class CustomField extends \DB\SQL\Mapper {
-		function __construct($ttl = 10000) {
-			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
+	class CustomField extends RF_Model {
+		function __construct() {
+			$this->model_table = 'custom_fields';
 
-			parent::__construct( $db, 'custom_fields' );
+			parent::__construct();
 		}
 
 		function get_fields() {

@@ -1,13 +1,20 @@
 <?
 
-	class Option extends \DB\SQL\Mapper {
-		function __construct($ttl = 10000) {
-			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
+	class Option extends RF_Model {
+		function __construct() {
+			$this->model_table = "options";
 
-			parent::__construct( $db, 'options', null, $ttl);
+			parent::__construct();
+		}
+
+		function load_all() {
+			global $db;
+			$cached = $this->get_cache($this->sl_name);
+			$options = $db->exec("SELECT * FROM options", null, $cached);
+			$options = rekey_array("key", $options);
+			$this->set_cache($this->sl_name);
+
+			return $options;
 		}
 	}
 

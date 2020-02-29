@@ -9,8 +9,8 @@
 		text-decoration:none; color: contrast($bg); background: $bg; border-color: $bg;
 	}
 
-	&#{-btn-lg}, &.btn-lg {font-size: 1.303rem; padding: $g2 $g4; }
-	&#{-btn-sm}, &.btn-sm {font-size: .707rem; padding: $g1 / 3 $g1; }
+	&#{-btn-lg}, &.btn-lg { padding: $g2 $g4; }
+	&#{-btn-sm}, &.btn-sm { padding: $g1 / 3 $g1; }
 }
 
 .btn, a.btn, button, input[type="submit"], input[type="button"] {

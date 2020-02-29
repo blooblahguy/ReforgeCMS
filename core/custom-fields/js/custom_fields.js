@@ -60,8 +60,24 @@ $("body").on("click", "[data-remove]", function() {
 	// Rules
 	// =========================================================================================
 	// add AND
-	$("body").on("click", ".rcf-add-rule", function() {
+	$("body").on("click", ".rcf-remove-rule", function() {
+		var parent = $(this).parents(".rule_group").first()
+		var outer = $(this).parents(".rule_group_outer").first()
 
+		$(this).parents(".condition_row").first().remove()
+
+		var children = parent.children()
+		if (children.length == 0) {
+			outer.remove()
+			console.log(children)
+		}
+	})
+	$("body").on("click", ".rcf-add-rule", function() {
+		console.log("here")
+		var template = $(this).parents(".condition_row").first()
+		var target = $($(this).data("target"))
+
+		target.append(template.clone())
 	})
 	// add OR
 	$("body").on("click", ".rcf-add-rulegroup", function() {

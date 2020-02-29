@@ -132,7 +132,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 	*/
 }
 
-$cpts = $db->exec("SELECT * FROM post_types WHERE admin_menu = 1 ORDER BY `order` ASC");
+$cpts = $db->exec("SELECT * FROM post_types WHERE admin_menu = 1 ORDER BY `order` ASC", null, get_cache("post_types"));
 
 foreach ($cpts as $post) {
 	$info = array(

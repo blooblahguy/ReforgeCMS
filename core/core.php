@@ -5,11 +5,10 @@
 
 	// F3 Core
 	$core = require_once("vendor/fatfree-core/base.php");
-	new Session();
-
-	// quick variables
 	$core->set("CACHE", true);
 	$core->set("salt", $configuration["salt"]);
+	
+	new Session();
 
 	// Autoloader
 	$class_paths = array();
@@ -44,20 +43,23 @@
 	
 	// models
 	require_once("models/_models.php");
+	require_once("controllers/class-model.php");
 
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
 	queue_script("/core/js/core.js", 5);
 	queue_script("/core/js/custom_fields.js", 10);
+
+	
 	
 	// include custom fields
 	require_once("custom-fields/rcf.php");
 
 	$user = new User();
+	$option = new Option();
 	$user->get_current_user();
 
-	$options = $db->exec("SELECT * FROM options");
-	$options = rekey_array("key", $options);
+	$options = $option->load_all();
 
 	if (count($options) == 0) {
 		$core->route("GET *", function($core, $args) {

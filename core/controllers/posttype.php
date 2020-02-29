@@ -1,13 +1,11 @@
 <?
 
-	class PostType extends \DB\SQL\Mapper {
-		function __construct($ttl = 10000) {
-			global $db, $core;
-			if ($core->get("schema_updated")) {
-				$ttl = 0;
-			}
+	class PostType extends RF_Model {
+		function __construct() {
 
-			parent::__construct( $db, 'post_types' );
+			$this->model_table = "post_types";
+
+			parent::__construct();
 		}
 	}
 

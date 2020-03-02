@@ -31,6 +31,25 @@ class RF_Admin_Page {
 	}
 
 	/**
+	 * get_id
+	 * 
+	 * Prefixes id with user_ID or rule_ID if page is another other than a post_type
+	 * 
+	 * @type	function
+	 * @date	3/2/2020
+	 * @since	1.0
+	 * 
+	 * @return $id (int)
+	 */
+	function get_id() {
+		if ($this->is_post) {
+			return $this->id;
+		} else {
+			return $this->name."_".$this->id;
+		}
+	}
+
+	/**
 	 * Permission Functionality
 	 */
 	function can_view($args = array()) {

@@ -27,7 +27,7 @@
 				require_once($path);
 			}
 		}
-	});	
+	});
 
 	// Database
 	$db = new DB\SQL(
@@ -42,15 +42,13 @@
 	);
 	
 	// models
-	require_once("models/_models.php");
+	require_once("reforge/schema.php");
 	require_once("controllers/class-model.php");
 
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
 	queue_script("/core/js/core.js", 5);
 	queue_script("/core/js/custom_fields.js", 10);
-
-	
 	
 	// include custom fields
 	require_once("custom-fields/rcf.php");
@@ -85,4 +83,6 @@
 			}
 		}
 	}
+
+	RF_Schema::instance()->update();
 ?>

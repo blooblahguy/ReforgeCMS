@@ -8,10 +8,6 @@
 		return $new;
 	}
 
-	function display_alerts($level = "all") {
-		\Alerts::instance()->display($level);
-	}
-
 	$rf_styles = array();
 	$rf_scripts = array();
 	function dequeue_style($path) {

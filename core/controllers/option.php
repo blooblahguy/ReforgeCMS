@@ -10,7 +10,7 @@
 		function load_all() {
 			global $db;
 			$cached = $this->get_cache($this->sl_name);
-			$options = $db->exec("SELECT * FROM options", null, $cached);
+			$options = $db->exec("SELECT * FROM {$this->model_table}", null, $cached);
 			$options = rekey_array("key", $options);
 			$this->set_cache($this->sl_name);
 

@@ -9,4 +9,12 @@
 		}
 	}
 
+	function get_admin_post_pages() {
+		global $db;
+
+		$cpts = $db->exec("SELECT * FROM {$this->model_table} WHERE admin_menu = 1 ORDER BY `order` ASC", null, $this->get_cache("fields"));
+
+		return $ctps;
+	}
+
 ?>

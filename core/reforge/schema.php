@@ -1,30 +1,19 @@
 <?
-	class RFSchema extends \Prefab {
-		protected $schema = array(), 
-			$db, 
-			$hashtable;
+	class RF_Schema extends \Prefab {
+		protected $schemas = array(),
+			$prefix = "rf_";
 
-		function __construct($db, $prefix = "core_") {
-			$this->db = $db;
-			$this->hashtable = $prefix."hashtable";
-
-			// we do a hashtable for speed
-			$qry = "CREATE TABLE IF NOT EXISTS `{$this->hashtable}`(
-				`table_name` VARCHAR(100) PRIMARY KEY NOT NULL
-				, `change_hash` VARCHAR(100) NOT NULL
-				, UNIQUE(table_name)
-			) ";
-			$rs = $this->db->exec($qry);
+		function __construct() {
+			// do nothing
 		}
-
+		
 		// function 
-
 		private function hash($array) {
 			return md5(serialize($array));
 		}
 
 		function add($table, $fields, $options = array()) {
-			$this->schema[$table] = $fields;
+			$this->schemas[$table] = $fields;
 		}
 
 		private function column_sql($name, $info) {
@@ -46,22 +35,34 @@
 			return $qry;
 		}
 
+		/**
+		 * Use cache system instead of database table
+		 */
 		function setup() {
-			$hashes = $this->db->exec("SELECT * FROM {$this->hashtable}");
-			$all = array();
-			foreach ($hashes as $t) {
-				$all[$t["table_name"]] = $t["change_hash"];
+			global $db;
+			$cache = \Cache::instance();
+
+			$update = false;
+			foreach ($this->schemas as $table => $fields) {
+				$hash = $this->hash($table);
+				$cached_hash = $cache->get($this->prefix.$table);
+
+				if (! $cached_hash || $cached_hash != $hash) {
+					$update = true;
+					break;
+				}
 			}
-			$hashes = $all;
+
+			if (! $update) { return; }
 
 			// Loop through schemas and update those which need it
-			foreach ($this->schema as $table => $fields) {
-				$change_hash = $this->hash($fields);
+			foreach ($this->schemas as $table => $fields) {
+				$hash = $this->hash($fields);
+				$cached_hash = $cache->get($this->prefix.$table);
 
-				if (! isset($hashes[$table])) {
+				if (! $cached_hash) {
 					// create new table
 					$qry = "CREATE TABLE IF NOT EXISTS `{$table}` (id INT(7) PRIMARY KEY NOT NULL AUTO_INCREMENT, ";
-					$index = array();
 
 					// loop and add custom fields
 					foreach ($fields as $name => $info) {
@@ -73,27 +74,16 @@
 					$qry .= "`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, ";
 					$qry .= "`modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ";
 					$qry .= "UNIQUE KEY id (id))";
-
 					// debug($qry);
+					$db->exec($qry);
 
-					$this->db->exec($qry);
+					// cach hash
+					$cache->set($this->prefix.$table, $hash);
+					add_alert("message", "Created $table");
 
-					// hash table
-					$qry = "INSERT INTO {$this->hashtable} (table_name, change_hash) 
-					SELECT '{$table}', '{$change_hash}' FROM DUAL
-					WHERE NOT EXISTS (
-						SELECT table_name FROM {$this->hashtable} WHERE table_name = '{$table}'
-					) LIMIT 1";
-
-					// debug($qry);
-
-					$this->db->exec($qry);
-
-					\Alerts::instance()->message("Created $table");
-
-				} elseif ($hashes[$table] !== $change_hash) {
+				} else {
 					// update an existing table
-					$columns = $this->db->exec("SHOW COLUMNS FROM {$table} ");
+					$columns = $db->exec("SHOW COLUMNS FROM {$table} ");
 					$rekey = array();
 					foreach ($columns as $t) {
 						$rekey[$t['Field']] = $t;
@@ -106,32 +96,27 @@
 					unset($columns['modified']);
 
 					foreach ($fields as $name => $info) {
-						
-
-
 						$col = $this->column_sql($name, $info);
 
 						if (! isset($columns[$name])) {
 							$qry = "ALTER TABLE `{$table}` ADD {$col}";
 							// debug($qry);
-							debug($qry);
-							$this->db->exec($qry);
-							// debug($qry);
+							$db->exec($qry);
 						} else {
 							if (! $info["default"]) {
 								$qry = "ALTER TABLE `{$table}` ALTER COLUMN `{$name}` DROP DEFAULT";
-								$this->db->exec($qry);
+								// debug($qry);
+								$db->exec($qry);
 							}
 							if (! $info["index"] && ! $info["unique"]) {
 								$qry = "ALTER TABLE `{$table}` DROP INDEX IF EXISTS `{$name}`";
-								$this->db->exec($qry);
+								// debug($qry);
+								$db->exec($qry);
 							}
 
-							// $db_type = strtolower($columns['Name']['Type']);
 							$qry = "ALTER TABLE `{$table}` MODIFY COLUMN {$col}";
-							debug($qry);
-							$this->db->exec($qry);
 							// debug($qry);
+							$db->exec($qry);
 						}
 						
 						// field has been refound
@@ -141,16 +126,13 @@
 					// anything left over should be dropped as a column
 					foreach ($columns as $name => $values) {
 						$qry = "ALTER TABLE `{$table}` DROP COLUMN `{$name}` ";
-						$this->db->exec($qry);
 						// debug($qry);
+						$db->exec($qry);
 					}
 
 					// now update change hash, so that we only hit this function when we've updated the $schema
-					$qry = "UPDATE {$this->hashtable} SET change_hash = '{$change_hash}' WHERE table_name = '{$table}' ";
-					$this->db->exec($qry);
-					// debug($qry);
-
-					\Alerts::instance()->message("Upaded $table");
+					$cache->set($this->prefix.$table, $hash);
+					add_alert("message", "Updated $table");
 				}
 			}
 		}

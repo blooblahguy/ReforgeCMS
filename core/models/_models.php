@@ -11,7 +11,6 @@
 	$files[] = "$root/post_metas.php";
 	$files[] = "$root/posts.php";
 	$files[] = "$root/options.php";
-	$files[] = "$root/comments.php";
 	$files[] = "$root/menus.php";
 
 	// cached updating

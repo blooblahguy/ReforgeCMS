@@ -38,7 +38,7 @@ class reforge_field_REPEATER extends reforge_field {
 					<label for="" class="pady1">Sub Fields</label>
 				</div>
 				<div class="os sub_fields">
-					<? rcf_get_view('group-fields', $args); ?>
+					<? rcf_get_view('group-settings', $args); ?>
 				</div>
 			</div>
 		</div>

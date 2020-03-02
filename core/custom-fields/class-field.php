@@ -18,6 +18,11 @@
 			$action .= '/type=' . $this->name;
 			add_action( $action, $func, $priority );
 		}
+
+		function load_value() {
+			global $request;
+			$page_id = $request["page_id"];
+		}
 	}
 
 ?>

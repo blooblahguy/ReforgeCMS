@@ -85,7 +85,7 @@
 			);
 
 			// load view
-			rcf_get_view('group-fields', $view);
+			rcf_get_view('group-settings', $view);
 		}
 
 		function render_rules($id) {

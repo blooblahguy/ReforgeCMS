@@ -16,6 +16,7 @@
 			$this->page->id = isset($args["id"]) ? $args["id"] : 0;
 
 			$request["page_id"] = $this->page->id;
+			$request["page_uid"] = $this->page->get_id();
 			$request["page_slug"] = $this->page->name;
 
 			// header

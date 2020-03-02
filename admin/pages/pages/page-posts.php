@@ -9,6 +9,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$this->icon = $info["icon"];
 		$this->base_permission = $info["base_permission"];
 		$this->link = $info["link"];
+		$this->is_post = true;
 
 		parent::__construct();
 	}
@@ -20,8 +21,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 		$posts = $db->exec("SELECT * FROM posts WHERE post_type = '{$this->post_type}' ");
 
-		// display table
-		display_results_table($posts, array(
+		$columns = array(
 			'title' => array(
 				"label" => "Title",
 				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
@@ -46,7 +46,11 @@ class admin_page_POSTS extends RF_Admin_Page {
 					return Date("Y-m", strtotime($value));
 				}
 			),
-		));	
+		);
+		$columns = apply_filters("admin/posts/columns", $columns);
+
+		// display table
+		display_results_table($posts, $columns);	
 	}
 
 	function render_edit() {
@@ -132,7 +136,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 	*/
 }
 
-$cpts = $db->exec("SELECT * FROM post_types WHERE admin_menu = 1 ORDER BY `order` ASC", null, get_cache("post_types"));
+$post = new PostType();
+$cpts = $post->get_admin_post_pages();
 
 foreach ($cpts as $post) {
 	$info = array(

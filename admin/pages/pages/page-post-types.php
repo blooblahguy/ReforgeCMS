@@ -208,13 +208,24 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 						<? } ?>
 					</select>
 				</div>
-				<div class="pady2">
+				<div class="formsec">
 					<label for="">Admin Menu</label>
 					<input type="checkbox" name="admin_menu" value="1" <? if ($post->admin_menu) { echo "checked"; }?>> Display in Admin Menu
+				</div>
+				<div class="formsec">
 					<label for="">Menu Position</label>
 					<input type="text" name="order" value="<?= $post->order; ?>">
 				</div>
-				
+				<div class="formsec">
+					<label for="">URL Prefix</label>
+					<? 
+					render_admin_field($post, array(
+						"type" => "text",
+						"name" => "url_prefix",
+						"class" => "url_prefix",
+					));
+					?>
+				</div>
 			</div>
 		</div>
 	<?

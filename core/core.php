@@ -6,14 +6,18 @@
 	// F3 Core
 	$core = require_once("vendor/fatfree-core/base.php");
 	$core->set("CACHE", true);
+	debug(Cache::instance()->load( true ));
 	$core->set("salt", $configuration["salt"]);
 	
 	new Session();
+	require_once("reforge/class-alerts.php");
+	require_once("reforge/class-db.php");
+	require_once("reforge/class-model.php");
+	require_once("reforge/class-schema.php");
 
 	// Autoloader
 	$class_paths = array();
 	$class_paths["controllers"] = '/core/controllers/%s.php';
-	$class_paths["models"] = '/core/models/%s.php';
 	$class_paths["admin"] = '/admin/controllers/%1$s/%1$s.php';
 	spl_autoload_register(function($class) {
 		global $class_paths, $core, $db;
@@ -30,10 +34,7 @@
 		}
 	});
 
-	new Alerts();
-
 	// Database
-	require_once("controllers/class-db.php");
 	$db = new RFDB(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
 		"{$configuration["database_user"]}",
@@ -44,10 +45,6 @@
 			\PDO::MYSQL_ATTR_COMPRESS => TRUE
 		)
 	);
-	
-	// models
-	require_once("reforge/schema.php");
-	require_once("controllers/class-model.php");
 
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
@@ -87,6 +84,4 @@
 			}
 		}
 	}
-
-	RF_Schema::instance()->setup();
 ?>

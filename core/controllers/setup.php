@@ -55,8 +55,6 @@
 			$option->value = "reforge";
 			$option->save();
 
-			
-
 			$alert->message("First setup successful");
 			redirect("/admin");
 		}

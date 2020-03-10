@@ -81,6 +81,10 @@ function render_admin_field($field, $settings) {
 	if ($settings["required"]) {
 		$required = " required";
 	}
+	$class = "";
+	if ($settings["class"]) {
+		$class = $settings["class"];
+	}
 	if (! $settings["placeholder"]) {
 		$settings["placeholder"] = $settings["label"];
 	}
@@ -90,15 +94,15 @@ function render_admin_field($field, $settings) {
 	<div class="fieldset <?= $settings["class"]; ?>">
 		<label for="<?= $name; ?>"><?= $settings['label']; ?></label>
 		<? if ($type == "checkbox") { ?>
-			<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 		<? } elseif ($type == "number") { ?>
-			<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 		<? } elseif ($type == "text") { ?>
-			<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 		<? } elseif ($type == "select") { 
 			$choices = $settings["choices"];
 			?>
-			<select name="<?= $name; ?>" id="<?= $name; ?>" class="rcf_dropdown type" <?= $bind; ?> <?= $required; ?>>
+			<select name="<?= $name; ?>" id="<?= $name; ?>" class="rcf_dropdown type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
 				<?
 				foreach ($choices as $key => $option) { 
 					if (is_array($option)) { ?>

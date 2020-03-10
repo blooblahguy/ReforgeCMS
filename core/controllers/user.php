@@ -6,6 +6,32 @@
 			$token = 0,
 			$permissions = false;
 
+		function __construct() {
+			global $db, $core;
+
+			$this->model_table = "users";
+			$this->model_schema = array(
+				"username" => array(
+					"type" => "VARCHAR(256)"
+				), 
+				"email" => array(
+					"type" => "VARCHAR(256)",
+					"unique" => true,
+				),
+				"password" => array(
+					"type" => "VARCHAR(256)"
+				),
+				"role_id" => array(
+					"type" => "INT(7)"
+				),
+				"last_login" => array(
+					"type" => "DATETIME",
+				)
+			);
+
+			parent::__construct();
+		}
+
 		function get_user($id) {
 			$rs = $this->load("id = ".$this->uid);
 			if ($rs !== false) {
@@ -23,13 +49,6 @@
 			}
 		}
 
-		function __construct() {
-			global $db, $core;
-
-			$this->model_table = "users";
-
-			parent::__construct();
-		}
 
 		static function logout($core, $args) {
 			global $db;
@@ -197,4 +216,13 @@
 		}
 	}
 
+	// Login Cookies
+	\RF_Schema::instance()->add("login_cookies", array(
+		"token" => array(
+			"type" => "VARCHAR(256)"
+		), 
+		"user_id" => array(
+			"type" => "INT(7)"
+		), 
+	));
 ?>

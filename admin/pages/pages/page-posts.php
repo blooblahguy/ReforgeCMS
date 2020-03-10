@@ -19,8 +19,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		global $db;
 
 		$this->post_type = $this->name;
-
-		$posts = $db->exec("SELECT * FROM posts WHERE post_type = '{$this->post_type}' ");
+		$post = new Post();
+		$posts = $post->select("*", "post_type = '{$this->post_type}' ");
 
 		$columns = array(
 			'title' => array(
@@ -75,6 +75,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						"type" => "text",
 						"label" => "Title",
 						"name" => "title",
+						"class" => "post_title",
 						"required" => true,
 					));
 
@@ -85,6 +86,17 @@ class admin_page_POSTS extends RF_Admin_Page {
 			<div class="os-2 sidebar pad3">
 				<input type="submit" class="marg0" value="Save">
 				<hr>
+				<div class="formsec">
+					<label for="">Permalink</label>
+					<?
+					render_admin_field($post, array(
+						"type" => "text",
+						"name" => "permalink",
+						"class" => "post_permalink",
+						"required" => true,
+					));
+					?>
+				</div>
 			</div>
 		</div>
 
@@ -102,6 +114,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		}
 
 		$post->title = $_POST["title"];
+		$post->permalink = $_POST["permalink"];
 		$post->post_type = $this->name;
 		$post->save();
 

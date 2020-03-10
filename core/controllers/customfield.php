@@ -3,6 +3,20 @@
 	class CustomField extends RF_Model {
 		function __construct() {
 			$this->model_table = 'custom_fields';
+			$this->model_schema = array(
+				"title" => array(
+					"type" => "VARCHAR(256)",
+				),
+				"first_rule" => array(
+					"type" => "VARCHAR(256)"
+				),
+				"load_rules" => array(
+					"type" => "LONGTEXT",
+				),
+				"fieldset" => array(
+					"type" => "LONGTEXT",
+				),
+			);
 
 			parent::__construct();
 		}

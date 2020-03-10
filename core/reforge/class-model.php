@@ -15,27 +15,27 @@ class RF_Model extends \DB\SQL\Mapper {
 		$this->caches["fields"] = $this->model_table."_fields";
 
 		// add to schema builder
-		$this->register_schema();
-
-		// debug($this->get_cache("schema"));
+		$updating = $this->register_schema();
+		if ($updating) {
+			$this->clear_cache("schema");
+		}
 
 		// cache table construct
 		parent::__construct($db, $this->model_table, null, $this->get_cache("schema"));
 		$this->set_cache("schema");
-		// debug($this->get_cache("schema"));
 
 		// Cache Wipers
 		$this->afterinsert(function($self, $pkeys) {
-			$this->clear_cache("fields");
+			$self->clear_cache("fields");
 		});
 		$this->afterupdate(function($self, $pkeys) {
-			$this->clear_cache("fields");
+			$self->clear_cache("fields");
 		});
 		$this->aftersave(function($self, $pkeys) {
-			$this->clear_cache("fields");
+			$self->clear_cache("fields");
 		});
 		$this->aftererase(function($self, $pkeys) {
-			$this->clear_cache("fields");
+			$self->clear_cache("fields");
 		});
 	}
 
@@ -56,7 +56,6 @@ class RF_Model extends \DB\SQL\Mapper {
 		$cached = $cache->get($key);
 		if (! $cached || $cached == 0.001) {
 			if (! $value) { $value = $this->ttl_default; }
-			// debug($key, $value);
 			$cache->set($key, $value);
 			$cached = $value;
 		}
@@ -102,7 +101,7 @@ class RF_Model extends \DB\SQL\Mapper {
 		if (! $this->model_schema) { return; }
 
 		// Update this schema
-		RF_Schema::instance()->add($this->model_table, $this->model_schema);
+		return \RF_Schema::instance()->add($this->model_table, $this->model_schema);
 	}
 }
 

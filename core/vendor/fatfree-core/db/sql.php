@@ -223,6 +223,7 @@ class SQL {
 					$this->log.=($stamp?(date('r').' '):'').'(-0ms) '.
 						preg_replace($keys,$vals,
 							str_replace('?',chr(0).'?',$cmd),1).PHP_EOL;
+
 				$query->execute();
 				if ($log)
 					$this->log=str_replace('(-0ms)',

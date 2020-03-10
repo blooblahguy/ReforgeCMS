@@ -1,6 +1,7 @@
 <?
 	class RF_Schema extends \Prefab {
 		protected $schemas = array(),
+			$updated = array(),
 			$prefix = "rf_";
 
 		function __construct() {
@@ -13,7 +14,23 @@
 		}
 
 		function add($table, $fields, $options = array()) {
+			if (isset($this->updated[$table])) { return; }
+
+			$cache = \Cache::instance();
 			$this->schemas[$table] = $fields;
+			$this->updated[$table] = true;
+
+			$updating = false;
+			$hash = $this->hash($fields);
+			$cached_hash = $cache->get($this->prefix.$table);
+
+			if (! $cached_hash || $cached_hash != $hash) {
+				$updating = true;
+			}
+
+			$this->setup();
+
+			return $updating;
 		}
 
 		private function column_sql($name, $info) {
@@ -44,7 +61,7 @@
 
 			$update = false;
 			foreach ($this->schemas as $table => $fields) {
-				$hash = $this->hash($table);
+				$hash = $this->hash($fields);
 				$cached_hash = $cache->get($this->prefix.$table);
 
 				if (! $cached_hash || $cached_hash != $hash) {
@@ -79,7 +96,7 @@
 
 					// cach hash
 					$cache->set($this->prefix.$table, $hash);
-					add_alert("message", "Created $table");
+					Alerts::instance()->message("Created $table");
 
 				} else {
 					// update an existing table
@@ -132,9 +149,11 @@
 
 					// now update change hash, so that we only hit this function when we've updated the $schema
 					$cache->set($this->prefix.$table, $hash);
-					add_alert("message", "Updated $table");
+					Alerts::instance()->message("Updated $table");
 				}
 			}
+
+			$this->schemas = array();
 		}
 	}
 

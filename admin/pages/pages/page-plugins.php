@@ -1,35 +1,34 @@
 <?
 
-class admin_page_FORMS extends RF_Admin_Page {
+class admin_page_PLUGINS extends RF_Admin_Page {
 	function __construct() {
-		$this->name = "Design";
-		$this->name = "forms";
-		$this->label = "Form";
-		$this->label_plural = "Forms";
-		$this->admin_menu = 45;
-		$this->icon = "message";
-		$this->base_permission = "manage_forms";
+		$this->category = "Settings";
+		$this->name = "plugins";
+		$this->label = "Plugin";
+		$this->label_plural = "Plugins";
+		$this->admin_menu = 90;
+		$this->icon = "settings_input_svideo";
+		$this->base_permission = "manage_settings";
 		$this->link = "/admin/{$this->name}";
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->disable_header = true;
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
 	function render_index() {
-		
+		echo "widgets index";
 	}
 
 	function render_edit() {
 		
 	}
 
-	function save_page($core, $args) {
+	function save_page() {
 
 	}
 
-	function delete_page($core, $args) {
+	function delete_page() {
 
 	}
 
@@ -59,6 +58,6 @@ class admin_page_FORMS extends RF_Admin_Page {
 	*/
 }
 
-new admin_page_FORMS();
+new admin_page_PLUGINS();
 
 ?>

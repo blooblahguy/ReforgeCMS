@@ -2,6 +2,7 @@
 
 class admin_page_POSTS extends RF_Admin_Page {
 	function __construct($info) {
+		$this->category = "Content";
 		$this->name = $info["name"];
 		$this->label = $info["label"];
 		$this->label_plural = $info["label_plural"];
@@ -29,6 +30,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 			'author' => array(
 				"label" => "Author",
 				"calculate" => function($value, $id) {
+					debug($value);
 					$user = new User();
 					$user->load("id = $value", NULL, 10000);
 					return $user->username;

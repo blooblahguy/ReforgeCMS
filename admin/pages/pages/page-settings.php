@@ -2,6 +2,7 @@
 
 class admin_page_SETTINGS extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Settings";
 		$this->name = "settings";
 		$this->label = "Settings";
 		$this->label_plural = "Settings";

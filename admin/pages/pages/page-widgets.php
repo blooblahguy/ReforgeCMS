@@ -2,6 +2,7 @@
 
 class admin_page_WIDGETS extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Design";
 		$this->name = "widgets";
 		$this->label = "Widget";
 		$this->label_plural = "Widgets";

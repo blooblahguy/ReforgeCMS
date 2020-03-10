@@ -50,6 +50,11 @@
 			$option->value = $sitename;
 			$option->save();
 
+			$option = new Option();
+			$option->key = "active_theme";
+			$option->value = "reforge";
+			$option->save();
+
 			
 
 			$alert->message("First setup successful");

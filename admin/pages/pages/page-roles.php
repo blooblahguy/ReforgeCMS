@@ -2,6 +2,7 @@
 
 class admin_page_ROLES extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Settings";
 		$this->name = "roles";
 		$this->label = "Role";
 		$this->label_plural = "Roles";

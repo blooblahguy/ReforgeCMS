@@ -17,9 +17,12 @@ class RF_Model extends \DB\SQL\Mapper {
 		// add to schema builder
 		$this->register_schema();
 
+		// debug($this->get_cache("schema"));
+
 		// cache table construct
 		parent::__construct($db, $this->model_table, null, $this->get_cache("schema"));
 		$this->set_cache("schema");
+		// debug($this->get_cache("schema"));
 
 		// Cache Wipers
 		$this->afterinsert(function($self, $pkeys) {
@@ -46,13 +49,14 @@ class RF_Model extends \DB\SQL\Mapper {
 
 		$cache->clear($key);
 	}
-	function set_cache($key, $value = null) {
+	function set_cache($key, $value = false) {
 		$cache = \Cache::instance();
 		$key = $this->caches[$key];
 
 		$cached = $cache->get($key);
-		if (! $cached) {
-			if (! $value) { $value == $this->ttl_default; }
+		if (! $cached || $cached == 0.001) {
+			if (! $value) { $value = $this->ttl_default; }
+			// debug($key, $value);
 			$cache->set($key, $value);
 			$cached = $value;
 		}
@@ -71,8 +75,18 @@ class RF_Model extends \DB\SQL\Mapper {
 		return $cached;
 	}
 
+	function query($cmds, $args = NULL, $ttl = 0, $log=TRUE, $stamp = FALSE) {
+		global $db;
+		$ttl = $this->get_cache("fields");
+		// debug($this->caches["fields"]);
+		$rs = $db->exec($cmds, $args, $ttl, $log, $stamp);
+		$this->set_cache("fields");
+
+		return $rs;
+	}
+
 	// Cache Wrappers
-	function select($fields,$filter=NULL,array $options=NULL,$ttl=0) {
+	function select($fields, $filter = NULL, array $options = NULL, $ttl = 0) {
 		$cached = $this->get_cache("fields");
 		$this->set_cache("fields");
 

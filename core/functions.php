@@ -156,26 +156,6 @@
 		
 	}
 
-	function the_header() {
-		global $user;
-		global $menu;
-		global $core;
-		global $ROOT;
-		// $view = new View;
-        // echo $view->render('template.htm');
-		require_once($ROOT."/content/header.php");
-	}
-
-	function the_footer() {
-		global $user;
-		global $menu;
-		global $core;
-		global $ROOT;
-		// $view = new View;
-        // echo $view->render('template.htm');
-		require_once($ROOT."/content/footer.php");
-	}
-
 	function debug(...$params) {
 		foreach ($params as $p) {
 			echo "<pre>";

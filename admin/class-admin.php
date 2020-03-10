@@ -20,6 +20,8 @@ require_once("pages/pages/page-roles.php");
 require_once("pages/pages/page-settings.php");
 require_once("pages/pages/page-users.php");
 require_once("pages/pages/page-widgets.php");
+require_once("pages/pages/page-plugins.php");
+require_once("pages/pages/page-themes.php");
 
 $admin = new RF_Admin;
 

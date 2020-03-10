@@ -2,6 +2,7 @@
 
 class admin_page_MENUS extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Design";
 		$this->name = "menus";
 		$this->label = "Menu";
 		$this->label_plural = "Menus";

@@ -7,8 +7,8 @@ RewriteEngine On
 #
 # RewriteBase /
 
-RewriteRule ^(tmp)\/|\.ini$ - [R=404]
-RewriteCond %{REQUEST_URI} !\.(jpg|png|css|js|php)$
+# RewriteRule ^(tmp)\/|\.ini$ - [R=404]
+# RewriteCond %{REQUEST_URI} !\.(jpg|png|css|js|php)$
 
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{REQUEST_FILENAME} !-f

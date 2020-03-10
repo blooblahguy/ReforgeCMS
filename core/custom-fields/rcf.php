@@ -166,7 +166,6 @@
 	add_action("rcf/admin_render_settings", array($rcf, "render_settings"));
 	add_action("rcf/admin_render_rules", array($rcf, "render_rules"));
 
-
 	// now require field class files
 	require_once("fields/field-boolean.php");
 	require_once("fields/field-checkbox.php");

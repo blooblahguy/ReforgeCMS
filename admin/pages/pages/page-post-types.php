@@ -2,6 +2,7 @@
 
 class admin_page_POSTTYPES extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Design";
 		$this->name = "post_types";
 		$this->label = "Post Type";
 		$this->label_plural = "Post Types";
@@ -18,7 +19,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 	}
 
 	function render_index() {
-		global $db; 
+		global $db;
 
 		$post_types = $db->exec("SELECT * FROM post_types ORDER BY `order` ASC");
 		display_results_table($post_types, array(

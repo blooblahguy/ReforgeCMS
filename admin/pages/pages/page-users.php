@@ -2,6 +2,7 @@
 
 class admin_page_USERS extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Settings";
 		$this->name = "users";
 		$this->label = "User";
 		$this->label_plural = "Users";
@@ -63,7 +64,7 @@ class admin_page_USERS extends RF_Admin_Page {
 			$subject = ucfirst($user->username);
 		}
 
-		$roles = $db->query("SELECT * FROM roles ORDER BY `priority` ASC");
+		$roles = $db->exec("SELECT * FROM roles ORDER BY `priority` ASC");
 	?>
 		<div class="row">
 

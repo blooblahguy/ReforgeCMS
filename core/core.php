@@ -25,12 +25,16 @@
 
 			if (file_exists($path)) {
 				require_once($path);
+				break;
 			}
 		}
 	});
 
+	new Alerts();
+
 	// Database
-	$db = new DB\SQL(
+	require_once("controllers/class-db.php");
+	$db = new RFDB(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
 		"{$configuration["database_user"]}",
 		"{$configuration["database_password"]}",
@@ -70,7 +74,7 @@
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area
-			require_once($ROOT."/admin/admin.php");
+			require_once($root."/admin/admin.php");
 		} else {
 			// Functions
 			$content = new Content();
@@ -79,10 +83,10 @@
 
 			// now include view
 			if ($core->get("view")) {
-				require_once($ROOT."/content/".$core->get("view"));
+				require_once($root."/content/".$core->get("view"));
 			}
 		}
 	}
 
-	RF_Schema::instance()->update();
+	RF_Schema::instance()->setup();
 ?>

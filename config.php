@@ -20,7 +20,7 @@
 
 	## Helpers
 	$admin_path = $config['admin_path'];
-	$ROOT = $_SERVER['DOCUMENT_ROOT'];
+	$root = $_SERVER['DOCUMENT_ROOT'];
 	$PATH = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");	
 	list($CONTROLLER) = explode("/", $PATH);
 

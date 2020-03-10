@@ -2,6 +2,7 @@
 
 class admin_page_COMMENTS extends RF_Admin_Page {
 	function __construct() {
+		$this->category = "Content";
 		$this->name = "comments";
 		$this->label = "Comment";
 		$this->label_plural = "Comments";

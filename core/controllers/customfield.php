@@ -25,10 +25,11 @@
 
 		function load_all() {
 			global $db;
-			$cached = $this->get_cache($this->sl_name);
+			// debug($this->caches["fields"]);
+			// $cached = $this->get_cache($this->caches["fields"]);
 			$cfs = $db->exec("SELECT * FROM `{$this->model_table}`", null, $cached);
 			$cfs = rekey_array("id", $cfs);
-			$this->set_cache($this->sl_name);
+			// $this->set_cache($this->caches["fields"]);
 
 			return $cfs;
 		}

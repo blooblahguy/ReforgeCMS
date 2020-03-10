@@ -2,6 +2,7 @@
 
 class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function __construct() {
+		$this->name = "Settings";
 		$this->name = "custom_fields";
 		$this->label = "Custom Field";
 		$this->label_plural = "Custom Fields";

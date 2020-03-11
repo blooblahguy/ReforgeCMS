@@ -1,9 +1,9 @@
 <?
 	class Meta extends RF_Model {
 		function __construct() {
-			$this->model_table = "posts_meta";
+			$this->model_table = "post_meta";
 			$this->model_schema = array(
-				"post_id" => array(
+				"parent_id" => array(
 					"type" => "INT(7)",
 				),
 				"meta_type" => array(

@@ -27,7 +27,5 @@ class rcf_rule_USER extends rcf_rule {
 	}
 }
 
-// REGISTER
-new rcf_rule_USER();
 
 ?>

@@ -104,7 +104,7 @@ $("body").on("click", "[data-remove]", function() {
 			console.log(rule)
 
 			nanoajax.ajax({
-					url:'/core/custom_fields/rules/'+rule,
+					url:'/admin/custom_fields/rules/'+rule,
 				},
 				function (code, response) {
 					$(e).html(response)
@@ -138,7 +138,7 @@ $("body").on("click", "[data-remove]", function() {
 			var order = owner.siblings().length
 
 			nanoajax.ajax({
-					url:'/core/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order,
+					url:'/admin/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order,
 				},
 				function (code, response) {
 					owner.find(".field_settings").first().html(response)

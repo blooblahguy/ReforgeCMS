@@ -32,6 +32,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 			$theme = $args['theme_slug'];
 
 			$option = new Option();
+			$option->load("`key` = 'active_theme'");
 			$option->key = "active_theme";
 			$option->value = $theme;
 			$option->update();
@@ -79,7 +80,14 @@ class admin_page_THEMES extends RF_Admin_Page {
 
 		?>
 
-		<a href="/admin/themes/rescan" class="btn">Rescan Themes</a>
+		<div class="row content-middle padb2">
+			<div class="os-min padr2">
+				<h2 class="marg0">Themes</h2>
+			</div>
+			<div class="os padl2">
+				<a href="/admin/themes/rescan" class="btn">Rescan Themes</a>
+			</div>
+		</div>
 
 		<div class="row g2 themlist">
 			<? foreach ($themes as $slug => $info) {

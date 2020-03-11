@@ -27,7 +27,4 @@ class rcf_rule_POSTTYPE extends rcf_rule {
 	}
 }
 
-// REGISTER
-new rcf_rule_POSTTYPE();
-
 ?>

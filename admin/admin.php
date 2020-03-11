@@ -1,5 +1,4 @@
 <?
-	$admin_root = dirname(__FILE__);
 	require_once("functions.php");
 
 	if (! $user->logged_in()) {

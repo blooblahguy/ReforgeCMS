@@ -19,12 +19,50 @@ class reforge_field_REPEATER extends reforge_field {
 	}
 
 	// FIELD ADMIN HTML
-	function render_field($field) {
-		
+	function html($data, $field) {
+
+		// Get children
+		$children = array(
+			'fields' => $field['children'],
+			'source' => $data,
+			'parent' => $field['key']
+		);
+
+		debug($children);
+
+		$field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
+
+		?>
+
+		<div class="repeater_content">
+			<label for=""><?= $field['label']; ?></label>
+			<div class="sub_fields border pad2">
+				<? debug($data); ?>
+				<? rcf_get_view('group-fields', $children); ?>
+			</div>
+			<div class="footer pad1">
+				<a href="#" class="btn btn-sm pull-right cf-add" data-target=".sub_fields"><?= $field['button_label']; ?></a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<? $clone = array(
+			"key" => "\$key",
+			"parent" => "\$parent"
+		); ?>
+
+		<div class="<?= $field['key']; ?>">
+			template
+			<? rcf_get_view('group-field', array( 'data' => array(), 'field' => $clone, 'i' => 0 )); ?>
+		</div>
+		<?
+
+		// load view
+		// rcf_get_view('group-fields', $children);
 	}
 
 	// RENDER ADMIN FIELD EDITING
-	function render_field_settings($field) {
+	function options_html($field) {
 		// Get Subfields First
 		$args = array(
 			'fields'	=> $field['children'],
@@ -69,15 +107,7 @@ class reforge_field_REPEATER extends reforge_field {
 		));
 	}
 
-	// VALIDATE
-	function validate_value($valid, $value, $field, $input_name) {
-		$valid = true;
 
-		return $valid;
-	}
 }
-
-// REGISTER
-new reforge_field_REPEATER();
 
 ?>

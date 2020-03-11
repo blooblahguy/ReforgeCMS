@@ -30,22 +30,31 @@ class admin_page_POSTS extends RF_Admin_Page {
 			'author' => array(
 				"label" => "Author",
 				"calculate" => function($value, $id) {
-					debug($value);
 					$user = new User();
-					$user->load("id = $value", NULL, 10000);
-					return $user->username;
+					$username = $user->select("username", "id = $value");
+					return $username[0]->username;
 				}
 			),
 			'modified' => array(
 				"label" => "Updated",
 				"calculate" => function($value, $id) {
-					return Date("Y-m", strtotime($value));
+					$year = Date("Y", strtotime($value));
+					if ($year != Date("Y")) {
+						return Date("M jS Y, g:ia", strtotime($value));
+					} else {
+						return Date("M jS, g:ia", strtotime($value));
+					}
 				}
 			),
 			'created' => array(
 				"label" => "Created",
 				"calculate" => function($value, $id) {
-					return Date("Y-m", strtotime($value));
+					$year = Date("Y", strtotime($value));
+					if ($year != Date("Y")) {
+						return Date("M jS Y, g:ia", strtotime($value));
+					} else {
+						return Date("M jS, g:ia", strtotime($value));
+					}
 				}
 			),
 		);
@@ -79,6 +88,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 						"required" => true,
 					));
 
+					do_action("admin/custom_fields", "post");
+
 					?>
 				</div>
 			</div>
@@ -105,6 +116,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 	function save_page() {
 		$id = $this->id;
+		$user = new User();
+		$user->get_current_user();
 
 		$post = new Post();
 		$changed = "created";
@@ -116,6 +129,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->title = $_POST["title"];
 		$post->permalink = $_POST["permalink"];
 		$post->post_type = $this->name;
+		$post->author = $user->id;
 		$post->save();
 
 		$this->save_success($post->title, $changed, $post->id);

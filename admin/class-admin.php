@@ -1,6 +1,6 @@
 <?
 
-class RF_Admin extends \Prefab {
+class RF_Admin extends Prefab {
 	private $pages = array();
 
 	function __construct() {}

@@ -12,13 +12,27 @@ class reforge_field_TEXT extends reforge_field {
 		parent::__construct();
 	}
 
-	// FIELD ADMIN HTML
-	function render_field($field) {
+	//========================================================
+	// EDIT
+	//========================================================
+	function html($data, $field) {
+		$parent = $field['parent'];
+		$key = $field['key'];
 		
+		render_admin_field($data, array(
+			"type" => $field['type'],
+			"label" => $field['label'],
+			"name" => "meta[$parent][$key]",
+			"required" => $field['required'],
+			"placeholder" => $field['placeholder'],
+		));
 	}
 
-	// RENDER ADMIN FIELD EDITING
-	function render_field_settings($field) {
+
+	//========================================================
+	// OPTIONS EDIT
+	//========================================================
+	function options_html($field) {
 		// Default Value
 		rcf_render_field_setting($field, array(
 			"label" => "Default Value",
@@ -35,16 +49,6 @@ class reforge_field_TEXT extends reforge_field {
 			"placeholder" => "Placeholder",
 		));
 	}
-
-	// VALIDATE
-	function validate_value($valid, $value, $field, $input_name) {
-		$valid = true;
-
-		return $valid;
-	}
 }
-
-// REGISTER
-new reforge_field_TEXT();
 
 ?>

@@ -16,7 +16,7 @@
 		<input type="hidden" name="rcf_fields[<?= $key?>][ID]" value="<?= $meta['id']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
-		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_irder']; ?>" >
+		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
 	</div>
 	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
 		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1">(no label)</div>
@@ -59,8 +59,8 @@
 
 			// Render the field
 			echo '<div class="field_settings">';
-				do_action("rcf/render_field_settings", $field);
-				do_action("rcf/render_field_settings/type={$field['type']}", $field);
+				do_action("rcf/options_html", $field);
+				do_action("rcf/options_html/type={$field['type']}", $field);
 			echo '</div>';
 
 			// Required

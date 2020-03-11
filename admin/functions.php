@@ -71,8 +71,9 @@ function render_admin_title($title) {
 }
 function render_admin_field($field, $settings) {
 	$type = $settings["type"]; 
-	$name = $settings['name']; // field_key1231[name]
-	$value = $field[$settings["name"]];
+	$name = $settings["name"]; // field_key1231[name]
+	$value = is_string($field) ? $field : $field[$settings["name"]];
+	// $value = ;
 	$bind = "";
 	if ($settings["bind"]) {
 		$bind = " data-bind";

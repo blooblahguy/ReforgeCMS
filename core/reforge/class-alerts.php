@@ -1,5 +1,5 @@
 <?
-	class Alerts extends \Prefab {
+	class Alerts extends Prefab {
 		private function add($level, $message) {
 			global $core; 
 			// debug();

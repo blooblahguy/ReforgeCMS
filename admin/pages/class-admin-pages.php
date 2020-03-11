@@ -1,6 +1,6 @@
 <?
 
-	class RF_Admin_Pages extends \Prefab {
+	class RF_Admin_Pages extends Prefab {
 		var $pages = array();
 
 		function beforeroute($core, $args) {
@@ -20,7 +20,7 @@
 			$request["page_slug"] = $this->page->name;
 
 			// header
-			do_action("admin/before_header");
+			do_action("admin/before_header", $this->page->name);
 			require_once("views/header.php");
 		}
 		

@@ -17,8 +17,7 @@
 			if (isset($this->updated[$table])) { return; }
 
 			$cache = \Cache::instance();
-			$this->schemas[$table] = $fields;
-			$this->updated[$table] = true;
+			
 
 			$updating = false;
 			$hash = $this->hash($fields);
@@ -26,9 +25,11 @@
 
 			if (! $cached_hash || $cached_hash != $hash) {
 				$updating = true;
+				$this->schemas[$table] = $fields;
+				$this->updated[$table] = true;
+				$this->setup();
 			}
 
-			$this->setup();
 
 			return $updating;
 		}

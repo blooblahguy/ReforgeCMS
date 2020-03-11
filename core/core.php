@@ -6,7 +6,7 @@
 	// F3 Core
 	$core = require_once("vendor/fatfree-core/base.php");
 	$core->set("CACHE", true);
-	debug(Cache::instance()->load( true ));
+	$core->set("DEBUG", 3);
 	$core->set("salt", $configuration["salt"]);
 	
 	new Session();
@@ -17,20 +17,15 @@
 
 	// Autoloader
 	$class_paths = array();
+	$class_paths["reforge"] = '/core/reforge/%s.php';
 	$class_paths["controllers"] = '/core/controllers/%s.php';
-	$class_paths["admin"] = '/admin/controllers/%1$s/%1$s.php';
 	spl_autoload_register(function($class) {
-		global $class_paths, $core, $db;
-		$root = $_SERVER['DOCUMENT_ROOT'];
-		$name = strtolower($class);
+		global $root;
 
-		foreach ($class_paths as $string) {
-			$path = $root.sprintf($string, $name);
+		$path = $root."/core/controllers/$class.php";
 
-			if (file_exists($path)) {
-				require_once($path);
-				break;
-			}
+		if (file_exists($path)) {
+			require_once($path);
 		}
 	});
 
@@ -55,9 +50,9 @@
 	require_once("custom-fields/rcf.php");
 
 	$user = new User();
-	$option = new Option();
 	$user->get_current_user();
 
+	$option = new Option();
 	$options = $option->load_all();
 
 	if (count($options) == 0) {
@@ -74,7 +69,7 @@
 			require_once($root."/admin/admin.php");
 		} else {
 			// Functions
-			$content = new Content();
+			// $content = new Content();
 
 			$core->run();
 

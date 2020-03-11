@@ -51,6 +51,7 @@ class RF_Model extends \DB\SQL\Mapper {
 	}
 	function set_cache($key, $value = false) {
 		$cache = \Cache::instance();
+		if ($key == "fields") { return; }
 		$key = $this->caches[$key];
 
 		$cached = $cache->get($key);
@@ -68,7 +69,7 @@ class RF_Model extends \DB\SQL\Mapper {
 
 		$cached = $cache->get($key);
 		if (! $cached) {
-			$cached = 0.001;
+			$cached = NULL;
 		}
 
 		return $cached;

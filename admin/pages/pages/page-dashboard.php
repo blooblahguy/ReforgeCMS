@@ -11,6 +11,7 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		$this->icon = "speed";
 		$this->base_permission = "access_admin";
 		$this->link = "/admin/dashboard";
+		$this->disable_header = true;
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 		$core->route("GET /", "admin_page_DASHBOARD->goto_dashboard");

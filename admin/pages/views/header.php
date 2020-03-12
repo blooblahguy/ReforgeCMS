@@ -1,6 +1,5 @@
 <?
-global $options;
-$active_theme = $options['active_theme']['value'];
+$active_theme = get_option('active_theme');
 
 ?>
 <!DOCTYPE html>

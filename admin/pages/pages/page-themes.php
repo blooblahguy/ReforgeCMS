@@ -31,11 +31,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 		if ($this->can_save()) {
 			$theme = $args['theme_slug'];
 
-			$option = new Option();
-			$option->load("`key` = 'active_theme'");
-			$option->key = "active_theme";
-			$option->value = $theme;
-			$option->update();
+			set_option("active_theme", $theme);
 
 			\Alerts::instance()->success("Theme '{$theme}' activated");
 			redirect("/admin/themes");
@@ -74,9 +70,8 @@ class admin_page_THEMES extends RF_Admin_Page {
 	}
 
 	function render_index() {
-		global $options; 
 		$themes = $this->scan_themes();
-		$active = $options['active_theme']['value'];
+		$active = get_option('active_theme');
 
 		?>
 

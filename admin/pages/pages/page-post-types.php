@@ -28,7 +28,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 				"class" => "min",
 				"html" => '<i class="material-icons">%1$s</i>',
 			),
-			'label' => array(
+			'label_plural' => array(
 				"label" => "Name",
 				"html" => '<a href="post_types/edit/%2$d">%1$s</a>',
 			),

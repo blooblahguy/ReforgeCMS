@@ -18,7 +18,7 @@
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
 	</div>
-	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
+	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle border">
 		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1">(no label)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][slug]" class="os slug pad1">(no slug)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][type]" class="os type pad1">text</div>
@@ -53,7 +53,7 @@
 				'name' => 'type',
 				'type' => 'select',
 				'bind' => true,
-				'class' => 'field-type loaded',
+				'class' => 'field-type loaded rcf_dropdown',
 				'choices' => rcf_get_field_types()
 			));
 

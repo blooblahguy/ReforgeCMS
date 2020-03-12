@@ -56,7 +56,7 @@
 
 	$option = new Option();
 	$options = $option->load_all();
-
+	
 	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
 			require_once("setup.php");
@@ -71,7 +71,7 @@
 			require_once($root."/admin/admin.php");
 		} else {
 			// Functions
-			// $content = new Content();
+			$content = new Content();
 
 			$core->run();
 

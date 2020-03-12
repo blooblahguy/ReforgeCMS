@@ -37,7 +37,7 @@ class reforge_field_REPEATER extends reforge_field {
 			<div class="os repeater_<?= $context; ?> pad1">
 
 				<label for=""><?= $field['label']; ?></label>
-				<div class="repeater_body">
+				<div class="repeater_body row border">
 					<?
 					// loop through data to populate children layouts
 					for ($i = 0; $i < $data['meta_value']; $i++) {
@@ -67,49 +67,7 @@ class reforge_field_REPEATER extends reforge_field {
 		</div>
 
 		<?
-		
 
-		// debug("repeater", $field, $data);
-
-		// if ($data['meta_value'] > 0) {
-		// 	for ($i = 1; $i <= $data['meta_value']; $i++) {
-		// 		debug("looped");
-		// 	}
-		// }
-
-		// Get children
-		// $children = array(
-		// 	'fields' => $field['children'],
-		// 	'source' => $data,
-		// 	'parent' => $field['key']
-		// );
-
-		// debug($data);
-		// debug($field['children']);
-
-		// $field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
-
-		
-
-		// <div class="repeater_content">
-		// 	<label for=""></label>
-		// 	<div class="sub_fields border pad2">
-
-		// 	</div>
-		// 	<div class="footer pad1">
-		// 		<a href="#" class="btn btn-sm pull-right cf-add" data-target=".sub_fields"></a>
-		// 		<div class="clear"></div>
-		// 	</div>
-		// </div>
-
-		// <? $clone = array(
-		// 	"key" => "\$key",
-		// 	"parent" => "\$parent"
-		// );
-		
-
-		// load view
-		// rcf_get_view('group-fields', $children);
 	}
 
 	// RENDER ADMIN FIELD EDITING
@@ -123,9 +81,9 @@ class reforge_field_REPEATER extends reforge_field {
 
 		?>
 		<div class="fieldset sub_fields <?= $field["key"]; ?>">
-			<div class="row g1 padx1">
-				<div class="os-1">
-					<label for="" class="pady1">Sub Fields</label>
+			<div class="row padx1">
+				<div class="os-1 pad1">
+					<label for="" class="">Sub Fields</label>
 				</div>
 				<div class="os sub_fields">
 					<? rcf_get_view('group-settings', $args); ?>

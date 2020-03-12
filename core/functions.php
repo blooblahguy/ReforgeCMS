@@ -1,4 +1,12 @@
 <?
+	function array_extract($array, $key, $value) {
+		$new = array();
+		foreach ($array as $v) {
+			$new[$v[$key]] = $v[$value];
+		}
+
+		return $new;
+	}
 	function rekey_array($key, $array) {
 		$new = array();
 		foreach ($array as $v) {

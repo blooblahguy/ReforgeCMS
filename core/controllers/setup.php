@@ -38,6 +38,18 @@
 			$role->permissions = serialize(array("administrator"));
 			$role->save();
 
+			// post types
+			$page = new PostType();
+			$page->slug = "pages";
+			$page->label = "Page";
+			$page->label_plural = "Pages";
+			$page->public = 1;
+			$page->admin_menu = 1;
+			$page->icon = "layers";
+			$page->order = 2;
+			$page->statuses = 'a:1:{i:0;a:3:{s:4:"name";s:5:"test2";s:6:"status";s:5:"Draft";s:14:"default_status";i:1;}}';
+			$page->save();
+
 			$user = new User();
 			$user->username = $username;
 			$user->email = $email;
@@ -45,15 +57,9 @@
 			$user->role_id = $role->id;
 			$user->save();
 
-			$option = new Option();
-			$option->key = "sitename";
-			$option->value = $sitename;
-			$option->save();
-
-			$option = new Option();
-			$option->key = "active_theme";
-			$option->value = "reforge";
-			$option->save();
+			// default options
+			set_option("sitename", $sitename);
+			set_option("active_theme", "reforge2020");
 
 			$alert->message("First setup successful");
 			redirect("/admin");

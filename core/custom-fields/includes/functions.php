@@ -6,64 +6,10 @@ function rcf_get_field_types() {
 
 function rcf_render_field_setting($field, $settings) {
 	$type = $settings["type"]; 
-	$name = "rcf_fields[{$field['key']}][{$settings['name']}]"; // field_key1231[name]
 	$value = $field[$settings["name"]];
-	$bind = "";
-	if ($settings["bind"]) {
-		$bind = " data-bind";
-	}
-	$required = "";
-	if ($settings["required"]) {
-		$required = " required";
-	}
-	$class = "";
-	if ($settings["class"]) {
-		$class = $settings["class"];
-	}
-	if (! $settings["placeholder"]) {
-		$settings["placeholder"] = $settings["label"];
-	}
-	$choices = $settings["choices"];
+	$settings['name'] = "rcf_fields[{$field['key']}][{$settings['name']}]"; // field_key1231[name]
 
-	?>
-
-	<div class="fieldset <?= $settings["class"]; ?>">
-		<div class="row content-middle g1 padx1">
-			<div class="os-1">
-				<label for=""><?= $settings['label']; ?></label>
-			</div>
-			<div class="os">
-				<? if ($type == "checkbox") { ?>
-					<input type="checkbox" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
-				<? } elseif ($type == "number") { ?>
-					<input type="number" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
-				<? } elseif ($type == "text") { ?>
-					<input type="text" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
-				<? } elseif ($type == "select") { 
-					?>
-					<select name="<?= $name; ?>" class="rcf_dropdown type <?= $class; ?>" <?= $bind; ?>>
-						<?
-						foreach ($choices as $key => $option) { 
-							if (is_array($option)) { ?>
-								<optgroup label="<?= $key; ?>">
-									<? foreach ($option as $skey => $label) { ?>
-										<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
-									<? } ?>
-								</optgroup>
-							<? } else { ?>
-								<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
-							<? } ?>
-						<? } ?>
-					</select>
-				<? } ?>
-				
-			</div>
-		</div>
-	</div>
-
-	
-
-	<?
+	render_admin_field($value, $settings);
 }
 
 // include file with arguements

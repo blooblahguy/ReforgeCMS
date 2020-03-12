@@ -17,11 +17,28 @@
 		}
 
 		function load_all() {
-			$options = $this->select("*");
-			$options = rekey_array("key", $options);
+			$options = $this->query("SELECT * FROM {$this->model_table}");
+			$options = array_extract($options, "key", "value");
 
 			return $options;
 		}
 	}
 
+	function get_option($key) {
+		global $options;
+		return $options[$key];
+	}
+	function set_option($key, $value = "") {
+		global $options;
+		$option = new Option();
+		if ($options[$key]) {
+			$option->load("`key` = '{$key}'");
+		}
+
+		$option->key = $key;
+		$option->value = $value;
+		$option->save();
+
+		$options[$key] = $value;
+	}
 ?>

@@ -4,9 +4,9 @@
 		function __construct() {
 			global $core;
 			global $db;
-			global $options;
 
 			$pages = $db->exec("SELECT * FROM posts");
+			debug($pages);
 			foreach ($pages as $post) {
 				$core->route("GET {$post['permalink']}", "Content->page");
 			}

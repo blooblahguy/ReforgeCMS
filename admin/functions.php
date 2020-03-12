@@ -2,7 +2,7 @@
 
 function admin_page_title() {
 	global $request, $options;
-	$sitename = $options["sitename"]["value"];
+	$sitename = $options["sitename"];
 	$page_title = $request["page"]->label_plural;
 
 	echo "Admin | {$page_title} | {$sitename}";
@@ -70,8 +70,8 @@ function render_admin_title($title) {
 	<?
 }
 function render_admin_field($field, $settings) {
-	$type = $settings["type"]; 
-	$name = $settings["name"]; // field_key1231[name]
+	$type = $settings["type"];
+	$name = $settings["name"];
 	$value = is_string($field) ? $field : $field[$settings["name"]];
 	// $value = ;
 	$bind = "";
@@ -89,35 +89,54 @@ function render_admin_field($field, $settings) {
 	if (! $settings["placeholder"]) {
 		$settings["placeholder"] = $settings["label"];
 	}
+
+	$layout = " os-12";
+	if ($settings["layout"]) {
+		$layout = " ".$settings["layout"];
+	}
+
+	$style = "default";
+	if ($settings['style']) {
+		$style = $settings['style'];
+	}
 	
 	?>
 
-	<div class="fieldset <?= $settings["class"]; ?>">
-		<label for="<?= $name; ?>"><?= $settings['label']; ?></label>
-		<? if ($type == "checkbox") { ?>
-			<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-		<? } elseif ($type == "number") { ?>
-			<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-		<? } elseif ($type == "text") { ?>
-			<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-		<? } elseif ($type == "select") { 
-			$choices = $settings["choices"];
-			?>
-			<select name="<?= $name; ?>" id="<?= $name; ?>" class="rcf_dropdown type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
-				<?
-				foreach ($choices as $key => $option) { 
-					if (is_array($option)) { ?>
-						<optgroup label="<?= $key; ?>">
-							<? foreach ($option as $skey => $label) { ?>
-								<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
+	<div class="fieldset <?= $class.$layout; ?>">
+		<div class="row content-middle padx1">
+			<?if ($settings['label']) { ?>
+			<div class="os-1 pad1">
+				<label for=""><?= $settings['label']; ?></label>
+			</div>
+
+			<? } ?>
+			<div class="os">
+				<? if ($type == "checkbox") { ?>
+					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? } elseif ($type == "number") { ?>
+					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? } elseif ($type == "text") { ?>
+					<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? } elseif ($type == "select") { 
+					$choices = $settings["choices"];
+					?>
+					<select name="<?= $name; ?>" id="<?= $name; ?>" class="type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
+						<?
+						foreach ($choices as $key => $option) { 
+							if (is_array($option)) { ?>
+								<optgroup label="<?= $key; ?>">
+									<? foreach ($option as $skey => $label) { ?>
+										<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
+									<? } ?>
+								</optgroup>
+							<? } else { ?>
+								<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
 							<? } ?>
-						</optgroup>
-					<? } else { ?>
-						<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
-					<? } ?>
+						<? } ?>
+					</select>
 				<? } ?>
-			</select>
-		<? } ?>
+			</div>
+		</div>
 	</div>
 
 	

@@ -18,16 +18,40 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
-		echo "settings";
+	function render_index($core, $args) {
+		RF_Admin_Pages::instance()->edit($core, $args);
 	}
 
 	function render_edit() {
-		echo "edit";
+		$pages = new Post();
+		$pages = $pages->query("SELECT * FROM posts WHERE post_type = 'pages'");
+		$home_page = get_option("site_homepage");
+
+		?>
+		<div class="row content-middle padb2">
+			<div class="os-min padr2">
+				<h2 class="marg0">Settings</h2>
+			</div>
+		</div>
+		<div class="formsec">
+			<label for="">Site Homepage</label>
+			<select name="site_homepage">
+				<? foreach ($pages as $page) { ?>
+					<option value="<?= $page['id']; ?>" <? if ($page['id'] == $home_page) { echo "selected"; } ?>><?= $page['title']; ?></option>
+				<? } ?>
+			</select>
+		</div>
+
+		<input type="submit">
+		<?
 	}
 
 	function save_page($core, $args) {
+		debug("here");
+		set_option("site_homepage", $_POST['site_homepage']);
 
+		\Alerts::instance()->success("Setttings updated");
+		redirect($this->link);
 	}
 
 	function delete_page($core, $args) {

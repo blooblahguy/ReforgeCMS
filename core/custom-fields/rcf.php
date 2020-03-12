@@ -3,14 +3,16 @@
 	class RCF extends Prefab {
 		public $types = array();
 		public $rules = array();
+		public $loaded = array();
+		public $current_data = array();
 		public $directory = "";
 
 		function __construct() {
 			$this->directory = dirname(__FILE__);
 
 			// only load when on specific pages
-			add_action("admin/before_header", array($this, "load"));
-			add_action("admin/custom_fields", array($this, "load"));
+			// add_action("admin/before_header", array($this, "load"));
+			// add_action("admin/custom_fields", array($this, "load"));
 
 			// load fields and evalutate conditions
 			add_action("admin/custom_fields", array($this, "fields_load"));
@@ -19,13 +21,12 @@
 			add_action("rcf/admin_render_settings", array($this, "render_settings"));
 			add_action("rcf/admin_render_rules", array($this, "render_rules"));
 		}
-
 		
-		function load($slug) {
-			if ($slug == "post" || $slug == "custom_fields") {
-				require_once("includes/init.php");
-			}
-		}
+		// function load($slug) {
+		// 	if ($slug == "post" || $slug == "custom_fields") {
+				
+		// 	}
+		// }
 
 
 		function fields_load($type) {
@@ -54,22 +55,76 @@
 			}
 		}
 
-		function render_fields($cf_id, $page_id, $type) {
+		
+		function delete_all($type, $id) {
+			// if (! isset($this->loaded[$type.":".$id])) {
+				// $metas = new Meta();
 			global $db;
+			$this->loaded[$type.":".$id] = $db->query("DELETE FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
+			// }
+			// return $this->loaded[$type.":".$id];
+		}
+
+		function load_fields($type, $id) {
+			if (! isset($this->loaded[$type.":".$id])) {
+				$metas = new Meta();
+				$this->loaded[$type.":".$id] = $metas->query("SELECT * FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
+			}
+			return $this->loaded[$type.":".$id];
+		}
+
+		function save_fields($type, $id) {
+			$cf = new CustomField();
+
+			$metas = $_POST['rcf_meta'];
+			$current = $this->load_fields($type, $id);
+			$current = rekey_array("meta_key", $current);
+
+			// run save preperations
+			foreach ($metas as $key => &$values) {
+				$field = $this->types[ $values['type'] ];
+				$values = $field->prepare_save($values, $metas);
+			}
+
+			// $qry = "";
+			foreach ($metas as $key => $values) {
+				debug($key);
+				$meta = new Meta();
+				$meta->load("meta_key = '{$key}' ");
+				$meta->meta_parent = $id;
+				$meta->meta_type = $type;
+				$meta->meta_key = $key;
+				$meta->meta_value = $values['meta_value'];
+				$meta->meta_info = $values['meta_info'];
+				$meta->save();
+
+				unset($current[$key]);
+			}
+
+			foreach ($current as $key => $values) {
+				$meta = new Meta();
+				$meta->query("DELETE FROM {$meta->model_table} WHERE meta_key = '{$key}'");
+			}
+
+			// debug($current);
+		}
+
+		function render_fields($cf_id, $page_id, $type) {
+			// global $db;
 			$cf = new CustomField();
 			if ($cf_id > 0) {
 				$cf->load("id = $cf_id", null, 1);
 			}
 
-			// $metas = new Meta();
-			$data = $db->exec("SELECT * FROM post_meta WHERE meta_type = '{$type}' AND parent_id = {$page_id} AND meta_key = 'custom_fields' ");
-			$data = unserialize($data[0]['meta_value']);
+			$this->current_data = $this->load_fields($type, $page_id);
 
 			$view = array(
 				"fields" => $cf->get_fields(),
-				"source" => $data,
-				"parent" => 0
+				"context" => "",
 			);
+
+			$this->meta_type = $type;
+			$this->page_id = $page_id;
 
 			// load view
 			rcf_get_view('group-fields', $view);
@@ -83,7 +138,8 @@
 
 			$view = array(
 				"fields" => $cf->get_fields(),
-				"parent" => 0
+				"parent" => 0,
+				"post_id" => $id
 			);
 
 			// load view
@@ -144,4 +200,6 @@
 	}
 
 	RCF();
+
+	require_once("includes/init.php");
 ?>

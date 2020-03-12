@@ -4,6 +4,8 @@ class RF_Model extends \DB\SQL\Mapper {
 	public 
 		$model_schema,
 		$model_table,
+		$disable_created = false,
+		$disable_modified = false,
 		$ttl_default = 10000,
 		$caches = array();
 
@@ -55,6 +57,9 @@ class RF_Model extends \DB\SQL\Mapper {
 		$key = $this->caches[$key];
 
 		$cached = $cache->get($key);
+		// if ($this->model_table == "options") {
+		// 	var_dump($cached, "test");
+		// }
 		if (! $cached || $cached == 0.001) {
 			if (! $value) { $value = $this->ttl_default; }
 			$cache->set($key, $value);
@@ -67,12 +72,22 @@ class RF_Model extends \DB\SQL\Mapper {
 		$cache = \Cache::instance();
 		$key = $this->caches[$key];
 
-		$cached = $cache->get($key);
-		if (! $cached) {
-			$cached = NULL;
+		if ($cache->exists($key)) {
+			return $cache->get($key);
+		} else {
+			return $cache->clear($key);
 		}
 
-		return $cached;
+		// $cached = $cache->get($key);
+		// if ($this->model_table == "options") {
+		// 	debug("test");
+		// 	var_dump($key, $cached);
+		// }
+		// if (! $cached) {
+		// 	$cached = NULL;
+		// }
+
+		// return $cached;
 	}
 
 	function query($cmds, $args = NULL, $ttl = 0, $log=TRUE, $stamp = FALSE) {
@@ -87,10 +102,18 @@ class RF_Model extends \DB\SQL\Mapper {
 
 	// Cache Wrappers
 	function select($fields, $filter = NULL, array $options = NULL, $ttl = 0) {
-		$cached = $this->get_cache("fields");
+		$ttl = $this->get_cache("fields");
 		$this->set_cache("fields");
 
-		return parent::select($fields, $filter, $options, $cached);
+		// debug($this->model_table);
+
+		// if ($this->model_table == "options") {
+
+		// 	debug($fields);
+		// 	debug($ttl);
+		// }
+
+		return parent::select($fields, $filter, $options, $ttl);
 	}
 
 	// Schema builder / throttler
@@ -102,7 +125,10 @@ class RF_Model extends \DB\SQL\Mapper {
 		if (! $this->model_schema) { return; }
 
 		// Update this schema
-		return \RF_Schema::instance()->add($this->model_table, $this->model_schema);
+		return \RF_Schema::instance()->add($this->model_table, $this->model_schema, array(
+			"disable_created" => $this->disable_created, 
+			"disable_modified" => $this->disable_modified
+		));
 	}
 }
 

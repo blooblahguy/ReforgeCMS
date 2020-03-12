@@ -1,9 +1,9 @@
 <?
 	$key = $field["key"];
 	$parent = $field["parent"];
+	$field['post_id'] = isset($field['post_id']) ? $field['post_id'] : $post_id;
 
 	$meta = array(
-		'ID' => $field['ID'],
 		'key' => $field['key'],
 		'parent' => $field['parent'],
 		'menu_order' => $i,
@@ -11,7 +11,7 @@
 
 ?>
 
-<div class="rcf_field rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>">
+<div class="rcf_field rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
 	<div class="meta">
 		<input type="hidden" name="rcf_fields[<?= $key?>][ID]" value="<?= $meta['id']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
@@ -53,7 +53,7 @@
 				'name' => 'type',
 				'type' => 'select',
 				'bind' => true,
-				'class' => 'field-type',
+				'class' => 'field-type loaded',
 				'choices' => rcf_get_field_types()
 			));
 

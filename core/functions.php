@@ -157,11 +157,12 @@
 	}
 
 	function debug(...$params) {
+		echo "<pre>";
 		foreach ($params as $p) {
-			echo "<pre>";
 			print_r($p);
-			echo "</pre>";
+			echo "\n";
 		}
+		echo "</pre>";
 	}
 
 	function redirect($path) {

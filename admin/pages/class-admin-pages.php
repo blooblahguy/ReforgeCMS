@@ -64,7 +64,7 @@
 		function edit($core, $args) {
 			if ($this->page->can_edit()) {
 				$this->page->render_title();
-				echo "<form action='{$this->page->route}/save/{$this->page->id}' method='POST'>";
+				echo "<form target='_blank' action='{$this->page->route}/save/{$this->page->id}' method='POST'>";
 					do_action("admin/page/edit_before", $this->page);
 					$this->page->render_edit($core, $args);
 					do_action("admin/page/edit_after", $this->page);

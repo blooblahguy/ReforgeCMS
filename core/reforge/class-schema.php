@@ -2,6 +2,7 @@
 	class RF_Schema extends \Prefab {
 		protected $schemas = array(),
 			$updated = array(),
+			$options = array(),
 			$prefix = "rf_";
 
 		function __construct() {
@@ -17,15 +18,15 @@
 			if (isset($this->updated[$table])) { return; }
 
 			$cache = \Cache::instance();
-			
 
 			$updating = false;
-			$hash = $this->hash($fields);
+			$hash = $this->hash(array($fields, $options));
 			$cached_hash = $cache->get($this->prefix.$table);
 
 			if (! $cached_hash || $cached_hash != $hash) {
 				$updating = true;
 				$this->schemas[$table] = $fields;
+				$this->options[$table] = $options;
 				$this->updated[$table] = true;
 				$this->setup();
 			}
@@ -60,22 +61,22 @@
 			global $db;
 			$cache = \Cache::instance();
 
-			$update = false;
-			foreach ($this->schemas as $table => $fields) {
-				$hash = $this->hash($fields);
-				$cached_hash = $cache->get($this->prefix.$table);
+			// $update = false;
+			// foreach ($this->schemas as $table => $fields) {
+			// 	$hash = $this->hash(array($fields, $this->options[$table]));
+			// 	$cached_hash = $cache->get($this->prefix.$table);
 
-				if (! $cached_hash || $cached_hash != $hash) {
-					$update = true;
-					break;
-				}
-			}
+			// 	if (! $cached_hash || $cached_hash != $hash) {
+			// 		$update = true;
+			// 		break;
+			// 	}
+			// }
 
-			if (! $update) { return; }
+			// if (! $update) { return; }
 
 			// Loop through schemas and update those which need it
 			foreach ($this->schemas as $table => $fields) {
-				$hash = $this->hash($fields);
+				$hash = $this->hash(array($fields, $this->options[$table]));
 				$cached_hash = $cache->get($this->prefix.$table);
 
 				if (! $cached_hash) {
@@ -88,9 +89,14 @@
 						$qry .= ", ";
 					}
 
-					// always have these fields
-					$qry .= "`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, ";
-					$qry .= "`modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ";
+					// auto created/modified
+					if ($this->options[$table]["disable_created"] === false) {
+						$qry .= "`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, ";
+					}
+					if ($this->options[$table]["disable_modified"] === false) {
+						$qry .= "`modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ";
+					}
+
 					$qry .= "UNIQUE KEY id (id))";
 					// debug($qry);
 					$db->exec($qry);
@@ -110,8 +116,13 @@
 
 					// Unset these so we don't drop or update them
 					unset($columns['id']);
-					unset($columns['created']);
-					unset($columns['modified']);
+
+					if ($this->options[$table]["disable_created"] === false) {
+						unset($columns['created']);
+					}
+					if ($this->options[$table]["disable_modified"] === false) {
+						unset($columns['modified']);
+					}
 
 					foreach ($fields as $name => $info) {
 						$col = $this->column_sql($name, $info);
@@ -144,7 +155,7 @@
 					// anything left over should be dropped as a column
 					foreach ($columns as $name => $values) {
 						$qry = "ALTER TABLE `{$table}` DROP COLUMN `{$name}` ";
-						// debug($qry);
+						debug($qry);
 						$db->exec($qry);
 					}
 

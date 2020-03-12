@@ -1,25 +1,46 @@
 <?
 
-class RF_Cache extends Prefab {
+class Cache extends Magic {
 	const MODE = 0755
 		, TEMP = 'tmp/';
 
 	protected $engine
+		, $data
+		, $key
 		, $prefix;
 
-	function __construct($engine = false) {
-		$this->load($engine);
+	//==================================
+	// Create a new cache basket
+	//==================================
+	function __construct($key = "cache") {
+		$this->key = $key;
+		$this->load();
 	}
 
-	function load($engine) {
+    function exists($key) {
+        return array_key_exists($key,$this->data);
+    }
+
+    function set($key, $val) {
+        $this->data[$key] = $val;
+    }
+
+    function &get($key) {
+        return $this->data[$key];
+    }
+
+    function clear($key) {
+        unset($this->data[$key]);
+    }
+
+	function load() {
 
 		// Try to load APC
 		$engine = ( $grep = preg_grep('/^(apc)/', array_map('strtolower', get_loaded_extensions()))) ?
-			// Auto-detect
-			current($grep):
-
-			// Use filesystem as fallback
-			('folder='.$this->TEMP.'cache/');
+		// Auto-detect
+		current($grep) :
+		// Use filesystem as fallback
+		('folder='.$this->TEMP.'cache/');
 
 		// If we ended up with folder cache, then create the folder
 		if (preg_match('/^folder\h*=\h*(.+)/', $engine, $parts) && ! is_dir($parts[1])) {
@@ -29,20 +50,14 @@ class RF_Cache extends Prefab {
 		$this->engine = $engine;
 	}
 
-	function set($key) {
-
-	}
-
-	function get($key) {
-
-	}
-
-	function clear($key) {
-		$parts = explode('=', $this->engine, 2);
 
 
-		return false;
-	}
+	// function clear($key) {
+	// 	$parts = explode('=', $this->engine, 2);
+
+
+	// 	return false;
+	// }
 }
 
 

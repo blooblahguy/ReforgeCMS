@@ -17,7 +17,6 @@
 		}
 
 		function load_all() {
-			global $db;
 			$options = $this->select("*");
 			$options = rekey_array("key", $options);
 

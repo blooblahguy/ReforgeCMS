@@ -1,7 +1,5 @@
 <?
 
-debug("init");
-
 require_once("functions.php");
 require_once("field.php");
 require_once("rule.php");

@@ -9,8 +9,8 @@
 					<br>
 					<br>
 					<? 
-					global $db; 
-					debug($db); ?>
+					//global $db; 
+					//debug($db->logs); ?>
 				</div>
 			</div>
 		</div>

@@ -89,7 +89,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 					));
 
 					do_action("admin/custom_fields", "post");
-
 					?>
 				</div>
 			</div>
@@ -114,7 +113,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		<?
 	}
 
-	function save_page() {
+	function save_page($core, $args) {
 		$id = $this->id;
 		$user = new User();
 		$user->get_current_user();
@@ -126,13 +125,25 @@ class admin_page_POSTS extends RF_Admin_Page {
 			$post->load("id = $id");
 		}
 
+		$metas = $_POST['rcf_meta'];
+		RCF()->save_fields("post", $id);
+
+		// poopulate group meta values with # children
+		
+
+		// debug($args);
+
+		// debug($data);
+
+		// debug($metas);
+
 		$post->title = $_POST["title"];
 		$post->permalink = $_POST["permalink"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;
-		$post->save();
+		// $post->save();
 
-		$this->save_success($post->title, $changed, $post->id);
+		// $this->save_success($post->title, $changed, $post->id);
 	}
 
 	function delete_page() {

@@ -16,6 +16,9 @@
 				"fieldset" => array(
 					"type" => "LONGTEXT",
 				),
+				"active" => array(
+					"type" => "INT(1)",
+				),
 			);
 
 			parent::__construct();

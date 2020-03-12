@@ -49,13 +49,15 @@
 	// include custom fields
 	require_once("custom-fields/rcf.php");
 
+	$meta = new Meta();
+	
 	$user = new User();
 	$user->get_current_user();
 
 	$option = new Option();
 	$options = $option->load_all();
 
-	if (count($options) == 0) {
+	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
 			require_once("setup.php");
 		});

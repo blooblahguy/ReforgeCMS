@@ -19,43 +19,94 @@ class reforge_field_REPEATER extends reforge_field {
 	}
 
 	// FIELD ADMIN HTML
-	function html($data, $field) {
+	function html($data, $field, $context) {
+		$index = 0;
+		// collect children first, to make developing visually easier
+		$children = $field['children'];
+		unset($field['children']);
 
-		// Get children
-		$children = array(
-			'fields' => $field['children'],
-			'source' => $data,
-			'parent' => $field['key']
-		);
-
-		debug($children);
+		// field is not ready for any layout
+		if (! isset($children)) { return; }
 
 		$field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
 
 		?>
 
-		<div class="repeater_content">
-			<label for=""><?= $field['label']; ?></label>
-			<div class="sub_fields border pad2">
-				<? debug($data); ?>
-				<? rcf_get_view('group-fields', $children); ?>
+		<div class="cf_repeater row">
+			<div class="os-min bg-grey order pad1" style="min-height: 100%; "></div>
+			<div class="os repeater_<?= $context; ?> pad1">
+
+				<label for=""><?= $field['label']; ?></label>
+				<div class="repeater_body">
+					<?
+					// loop through data to populate children layouts
+					for ($i = 0; $i < $data['meta_value']; $i++) {
+						rcf_get_view('group-fields', array(
+							'fields' => $children,
+							"context" => $context,
+							"index" => $i
+						));
+						$index++;
+					}
+					?>
+				</div>
 			</div>
-			<div class="footer pad1">
-				<a href="#" class="btn btn-sm pull-right cf-add" data-target=".sub_fields"><?= $field['button_label']; ?></a>
-				<div class="clear"></div>
+			<div class="repeater_footer bg-grey pad1 os-12 text-right">
+				<div class="btn btn-sm" data-template=".<?= $context; ?>_template" data-replace="index" data-index="<?= $index; ?>" data-target=".repeater_<?= $context; ?>"><?= $field['button_label']; ?></div>
 			</div>
+			<template class="<?= $context; ?>_template">
+				<? 
+				$template = array( 
+					'fields' => $children,
+					"context" => $context,
+					"index" => "\$index"
+				);
+
+				rcf_get_view('group-fields', $template); ?>
+			</template>
 		</div>
 
-		<? $clone = array(
-			"key" => "\$key",
-			"parent" => "\$parent"
-		); ?>
-
-		<div class="<?= $field['key']; ?>">
-			template
-			<? rcf_get_view('group-field', array( 'data' => array(), 'field' => $clone, 'i' => 0 )); ?>
-		</div>
 		<?
+		
+
+		// debug("repeater", $field, $data);
+
+		// if ($data['meta_value'] > 0) {
+		// 	for ($i = 1; $i <= $data['meta_value']; $i++) {
+		// 		debug("looped");
+		// 	}
+		// }
+
+		// Get children
+		// $children = array(
+		// 	'fields' => $field['children'],
+		// 	'source' => $data,
+		// 	'parent' => $field['key']
+		// );
+
+		// debug($data);
+		// debug($field['children']);
+
+		// $field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
+
+		
+
+		// <div class="repeater_content">
+		// 	<label for=""></label>
+		// 	<div class="sub_fields border pad2">
+
+		// 	</div>
+		// 	<div class="footer pad1">
+		// 		<a href="#" class="btn btn-sm pull-right cf-add" data-target=".sub_fields"></a>
+		// 		<div class="clear"></div>
+		// 	</div>
+		// </div>
+
+		// <? $clone = array(
+		// 	"key" => "\$key",
+		// 	"parent" => "\$parent"
+		// );
+		
 
 		// load view
 		// rcf_get_view('group-fields', $children);
@@ -65,8 +116,9 @@ class reforge_field_REPEATER extends reforge_field {
 	function options_html($field) {
 		// Get Subfields First
 		$args = array(
-			'fields'	=> $field['children'],
-			'parent'	=> $field['key']
+			'fields' => $field['children'],
+			'parent' => $field['key'],
+			'post_id' => $field['post_id']
 		);
 
 		?>
@@ -108,6 +160,25 @@ class reforge_field_REPEATER extends reforge_field {
 	}
 
 
+
+	function prepare_save($meta, $metas) {
+		$key = $meta['meta_key'];
+
+		// count the repeater children and store that as the value
+		if (! isset($meta['meta_value'])) {
+			$children = 0;
+			foreach ($metas as $name => $sub_m) {
+				preg_match('/('.$key.')(?:_)([0-9])(_.*)/', $name, $matches);
+				// debug($matches);
+				if ($matches[2] != "") {
+					$children = max($children, (int) $matches[2] + 1);
+				}
+			}
+			$meta['meta_value'] = $children;
+		}
+
+		return $meta;
+	}
 }
 
 ?>

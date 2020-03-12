@@ -12,6 +12,17 @@ function rcf_render_field_setting($field, $settings) {
 	if ($settings["bind"]) {
 		$bind = " data-bind";
 	}
+	$required = "";
+	if ($settings["required"]) {
+		$required = " required";
+	}
+	$class = "";
+	if ($settings["class"]) {
+		$class = $settings["class"];
+	}
+	if (! $settings["placeholder"]) {
+		$settings["placeholder"] = $settings["label"];
+	}
 	$choices = $settings["choices"];
 
 	?>
@@ -23,14 +34,14 @@ function rcf_render_field_setting($field, $settings) {
 			</div>
 			<div class="os">
 				<? if ($type == "checkbox") { ?>
-					<input type="checkbox" name="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
+					<input type="checkbox" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
 				<? } elseif ($type == "number") { ?>
-					<input type="number" name="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
+					<input type="number" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
 				<? } elseif ($type == "text") { ?>
-					<input type="text" name="<?= $name; ?>" value="<?= $value?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
+					<input type="text" name="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?>>
 				<? } elseif ($type == "select") { 
 					?>
-					<select name="<?= $name; ?>" class="rcf_dropdown type" <?= $bind; ?>>
+					<select name="<?= $name; ?>" class="rcf_dropdown type <?= $class; ?>" <?= $bind; ?>>
 						<?
 						foreach ($choices as $key => $option) { 
 							if (is_array($option)) { ?>

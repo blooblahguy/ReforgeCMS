@@ -16,15 +16,40 @@
 			// Ajax field display
 			$core->route("GET /admin/custom_fields/settings/{$this->name}", function($core, $args) {
 				$type = $this->name;
+				// attempt to load existing layout if it exists
+				if ($_GET['post_id'] > 0) {
+					$cf = new CustomField();
+					$cf->load("id = {$_GET['post_id']}", null, 1);
+					$fields = $cf->get_fields();
 
-				$field = array(
-					"key" => $_GET['key'],
-					"parent" => $_GET['parent'],
-					"menu_order" => $_GET['menu_order']
-				);
+					$field = $this->find_field_table($_GET['field_key'], $fields);
+				} 
+				// didn't load correctly or didn't request an existing layout
+				if ($_GET['post_id'] == 0 || ! isset($field)) {
+					$field = array(
+						"fields" => "",
+						"key" => $_GET['field_key'],
+						"parent" => $_GET['parent_key'],
+						"menu_order" => $_GET['menu_order']
+					);
+				}
+
+				$field['post_id'] = $_GET['post_id'];
 
 				do_action("rcf/options_html/type={$type}", $field);
 			});
+		}
+
+		// recursive data finder
+		function find_field_table($key, $fields) {
+			foreach ($fields as $id => $field) {
+				if ($id == $key) {
+					return $field;
+				}
+				if (isset($field['children'])) {
+					return $this->find_field_table($key, $field['children']);
+				}
+			}
 		}
 
 		function add_field_action($action, $func, $priority = 10) {
@@ -36,6 +61,10 @@
 		function load_value() {
 			global $request;
 			$page_id = $request["page_id"];
+		}
+
+		function prepare_save($meta, $metas) {
+			return $meta;
 		}
 	}
 

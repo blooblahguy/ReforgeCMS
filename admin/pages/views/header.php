@@ -1,3 +1,8 @@
+<?
+global $options;
+$active_theme = $options['active_theme']['value'];
+
+?>
 <!DOCTYPE html>
 <html lang="en" class="h100">
 <head>
@@ -5,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= admin_page_title(); ?></title>
 	<link rel="stylesheet" href="/admin/css/dist/style.php">
-	<link rel="shortcut icon" href="/content/img/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="/content/themes/<?= $active_theme; ?>/img/favicon.png" type="image/x-icon" />
 </head>
 <body class="h100">
 	<div class="wrapper h100">

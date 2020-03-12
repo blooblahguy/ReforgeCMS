@@ -3,27 +3,22 @@ $("body").on("click", "[data-template]", function() {
 	var self = $(this)
 	var target = $(this).attr("data-target")
 	var template = $($(this).attr("data-template"))
-	var replace = $(this).attr("data-replace")
-	var data = replace.split(",")
 	var html = template.html()
 
-	$.each(data, function(i, e) {
-		var r = self.attr("data-"+e)
-		var repreg = new RegExp("\\$"+e, "gi")
-		html = html.replace(repreg, r)
-	})
 
-	// var index = $(this).attr("data-index") || 0
-	// var key = $(this).attr("data-key")
-	// if (! key) {
-	// 	key = index
-	// }
-
-	// .replace(/\$key/gi, key)
+	var replace = $(this).attr("data-replace")
+	if (replace) {
+		var data = replace.split(",")
+			$.each(data, function(i, e) {
+			var r = self.attr("data-"+e)
+			var repreg = new RegExp("\\$"+e, "gi")
+			html = html.replace(repreg, r)
+		})
+	}
 
 	$(target).append(html);
 	if ($(this).attr("data-index")) {
-		$(this).attr("data-index", parseInt(index) + 1)
+		$(this).attr("data-index", parseInt($(this).attr("data-index")) + 1)
 	}
 })
 
@@ -133,15 +128,24 @@ $("body").on("click", "[data-remove]", function() {
 			var type = $(e).val()
 
 			var owner = $(e).parents(".rcf_field").first()
+			var post_id = owner.data("post_id")
 			var key = owner.data("key")
 			var parent = owner.data("parent")
 			var order = owner.siblings().length
 
+			var url = '/admin/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order+'&post_id='+post_id;
+
+			console.log(url)
+
 			nanoajax.ajax({
-					url:'/admin/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order,
+					url: url,
 				},
 				function (code, response) {
 					owner.find(".field_settings").first().html(response)
+
+					$("[data-bind]").each(function(i, e) {
+						update_binded_values(e)
+					})
 				}
 			)
 		})

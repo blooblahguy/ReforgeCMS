@@ -1,0 +1,7 @@
+<?
+
+class Media extends Prefab {
+	
+}
+
+?>

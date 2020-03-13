@@ -41,7 +41,7 @@ class reforge_field_REPEATER extends reforge_field {
 					<?
 					// loop through data to populate children layouts
 					for ($i = 0; $i < $data['meta_value']; $i++) {
-						rcf_get_view('group-fields', array(
+						rcf_get_template('group-fields', array(
 							'fields' => $children,
 							"context" => $context,
 							"index" => $i
@@ -62,7 +62,7 @@ class reforge_field_REPEATER extends reforge_field {
 					"index" => "\$index"
 				);
 
-				rcf_get_view('group-fields', $template); ?>
+				rcf_get_template('group-fields', $template); ?>
 			</template>
 		</div>
 
@@ -86,7 +86,7 @@ class reforge_field_REPEATER extends reforge_field {
 					<label for="" class="">Sub Fields</label>
 				</div>
 				<div class="os sub_fields">
-					<? rcf_get_view('group-settings', $args); ?>
+					<? rcf_get_template('group-settings', $args); ?>
 				</div>
 			</div>
 		</div>

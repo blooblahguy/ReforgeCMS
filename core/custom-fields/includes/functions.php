@@ -13,8 +13,8 @@ function rcf_render_field_setting($field, $settings) {
 }
 
 // include file with arguements
-function rcf_get_view( $file = '', $args = array() ) {
-	$path = RCF()->directory."/views/".$file;
+function rcf_get_template( $file = '', $args = array() ) {
+	$path = RCF()->directory."/templates/".$file;
 	
 	// allow view file name shortcut
 	if( substr($file, -4) !== '.php' ) {

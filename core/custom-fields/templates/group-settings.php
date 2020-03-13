@@ -8,7 +8,7 @@
 			<? 
 			if ($fields) {
 				foreach( $fields as $i => $field ) {
-					rcf_get_view('group-setting', array( 'field' => $field, 'i' => $i, "post_id" => $post_id ));
+					rcf_get_template('group-setting', array( 'field' => $field, 'i' => $i, "post_id" => $post_id ));
 				}
 			}
 			?>
@@ -27,5 +27,5 @@
 ); ?>
 
 <template class="blank_field">
-	<? rcf_get_view('group-setting', array( 'field' => $clone, 'i' => 0 )); ?>
+	<? rcf_get_template('group-setting', array( 'field' => $clone, 'i' => 0 )); ?>
 </template>

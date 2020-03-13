@@ -126,7 +126,7 @@
 			$this->page_id = $page_id;
 
 			// load view
-			rcf_get_view('group-fields', $view);
+			rcf_get_template('group-fields', $view);
 		}
 
 		function render_settings($id) {
@@ -142,7 +142,7 @@
 			);
 
 			// load view
-			rcf_get_view('group-settings', $view);
+			rcf_get_template('group-settings', $view);
 		}
 
 		function render_rules($id) {
@@ -154,7 +154,7 @@
 			$rules = array("all_rules" => $cf->get_rules());
 
 			// load view
-			rcf_get_view('group-rules', $rules);
+			rcf_get_template('group-rules', $rules);
 		}
 
 

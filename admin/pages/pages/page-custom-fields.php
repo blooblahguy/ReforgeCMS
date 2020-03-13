@@ -98,6 +98,10 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$fields = $_POST['rcf_fields'];
 		$fieldset = $this->build_hierarchy($fields);
 
+		// debug($fieldset);
+
+		// return;
+
 		// LOAD RULES
 		$load_conditions = $_POST["load_conditions"];
 		$rules = array();

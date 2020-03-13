@@ -73,6 +73,7 @@ function render_admin_field($field, $settings) {
 	$type = $settings["type"];
 	$name = $settings["name"];
 	$value = is_string($field) ? $field : $field[$settings["name"]];
+
 	// $value = ;
 	$bind = "";
 	if ($settings["bind"]) {
@@ -111,8 +112,9 @@ function render_admin_field($field, $settings) {
 
 			<? } ?>
 			<div class="os">
-				<? if ($type == "checkbox") { ?>
-					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? if ($type == "checkbox") {
+					$checked = (int) $value == 1 ? "checked" : ""; ?>
+					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "number") { ?>
 					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "text") { ?>

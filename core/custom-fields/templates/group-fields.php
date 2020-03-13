@@ -21,7 +21,7 @@ foreach ($fields as $field_id => $field) {
 		}
 	}
 
-	rcf_get_view('group-field', array(
+	rcf_get_template('group-field', array(
 		'field' => $field,
 		'context' => $key,
 		"data" => $data,

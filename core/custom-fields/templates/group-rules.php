@@ -15,7 +15,7 @@ if (count($all_rules) == 0) {
 		<div class="os">
 			<div class="rcf_rules">
 				<? foreach( $all_rules as $group => $rules ) { 
-					rcf_get_view('group-rule', array( 'rules' => $rules, 'group' => $group ));
+					rcf_get_template('group-rule', array( 'rules' => $rules, 'group' => $group ));
 				} ?>
 			</div>
 			<a href="#" class="btn bt-mini rcf-add-rulegroup" data-target=".rcf_rules" data-index="<?= count($rules); ?>">Or</a>
@@ -31,5 +31,5 @@ if (count($all_rules) == 0) {
 	)
 ?>
 <template class="blank_rule">
-	<? rcf_get_view('group-rule', array("rules" => array($clone), "group" => "\$group")); ?>
+	<? rcf_get_template('group-rule', array("rules" => array($clone), "group" => "\$group")); ?>
 </template>

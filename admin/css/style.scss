@@ -10,6 +10,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 
 .sticky {position: sticky; position: -webkit-sticky; top: -1px; }
 // .cfheader {background: $white; margin: -$g2; padding: $g2; top: -$g2; box-shadow: 0 2px 10px rgba(0, 0, 0, .1)}
+.container {max-width: none; padding-left: $g2; padding-right: $g2;  }
 
 //===========================================
 // TYPEOGRAPHY

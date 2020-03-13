@@ -20,9 +20,9 @@ $active_theme = get_option('active_theme');
 			<div class="os content_outer">
 				<div class="top_outer text-right pad1 bg-black">
 					<a href="/" class="view padx2 pady1">View Website</a>
-					<a href="/admin/logout" class="self-end padx2 pady1">Logout</a>
+					<a href="/logout" class="self-end padx2 pady1">Logout</a>
 				</div>
+				<? display_alerts(); ?>
 				<div class="content_inner pad2 padb4">
-					<? display_alerts(); ?>
 				
 			

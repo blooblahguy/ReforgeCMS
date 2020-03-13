@@ -1,17 +1,17 @@
 <?
 	class Alerts extends Prefab {
 		private function add($level, $message) {
-			global $core; 
+			// global $core; 
 			// debug();
-			$stored = $core->get("SESSION.alerts");
+			$stored = session()->get("alerts");
 			if (! $stored) {
-				$core->set("SESSION.alerts", array());
+				session()->set("alerts", array());
 			}
 
 			$stored[$level] = isset($stored[$level]) ? $stored[$level] : array();
 			$stored[$level][$message] = $message;
 
-			$core->set("SESSION.alerts", $stored);
+			session()->set("alerts", $stored);
 		}
 
 		function message($message) {
@@ -34,8 +34,9 @@
 			global $core;
 
 			if ($level == "all") {
-				$stored = $core->get("SESSION.alerts");
+				$stored = session()->get("alerts");
 				if (! $stored) {return;}
+				echo '<div class="message_outer container pady2">';
 				foreach ($stored as $level => $messages) {
 					$message = "";
 					foreach ($messages as $key => $string) {
@@ -45,10 +46,12 @@
 				}
 				
 				$stored = array();
-				$core->set("SESSION.alerts", $stored);
+				session()->set("alerts", $stored);
+				echo '</div>';
 			} else {
-				$stored = $core->get("SESSION.alerts");
+				$stored = session()->get("alerts");
 				if (! $stored) {return;}
+				echo '<div class="message_outer container pady2">';
 				foreach ($stored[$level] as $level => $messages) {
 					$message = "";
 					foreach ($messages as $key => $string) {
@@ -57,7 +60,8 @@
 					$this->print($level, $message);
 				}
 				unset($stored[$level]);
-				$core->set("SESSION.alerts", $stored);
+				session()->set("alerts", $stored);
+				echo '</div>';
 			}
 
 		}

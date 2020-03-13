@@ -5,7 +5,7 @@ class rcf_rule {
 	protected function __construct() {
 		global $core;
 
-		$core->route("GET /core/custom_fields/rules/{$this->name}", "{$this->rule_class}->render_choices");
+		$core->route("GET /admin/custom_fields/rules/{$this->name}", "{$this->rule_class}->render_choices");
 
 		// register in main class
 		RCF::instance()->register_rule_type($this);

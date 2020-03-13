@@ -7,21 +7,21 @@ class RF_Admin extends Prefab {
 }
 
 // Include Files
-require_once("pages/class-admin-page.php");
-require_once("pages/class-admin-pages.php");
-require_once("pages/pages/page-comments.php");
-require_once("pages/pages/page-custom-fields.php");
-require_once("pages/pages/page-dashboard.php");
-require_once("pages/pages/page-forms.php");
-require_once("pages/pages/page-menus.php");
-require_once("pages/pages/page-post-types.php");
-require_once("pages/pages/page-posts.php");
-require_once("pages/pages/page-roles.php");
-require_once("pages/pages/page-settings.php");
-require_once("pages/pages/page-users.php");
-require_once("pages/pages/page-widgets.php");
-require_once("pages/pages/page-plugins.php");
-require_once("pages/pages/page-themes.php");
+include("pages/class-admin-page.php");
+include("pages/class-admin-pages.php");
+include("pages/pages/page-comments.php");
+include("pages/pages/page-custom-fields.php");
+include("pages/pages/page-dashboard.php");
+include("pages/pages/page-forms.php");
+include("pages/pages/page-menus.php");
+include("pages/pages/page-post-types.php");
+include("pages/pages/page-posts.php");
+include("pages/pages/page-roles.php");
+include("pages/pages/page-settings.php");
+include("pages/pages/page-users.php");
+include("pages/pages/page-widgets.php");
+include("pages/pages/page-plugins.php");
+include("pages/pages/page-themes.php");
 
 $admin = new RF_Admin;
 

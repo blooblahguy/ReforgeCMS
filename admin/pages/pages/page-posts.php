@@ -30,9 +30,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 			'author' => array(
 				"label" => "Author",
 				"calculate" => function($value, $id) {
-					$user = new User();
-					$username = $user->select("username", "id = $value");
-					return $username[0]->username;
+					$user = get_user($id);
+					return $user->username;
 				}
 			),
 			'modified' => array(
@@ -115,8 +114,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 	function save_page($core, $args) {
 		$id = $this->id;
-		$user = new User();
-		$user->get_current_user();
+		$user = current_user();
 
 		$post = new Post();
 		$changed = "created";
@@ -125,7 +123,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 			$post->load("id = $id");
 		}
 
-		$metas = $_POST['rcf_meta'];
 		RCF()->save_fields("post", $id);
 
 		// poopulate group meta values with # children
@@ -141,9 +138,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->permalink = $_POST["permalink"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;
-		// $post->save();
+		$post->save();
 
-		// $this->save_success($post->title, $changed, $post->id);
+		$this->save_success($post->title, $changed, $post->id);
 	}
 
 	function delete_page() {

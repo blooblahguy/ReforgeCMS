@@ -64,6 +64,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 
 	private function build_hierarchy($source) {
 		$nested = array();
+		if (! isset($source)) { return array(); }
 
 		foreach ($source as &$field) {
 			if ($field["parent"] == "0") {
@@ -100,19 +101,21 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		// LOAD RULES
 		$load_conditions = $_POST["load_conditions"];
 		$rules = array();
-		foreach ($load_conditions as $group => $conditions) {
-			$set = array();
-			foreach ($conditions["key"] as $id => $value) {
-				$set[$id]["key"] = $value;
-			}
-			foreach ($conditions["expression"] as $id => $value) {
-				$set[$id]["expression"] = $value;
-			}
-			foreach ($conditions["value"] as $id => $value) {
-				$set[$id]["value"] = $value;
-			}
+		if (isset($load_conditions)) {
+			foreach ($load_conditions as $group => $conditions) {
+				$set = array();
+				foreach ($conditions["key"] as $id => $value) {
+					$set[$id]["key"] = $value;
+				}
+				foreach ($conditions["expression"] as $id => $value) {
+					$set[$id]["expression"] = $value;
+				}
+				foreach ($conditions["value"] as $id => $value) {
+					$set[$id]["value"] = $value;
+				}
 
-			$rules[$group] = $set;
+				$rules[$group] = $set;
+			}		
 		}		
 
 		// debug($rules);

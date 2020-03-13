@@ -1,9 +1,9 @@
 <?
-	require_once("functions.php");
+	include("functions.php");
 
-	if (! $user->logged_in()) {
+	if (! $current_user->logged_in()) {
 		$core->route("GET *", function($core, $args) {
-			require_once("pages/views/login.php");
+			include("pages/views/login.php");
 		});
 
 		$core->route("POST /admin/login", "User::login", 0, 32);
@@ -12,15 +12,11 @@
 	} else {
 		$admin_menu = array();
 		$request = array();
-		$request["user_id"] = $user->id;
-		$request["user_role"] = $user->role_id;
+		$request["user_id"] = $current_user->id;
+		$request["user_role"] = $current_user->role_id;
 
-
-		require_once("class-admin.php");
-		do_action("admin/user_logged_in", $user->id);
-
-		// Pages
-		// require_once("pages/class-admin-pages.php");
+		include("class-admin.php");
+		do_action("admin/user_logged_in", $current_user->id);
 
 		// run routes now
 		do_action("admin/init");

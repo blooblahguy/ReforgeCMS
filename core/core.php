@@ -1,19 +1,13 @@
 <?
 	// Base Functionality
-	require_once("functions.php");
-	require_once("hook.php");
+	include("functions.php");
+	include("hook.php");
 
 	// F3 Core
-	$core = require_once("vendor/fatfree-core/base.php");
+	$core = include("vendor/fatfree-core/base.php");
 	$core->set("CACHE", true);
-	$core->set("DEBUG", 3);
+	$core->set("DEBUG", 1);
 	$core->set("salt", $configuration["salt"]);
-	
-	new Session();
-	require_once("reforge/class-alerts.php");
-	require_once("reforge/class-db.php");
-	require_once("reforge/class-model.php");
-	require_once("reforge/class-schema.php");
 
 	// Autoloader
 	$class_paths = array();
@@ -25,9 +19,15 @@
 		$path = $root."/core/controllers/$class.php";
 
 		if (file_exists($path)) {
-			require_once($path);
+			include($path);
 		}
 	});
+
+	include("reforge/class-alerts.php");
+	include("reforge/class-db.php");
+	include("reforge/class-model.php");
+	include("reforge/class-schema.php");
+	include("reforge/session.php");
 
 	// Database
 	$db = new RFDB(
@@ -47,38 +47,35 @@
 	queue_script("/core/js/custom_fields.js", 10);
 	
 	// include custom fields
-	require_once("custom-fields/rcf.php");
+	include("custom-fields/rcf.php");
 
 	$meta = new Meta();
 	
-	$user = new User();
-	$user->get_current_user();
+	$current_user = new User();
+	$current_user->get_user();
 
 	$option = new Option();
 	$options = $option->load_all();
 	
 	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
-			require_once("setup.php");
+			include("setup.php");
 		});
 		$core->route("POST /setup", "Setup::process");
 		
 		$core->run();
 	} else {
+		$core->route("GET|POST /logout", "User->logout");
+
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area
-			require_once($root."/admin/admin.php");
+			include($root."/admin/admin.php");
 		} else {
-			// Functions
-			$content = new Content();
+			// Theme manager
+			Content::instance();
 
 			$core->run();
-
-			// now include view
-			if ($core->get("view")) {
-				require_once($root."/content/".$core->get("view"));
-			}
 		}
 	}
 ?>

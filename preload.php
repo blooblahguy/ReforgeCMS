@@ -4,7 +4,6 @@ $files = array();
 $files[] = "core/vendor/fatfree-core/base.php";
 $files[] = "core/vendor/fatfree-core/f3.php";
 $files[] = "core/vendor/fatfree-core/magic.php";
-$files[] = "core/vendor/fatfree-core/session.php";
 $files[] = "core/vendor/fatfree-core/bcrypt.php";
 $files[] = "core/vendor/fatfree-core/audit.php";
 $files[] = "core/vendor/fatfree-core/basket.php";

@@ -2,7 +2,7 @@
 
 class RF_Admin_Page {
 	function __construct() {
-		global $core, $user, $admin_menu;
+		global $core, $current_user, $admin_menu;
 
 		if (! $this->link) {
 			$this->link = "/admin/{$this->name}";
@@ -53,29 +53,29 @@ class RF_Admin_Page {
 	 * Permission Functionality
 	 */
 	function can_view($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
+		global $current_user;
+		if (! $current_user->can($this->base_permission)) {
 			return false;
 		}
 		return true;
 	}
 	function can_edit($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
+		global $current_user;
+		if (! $current_user->can($this->base_permission)) {
 			return false;
 		}
 		return true;
 	}
 	function can_save($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
+		global $current_user;
+		if (! $current_user->can($this->base_permission)) {
 			return false;
 		}
 		return true;
 	}
 	function can_delete($args = array()) {
-		global $user;
-		if (! $user->can($this->base_permission)) {
+		global $current_user;
+		if (! $current_user->can($this->base_permission)) {
 			return false;
 		}
 		return true;

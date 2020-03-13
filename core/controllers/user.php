@@ -1,14 +1,17 @@
 <?
 
+
+
+
 	class User extends RF_Model {
-		private $logged_in = false,
+		public $logged_in = false;
+		private
 			$uid = 0,
-			$token = 0,
 			$permissions = false;
 
-		function __construct() {
-			global $db, $core;
 
+		function __construct() {
+			
 			$this->model_table = "users";
 			$this->model_schema = array(
 				"username" => array(
@@ -32,28 +35,24 @@
 			parent::__construct();
 		}
 
-		function get_user($id) {
-			$rs = $this->load("id = ".$this->uid);
-			if ($rs !== false) {
-				return $this;
-			}
-			return false;
-		}
-
-		function get_current_user() {
-			if ($this->remembered()) {
-				$rs = $this->load("id = ".$this->uid, null, 10 * 10);
-				if ($rs !== false) {
+		function get_user($id = 0) {
+			if ($id === 0) {
+				if ($this->remembered()) {
+					$user_id = session()->get("user_id");
+					$this->load("id = $user_id");
 					$this->logged_in = true;
 				}
+			} else {
+				$this->load("id = $id");
 			}
 		}
 
 
 		static function logout($core, $args) {
 			global $db;
-			
-			$core->clear("SESSION.user_id");
+
+			session()->clear("user_id");
+			var_dump(session()->get("user_id"));
 
 			$cookie = isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] : false;
 
@@ -108,7 +107,7 @@
 					$db->exec("DELETE FROM login_cookies WHERE created < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY)) "); 
 
 					// save in session now
-					$core->set("SESSION.user_id", $user["id"]);
+					session()->set("user_id", $user["id"]);
 
 					// now log them in
 					$db->exec("UPDATE users SET last_login = NOW() WHERE email = :email", array(
@@ -129,8 +128,9 @@
 			global $db;
 
 			// using session to see if they're logged in
-			if ($core->get('SESSION.user_id')) { 
-				$this->uid = $core->get('SESSION.user_id');
+			$session = session()->get('user_id');
+			if ($session !== null) { 
+				$this->uid = $session;
 				return true;
 			}
 
@@ -149,14 +149,13 @@
 
 			foreach ($cookies as $saved) {
 				if ($token == $saved["token"]) {
-					$core->set('SESSION.user_id', $saved['user_id']);
+					session()->set('user_id', $saved['user_id']);
 					setcookie('rememberme', $user_id.":".$token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
 					$rs = $db->exec("UPDATE login_cookies SET created = NOW() WHERE token = :token AND user_id = :user_id", array(
 						":token" => $token,
 						":user_id" => $user_id	
 					)); // reup the database save date
 
-					// $this->token = $token;
 					$this->uid = $user_id;
 
 					return true;
@@ -214,6 +213,31 @@
 		function logged_in() {
 			return $this->logged_in;
 		}
+	}
+
+	// Check if current user is logged in
+	function logged_in() {
+		$user = current_user();
+		
+		return $user->logged_in;
+	}
+
+	function get_user($id = 0) {
+		// current user
+		$current = current_user();
+		if ($id == 0 || $id == $current->id) { return current_user(); }
+
+		$user = new User();
+		$user->get_user($id);		
+	}
+
+	function current_user() {
+		if (! Registry::exists("current_user")) {
+			$user = new User();
+			$user->get_user();
+			Registry::set("current_user", $user);
+		}
+		return Registry::get("current_user");
 	}
 
 	// Login Cookies

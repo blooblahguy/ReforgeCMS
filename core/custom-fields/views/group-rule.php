@@ -37,7 +37,7 @@ if ($group !== 0) {
 			</div>
 			<div class="os">
 				<? if (! $selceted_rule) {$selceted_rule = $first_rule; } ?>
-				<select name="load_conditions[<?= $group; ?>][value][]" class="rule_values">
+				<select name="load_conditions[<?= $group; ?>][value][]" class="rule_values loaded">
 					<? RCF::instance()->get_rule_type_choices($selceted_rule, $current_value); ?>
 				</select>
 			</div>

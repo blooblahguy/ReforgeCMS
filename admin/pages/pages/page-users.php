@@ -55,11 +55,10 @@ class admin_page_USERS extends RF_Admin_Page {
 		global $db;
 		$id = $this->id;
 
-		$user = new User();
+		$user = get_user($id);
 		$action = "Create";
 		$subject = "User";
 		if ($id > 0) {
-			$user->load("id = $id");
 			$action = "Edit";
 			$subject = ucfirst($user->username);
 		}

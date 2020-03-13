@@ -17,5 +17,5 @@
 	$sheets[] = $root."/core/css/openskull/_grid.scss";
 	$sheets[] = "../style.scss";
 
-	require_once("build.php");
+	include("build.php");
 ?>

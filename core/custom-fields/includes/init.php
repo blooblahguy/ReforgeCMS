@@ -1,8 +1,8 @@
 <?
 
-require_once("functions.php");
-require_once("field.php");
-require_once("rule.php");
+include("functions.php");
+include("field.php");
+include("rule.php");
 
 //===============================================
 // Field Types

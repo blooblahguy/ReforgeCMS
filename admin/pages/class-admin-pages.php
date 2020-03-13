@@ -21,7 +21,7 @@
 
 			// header
 			do_action("admin/before_header", $this->page->name);
-			require_once("views/header.php");
+			include("views/header.php");
 		}
 		
 		function afterroute($core, $args) {
@@ -30,7 +30,7 @@
 			// lastly, footer
 			do_action("admin/before_footer");
 			queue_script("/admin/js/admin.js", 15);
-			require_once("views/footer.php");
+			include("views/footer.php");
 		}
 
 		function register_page($class) {

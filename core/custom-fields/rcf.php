@@ -74,39 +74,38 @@
 		}
 
 		function save_fields($type, $id) {
-			$cf = new CustomField();
+			// $cf = new CustomField();
 
 			$metas = $_POST['rcf_meta'];
 			$current = $this->load_fields($type, $id);
 			$current = rekey_array("meta_key", $current);
 
 			// run save preperations
-			foreach ($metas as $key => &$values) {
-				$field = $this->types[ $values['type'] ];
-				$values = $field->prepare_save($values, $metas);
-			}
+			if (isset($metas)) {
+				foreach ($metas as $key => &$values) {
+					$field = $this->types[ $values['type'] ];
+					$values = $field->prepare_save($values, $metas);
+				}
 
-			// $qry = "";
-			foreach ($metas as $key => $values) {
-				debug($key);
-				$meta = new Meta();
-				$meta->load("meta_key = '{$key}' ");
-				$meta->meta_parent = $id;
-				$meta->meta_type = $type;
-				$meta->meta_key = $key;
-				$meta->meta_value = $values['meta_value'];
-				$meta->meta_info = $values['meta_info'];
-				$meta->save();
+				foreach ($metas as $key => $values) {
+					debug($key);
+					$meta = new Meta();
+					$meta->load("meta_key = '{$key}' AND meta_parent = {$id} AND meta_type = '{$type}'");
+					$meta->meta_parent = $id;
+					$meta->meta_type = $type;
+					$meta->meta_key = $key;
+					$meta->meta_value = $values['meta_value'];
+					$meta->meta_info = $values['meta_info'];
+					$meta->save();
 
-				unset($current[$key]);
+					unset($current[$key]);
+				}
 			}
 
 			foreach ($current as $key => $values) {
 				$meta = new Meta();
-				$meta->query("DELETE FROM {$meta->model_table} WHERE meta_key = '{$key}'");
+				$meta->query("DELETE FROM {$meta->model_table} WHERE meta_key = '{$key}' AND meta_type = '{$type}' AND meta_parent = $id ");
 			}
-
-			// debug($current);
 		}
 
 		function render_fields($cf_id, $page_id, $type) {
@@ -201,5 +200,5 @@
 
 	RCF();
 
-	require_once("includes/init.php");
+	include("includes/init.php");
 ?>

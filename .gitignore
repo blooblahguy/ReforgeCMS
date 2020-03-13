@@ -1,5 +1,6 @@
 content/plugins/
 content/themes/
+content/uploads/*
 tmp/
 
 !content/themes/reforge2020/

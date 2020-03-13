@@ -75,34 +75,14 @@
 	}
 
 	function rf_scripts() {
-		global $core;
 		global $rf_scripts;
 		ksort($rf_scripts);
 
-
-		$scripts = $core->get("scripts");
-		if (! $scripts) {
-			$files = array();
-			$scripts_by_dirs = array();
-			foreach ($rf_scripts as $priority => $scripts) {
-				foreach ($scripts as $k => $file) {
-					$files[] = $_SERVER["DOCUMENT_ROOT"].$file;
-			// 		$path = $_SERVER['DOCUMENT_ROOT'].dirname($file)."/";
-			// 		// debug($path, basename($file));
-			// 		$scripts_by_dirs[$path][] = basename($file);
-				}
+		foreach ($rf_scripts as $priority => $scripts) {
+			foreach ($scripts as $k => $file) {
+				echo '<script src="'.$file.'"></script>';
 			}
-			// debug($files);
-
-			// foreach ($scripts_by_dirs as $path => $files) {
-				// debug($files);
-				// $files = rtrim($files, ",");
-				// $scripts = trim(Web::instance()->minify($files, null, false, ''));
-			// }
-			// $core->set("scripts", $scripts);
 		}
-
-		echo "<script>$scripts</script>";
 	}
 
 	function slugify($string){

@@ -1,0 +1,6 @@
+.dropper {border: 2px dashed #ccc; position:relative;}
+.dropper .dropper_field {position: absolute; top: 0; bottom: 0; left: 0; right: 0; opacity:0; }
+.dropper.hover {background: rgb(211, 235, 255); }
+/* .progress {display:none;} */
+
+.dropper #preview img {max-width: 120px; max-height: 120px; }

@@ -49,43 +49,40 @@ $line-height: 1.8;
 $header-line-height: 1.5;
 
 $h1: (
-	size: 2.2rem
-	, color: inherit
+	size: 1.5rem
 	, font-weight: 500
 );
 $h2: (
-	size: 1.7rem
-	, color: inherit
-	, font-weight: 500
+	size: 1.3rem
+	, font-weight: 600
 );
 $h3: (
-	size: 1.5rem
-	, color: inherit
+	size: 1.2rem
 	, font-weight: 500
 );
 $h4: (
-	size: 1.3rem
-	, color: inherit
+	size: 1.1rem
 	, font-weight: 500
 );
 $h5: (
 	size: 1.0rem
-	, color: inherit
 	, font-weight: 500
 );
 $h6: (
 	size: 0.8rem
-	, color: inherit
 	, font-weight: 500
 );
 
 //============================================
 // LAYOUT
 //============================================
-$padding: 0.7rem;
 $viewport-md: 768px;
 $viewport-lg: 1024px;
 $z-int: 10; // z-index classes, how much should they space by?
+
+$custom_grids: (
+	"sv": 7
+);
 
 
 //============================================
@@ -130,11 +127,21 @@ $message-colors: (
 );
 
 // HELPER VARIABLES 
+$padding: 0.75rem;
+$mult: 1.2; // grow padding by multipler
 $g0: 0;
 $g1: $padding;
-$g2: $padding * 2;
-$g3: $padding * 3;
-$g4: $padding * 4;
+$g2: $padding * 2 * $mult;
+$g3: $padding * 3 * $mult;
+$g4: $padding * 4 * $mult;
+
+$sizings: (
+	0: 0,
+	1: $g1,
+	2: $g2, 
+	3: $g3, 
+	4: $g4
+);
 
 $z-bg: -1;
 $z-low: $z_int * 1;

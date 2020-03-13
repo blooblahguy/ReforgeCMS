@@ -83,7 +83,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						"type" => "text",
 						"label" => "Title",
 						"name" => "title",
-						"class" => "post_title",
+						"class" => "post_title margb2",
 						"required" => true,
 					));
 

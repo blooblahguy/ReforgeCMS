@@ -5,6 +5,7 @@
 
 	class User extends RF_Model {
 		public $logged_in = false;
+		public $role;
 		private
 			$uid = 0,
 			$permissions = false;
@@ -27,6 +28,9 @@
 				"role_id" => array(
 					"type" => "INT(7)"
 				),
+				"avatar" => array(
+					"type" => "VARCHAR(256)"
+				),
 				"last_login" => array(
 					"type" => "DATETIME",
 				)
@@ -41,9 +45,21 @@
 					$user_id = session()->get("user_id");
 					$this->load("id = $user_id");
 					$this->logged_in = true;
+					$this->check_avatar();
 				}
 			} else {
 				$this->load("id = $id");
+				$this->check_avatar();
+			}
+		}
+
+		function check_avatar() {
+			global $media;
+			if ($this->avatar == "") {
+				$img = new File();
+				$avatar = $img->create_id_img($this->username);
+				$this->avatar = $avatar;
+				$this->update();
 			}
 		}
 
@@ -166,16 +182,17 @@
 		}
 
 		// PERMISSIONS, YAY
-		function can($request) {
-
+		function can($request = null) {
 			if (! $this->permissions) {
 				$role = new Role();
 				$role->load("id = {$this->role_id}");
 				
 				// $rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
 				$this->permissions = unserialize($role->permissions);
+				$this->role = $role->label;
 			}
 			$permissions = $this->permissions;
+			if ($request == null) {return;}
 
 			if (is_array($request)) {
 				// return singular permission status
@@ -235,6 +252,7 @@
 		if (! Registry::exists("current_user")) {
 			$user = new User();
 			$user->get_user();
+			$user->can();
 			Registry::set("current_user", $user);
 		}
 		return Registry::get("current_user");

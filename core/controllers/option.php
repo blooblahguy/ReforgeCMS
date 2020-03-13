@@ -9,7 +9,9 @@
 					"unique" => true
 				),
 				"value" => array(
-					"type" => "LONGTEXT"
+					"type" => "LONGTEXT",
+					"default" => 0,
+					"nullable" => false,
 				)
 			);
 
@@ -30,10 +32,15 @@
 	}
 	function set_option($key, $value = "") {
 		global $options;
+		var_dump($key, $options[$key]);
+		var_dump(isset($options[$key]));
 		$option = new Option();
-		if ($options[$key]) {
+		if (isset($options[$key])) {
+		debug($key, $value);
 			$option->load("`key` = '{$key}'");
+			// debug()
 		}
+
 
 		$option->key = $key;
 		$option->value = $value;

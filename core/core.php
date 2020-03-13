@@ -7,6 +7,7 @@
 	$core = include("vendor/fatfree-core/base.php");
 	$core->set("CACHE", true);
 	$core->set("DEBUG", 1);
+	$core->set("UI", $root."/content/");
 	$core->set("salt", $configuration["salt"]);
 
 	// Autoloader
@@ -29,6 +30,11 @@
 	include("reforge/class-schema.php");
 	include("reforge/session.php");
 
+	// media manager
+	include("reforge/media/media.php");
+	include("reforge/media/file.php");
+	RF_Media::instance();
+
 	// Database
 	$db = new RFDB(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
@@ -44,12 +50,18 @@
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
 	queue_script("/core/js/core.js", 5);
-	queue_script("/core/js/custom_fields.js", 10);
+	queue_script("/core/custom-fields/js/custom_fields.js", 10);
 	
 	// include custom fields
 	include("custom-fields/rcf.php");
 
 	$meta = new Meta();
+
+	$media = Media::instance();
+	$media->add_size("thumbnail", 120, null, false);
+	$media->add_size("medium", 400, null, false);
+	$media->add_size("large", 1000, null, false);
+	$media->add_size("hero", 1400, 400);
 	
 	$current_user = new User();
 	$current_user->get_user();

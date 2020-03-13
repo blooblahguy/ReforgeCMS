@@ -58,7 +58,7 @@ function render_admin_title($title) {
 	?>
 	<div class="row content-middle padb2">
 		<div class="os-min padr2">
-			<h2 class="marg0"><?= $label; ?></h2>
+			<h1 class="marg0"><?= $label; ?></h1>
 		</div>
 		<? if ($btn) { ?>
 			<div class="os padl2">
@@ -115,6 +115,8 @@ function render_admin_field($field, $settings) {
 				<? if ($type == "checkbox") {
 					$checked = (int) $value == 1 ? "checked" : ""; ?>
 					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? } elseif ($type == "file") { ?>
+					<input type="file" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" <?= $required; ?>>
 				<? } elseif ($type == "number") { ?>
 					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "text") { ?>

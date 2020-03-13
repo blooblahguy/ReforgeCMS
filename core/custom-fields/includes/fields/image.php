@@ -16,8 +16,9 @@ class reforge_field_IMAGE extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
+		debug($data['name']);
 		render_admin_field($data, array(
-			"type" => $field['type'],
+			"type" => "file",
 			"label" => $field['label'],
 			"name" => $data["name"],
 			"required" => $field['required'],
@@ -45,6 +46,21 @@ class reforge_field_IMAGE extends reforge_field {
 				"os-3" => "1/4"
 			)
 		));
+	}
+
+	function prepare_save($meta, $metas) {
+
+		// get file array out of complexified file upload
+		$key = $meta['meta_key'];
+		$file = array();
+		foreach ($_FILES['rcf_meta'] as $k => $info) {
+			$file[$k] = $info[$key]['meta_value'];
+		}
+
+		$media = Media::instance();
+		$media->upload_image($file);
+
+		exit();
 	}
 }
 

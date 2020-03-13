@@ -15,7 +15,7 @@
 		$request["user_id"] = $current_user->id;
 		$request["user_role"] = $current_user->role_id;
 
-		include("class-admin.php");
+		include("init.php");
 		do_action("admin/user_logged_in", $current_user->id);
 
 		// run routes now

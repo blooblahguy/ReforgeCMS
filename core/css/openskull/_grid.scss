@@ -73,30 +73,35 @@
 	}
 	.os#{$name}-min {max-width: 100%; -ms-flex: none; flex: none; width: auto; }
 
-	// margins in breakpoints
-	@for $i from 4 through 0 {
-		$amount: $g1 * $i;
-		.#{$prefix}#{marg}#{$i} {margin: $amount !important;}
+	// custom grids
+	@each $name, $size in $custom_grids {
+
+		.custom_#{$name}_#{$size} {background: $black; }
+		@for $i from 1 through $size {
+			.os-#{$name}#{$i} {max-width: (100% / $size) * $i; -ms-flex: 0 0 (100% / $size) * $i; flex: 0 0 (100% / $size) * $i; width: 100%; }
+		}
 	}
-	@for $i from 04 through 0 {
-		$amount: $g1 * $i;
-		.#{$prefix}#{marg}t#{$i}, .#{$prefix}#{marg}y#{$i} {margin-top: $amount !important;}
-		.#{$prefix}#{marg}b#{$i}, .#{$prefix}#{marg}y#{$i} {margin-bottom: $amount !important;}
-		.#{$prefix}#{marg}l#{$i}, .#{$prefix}#{marg}x#{$i} {margin-left: $amount !important;}
-		.#{$prefix}#{marg}r#{$i}, .#{$prefix}#{marg}x#{$i} {margin-right: $amount !important;}
+
+	// margins in breakpoints
+	@each $i, $size in $sizings {
+		.#{$prefix}#{marg}#{$i} {margin: $size !important;}
+	}
+	@each $i, $size in $sizings {
+		.#{$prefix}#{marg}t#{$i}, .#{$prefix}#{marg}y#{$i} {margin-top: $size !important;}
+		.#{$prefix}#{marg}b#{$i}, .#{$prefix}#{marg}y#{$i} {margin-bottom: $size !important;}
+		.#{$prefix}#{marg}l#{$i}, .#{$prefix}#{marg}x#{$i} {margin-left: $size !important;}
+		.#{$prefix}#{marg}r#{$i}, .#{$prefix}#{marg}x#{$i} {margin-right: $size !important;}
 	}
 
 	// padding in breakpoints
-	@for $i from 4 through 0 {
-		$amount: $g1 * $i;
-		.#{$prefix}#{pad}#{$i} {padding:$amount !important;}
+	@each $i, $size in $sizings {
+		.#{$prefix}#{pad}#{$i} {padding: $size !important;}
 	}
-	@for $i from 4 through 0 {
-		$amount: $g1 * $i;
-		.#{$prefix}#{pad}t#{$i}, .#{$prefix}#{pad}y#{$i} {padding-top: $amount !important;}
-		.#{$prefix}#{pad}b#{$i}, .#{$prefix}#{pad}y#{$i} {padding-bottom: $amount !important;}
-		.#{$prefix}#{pad}l#{$i}, .#{$prefix}#{pad}x#{$i} {padding-left: $amount !important;}
-		.#{$prefix}#{pad}r#{$i}, .#{$prefix}#{pad}x#{$i} {padding-right: $amount !important;}
+	@each $i, $size in $sizings {
+		.#{$prefix}#{pad}t#{$i}, .#{$prefix}#{pad}y#{$i} {padding-top: $size !important;}
+		.#{$prefix}#{pad}b#{$i}, .#{$prefix}#{pad}y#{$i} {padding-bottom: $size !important;}
+		.#{$prefix}#{pad}l#{$i}, .#{$prefix}#{pad}x#{$i} {padding-left: $size !important;}
+		.#{$prefix}#{pad}r#{$i}, .#{$prefix}#{pad}x#{$i} {padding-right: $size !important;}
 	}
 }
 

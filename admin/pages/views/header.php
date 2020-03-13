@@ -1,6 +1,10 @@
 <?
 $active_theme = get_option('active_theme');
-
+$admin_theme = get_option("admin_theme");
+$theme = "theme_$admin_theme";
+if ($admin_theme == "dark") {
+	$theme .= " bg-black";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h100">
@@ -10,9 +14,11 @@ $active_theme = get_option('active_theme');
 	<title><?= admin_page_title(); ?></title>
 	<link rel="stylesheet" href="/admin/css/dist/style.php">
 	<link rel="shortcut icon" href="/content/themes/<?= $active_theme; ?>/img/favicon.png" type="image/x-icon" />
+
+	<? rf_styles(); ?>
 </head>
 <body class="h100">
-	<div class="wrapper h100">
+	<div class="wrapper h100 <?= $theme; ?>">
 		<div class="row h100">
 			<div class="os-min leftsidebar bg-black">
 				<? render_admin_menu(); ?>
@@ -23,6 +29,6 @@ $active_theme = get_option('active_theme');
 					<a href="/logout" class="self-end padx2 pady1">Logout</a>
 				</div>
 				<? display_alerts(); ?>
-				<div class="content_inner pad2 padb4">
+				<div class="content_inner pad2 padb4 <?= $theme; ?>">
 				
 			

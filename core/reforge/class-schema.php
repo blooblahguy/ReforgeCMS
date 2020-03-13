@@ -39,6 +39,9 @@
 			$qry = "`{$name}` {$info['type']}";
 
 			// options
+			if ($info["nullable"] === false) {
+				$qry .= " NOT NULL";
+			}
 			if ($info["default"]) {
 				$qry .= " DEFAULT '{$info['default']}'";
 			}
@@ -60,6 +63,8 @@
 		function setup() {
 			global $db;
 			$cache = \Cache::instance();
+
+			// $cache::reset();
 
 			// $update = false;
 			// foreach ($this->schemas as $table => $fields) {

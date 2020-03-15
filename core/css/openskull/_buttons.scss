@@ -2,7 +2,7 @@
 %btn-base {
 	$bg: $primary;
 
-	font-family: inherit; border: 1px solid transparent; background: $bg; text-decoration:none; padding: $g1 $g3; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($bg); line-height: $g2; font-size:0.9rem;
+	font-family: inherit; border: 1px solid transparent; background: $bg; text-decoration:none; padding: $g1 $g2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($bg); line-height: $g1; border-radius: 3px;
 	&:hover, &:focus {
 		$bg: hover($bg);
 
@@ -10,7 +10,7 @@
 	}
 
 	&#{-btn-lg}, &.btn-lg { padding: $g2 $g4; }
-	&#{-btn-sm}, &.btn-sm { padding: $g1 / 3 $g1; }
+	&#{-btn-sm}, &.btn-sm { padding: $g1 / 2 $g1; font-size: 0.8rem; }
 }
 
 .btn, a.btn, button, input[type="submit"], input[type="button"] {

@@ -25,7 +25,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$columns = array(
 			'title' => array(
 				"label" => "Title",
-				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
+				"html" => '<a class="pad1 display-block strong" href="'.$this->link.'/edit/%2$d">%1$s</a>',
 			),
 			'author' => array(
 				"label" => "Author",
@@ -77,15 +77,18 @@ class admin_page_POSTS extends RF_Admin_Page {
 		<div class="row">
 			<div class="os">
 				<div class="content pad2 padl0">
+					<div class="padb2">
+
 					<?
 
 					render_admin_field($post, array(
 						"type" => "text",
 						"label" => "Title",
 						"name" => "title",
-						"class" => "post_title margb2",
+						"class" => "post_title",
 						"required" => true,
 					));
+					echo '</div>';
 
 					do_action("admin/custom_fields", "post");
 					?>
@@ -95,17 +98,16 @@ class admin_page_POSTS extends RF_Admin_Page {
 			<div class="os-2 sidebar pad3">
 				<input type="submit" class="marg0" value="Save">
 				<hr>
-				<div class="formsec">
-					<label for="">Permalink</label>
-					<?
-					render_admin_field($post, array(
-						"type" => "text",
-						"name" => "permalink",
-						"class" => "post_permalink",
-						"required" => true,
-					));
-					?>
-				</div>
+				<?
+				render_admin_field($post, array(
+					"type" => "text",
+					"name" => "permalink",
+					"label" => "Permalink",
+					"layout" => "vertical",
+					"class" => "post_permalink",
+					"required" => true,
+				));
+				?>
 			</div>
 		</div>
 

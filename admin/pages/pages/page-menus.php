@@ -11,18 +11,82 @@ class admin_page_MENUS extends RF_Admin_Page {
 		$this->base_permission = "manage_menus";
 		$this->link = "/admin/{$this->name}";
 
-		// CUSTOM Routes (index, edit, and save are automatically created)
-
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	function render_index() {
-		
+	function render_index($core, $args) {
+		$menu = new Menu();
+		$menu = $menu->query("SELECT * FROM menus order by `order` ASC");
+		debug($menu);
+		?>
+
+		<?
 	}
 
-	function render_edit() {
-		
+	function menu_link($label, $permalink, $options) { ?>
+		<div class="pad1 border"></div>
+	<? }
+
+	function render_edit($core, $args) {
+		$id = $args['id'];
+
+		$pts = new PostType();
+		$pts = $pts->query("SELECT * FROM {$pts->model_table} WHERE public = 1 ORDER BY `order` ASC");
+
+		$posts = new Post();
+		$posts = $posts->query("SELECT * FROM {$posts->model_table} ORDER BY post_type ASC, modified DESC");
+
+		$menu = new Menu();
+		if ($id > 0) {
+			$menu->load("id = $id");
+		}
+
+		?>
+		<div class="row g2">
+			<div class="os-3">
+				<div class="rf_menu_links border">
+
+					<? foreach ($pts as $type) { ?>
+						<div class="accordion_handle pad1 menu_header" data-accordion=".<?= $type['slug']; ?>">
+							<?= $type['label_plural']; ?>
+						</div>
+						<div class="accordion collapsed <?= $type['slug']; ?> pad1">
+							<?
+							foreach ($posts as $post) {
+								if ($post['post_type'] == $type['slug']) { ?>
+									<div class="link_type row pad1 content-middle">
+										<label for="" class="os"><?= $post['title']; ?></label>
+										<div class="btn btn-sm os-min" data-replace="label,permalink" data-label="<?= $post['title']; ?>" data-permalink="<?= $post['permalink']; ?>" data-template=".menu_item" data-target=".rf_menu .links">Add</div>
+									</div>
+								<? }
+							}
+							?>
+						</div>
+					<? } ?>
+
+					<template class="menu_item">
+						$label
+						<br>
+						<input type="text">
+						$permalink
+					</template>
+				</div>
+			</div>
+			<div class="os">
+				<div class="rf_menu">
+					<label for="label">Menu Name</label>
+					<input type="text" name="label" value="<?= $menu->label; ?>" placeholder="Menu name...">
+
+					<div class="links padt2">
+						link
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<?
 	}
 
 	function save_page($core, $args) {

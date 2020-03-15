@@ -1,5 +1,5 @@
 <?
-	class Meta extends RF_Model {
+	class Menu extends RF_Model {
 		function __construct() {
 			$this->model_table = "menus";
 			$this->model_schema = array(
@@ -12,6 +12,9 @@
 				),
 				"links" => array(
 					"type" => "LONGTEXT"
+				),
+				"order" => array(
+					"type" => "INT(3)"
 				)
 			);
 

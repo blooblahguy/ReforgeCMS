@@ -1,14 +1,14 @@
 <?
 
-class admin_page_WIDGETS extends RF_Admin_Page {
+class admin_page_PARTIALS extends RF_Admin_Page {
 	function __construct() {
 		$this->category = "Design";
-		$this->name = "widgets";
-		$this->label = "Widget";
-		$this->label_plural = "Widgets";
+		$this->name = "partials";
+		$this->label = "Partial";
+		$this->label_plural = "Partials";
 		$this->admin_menu = 80;
 		$this->icon = "widgets";
-		$this->base_permission = "manage_widgets";
+		$this->base_permission = "manage_partials";
 		$this->link = "/admin/{$this->name}";
 
 		// Be sure to set up the parent
@@ -16,7 +16,7 @@ class admin_page_WIDGETS extends RF_Admin_Page {
 	}
 
 	function render_index() {
-		echo "widgets index";
+		echo "Partials index";
 	}
 
 	function render_edit() {
@@ -57,6 +57,6 @@ class admin_page_WIDGETS extends RF_Admin_Page {
 	*/
 }
 
-new admin_page_WIDGETS();
+new admin_page_PARTIALS();
 
 ?>

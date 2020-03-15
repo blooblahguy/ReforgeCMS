@@ -136,9 +136,9 @@ class admin_page_ROLES extends RF_Admin_Page {
 		);
 
 		$defaults[] = array(
-			"slug" => "manage_widgets",
-			"label" => "Manage Widgets",
-			"description" => "Role can create, delete, or update widget and their logic and caching.",
+			"slug" => "manage_partials",
+			"label" => "Manage Partials",
+			"description" => "Role can create, delete, or update partials and their logic and caching.",
 		);
 
 		$defaults[] = array(

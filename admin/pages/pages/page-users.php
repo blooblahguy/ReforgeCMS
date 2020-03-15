@@ -64,28 +64,34 @@ class admin_page_USERS extends RF_Admin_Page {
 		}
 
 		$roles = $db->exec("SELECT * FROM roles ORDER BY `priority` ASC");
+		$roles = array_extract($roles, "id", "label");
 	?>
 		<div class="row">
 
 			<div class="os">
-				<div class="content pad2 padl0">
-					<div class="padb2">
-						<label for="">Username <span>*</span></label>
-						<input type="text" name="username" value="<?= $user->username?>" required placeholder="Username">
-					</div>
-					<div class="padb2">
-						<label for="">Email <span>*</span></label>
-						<input type="text" name="email" value="<?= $user->email?>" required placeholder="Email">
-					</div>
-					<div class="padb2">
-						<label for="">Role <span>*</span></label>
-						<select name="role_id" required>
-							<? foreach ($roles as $role) { ?>
-								<option value="<?= $role["id"]; ?>" <? if ($user->role_id == $role["id"]) {echo "selected"; }?>><?= $role["label"]; ?></option>
-							<? } ?>
-						</select>
-					</div>
-				</div>
+				<? 
+				render_admin_field($user, array(
+					"type" => "text",
+					"name" => "username",
+					"label" => "Username",
+					"required" => true
+				)); 
+
+				render_admin_field($user, array(
+					"type" => "text",
+					"name" => "email",
+					"label" => "Email",
+					"required" => true
+				)); 
+
+				render_admin_field($user, array(
+					"type" => "select",
+					"name" => "role_id",
+					"label" => "Role",
+					"required" => true,
+					"choices" => $roles
+				)); 
+				?>
 			</div>
 
 			<div class="os-2 sidebar pad3">

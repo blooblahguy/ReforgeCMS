@@ -96,18 +96,24 @@ function render_admin_field($field, $settings) {
 		$layout = " ".$settings["layout"];
 	}
 
-	$style = "default";
-	if ($settings['style']) {
-		$style = $settings['style'];
+	$layout = "horizontal";
+	if ($settings['layout']) {
+		$layout = $settings['layout'];
+	}
+
+	$label_size = "os-1 pad1";
+	if ($layout == "vertical") {
+		$label_size = "os-12";
+
 	}
 	
 	?>
 
 	<div class="fieldset <?= $class.$layout; ?>">
-		<div class="row content-middle padx1">
+		<div class="row content-middle">
 			<?if ($settings['label']) { ?>
-			<div class="os-1 pad1">
-				<label for=""><?= $settings['label']; ?></label>
+			<div class="<?= $label_size; ?>">
+				<label for="<?= $name; ?>"><?= $settings['label']; ?></label>
 			</div>
 
 			<? } ?>

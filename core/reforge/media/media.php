@@ -177,7 +177,7 @@ class RF_Media extends Prefab {
 	/**
 	 * Display gallery widget
 	 */
-	function display($size = "1") {
+	function display($size = "2") {
 		?>
 			<div class="rf_media">
 				<div id="dropper" class="dropper text-center pad4">

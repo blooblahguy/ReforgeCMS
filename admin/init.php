@@ -16,8 +16,8 @@ $pages["posts"] = "page-posts.php";
 $pages["roles"] = "page-roles.php";
 $pages["settings"] = "page-settings.php";
 $pages["users"] = "page-users.php";
-// $pages["widgets"] = "page-widgets.php";
-$pages["plugins"] = "page-plugins.php";
+$pages["partials"] = "page-partials.php";
+// $pages["plugins"] = "page-plugins.php";
 $pages["themes"] = "page-themes.php";
 
 foreach ($pages as $class => $path) {

@@ -1,5 +1,9 @@
 let dropper = document.getElementById('dropper')
 let progressBar = document.getElementById('dropper_progress')
+let preview = document.getElementById('preview')
+let gallery = document.getElementById('rf_gallery')
+var offset = gallery.getBoundingClientRect();
+gallery.style.cssText = "max-height: calc(100vh - "+(offset.top+40)+"px);"
 
 /** Events */
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -22,11 +26,6 @@ function preventDefaults(e) {
 	e.preventDefault();
 	e.stopPropagation();
 }
-function initializeProgress(numfiles) {
-	progressBar.value = 0
-	filesDone = 0
-	filesToDo = numfiles
-}
 
 function initializeProgress(numFiles) {
 	progressBar.value = 0
@@ -41,6 +40,13 @@ function updateProgress(fileNumber, percent) {
 	uploadProgress[fileNumber] = percent
 	let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
 	progressBar.value = total
+
+	if (total == 100) {
+		preview.innerHTML ='<div class="message-success">Successfully uploaded all images</div>';
+		window.setTimeout(function() {
+			location.reload();
+		}, 1000)
+	}
 }
 
 function handleDrop(e) {
@@ -69,9 +75,8 @@ function uploadFile(file, i) { // <- Add `i` parameter
 
 	xhr.addEventListener('readystatechange', function(e) {
 		if (xhr.readyState == 4 && xhr.status == 200) {
-		// Done. Inform the user
+			// Done. Inform the user
 			console.log(xhr.response)
-
 		}
 		else if (xhr.readyState == 4 && xhr.status != 200) {
 		// Error. Inform the user
@@ -89,7 +94,7 @@ function previewFile(file) {
 	reader.onloadend = function() {
 		let img = document.createElement('img')
 		img.src = reader.result
-		document.getElementById('preview').appendChild(img)
+		preview.appendChild(img)
 	}
 }
 

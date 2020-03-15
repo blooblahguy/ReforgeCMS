@@ -9,6 +9,7 @@ body input, body select, body textarea {
 	&:invalid {border-left-color: $warning; font-style: italic; }
 	&:invalid:focus, &:invalid:active {border-left-color: $error;}
 	&:required:not(:invalid) {border-left-color: $success;}
+	&:disabled {opacity: 0.5; cursor: not-allowed; }
 }
 
 textarea {resize: vertical;}
@@ -36,7 +37,6 @@ input[type="checkbox"], input[type="radio"] {
 
 	&:after {content: '';  position: absolute; border-radius: 50%; }
 	&:focus { box-shadow: 0 0 6px rgba($black, .25); }
-	&:disabled { opacity: 0.4; cursor:not-allowed; }
 }
 
 input[type="checkbox"] {

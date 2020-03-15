@@ -9,6 +9,7 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		$this->icon = "image";
 		$this->base_permission = "upload_files";
 		$this->link = "/admin/{$this->name}";
+		$this->disable_header = true;
 
 		// Be sure to set up the parent
 		parent::__construct();
@@ -18,6 +19,8 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		$media = RF_Media::instance();
 
 		$media->display();
+
+		// $media->display();
 		// global $db;
 		// $file = new File();
 		// $media = $db->exec("SELECT * FROM {$file->model_table} ORDER BY modified DESC");
@@ -25,8 +28,19 @@ class admin_page_MEDIA extends RF_Admin_Page {
 
 	}
 
-	function render_edit() {
-		
+	function render_edit($core, $args) {
+		$media = RF_Media::instance();
+
+		?>
+		<div class="row">
+			<div class="os media_main">
+				<?= $media->display("2"); ?>
+			</div>
+			<div class="os-3 media_edit">
+				<?= $media->edit($args['id']); ?>
+			</div>
+		</div>
+		<?
 	}
 
 	function save_page($core, $args) {

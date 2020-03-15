@@ -57,11 +57,10 @@
 
 	$meta = new Meta();
 
-	$media = Media::instance();
-	$media->add_size("thumbnail", 120, null, false);
+	$media = RF_Media::instance();
 	$media->add_size("medium", 400, null, false);
 	$media->add_size("large", 1000, null, false);
-	$media->add_size("hero", 1400, 400);
+	$media->add_size("hero", 1600, 400);
 	
 	$current_user = new User();
 	$current_user->get_user();

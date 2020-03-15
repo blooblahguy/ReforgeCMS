@@ -17,6 +17,7 @@
 	}
 
 	$rf_styles = array();
+	$rf_scss = array();
 	$rf_scripts = array();
 	function dequeue_style($path) {
 		global $rf_styles;
@@ -37,6 +38,16 @@
 				}
 			}
 		}
+	}
+
+	function queue_scss($path, $priority = 10) {
+		global $rf_scss;
+
+		if (! isset($rf_scss[$priority])) {
+			$rf_scss[$priority] = array();
+		}
+
+		$rf_scss[$priority][] = $path;
 	}
 	function queue_style($path, $priority = 10) {
 		global $rf_styles;

@@ -56,7 +56,7 @@
 		function check_avatar() {
 			global $media;
 			if ($this->avatar == "") {
-				$img = new File();
+				$img = new RF_File();
 				$avatar = $img->create_id_img($this->username);
 				$this->avatar = $avatar;
 				$this->update();

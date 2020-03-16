@@ -41,6 +41,22 @@ class RF_Model extends \DB\SQL\Mapper {
 		});
 	}
 
+	function set_object($object) {
+		foreach ($this->model_schema as $key => $info) {
+			$this[$key] = $object[$key];
+		}
+
+		if (isset($object['id'])) {
+			$this->id = $object['id'];
+		}
+		if (isset($object['created'])) {
+			$this->created = $object['created'];
+		}
+		if (isset($object['modified'])) {
+			$this->modified = $object['modified'];
+		}
+	}
+
 	/**
 	 * Cache Shortcuts
 	 */

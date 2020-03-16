@@ -25,6 +25,7 @@ if ($admin_theme == "dark") {
 			</div>
 			<div class="os content_outer">
 				<div class="top_outer text-right pad1 bg-black">
+					<a href="/admin/clear-cache" class="view padx2 pady1">Clear Cache</a>
 					<a href="/" class="view padx2 pady1">View Website</a>
 					<a href="/logout" class="self-end padx2 pady1">Logout</a>
 				</div>

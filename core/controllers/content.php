@@ -1,28 +1,67 @@
 <?
+	$request = array();
 
-	class Page {
-		public $post = array();
+	class Page extends Magic {
+		private $model_schema;
+		protected $fields = array();
+		protected $data;
 
-		function __construct() {
-
+		function exists($key) {
+			return array_key_exists($key,$this->data);
 		}
 
-		
+		function set($key, $val) {
+			$this->data[$key] = $val;
+		}
+
+		function &get($key) {
+			return $this->data[$key];
+		}
+
+		function clear($key) {
+			unset($this->data[$key]);
+		}
+
+		function __construct() {
+			$post = new Post();
+			$this->model_schema = $post->model_schema;
+		}
+
+		function set_object($object) {
+			foreach ($this->model_schema as $key => $info) {
+				$this->$key = $object[$key];
+			}
+
+			if (isset($object['id'])) {
+				$this->id = $object['id'];
+			}
+			if (isset($object['created'])) {
+				$this->created = $object['created'];
+			}
+			if (isset($object['modified'])) {
+				$this->modified = $object['modified'];
+			}
+		}
+
+		function get_fields() {
+			
+		}
 	}
 
 	class Content extends Prefab {
-		private $content = array();
+		private $pages = array();
 		public $page;
 
 		// automatic header
 		function beforeroute($core, $args) {
-			$this->page = $this->content[$args[0]];
+			$this->page = $this->pages[$args[0]];
+
 			locate_template(array("functions.php"), true, false);
 			locate_template(array("header.php"), true, true);
 		}
 		// automatic footer
 		function afterroute($core, $args) {
-			$this->page = $this->content[$args[0]];
+			$this->page = $this->pages[$args[0]];
 			locate_template(array("footer.php"), true, true);
 		}
 
@@ -38,14 +77,13 @@
 			$home = get_option("site_homepage");
 			foreach ($pages as $post) {
 				$page = new Page();
-				$page->post = $post;
-
+				$page->set_object($post);
 
 				if ($post['id'] == $home) {
-					$this->content["/"] = $page;
+					$this->pages["/"] = $page;
 					$core->route("GET /", "Content->home");
 				} else {
-					$this->content[$post['permalink']] = $page;
+					$this->pages["/".$post['permalink']] = $page;
 					$core->route("GET /{$post['permalink']}", "Content->page");
 				}
 			}
@@ -62,6 +100,13 @@
 		}
 
 		function page($core, $args) {
+			$templates = array();
+			$templates[] = "page-{$this->page->slug}.php";
+			$templates[] = "page-{$this->page->id}.php";
+			$templates[] = "page.php";
+			$templates[] = "single.php";
+
+			locate_template($templates, true);
 			// debug($args);
 			// add_action("admin/render_view");
 			// $core->set("view", "page.php");
@@ -80,6 +125,7 @@
 		$templates = array();
 		if ($name !== '') {
 			$templates[] = "{$slug}-{$name}.php";
+			$templates[] = "{$slug}/{$name}.php";
 		}
 		$templates[] = "{$slug}.php";
 
@@ -96,8 +142,6 @@
 
 
 	function locate_template($templates, $include = true, $required = false) {
-		
-
 		$path = theme_path();
 		$looked = "";
 		foreach ($templates as $t) {

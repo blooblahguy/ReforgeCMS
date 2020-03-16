@@ -159,6 +159,12 @@ class RF_Media extends Prefab {
 
 	}
 
+	function select_button() {
+		?>
+		<a href="#" class="btn rf_media_browse">Select Image</a>
+		<?
+	}
+
 	// resize file code
 	// $img = new Image($raw, false, $root);
 	// 		$img_name = "{$name}.{$size['name']}.{$ext}";
@@ -177,7 +183,7 @@ class RF_Media extends Prefab {
 	/**
 	 * Display gallery widget
 	 */
-	function display($size = "2") {
+	function display($mode = "browse", $size = "2") {
 		?>
 			<div class="rf_media">
 				<div id="dropper" class="dropper text-center pad4">
@@ -192,6 +198,9 @@ class RF_Media extends Prefab {
 						<?
 						$uploads = $this->get_uploads();
 						foreach ($uploads as $file) { 
+							$f = new RF_File();
+							$f->set_file($file);
+
 							$bg = $file['original'];
 							if ($file['type'] == "file") {
 								$bg = "/core/img/".$file['extension']."_default.png";

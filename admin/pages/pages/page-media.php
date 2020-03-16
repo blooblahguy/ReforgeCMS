@@ -34,9 +34,9 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		?>
 		<div class="row">
 			<div class="os media_main">
-				<?= $media->display("2"); ?>
+				<?= $media->display("browse", "3"); ?>
 			</div>
-			<div class="os-3 media_edit">
+			<div class="os-4 media_edit">
 				<?= $media->edit($args['id']); ?>
 			</div>
 		</div>

@@ -80,14 +80,20 @@ class admin_page_POSTS extends RF_Admin_Page {
 					<div class="padb2">
 
 					<?
-
-					render_admin_field($post, array(
-						"type" => "text",
-						"label" => "Title",
-						"name" => "title",
-						"class" => "post_title",
-						"required" => true,
-					));
+						render_admin_field($post, array(
+							"type" => "text",
+							"label" => "Title",
+							"name" => "title",
+							"class" => "post_title",
+							"required" => true,
+						));
+						render_admin_field($post, array(
+							"type" => "text",
+							"label" => "Sub Title",
+							"name" => "subtitle",
+							"class" => "sub_title",
+							"required" => false,
+						));
 					echo '</div>';
 
 					do_action("admin/custom_fields", "post");
@@ -137,6 +143,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		// debug($metas);
 
 		$post->title = $_POST["title"];
+		$post->subtitle = $_POST["subtitle"];
+		$post->slug = $_POST["permalink"];
 		$post->permalink = $_POST["permalink"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;

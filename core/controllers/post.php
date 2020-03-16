@@ -12,6 +12,9 @@
 				"title" => array(
 					"type" => "VARCHAR(256)",
 				),
+				"subtitle" => array(
+					"type" => "VARCHAR(512)",
+				),
 				"content" => array(
 					"type" => "LONGTEXT"
 				),
@@ -20,6 +23,9 @@
 				),
 				"seo_description" => array(
 					"type" => "LONGTEXT"
+				),
+				"slug" => array(
+					"type" => "VARCHAR(256)",
 				),
 				"permalink" => array(
 					"type" => "VARCHAR(256)",

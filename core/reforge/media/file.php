@@ -29,6 +29,23 @@ class RF_File extends RF_Model {
 	}
 
 	/**
+	 * Set File from array instead of a database query
+	 */
+	function set_file($file) {
+		foreach ($this->model_schema as $key => $info) {
+			$this[$key] = $file[$key];
+		}
+
+		$this->id = $file['id'];
+		$this->created = $file['created'];
+		$this->modified = $file['modified'];
+	}
+
+	function get_size($size) {
+
+	}
+
+	/**
 	 * Create ID Image
 	 */
 	function create_id_img($string) {

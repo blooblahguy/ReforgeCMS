@@ -16,14 +16,14 @@ class reforge_field_IMAGE extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-		debug($data['name']);
-		render_admin_field($data, array(
-			"type" => "file",
-			"label" => $field['label'],
-			"name" => $data["name"],
-			"required" => $field['required'],
-			"placeholder" => $field['placeholder'],
-		));
+		RF_Media::instance()->select_button();
+		// render_admin_field($data, array(
+		// 	"type" => "file",
+		// 	"label" => $field['label'],
+		// 	"name" => $data["name"],
+		// 	"required" => $field['required'],
+		// 	"placeholder" => $field['placeholder'],
+		// ));
 	}
 
 

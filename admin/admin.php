@@ -18,6 +18,12 @@
 		include("init.php");
 		do_action("admin/user_logged_in", $current_user->id);
 
+		$core->route("GET /admin/clear-cache", function($core, $args) {
+			Cache::instance()->reset();
+			$ref = $_SERVER['HTTP_REFERER'];
+			redirect($ref);
+		});
+
 		// run routes now
 		do_action("admin/init");
 		$core->run();

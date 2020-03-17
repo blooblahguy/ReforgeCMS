@@ -5,7 +5,7 @@
 			$this->model_table = "roles";
 			$this->model_schema = array(
 				"slug" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(190)",
 					"unique" => true
 				),
 				"label" => array(
@@ -28,7 +28,6 @@
 				),
 				"priority" => array(
 					"type" => "INT(3)",
-					"unique" => true
 				),
 				"display_seperately" => array(
 					"type" => "INT(1)",

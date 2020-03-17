@@ -6,7 +6,7 @@
 			$this->model_table = "post_types";
 			$this->model_schema = array(
 				"slug" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(190)",
 					"unique" => true,
 				),
 				"label" => array(

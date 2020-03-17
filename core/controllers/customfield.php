@@ -5,10 +5,10 @@
 			$this->model_table = 'custom_fields';
 			$this->model_schema = array(
 				"title" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(255)",
 				),
 				"first_rule" => array(
-					"type" => "VARCHAR(256)"
+					"type" => "VARCHAR(255)"
 				),
 				"load_rules" => array(
 					"type" => "LONGTEXT",

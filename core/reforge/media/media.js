@@ -1,25 +1,36 @@
-let dropper = document.getElementById('dropper')
-let progressBar = document.getElementById('dropper_progress')
-let preview = document.getElementById('preview')
-let gallery = document.getElementById('rf_gallery')
-var offset = gallery.getBoundingClientRect();
-gallery.style.cssText = "max-height: calc(100vh - "+(offset.top+40)+"px);"
+var progressBar
+var preview
+var gallery
+var offset
 
-/** Events */
-;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-	dropper.addEventListener(eventName, preventDefaults, false)
-})
+function rf_media_initialize() {
+	let dropper = document.getElementById('dropper')
 
-;['dragenter', 'dragover'].forEach(eventName => {
-	dropper.addEventListener(eventName, highlight, false)
-})
+	if (! dropper) {return; }
 
-;['dragleave', 'drop'].forEach(eventName => {
-	dropper.addEventListener(eventName, unhighlight, false)
-})
+	progressBar = document.getElementById('dropper_progress')
+	preview = document.getElementById('preview')
+	gallery = document.getElementById('rf_gallery')
+	offset = gallery.getBoundingClientRect();
+	gallery.style.cssText = "max-height: calc(100vh - "+(offset.top+40)+"px);"
 
-dropper.addEventListener('drop', handleDrop, false)
+	console.log("rf_media loaded")
 
+	/** Events */
+	;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+		dropper.addEventListener(eventName, preventDefaults, false)
+	})
+
+	;['dragenter', 'dragover'].forEach(eventName => {
+		dropper.addEventListener(eventName, highlight, false)
+	})
+
+	;['dragleave', 'drop'].forEach(eventName => {
+		dropper.addEventListener(eventName, unhighlight, false)
+	})
+
+	dropper.addEventListener('drop', handleDrop, false)
+}
 
 /** Functions */
 function preventDefaults(e) {
@@ -44,7 +55,8 @@ function updateProgress(fileNumber, percent) {
 	if (total == 100) {
 		preview.innerHTML ='<div class="message-success">Successfully uploaded all images</div>';
 		window.setTimeout(function() {
-			location.reload();
+			$(preview).remove()
+			// location.reload();
 		}, 1000)
 	}
 }
@@ -79,7 +91,7 @@ function uploadFile(file, i) { // <- Add `i` parameter
 			console.log(xhr.response)
 		}
 		else if (xhr.readyState == 4 && xhr.status != 200) {
-		// Error. Inform the user
+			// Error. Inform the user
 		}
 	})
 
@@ -105,3 +117,51 @@ function highlight(e) {
 function unhighlight(e) {
 	dropper.classList.remove('hover')
 }
+
+
+rf_media_initialize()
+
+function preview_image(key, src) {
+	var previewer = $(".preview_"+key)
+	console.log(".preview_"+key)
+	previewer.attr("style", "");
+	previewer.src = src
+}
+
+
+$("body").on("click", ".rf_media_browse", function(e) {
+	preventDefaults(e);
+	modal_create();
+
+	var key = $(this).data("key")
+	var value = $("[name='"+key+"']").val();
+
+	var title = $(".modal_title")
+	var modal = $(".modal_body")
+	title.html("Browse Media")
+
+	$.get($(this).attr("href"), {"current": value}, function(response) {
+		modal.html(response)
+
+		var lazyLoadInstance = new LazyLoad({
+			elements_selector: ".lazy"
+		});
+
+		modal.on("click", ".file_card a", function(e) {
+			preventDefaults(e);
+			var id = $(this).data("id")
+			var img = $(this).siblings("img").first().attr("src")
+
+			var hidden = $("[name='"+key+"']")
+			hidden.val(id);
+
+			var preview = hidden.siblings(".preview").first().children("img")
+			preview.show();
+			preview.attr("src", img);
+
+			// preview_image(key, img)
+
+			modal_destroy();
+		})
+	})
+});

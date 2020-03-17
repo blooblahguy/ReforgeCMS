@@ -43,3 +43,11 @@ $(".post_title").on("blur", function() {
 set_permalink();
 
 update_role_checks();
+
+window.setTimeout(function() {
+	$(".message_outer").css("opacity", "0")
+
+	window.setTimeout(function() {
+		$(".message_outer").hide();
+	}, 300)
+}, 2000)

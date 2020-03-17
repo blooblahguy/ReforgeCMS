@@ -5,7 +5,7 @@
 			$this->model_table = "options";
 			$this->model_schema = array(
 				"key" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(190)",
 					"unique" => true
 				),
 				"value" => array(

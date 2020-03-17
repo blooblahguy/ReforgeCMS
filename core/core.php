@@ -16,7 +16,7 @@
 	$class_paths["controllers"] = '/core/controllers/%s.php';
 	spl_autoload_register(function($class) {
 		global $root;
-
+		$class = strtolower($class);
 		$path = $root."/core/controllers/$class.php";
 
 		if (file_exists($path)) {

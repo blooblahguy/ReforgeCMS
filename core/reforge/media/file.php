@@ -1,6 +1,8 @@
 <?php
 
 class RF_File extends RF_Model {
+	private $noresize = array("svg");
+
 	function __construct() {
 		$this->model_table = "rf_media";
 		$this->model_schema = array(
@@ -28,21 +30,103 @@ class RF_File extends RF_Model {
 		parent::__construct();
 	}
 
-	/**
-	 * Set File from array instead of a database query
-	 */
-	function set_file($file) {
-		foreach ($this->model_schema as $key => $info) {
-			$this[$key] = $file[$key];
+	function sort_sizes($sizes, $height, $width) {
+
+		if ($width) {
+			usort($sizes, function($a, $b) {
+				return $a['width'] > $b['width'];
+			});
+		}
+		if ($height) {
+			usort($sizes, function($a, $b) {
+				return $a['height'] > $b['height'];
+			});
 		}
 
-		$this->id = $file['id'];
-		$this->created = $file['created'];
-		$this->modified = $file['modified'];
+		return $sizes;
 	}
 
-	function get_size($size) {
+	function create_size($width, $height) {
+		// debug("create size");
+		$media = RF_Media::instance();
+		$regs = $media->sizes;
+		$regs = $this->sort_sizes($regs, $width, $height);
 
+		$target = false;
+		foreach ($regs as $dimension) {
+			if ($width) {
+				if ($dimension['width'] >= $width) {
+					$target = $dimension;
+					break;
+				}
+
+			} elseif ($height) {
+				if ($dimension['height'] >= $height) {
+					$target = $dimension;
+					break;
+				}
+			}
+		}
+
+		if ($target) {
+			// debug($target);
+
+			$path = $media->save_size($target['name'], $this->original);
+
+			$sizes = unserialize($this->sizes);
+			$sizes[$target['name']] = $target;
+			$sizes[$target['name']]['path'] = $path;
+
+			$this->sizes = serialize($sizes);
+			$this->query("UPDATE {$this->model_table} SET sizes = '{$this->sizes}' WHERE id = {$this->id}");
+		}
+	}
+
+	function get_size($width = null, $height = null) {
+		if (in_array($this->extension, $this->noresize)) {
+			return $this->original;
+		}
+		$media = RF_Media::instance();
+		$sizes = unserialize($this->sizes);
+		if (! $sizes) {
+			$sizes = array();
+		}
+
+		if (! $sizes || count($sizes) == 0) {
+			$this->create_size($width, $height);
+		}
+
+		$sizes = $this->sort_sizes($sizes, $width, $height);
+
+		$target = false;
+		foreach ($media->sizes as $dimension) {
+			if ($width) {
+				if ($dimension['width'] >= $width) {
+					$target = $dimension;
+					break;
+				}
+
+			} elseif ($height) {
+				if ($dimension['height'] >= $height) {
+					$target = $dimension;
+					break;
+				}
+			}
+		}
+
+		$found = false;
+		foreach ($sizes as $dim) {
+			if ($dim['name'] = $target['name']) {
+				$found = $dim;
+				break;
+			}
+		}
+
+		if (! $found) {
+			$this->create_size($width, $height);
+		}
+
+		return $dim['path'];
 	}
 
 	/**

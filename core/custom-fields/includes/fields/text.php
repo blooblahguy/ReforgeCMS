@@ -16,8 +16,6 @@ class reforge_field_TEXT extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-
-
 		render_admin_field($data, array(
 			"type" => $field['type'],
 			"label" => $field['label'],

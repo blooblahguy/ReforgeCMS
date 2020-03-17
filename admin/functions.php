@@ -117,7 +117,7 @@ function render_admin_field($field, $settings) {
 			</div>
 
 			<? } ?>
-			<div class="os">
+			<div class="os pady1">
 				<? if ($type == "checkbox") {
 					$checked = (int) $value == 1 ? "checked" : ""; ?>
 					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>

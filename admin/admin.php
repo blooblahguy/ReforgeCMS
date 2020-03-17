@@ -17,6 +17,8 @@
 
 		include("init.php");
 		do_action("admin/user_logged_in", $current_user->id);
+		queue_script("/core/js/lazy.js");
+
 
 		$core->route("GET /admin/clear-cache", function($core, $args) {
 			Cache::instance()->reset();

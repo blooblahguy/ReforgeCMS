@@ -15,6 +15,10 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 
 strong, .strong {font-weight: 500;}
 
+.message_outer {
+	position: absolute; bottom: 0; left: 0; right: 0; background: $white; border-top: 1px solid $grey; opacity: 1; @include prefix(transition, opacity 0.3s ease-in-out);
+}
+
 //===========================================
 // TYPEOGRAPHY
 //===========================================
@@ -48,9 +52,9 @@ strong, .strong {font-weight: 500;}
 .lazy:not(.loaded) {
 	animation: fadepulse 1s linear infinite; 
 }
-.content_outer {max-height: 100%; overflow: hidden; }
+.content_outer {max-height: 100%; overflow: hidden; position: relative; }
 .content_inner {
-	max-height: 100%; overflow: auto;
+	max-height: calc(100vh - 50px); overflow: auto;
 	// &:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
 }
 
@@ -60,6 +64,28 @@ strong, .strong {font-weight: 500;}
 
 	.dashboard_calendar {
 		.event {padding: 3px $g1; border-radius: 4px; }
+	}
+
+	// modals
+	.modal_outer {
+		position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 0, 0, .5); z-index: 100; 
+
+		.modal_inner {
+			width: 1300px; height: 90vh; max-width: 95%; max-height: 95%; position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); background: $white; box-shadow: 0 0 $g2 rgba($black, .5);
+		}
+
+		.modal_header {position: relative; }
+		.modal_title {
+			background: $black; color: $white; padding: $g1; font-size: 1.5rem; font-weight: 500; 
+		}
+		.modal_close {
+			border-radius: 50%; position: absolute; top: 0; right: 0; background: $white; width: 30px; height: 30px; padding: 3px; @include prefix(transform, translate(-50%, 50%)); cursor:pointer;
+			&:hover {background: $primary; color: $white; }
+		}
+		.modal_body {
+			max-height: calc(100% - 63px); overflow: hidden; padding: $g2; 
+			// position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%));
+		}
 	}
 
 //===========================================

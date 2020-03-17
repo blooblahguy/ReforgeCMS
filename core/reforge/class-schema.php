@@ -45,14 +45,14 @@
 			if ($info["default"]) {
 				$qry .= " DEFAULT '{$info['default']}'";
 			}
-			if ($info["unique"]) {
-				$qry .= " UNIQUE";
-			}
-			if ($info["index"]) {
-				$qry .= ", INDEX({$name})";
-			} else {
+			// if ($info["unique"]) {
+			// 	$qry .= " UNIQUE";
+			// }
+			// if ($info["index"]) {
+			// 	$qry .= ", INDEX({$name})";
+			// } else {
 
-			}
+			// }
 
 			return $qry;
 		}

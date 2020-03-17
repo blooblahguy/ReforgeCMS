@@ -107,9 +107,6 @@
 			$templates[] = "single.php";
 
 			locate_template($templates, true);
-			// debug($args);
-			// add_action("admin/render_view");
-			// $core->set("view", "page.php");
 		}
 	}
 

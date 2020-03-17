@@ -16,14 +16,42 @@ class reforge_field_IMAGE extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-		RF_Media::instance()->select_button();
-		// render_admin_field($data, array(
-		// 	"type" => "file",
-		// 	"label" => $field['label'],
-		// 	"name" => $data["name"],
-		// 	"required" => $field['required'],
-		// 	"placeholder" => $field['placeholder'],
-		// ));
+		$key = $data['name'];
+		$value = $data['meta_value'];
+		$image = "";
+		if (isset($value) && $value) {
+			$file = new RF_File();
+			$file->load("id = $value");
+			$image = $file->original;
+		}
+
+		?>
+		<div class="fieldset">
+			<div class="row content-middle">
+				<div class="os-1 pad1">
+					<label for="title"><?= $field['label']; ?></label>
+				</div>
+				<div class="os">
+					<? 
+					$src = "style='display:none'";
+					$datasrc = "";
+					if ($image != "") {
+						$src = "src='/core/img/image_placeholder.jpg'";
+						$datasrc = "data-src='$image'";
+						$class = "lazy";
+					} ?>
+					<div class="preview">
+						<img class="image_preview preview_<?= $key; ?> <?= $class; ?>" <?= $src; ?> <?= $datasrc; ?> alt="<?= $field['label']; ?>">
+					</div>
+					<?= RF_Media::instance()->select_button($key);?>
+					<input type="hidden" name="<?= $key; ?>" value="<?= $value; ?>">
+
+				</div>
+			</div>
+		</div>
+		<?
+
+		echo '';
 	}
 
 
@@ -46,21 +74,6 @@ class reforge_field_IMAGE extends reforge_field {
 				"os-3" => "1/4"
 			)
 		));
-	}
-
-	function prepare_save($meta, $metas) {
-
-		// get file array out of complexified file upload
-		$key = $meta['meta_key'];
-		$file = array();
-		foreach ($_FILES['rcf_meta'] as $k => $info) {
-			$file[$k] = $info[$key]['meta_value'];
-		}
-
-		$media = Media::instance();
-		$media->upload_image($file);
-
-		exit();
 	}
 }
 

@@ -30,7 +30,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 			'author' => array(
 				"label" => "Author",
 				"calculate" => function($value, $id) {
-					$user = get_user($id);
+					$user = get_user($value);
 					return $user->username;
 				}
 			),
@@ -141,6 +141,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		// debug($data);
 
 		// debug($metas);
+
+		// exit();
 
 		$post->title = $_POST["title"];
 		$post->subtitle = $_POST["subtitle"];

@@ -7,10 +7,10 @@
 					"type" => "INT(7)",
 				),
 				"meta_type" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(255)",
 				),
 				"meta_key" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(255)",
 				),
 				"meta_value" => array(
 					"type" => "LONGTEXT",

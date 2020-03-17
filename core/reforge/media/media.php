@@ -7,7 +7,7 @@ class RF_Media extends Prefab {
 	public $path = "/content/uploads/";
 
 	private $files = array("pdf");
-	private $images = array("png", "jpg", "jpeg", "svg");
+	private $images = array("png", "jpg", "svg");
 
 	// Double check permissions before routes
 	function beforeroute() {
@@ -49,10 +49,12 @@ class RF_Media extends Prefab {
 		global $core, $root;
 
 		queue_style("/core/reforge/media/media.css");
+		queue_script("/core/reforge/media/media.js");
 
 		// ROUTES
 		$core->route("GET /admin/rf_media/load_media", "RF_Media->load_media");
 		$core->route("GET /admin/rf_media/display", "RF_Media->display");
+		$core->route("GET /admin/rf_media/select", "RF_Media->select");
 		$core->route("GET /admin/rf_media/edit/@id", "RF_Media->edit");
 		// $core->route("GET /admin/rf_media/delete", "RF_Media->delete");
 
@@ -73,8 +75,41 @@ class RF_Media extends Prefab {
 		return hash_file("md5", $path);
 	}
 
+
 	/**
 	 * Upload single file & Create sizes for images
+	 */
+	function save_size($size_key, $file) {
+		global $root, $core;
+		// Get sanitized name
+		$path = $file;
+		$file = basename($file);
+		$ext = pathinfo($file, PATHINFO_EXTENSION);
+		$name = str_replace(".raw.", ".", $file);
+		foreach ($this->sizes as $size) {
+			$name = str_replace(".{$size['name']}.", ".", $name);
+		}
+		$name = str_replace(".$ext", "", $name);
+
+		// Now resize image
+		$size = $this->sizes[$size_key];
+		$img = new Image($path, false, $root);
+		$img_name = "{$name}.{$size_key}.{$ext}";
+		$img->resize($size['width'], $size['height'], $size['crop'], $size['enlarge']);
+
+		$compression = $this->compression;
+		if ($ext == "jpg") { 
+			$ext = "jpeg";
+			$compression = ($compression + 1) * 10;
+		}
+
+		$core->write(uploads_dir()."sizes/$img_name", $img->dump($ext, $compression));
+
+		return uploads_url()."sizes/$img_name";
+	}
+
+	/**
+	 * Upload single file
 	 */
 	function upload($core, $args) {
 		$file = $_FILES['file'];
@@ -83,10 +118,6 @@ class RF_Media extends Prefab {
 
 		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 		$name = str_replace('.raw.', ".", $file['name']);
-		$name = str_replace('.raw.', ".", $name);
-		$name = str_replace('.raw.', ".", $name);
-		$name = str_replace('.raw.', ".", $name);
-		$name = str_replace('.raw.', ".", $name);
 		foreach ($this->sizes as $size) {
 			$name = str_replace(".{$size['name']}.", ".", $name);
 		}
@@ -159,9 +190,9 @@ class RF_Media extends Prefab {
 
 	}
 
-	function select_button() {
+	function select_button($key) {
 		?>
-		<a href="#" class="btn rf_media_browse">Select Image</a>
+		<a href="/admin/rf_media/select" class="btn rf_media_browse" data-modal data-key="<?= $key; ?>">Select Image</a>
 		<?
 	}
 
@@ -175,7 +206,7 @@ class RF_Media extends Prefab {
 
 	function get_uploads() {
 		global $db;
-		$media = $db->exec("SELECT * FROM rf_media ORDER BY modified DESC, created DESC");
+		$media = $db->exec("SELECT * FROM rf_media ORDER BY created DESC, modified DESC");
 
 		return $media;
 	}
@@ -183,6 +214,9 @@ class RF_Media extends Prefab {
 	/**
 	 * Display gallery widget
 	 */
+	function select() {
+		$this->display("select");
+	}
 	function display($mode = "browse", $size = "2") {
 		?>
 			<div class="rf_media">
@@ -199,9 +233,9 @@ class RF_Media extends Prefab {
 						$uploads = $this->get_uploads();
 						foreach ($uploads as $file) { 
 							$f = new RF_File();
-							$f->set_file($file);
+							$f->set_object($file);
 
-							$bg = $file['original'];
+							$bg = $f->get_size(400); //$file['original'];
 							if ($file['type'] == "file") {
 								$bg = "/core/img/".$file['extension']."_default.png";
 							}
@@ -216,13 +250,6 @@ class RF_Media extends Prefab {
 					</div>
 				</div>
 			</div>
-			<script src="/core/reforge/media/media.js"></script>
-			<script src="/core/reforge/media/lazy.js"></script>
-			<script>
-				var lazyLoadInstance = new LazyLoad({
-					elements_selector: ".lazy"
-				});
-			</script>
 		<?
 	}
 }

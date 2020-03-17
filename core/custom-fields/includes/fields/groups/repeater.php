@@ -133,7 +133,9 @@ class reforge_field_REPEATER extends reforge_field {
 				}
 			}
 			$meta['meta_value'] = $children;
+			$metas[$key]['meta_value'] = $children;
 		}
+		
 
 		return $meta;
 	}

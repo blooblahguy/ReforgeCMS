@@ -25,11 +25,10 @@
 					"type" => "LONGTEXT"
 				),
 				"slug" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(190)",
 				),
 				"permalink" => array(
-					"type" => "VARCHAR(256)",
-					"unique" => true
+					"type" => "VARCHAR(190)",
 				),
 				"author" => array(
 					"type" => "INT(7)",

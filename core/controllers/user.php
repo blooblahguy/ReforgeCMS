@@ -8,8 +8,7 @@
 		public $role;
 		private
 			$uid = 0,
-			$permissions = false;
-
+			$permissions = array();
 
 		function __construct() {
 			
@@ -19,7 +18,7 @@
 					"type" => "VARCHAR(256)"
 				), 
 				"email" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(190)",
 					"unique" => true,
 				),
 				"password" => array(
@@ -183,14 +182,16 @@
 
 		// PERMISSIONS, YAY
 		function can($request = null) {
-			if (! $this->permissions) {
+			if (! count($this->permissions)) {
 				$role = new Role();
 				$role->load("id = {$this->role_id}");
 				
-				// $rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
+				// // $rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
 				$this->permissions = unserialize($role->permissions);
 				$this->role = $role->label;
 			}
+
+			return true; 
 			$permissions = $this->permissions;
 			if ($request == null) {return;}
 
@@ -252,7 +253,6 @@
 		if (! Registry::exists("current_user")) {
 			$user = new User();
 			$user->get_user();
-			$user->can();
 			Registry::set("current_user", $user);
 		}
 		return Registry::get("current_user");

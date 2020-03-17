@@ -50,7 +50,7 @@
 				}
 
 				if ($load) {
-					$this->render_fields($field["id"], $request['page_id'], $type);
+					$this->render_fields($field["id"], $request['page_id'], $type, $field);
 				}
 			}
 		}
@@ -80,15 +80,20 @@
 			$current = $this->load_fields($type, $id);
 			$current = rekey_array("meta_key", $current);
 
+			// debug($metas);
+
 			// run save preperations
 			if (isset($metas)) {
-				foreach ($metas as $key => &$values) {
+				foreach ($metas as $key => $values) {
 					$field = $this->types[ $values['type'] ];
 					$values = $field->prepare_save($values, $metas);
+					$metas[$key] = $values;
 				}
 
+
 				foreach ($metas as $key => $values) {
-					debug($key);
+					// debug($values);
+					// debug($key);
 					$meta = new Meta();
 					$meta->load("meta_key = '{$key}' AND meta_parent = {$id} AND meta_type = '{$type}'");
 					$meta->meta_parent = $id;
@@ -108,11 +113,11 @@
 			}
 		}
 
-		function render_fields($cf_id, $page_id, $type) {
+		function render_fields($cf_id, $page_id, $type, $fields) {
 			// global $db;
 			$cf = new CustomField();
 			if ($cf_id > 0) {
-				$cf->load("id = $cf_id", null, 1);
+				$cf->set_object($fields);
 			}
 
 			$this->current_data = $this->load_fields($type, $page_id);

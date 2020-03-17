@@ -1,0 +1,61 @@
+
+//===========================================
+// OS Overrides
+//===========================================
+body {background: $black; color: $white; }
+
+.fill-primary {fill: $primary; }
+
+//===========================================
+// TYPEOGRAPHY
+//===========================================
+
+//===========================================
+// HEADER
+//===========================================
+.logo {
+	color: $white; display: block; font-weight: bold; font-size: 20px; 
+	svg {display:inline-block; max-width: 34px; height: 34px; margin: -10px 2px; margin-left: 0; fill: $primary; }
+	span {color: $primary; }
+	&:hover {opacity: 0.8; color: $white; }
+}
+.top_outer {
+	.links a {font-size:13px; opacity:0.3; color: #ddd; padding: 4px 4px 6px; display:inline-block; }
+	.links a:hover { opacity: 1;}
+}
+
+.header .menu {
+	margin:0; padding:0; list-style: none; padding-right: $g2; 
+	li {display: inline-block; }
+	a {display:block; padding: $g1 $g2; opacity: 0.5; }
+	a:hover {opacity: 1; color: $white;  }
+	a.active {opacity: 1; }
+}
+
+//===========================================
+// FOOTER
+//===========================================
+.footer_outer {
+	border-top: 4px solid $primary;
+	
+}
+.footerlogo {
+	h2 {color: $white; display: block; font-weight: bold; font-size: 20px; }
+	span {color: $primary; }
+	svg {width: 100px; margin: auto; }
+}
+.subfooter {background: #000; }
+
+//===========================================
+// CONTENT
+//===========================================
+
+// Medium
+@media screen and (max-width : 1024px) {
+
+}
+
+// Small
+@media screen and (max-width : 768px) {
+
+}

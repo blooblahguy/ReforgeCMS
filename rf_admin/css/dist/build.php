@@ -40,5 +40,5 @@
 		file_put_contents($out_file, $data);
 	}
 
-	include($out_file);
+	require $out_file;
 ?>

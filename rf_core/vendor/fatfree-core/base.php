@@ -1114,7 +1114,7 @@ final class Base extends Prefab implements ArrayAccess {
 			foreach ($this->split($path) as $dir)
 				if ((is_file($file=($base=$dir.$lang).'.php') ||
 					is_file($file=$base.'.php')) &&
-					is_array($dict=require($file)))
+					is_array($dict=require $file))
 					$lex+=$dict;
 				elseif (is_file($file=$base.'.json') &&
 					is_array($dict=json_decode(file_get_contents($file), true)))
@@ -2174,7 +2174,7 @@ final class Base extends Prefab implements ArrayAccess {
 				is_file($file=$auto.$class.'.php') ||
 				is_file($file=$auto.strtolower($class).'.php') ||
 				is_file($file=strtolower($auto.$class).'.php'))
-				return require($file);
+				return require $file;
 	}
 
 	/**

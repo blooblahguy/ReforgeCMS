@@ -24,7 +24,7 @@ function rcf_get_template( $file = '', $args = array() ) {
 	// include
 	if( file_exists($path) ) {
 		extract( $args );
-		require( $path );
+		require  $path ;
 	}
 }
 

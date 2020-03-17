@@ -205,5 +205,5 @@
 
 	RCF();
 
-	include("includes/init.php");
+	require "includes/init.php";
 ?>

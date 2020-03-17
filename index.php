@@ -1,3 +1,5 @@
+index
+<br>
 <?
 
 
@@ -26,6 +28,7 @@
 
 	// phpinfo();
 	// opcache_get_status();
-	$configuration = include("config.php");
-	include("core/core.php");
+	$configuration = require "config.php";
+	require "rf_core/core.php";
+
 ?>

@@ -129,12 +129,12 @@
 		return locate_template( $templates, $include, false );
 	}
 
-	function rf_include($path) {
+	function rf_require $path {
 		// set globals for each file
 		$user = current_user();
 		$page = Content::instance()->page;
 
-		include($path);
+		require $path;
 	}
 
 
@@ -145,7 +145,7 @@
 			$looked .= $t.", ";
 			if (file_exists($path.$t)) {
 				if ($include) {
-					rf_include($path.$t);
+					rf_require $path.$t;
 				} else {
 					return $path.$t;
 				}

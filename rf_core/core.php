@@ -1,39 +1,42 @@
 <?
-	// Base Functionality
-	include("functions.php");
-	include("hook.php");
-
 	// F3 Core
-	$core = include("vendor/fatfree-core/base.php");
+	$core = require "vendor/fatfree-core/base.php";
 	$core->set("CACHE", true);
 	$core->set("DEBUG", 1);
 	$core->set("UI", $root."/content/");
 	$core->set("salt", $configuration["salt"]);
 
+	print_r($_SERVER['DOCUMENT_ROOT']);
+
+	echo "here";
+
+	var_dump(require "functions.php");
+	echo "here";
+	require "hook.php";
+	require "reforge/class-alerts.php";
+	require "reforge/class-db.php";
+	require "reforge/class-model.php";
+	require "reforge/class-schema.php";
+	require "reforge/session.php";
+	// media manager
+	require "reforge/media/media.php";
+	require "reforge/media/file.php";
+
+	RF_Media::instance();
+
 	// Autoloader
-	$class_paths = array();
-	$class_paths["reforge"] = '/core/reforge/%s.php';
-	$class_paths["controllers"] = '/core/controllers/%s.php';
 	spl_autoload_register(function($class) {
 		global $root;
 		$class = strtolower($class);
-		$path = $root."/core/controllers/$class.php";
+		$path = $root."/rf_core/controllers/$class.php";
 
 		if (file_exists($path)) {
-			include($path);
+			require $path;
 		}
 	});
 
-	include("reforge/class-alerts.php");
-	include("reforge/class-db.php");
-	include("reforge/class-model.php");
-	include("reforge/class-schema.php");
-	include("reforge/session.php");
-
-	// media manager
-	include("reforge/media/media.php");
-	include("reforge/media/file.php");
-	RF_Media::instance();
+	
+	
 
 	// Database
 	$db = new RFDB(
@@ -53,7 +56,7 @@
 	queue_script("/core/custom-fields/js/custom_fields.js", 10);
 	
 	// include custom fields
-	include("custom-fields/rcf.php");
+	require "custom-fields/rcf.php";
 
 	$meta = new Meta();
 
@@ -70,7 +73,7 @@
 	
 	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
-			include("setup.php");
+			require "setup.php";
 		});
 		$core->route("POST /setup", "Setup::process");
 		
@@ -81,7 +84,7 @@
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area
-			include($root."/admin/admin.php");
+			require "rf_admin/admin.php";
 		} else {
 			// Theme manager
 			Content::instance();

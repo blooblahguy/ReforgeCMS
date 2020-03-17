@@ -1,8 +1,8 @@
 <?
 
-include("functions.php");
-include("field.php");
-include("rule.php");
+require "functions.php";
+require "field.php";
+require "rule.php";
 
 //===============================================
 // Field Types
@@ -29,7 +29,7 @@ $fields["repeater"] = "groups/repeater.php";
 
 foreach ($fields as $type => $file) {
 	$class_name = 'reforge_field_' . strtoupper($type);
-	include("fields/{$file}");
+	require "fields/{$file}";
 	new $class_name();
 }
 
@@ -47,7 +47,7 @@ $rules["user"] = "user.php";
 
 foreach ($rules as $type => $file) {
 	$class_name = 'rcf_rule_' . strtoupper($type);
-	include("rules/{$file}");
+	require "rules/{$file}";
 	new $class_name();
 }
 

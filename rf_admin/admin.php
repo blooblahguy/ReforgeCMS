@@ -1,9 +1,9 @@
 <?
-	include("functions.php");
+	require "functions.php";
 
 	if (! $current_user->logged_in()) {
 		$core->route("GET *", function($core, $args) {
-			include("pages/views/login.php");
+			require "pages/views/login.php";
 		});
 
 		$core->route("POST /admin/login", "User::login", 0, 32);
@@ -15,7 +15,7 @@
 		$request["user_id"] = $current_user->id;
 		$request["user_role"] = $current_user->role_id;
 
-		include("init.php");
+		require "init.php";
 		do_action("admin/user_logged_in", $current_user->id);
 		queue_script("/core/js/lazy.js");
 

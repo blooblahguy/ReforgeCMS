@@ -8,7 +8,7 @@ First make sure to add a proper url rewrite configuration to your server, see ht
 **without composer:**
 
 ```php
-$f3 = require('lib/base.php');
+$f3 = require 'lib/base.php';
 ```
 
 **with composer:**
@@ -18,7 +18,7 @@ composer require bcosca/fatfree-core
 ```
 
 ```php
-require("vendor/autoload.php");
+require "vendor/autoload.php";
 $f3 = \Base::instance();
 ```
 

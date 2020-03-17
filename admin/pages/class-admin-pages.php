@@ -29,7 +29,7 @@
 
 			// lastly, footer
 			do_action("admin/before_footer");
-			queue_script("/rf_admin/js/admin.js", 15);
+			queue_script("/admin/js/admin.js", 15);
 			require "views/footer.php";
 		}
 

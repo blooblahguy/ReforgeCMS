@@ -2,7 +2,10 @@
 	require "functions.php";
 
 	if (! $current_user->logged_in()) {
-		$core->route("GET ", function($core, $args) {
+		$core->route("GET /admin", function($core, $args) {
+			require "pages/views/login.php";
+		});
+		$core->route("GET /admin/*", function($core, $args) {
 			require "pages/views/login.php";
 		});
 
@@ -17,7 +20,7 @@
 
 		require "init.php";
 		do_action("admin/user_logged_in", $current_user->id);
-		queue_script("/rf_core/js/lazy.js");
+		queue_script("/core/js/lazy.js");
 
 		$core->route("GET /admin/clear-cache", function($core, $args) {
 			Cache::instance()->reset();

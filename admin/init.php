@@ -1,8 +1,8 @@
 <?
 
 // Include Files
-require "pages/class-admin-page.php";
-require "pages/class-admin-pages.php";
+require "$root/admin/pages/class-admin-page.php";
+require "$root/admin/pages/class-admin-pages.php";
 
 $pages = array();
 $pages["comments"] = "page-comments.php";
@@ -21,7 +21,7 @@ $pages["partials"] = "page-partials.php";
 $pages["themes"] = "page-themes.php";
 
 foreach ($pages as $class => $path) {
-	require "pages/pages/$path";
+	require "$root/admin/pages/pages/$path";
 }
 
 

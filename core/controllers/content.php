@@ -111,11 +111,11 @@
 	}
 
 	function theme_url() {
-		return "/rf_content/themes/".get_option("active_theme")."/";
+		return "/content/themes/".get_option("active_theme")."/";
 	}
 
 	function theme_path() {
-		return $_SERVER['DOCUMENT_ROOT']."/rf_content/themes/".get_option("active_theme")."/";
+		return $_SERVER['DOCUMENT_ROOT']."/content/themes/".get_option("active_theme")."/";
 	}
 
 	function get_template_part($slug, $name = '', $include = true) {

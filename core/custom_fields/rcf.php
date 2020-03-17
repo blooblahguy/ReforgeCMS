@@ -205,5 +205,5 @@
 
 	RCF();
 
-	require "includes/init.php";
+	require "$root/core/custom_fields/includes/init.php";
 ?>

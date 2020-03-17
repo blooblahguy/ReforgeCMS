@@ -36,6 +36,14 @@ $text-inverse: $white;
 $form-input-background: hover-inverse($background-color, $hover-difference);
 $form-border-color: rgba(contrast($background-color, #fff, #000), $contrast);
 
+// Material Icons
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url("/admin/css/materialicons.woff2") format('woff2');
+}
+
 //============================================
 // TYPEOGRAPHY
 //============================================

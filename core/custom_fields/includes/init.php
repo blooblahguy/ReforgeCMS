@@ -1,8 +1,9 @@
 <?
+$local = dirname(__FILE__);
 
-require "functions.php";
-require "field.php";
-require "rule.php";
+require "$local/functions.php";
+require "$local/field.php";
+require "$local/rule.php";
 
 //===============================================
 // Field Types
@@ -27,9 +28,11 @@ $fields["text"] = "text.php";
 // $fields["tabs"] = "groups/tab.php";
 $fields["repeater"] = "groups/repeater.php";
 
+
+
 foreach ($fields as $type => $file) {
 	$class_name = 'reforge_field_' . strtoupper($type);
-	require "fields/{$file}";
+	require "$local/fields/{$file}";
 	new $class_name();
 }
 
@@ -47,7 +50,7 @@ $rules["user"] = "user.php";
 
 foreach ($rules as $type => $file) {
 	$class_name = 'rcf_rule_' . strtoupper($type);
-	require "rules/{$file}";
+	require "$local/rules/{$file}";
 	new $class_name();
 }
 

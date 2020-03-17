@@ -1,29 +1,33 @@
 <?
 	// F3 Core
-	$core = require "vendor/fatfree-core/base.php";
+	$core = require $root."/core/vendor/fatfree-core/base.php";
 	$core->set("CACHE", true);
 	$core->set("DEBUG", 1);
-	$core->set("UI", $root."/rf_content/");
+	$core->set("UI", $root."/content/");
 	$core->set("salt", $configuration["salt"]);
 
-	require "functions.php";
-	require "hook.php";
-	require "reforge/class-alerts.php";
-	require "reforge/class-db.php";
-	require "reforge/class-model.php";
-	require "reforge/class-schema.php";
-	require "reforge/session.php";
-	// media manager
-	require "reforge/media/media.php";
-	require "reforge/media/file.php";
+	require "$root/core/functions.php";
+	require "$root/core/hook.php";
+	require "$root/core/reforge/class-alerts.php";
+	require "$root/core/reforge/class-db.php";
+	require "$root/core/reforge/class-model.php";
+	require "$root/core/reforge/class-schema.php";
+	require "$root/core/reforge/session.php";
+	require "$root/core/reforge/media/media.php";
+	require "$root/core/reforge/media/file.php";
+	require "$root/core/custom_fields/rcf.php";
 
-	RF_Media::instance();
+	// media manager
+	$media = RF_Media::instance();
+	$media->add_size("medium", 400, null, false);
+	$media->add_size("large", 1000, null, false);
+	$media->add_size("hero", 1600, 400);
 
 	// Autoloader
 	spl_autoload_register(function($class) {
 		global $root;
 		$class = strtolower($class);
-		$path = $root."/rf_core/controllers/$class.php";
+		$path = $root."/core/controllers/$class.php";
 
 		if (file_exists($path)) {
 			require $path;
@@ -42,20 +46,13 @@
 		)
 	);
 
-	queue_script("/rf_core/js/cash.js", 1);
-	queue_script("/rf_core/js/ajax.min.js", 3);
-	queue_script("/rf_core/js/core.js", 5);
-	queue_script("/rf_core/custom-fields/js/custom_fields.js", 10);
+	queue_script("/core/js/cash.js", 1);
+	queue_script("/core/js/ajax.min.js", 3);
+	queue_script("/core/js/core.js", 5);
+	queue_script("/core/custom-fields/js/custom_fields.js", 10);
 	
-	// include custom fields
-	require "custom-fields/rcf.php";
 
 	$meta = new Meta();
-
-	$media = RF_Media::instance();
-	$media->add_size("medium", 400, null, false);
-	$media->add_size("large", 1000, null, false);
-	$media->add_size("hero", 1600, 400);
 	
 	$current_user = new User();
 	$current_user->get_user();
@@ -75,7 +72,7 @@
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area
-			require "rf_admin/admin.php";
+			require "$root/admin/admin.php";
 		} else {
 			// Theme manager
 			Content::instance();

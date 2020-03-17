@@ -1,5 +1,8 @@
 <?
+$root = $_SERVER['DOCUMENT_ROOT'];
 
+$configuration = require "config.php";
+require $root."/core/core.php";
 
 // $meta = array(
 // 	"field_5e5568ea32c29" => array(
@@ -26,7 +29,5 @@
 
 	// phpinfo();
 	// opcache_get_status();
-	$configuration = require "config.php";
-	require "rf_core/core.php";
-
+	
 ?>

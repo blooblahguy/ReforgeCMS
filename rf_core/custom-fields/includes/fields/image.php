@@ -36,7 +36,7 @@ class reforge_field_IMAGE extends reforge_field {
 					$src = "style='display:none'";
 					$datasrc = "";
 					if ($image != "") {
-						$src = "src='/core/img/image_placeholder.jpg'";
+						$src = "src='/rf_core/img/image_placeholder.jpg'";
 						$datasrc = "data-src='$image'";
 						$class = "lazy";
 					} ?>

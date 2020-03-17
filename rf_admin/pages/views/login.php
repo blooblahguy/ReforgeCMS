@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Setup New Website</title>
 
-	<link rel="stylesheet" href="/admin/css/dist/style.php">
+	<link rel="stylesheet" href="/rf_admin/css/dist/style.php">
 </head>
 <body class="h100 bg-black">
 	<div class="row content-center content-middle h100">

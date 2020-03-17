@@ -4,7 +4,7 @@ class RF_Media extends Prefab {
 	const MODE = 0755;
 	public $sizes = array();
 	public $compression = 9;
-	public $path = "/content/uploads/";
+	public $path = "/rf_content/uploads/";
 
 	private $files = array("pdf");
 	private $images = array("png", "jpg", "svg");
@@ -48,8 +48,8 @@ class RF_Media extends Prefab {
 	function __construct() {
 		global $core, $root;
 
-		queue_style("/core/reforge/media/media.css");
-		queue_script("/core/reforge/media/media.js");
+		queue_style("/rf_core/reforge/media/media.css");
+		queue_script("/rf_core/reforge/media/media.js");
 
 		// ROUTES
 		$core->route("GET /admin/rf_media/load_media", "RF_Media->load_media");
@@ -237,12 +237,12 @@ class RF_Media extends Prefab {
 
 							$bg = $f->get_size(400); //$file['original'];
 							if ($file['type'] == "file") {
-								$bg = "/core/img/".$file['extension']."_default.png";
+								$bg = "/rf_core/img/".$file['extension']."_default.png";
 							}
 						?>
 						<div class="os-lg-<?= $size; ?> os-md-3 os-sm-4">
 							<div class="file_card square">
-								<img src="/core/img/image_placeholder.jpg" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
+								<img src="/rf_core/img/image_placeholder.jpg" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
 								<a href="/admin/media/edit/<?= $file['id']; ?>" data-id="<?= $file['id']; ?>" class="overlay"></a>
 							</div>
 						</div>

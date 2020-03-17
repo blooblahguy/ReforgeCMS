@@ -1,5 +1,4 @@
 <?
-echo "functions included";
 	function array_extract($array, $key, $value) {
 		$new = array();
 		foreach ($array as $v) {

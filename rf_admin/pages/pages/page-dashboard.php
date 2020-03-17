@@ -14,14 +14,14 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		$this->disable_header = true;
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
-		$core->route("GET /", "admin_page_DASHBOARD->goto_dashboard");
+		$core->route("GET /admin", "admin_page_DASHBOARD->goto_dashboard");
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
 	function goto_dashboard($core, $args) {
-		$core->reroute("/dashboard");
+		$core->reroute("/admin/dashboard");
 	}
 
 	function render_index() {

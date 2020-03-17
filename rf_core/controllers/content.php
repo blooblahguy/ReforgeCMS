@@ -111,11 +111,11 @@
 	}
 
 	function theme_url() {
-		return "/content/themes/".get_option("active_theme")."/";
+		return "/rf_content/themes/".get_option("active_theme")."/";
 	}
 
 	function theme_path() {
-		return $_SERVER['DOCUMENT_ROOT']."/content/themes/".get_option("active_theme")."/";
+		return $_SERVER['DOCUMENT_ROOT']."/rf_content/themes/".get_option("active_theme")."/";
 	}
 
 	function get_template_part($slug, $name = '', $include = true) {
@@ -129,7 +129,7 @@
 		return locate_template( $templates, $include, false );
 	}
 
-	function rf_require $path {
+	function rf_require($path) {
 		// set globals for each file
 		$user = current_user();
 		$page = Content::instance()->page;
@@ -145,7 +145,7 @@
 			$looked .= $t.", ";
 			if (file_exists($path.$t)) {
 				if ($include) {
-					rf_require $path.$t;
+					rf_require($path.$t);
 				} else {
 					return $path.$t;
 				}

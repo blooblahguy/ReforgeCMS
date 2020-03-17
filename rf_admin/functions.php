@@ -1,5 +1,4 @@
 <?
-echo "admin functions";
 function admin_page_title() {
 	global $request, $options;
 	$sitename = $options["sitename"];

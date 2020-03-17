@@ -3,15 +3,10 @@
 	$core = require "vendor/fatfree-core/base.php";
 	$core->set("CACHE", true);
 	$core->set("DEBUG", 1);
-	$core->set("UI", $root."/content/");
+	$core->set("UI", $root."/rf_content/");
 	$core->set("salt", $configuration["salt"]);
 
-	print_r($_SERVER['DOCUMENT_ROOT']);
-
-	echo "here";
-
-	var_dump(require "functions.php");
-	echo "here";
+	require "functions.php";
 	require "hook.php";
 	require "reforge/class-alerts.php";
 	require "reforge/class-db.php";
@@ -33,10 +28,7 @@
 		if (file_exists($path)) {
 			require $path;
 		}
-	});
-
-	
-	
+	});	
 
 	// Database
 	$db = new RFDB(
@@ -50,10 +42,10 @@
 		)
 	);
 
-	queue_script("/core/js/cash.js", 1);
-	queue_script("/core/js/ajax.min.js", 3);
-	queue_script("/core/js/core.js", 5);
-	queue_script("/core/custom-fields/js/custom_fields.js", 10);
+	queue_script("/rf_core/js/cash.js", 1);
+	queue_script("/rf_core/js/ajax.min.js", 3);
+	queue_script("/rf_core/js/core.js", 5);
+	queue_script("/rf_core/custom-fields/js/custom_fields.js", 10);
 	
 	// include custom fields
 	require "custom-fields/rcf.php";
@@ -80,7 +72,6 @@
 		$core->run();
 	} else {
 		$core->route("GET|POST /logout", "User->logout");
-
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area

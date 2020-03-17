@@ -45,16 +45,16 @@ class admin_page_THEMES extends RF_Admin_Page {
 		if ($themes) { return $themes; }
 		$themes = array();
 
-		$path = $root.'/content/themes/'; // '.' for current
+		$path = $root.'/rf_content/themes/'; // '.' for current
 		foreach (new DirectoryIterator($path) as $file) {
 			if ($file->isDot()) continue;
 
 			if ($file->isDir()) {
 				$folder = $file->getFilename();
 				$ini = $path.$file."/theme.ini";
-				$thumbnail = "/content/themes/".$file."/theme.jpg";
+				$thumbnail = "/rf_content/themes/".$file."/theme.jpg";
 				if (! file_exists($ini)) { continue; }
-				if (! file_exists($root.$thumbnail)) { $thumbnail = "/core/img/default_theme.jpg"; }
+				if (! file_exists($root.$thumbnail)) { $thumbnail = "/rf_core/img/default_theme.jpg"; }
 
 				$info = parse_ini_file($ini);
 				$info['thumbnail'] = $thumbnail;

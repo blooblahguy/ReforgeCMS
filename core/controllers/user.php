@@ -53,8 +53,8 @@
 		}
 
 		function check_avatar() {
-			global $media;
-			if ($this->avatar == "") {
+			global $root;
+			if ($this->avatar == "" || ! file_exists($root.$this->avatar)) {
 				$img = new RF_File();
 				$avatar = $img->create_id_img($this->username);
 				$this->avatar = $avatar;

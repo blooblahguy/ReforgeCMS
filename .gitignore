@@ -1,6 +1,7 @@
-rf_content/plugins/
-rf_content/themes/
-rf_content/uploads/*
+content/plugins/
+content/themes/
+content/uploads/*
+content/uploads/sizes*
 tmp/
 
-!rf_content/themes/reforge2020/
+!content/themes/reforge2020/

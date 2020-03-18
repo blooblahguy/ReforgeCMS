@@ -24,63 +24,77 @@
 		<div data-value="rcf_fields[<?= $key; ?>][type]" class="os type pad1">text</div>
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
-	<div class="accordion rcf_field_settings collapsed settings_<?= $key; ?>">
-		<?
-			// label
-			rcf_render_field_setting($field, array(
-				'label' => 'Field Label',
-				'instructions' => 'This is the name which will appear on the EDIT page',
-				'name' => 'label',
-				'type' => 'text',
-				'bind' => true,
-				'class' => 'field-label'
-			));
+	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
+		<div class="section">
+			<div class="row g2 content-middle">
+				<?
+					// label
+					rcf_render_field_setting($field, array(
+						'label' => 'Field Label',
+						'instructions' => 'This is the name which will appear on the EDIT page',
+						'name' => 'label',
+						'type' => 'text',
+						'bind' => true,
+						'class' => 'field-label',
+						"grid" => "os",
+					));
 
-			// Slug
-			rcf_render_field_setting($field, array(
-				'label' => 'Slug',
-				'instructions' => 'This is the name which will appear on the EDIT page',
-				'name' => 'slug',
-				'type' => 'text',
-				'bind' => true,
-				'class' => 'field-slug'
-			));
+					// Slug
+					rcf_render_field_setting($field, array(
+						'label' => 'Slug',
+						'instructions' => 'This is the name which will appear on the EDIT page',
+						'name' => 'slug',
+						'type' => 'text',
+						'bind' => true,
+						'class' => 'field-slug',
+						"grid" => "os",
+					));
 
-			// Types
-			rcf_render_field_setting($field, array(
-				'label' => 'Type',
-				'instructions' => 'This is the name which will appear on the EDIT page',
-				'name' => 'type',
-				'type' => 'select',
-				'bind' => true,
-				'class' => 'field-type loaded rcf_dropdown',
-				'choices' => rcf_get_field_types()
-			));
+					// Types
+					rcf_render_field_setting($field, array(
+						'label' => 'Type',
+						'instructions' => 'This is the name which will appear on the EDIT page',
+						'name' => 'type',
+						'type' => 'select',
+						'bind' => true,
+						'class' => 'field-type loaded rcf_dropdown',
+						"grid" => "os",
+						'choices' => rcf_get_field_types(),
+					));
+					// Required
+					rcf_render_field_setting($field, array(
+						'label' => 'Required',
+						'instructions' => 'This is the name which will appear on the EDIT page',
+						'name' => 'required',
+						'type' => 'checkbox',
+						'class' => 'field-required text-center',
+						"grid" => "os-min",
+					));
+				?>
+			</div>
+			<div class="row g1 content-middle">
+				<?
+					// Instructions
+					rcf_render_field_setting($field, array(
+						'label' => 'Instructions',
+						'instructions' => 'This is the name which will appear on the EDIT page',
+						'name' => 'instructions',
+						'type' => 'text',
+						'class' => 'field-instructions'
+					));
+				?>
+			</div>
+		</div>
 
-			// Render the field
-			echo '<div class="field_settings">';
+		<div class="section">
+			<div class="row g1 content-middle field_settings">
+				<? 
+				// Render the field
 				do_action("rcf/options_html", $field);
 				do_action("rcf/options_html/type={$field['type']}", $field);
-			echo '</div>';
+				?>
+			</div>
+		</div>
 
-			// Required
-			rcf_render_field_setting($field, array(
-				'label' => 'Required',
-				'instructions' => 'This is the name which will appear on the EDIT page',
-				'name' => 'required',
-				'type' => 'checkbox',
-				'class' => 'field-required'
-			));
-
-			// Instructions
-			rcf_render_field_setting($field, array(
-				'label' => 'Instructions',
-				'instructions' => 'This is the name which will appear on the EDIT page',
-				'name' => 'instructions',
-				'type' => 'text',
-				'class' => 'field-instructions'
-			));
-		
-		?>	
 	</div>
 </div>

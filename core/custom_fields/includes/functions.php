@@ -9,7 +9,13 @@ function rcf_render_field_setting($field, $settings) {
 	$value = $field[$settings["name"]];
 	$settings['name'] = "rcf_fields[{$field['key']}][{$settings['name']}]"; // field_key1231[name]
 
-	render_admin_field($value, $settings);
+	?>
+	<div class="os <?= $settings['grid']; ?>">
+		<? render_admin_field($value, $settings); ?>
+	</div>
+	<?
+
+	
 }
 
 // include file with arguements

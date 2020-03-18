@@ -106,9 +106,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						));
 						?>
 					</div>
-					<div class="section">
-						<? do_action("admin/custom_fields", "post"); ?>
-					</div>
+					<? do_action("admin/custom_fields", "post"); ?>
 				</div>
 			</div>
 

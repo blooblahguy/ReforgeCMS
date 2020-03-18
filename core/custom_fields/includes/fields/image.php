@@ -45,6 +45,7 @@ class reforge_field_IMAGE extends reforge_field {
 					</div>
 					<?= RF_Media::instance()->select_button($key);?>
 					<input type="hidden" name="<?= $key; ?>" value="<?= $value; ?>">
+					<input type="hidden" name="<?= $key; ?>_path" value="<?= $value; ?>">
 
 				</div>
 			</div>
@@ -59,7 +60,7 @@ class reforge_field_IMAGE extends reforge_field {
 	// OPTIONS EDIT
 	//========================================================
 	function options_html($field) {
-		
+
 		// Layout
 		rcf_render_field_setting($field, array(
 			"label" => "Layout",

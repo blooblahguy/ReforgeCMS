@@ -154,8 +154,9 @@ $("body").on("click", ".rf_media_browse", function(e) {
 
 			var hidden = $("[name='"+key+"']")
 			hidden.val(id);
+			$("[name='"+key+"_path']").val(img);
 
-			var preview = hidden.siblings(".preview").first().children("img")
+			var preview = hidden.siblings(".preview").first().find("img").first()
 			preview.show();
 			preview.attr("src", img);
 

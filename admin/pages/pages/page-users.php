@@ -64,7 +64,8 @@ class admin_page_USERS extends RF_Admin_Page {
 		global $db;
 		$id = $this->id;
 
-		$user = get_user($id);
+		$user = new User();
+		$user->load("id = $id");
 		$action = "Create";
 		$subject = "User";
 		if ($id > 0) {
@@ -75,38 +76,49 @@ class admin_page_USERS extends RF_Admin_Page {
 		$roles = $db->exec("SELECT * FROM roles ORDER BY `priority` ASC");
 		$roles = array_extract($roles, "id", "label");
 	?>
-		<div class="row">
-
+		<div class="row g1">
+			<div class="os-2">
+				<div class="section text-center">
+					<h4>Avatar</h4>
+					<div class="avatar preview">
+						<? $user->render_avatar(); ?>
+					</div>
+					<br>
+					<?= RF_Media::instance()->select_button("avatar");?>
+					<input type="hidden" name="avatar" value="<?= $user->avatar; ?>">
+					<input type="hidden" name="avatar_path" value="<?= $user->avatar; ?>">
+				</div>
+			</div>
 			<div class="os">
-				<? 
-				render_admin_field($user, array(
-					"type" => "text",
-					"name" => "username",
-					"label" => "Username",
-					"required" => true
-				)); 
+				<div class="section">
+					<? 
+					render_admin_field($user, array(
+						"type" => "text",
+						"name" => "username",
+						"label" => "Username",
+						"required" => true
+					)); 
 
-				render_admin_field($user, array(
-					"type" => "text",
-					"name" => "email",
-					"label" => "Email",
-					"required" => true
-				)); 
+					render_admin_field($user, array(
+						"type" => "text",
+						"name" => "email",
+						"label" => "Email",
+						"required" => true
+					)); 
 
-				render_admin_field($user, array(
-					"type" => "select",
-					"name" => "role_id",
-					"label" => "Role",
-					"required" => true,
-					"choices" => $roles
-				)); 
-				?>
+					render_admin_field($user, array(
+						"type" => "select",
+						"name" => "role_id",
+						"label" => "Role",
+						"required" => true,
+						"choices" => $roles
+					)); 
+					?>
+				</div>
+				<? do_action("admin/custom_fields", "user"); ?>
 			</div>
 
-			<div class="os-2 sidebar pad3">
-				<input type="submit" class="marg0" value="Save">
-				<hr>
-			</div>
+			<input type="submit" class="marg0" value="Save">
 		</div>
 		
 		<?
@@ -122,9 +134,23 @@ class admin_page_USERS extends RF_Admin_Page {
 			$user->load("id = $id");
 		}
 
+		$avatar = $_POST["avatar_path"];
+
+		RCF()->save_fields("user", $id);
+
+		debug($user->avatar);
+		debug($user->email);
+		debug($user->role_id);
+		debug($user->username);
+
 		$user->username = $_POST['username'];
+		$user->avatar = $avatar;
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
+
+		
+
+		// exit();
 
 		$user->save();
 

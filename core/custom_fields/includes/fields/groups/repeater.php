@@ -33,10 +33,12 @@ class reforge_field_REPEATER extends reforge_field {
 		?>
 
 		<div class="cf_repeater row">
-			<div class="os-min bg-grey order pad1" style="min-height: 100%; "></div>
+			<div class="os-min bg-light-grey order pad1" style="min-height: 100%; "></div>
 			<div class="os repeater_<?= $context; ?> pad1">
-
-				<label for=""><?= $field['label']; ?></label>
+				<div class="row g1 content-middle">
+					<div class="os-min dragger"><i>drag_indicator</i></div>
+					<label for="" class="os"><?= $field['label']; ?></label>
+				</div>
 				<div class="repeater_body">
 					<?
 					// loop through data to populate children layouts
@@ -51,7 +53,7 @@ class reforge_field_REPEATER extends reforge_field {
 					?>
 				</div>
 			</div>
-			<div class="repeater_footer bg-grey pad1 os-12 text-right">
+			<div class="repeater_footer bg-light-grey pad1 os-12 text-right">
 				<div class="btn btn-sm" data-template=".<?= $context; ?>_template" data-replace="index" data-index="<?= $index; ?>" data-target=".repeater_<?= $context; ?>"><?= $field['button_label']; ?></div>
 			</div>
 			<template class="<?= $context; ?>_template">
@@ -72,25 +74,6 @@ class reforge_field_REPEATER extends reforge_field {
 
 	// RENDER ADMIN FIELD EDITING
 	function options_html($field) {
-		// Get Subfields First
-		$args = array(
-			'fields' => $field['children'],
-			'parent' => $field['key'],
-			'post_id' => $field['post_id']
-		);
-
-		?>
-		<div class="fieldset sub_fields <?= $field["key"]; ?>">
-			<div class="row padx1">
-				<div class="os-1 pad1">
-					<label for="" class="">Sub Fields</label>
-				</div>
-				<div class="os sub_fields">
-					<? rcf_get_template('group-settings', $args); ?>
-				</div>
-			</div>
-		</div>
-		<?
 
 		// Minimum Rows
 		rcf_render_field_setting($field, array(
@@ -115,6 +98,24 @@ class reforge_field_REPEATER extends reforge_field {
 			"name" => "button_label",
 			"placeholder" => "Add Row",
 		));
+
+		// Get Subfields First
+		$args = array(
+			'fields' => $field['children'],
+			'parent' => $field['key'],
+			'post_id' => $field['post_id']
+		);
+
+		?>
+
+		<div class="os-12 sub_fields <?= $field["key"]; ?>">
+			<label for="" class="">Sub Fields</label>
+			<div class="sub_fields">
+				<? rcf_get_template('group-settings', $args); ?>
+			</div>
+		</div>
+		
+		<?
 	}
 
 

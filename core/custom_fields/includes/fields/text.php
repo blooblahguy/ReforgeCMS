@@ -30,21 +30,6 @@ class reforge_field_TEXT extends reforge_field {
 	// OPTIONS EDIT
 	//========================================================
 	function options_html($field) {
-		// Default Value
-		rcf_render_field_setting($field, array(
-			"label" => "Default Value",
-			"type" => "text",
-			"name" => "default_value",
-			"placeholder" => "Default Value",
-		));
-
-		// Placeholder
-		rcf_render_field_setting($field, array(
-			"label" => "Placeholder",
-			"type" => "text",
-			"name" => "placeholder",
-			"placeholder" => "Placeholder",
-		));
 
 		// Layout
 		rcf_render_field_setting($field, array(
@@ -61,6 +46,21 @@ class reforge_field_TEXT extends reforge_field {
 				"os-4" => "1/3",
 				"os-3" => "1/4",
 			)
+		));
+		// Default Value
+		rcf_render_field_setting($field, array(
+			"label" => "Default Value",
+			"type" => "text",
+			"name" => "default_value",
+			"placeholder" => "Default Value",
+		));
+
+		// Placeholder
+		rcf_render_field_setting($field, array(
+			"label" => "Placeholder",
+			"type" => "text",
+			"name" => "placeholder",
+			"placeholder" => "Placeholder",
 		));
 	}
 }

@@ -1,0 +1,64 @@
+//============================================
+// ADVANCED
+//============================================
+	$pad0: $padding * 0; 							// padding size 0
+	$pad1: $padding * 1; 							// padding size 1
+	$pad2: $padding * 2 * $padding-multipler; 		// padding size 3
+	$pad3: $padding * 3 * $padding-multipler; 		// padding size 4
+	$pad4: $padding * 4 * $padding-multipler; 		// padding size 5
+
+	$sizings: (
+		0: 0,
+		1: $pad1,
+		2: $pad2, 
+		3: $pad3, 
+		4: $pad4
+	);
+
+//============================================
+// Calculated
+//============================================
+	$grey: rgba(mix($white, $black, 50%), 0.3) !default;
+	$dark: lighten($black, $hover-difference) !default;
+	$light-grey: rgba($black, 0.05) !default;
+	$dark-grey: rgba($black, 0.1) !default;
+	
+	$input-background: lighten($background, $hover-difference) !default;
+	$input-border: rgba(contrast($background, $white, $black), $contrast) !default;
+
+	$system-colors: (
+		background: $background,
+		black: $black,
+		dark: $dark,
+
+		primary: $primary,
+		secondary: $secondary,
+
+		success: $success,
+		info: $info,
+		warning: $warning,
+		error: $error,
+
+		light-grey: $light-grey,
+		grey: $grey,
+		dark-grey: $dark-grey
+	);
+
+	// Button colors/classes
+	$button-colors: (
+		primary: $primary
+		, secondary: $secondary
+
+		, success: $success
+		, info: $info
+		, warning: $warning
+		, error: $error
+	);
+
+	// Message colors/classes
+	$message-colors: (
+		success: $success
+		, info: $info
+		, warning: $warning
+		, error: $error
+	);

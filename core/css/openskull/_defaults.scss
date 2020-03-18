@@ -5,12 +5,12 @@
 	$line-height: 1.8;					// Body line height
 	$border-radius: 3px;
 
-	$padding: 10px !default; 		// Padding starting value
-	$padding-multipler: 1.2 !default; 	// Grow padding by multipler
+	$padding: 0.65rem;						// Padding starting value
+	$padding-multipler: 1.2;			// Grow padding by multipler
 
 	$viewport-md: 768px;				// Responsiveness breakpoint medium
 	$viewport-lg: 1024px;				// Responsiveness breakpoint large
-	$custom_grids: (); 				// Custom Grids  -  ie: $custom_grids: ("sv": 7) creates os-sv7 - .os-sv-7 (sevenths)
+	$custom_grids: (); 					// Custom Grids  -  ie: $custom_grids: ("sv": 7) creates os-sv7 - .os-sv-7 (sevenths)
 
 //============================================
 // Defaults - Uncommon
@@ -36,8 +36,6 @@
 //============================================
 // Theme
 //============================================
-	$theme: "default"; // default, dark
-
 	$primary: #2b80b9;
 	$secondary: #3b914e;
 
@@ -49,72 +47,6 @@
 	$black: #252830;
 	$white: #fafafa;
 
-	$grey: rgba(mix($white, $black, 50%), 0.3);
 
 	$background: $white;
 	$text: $black;
-	$dark: lighten($black, $hover-difference);
-	$light-grey: rgba($black, 0.05);
-	$dark-grey: rgba($black, 0.1);
-
-//============================================
-// Calculated
-//============================================
-	
-	$input-background: lighten($background, $hover-difference);
-	$input-border: rgba(contrast($background, $white, $black), $contrast);
-
-	$system-colors: (
-		background: $background,
-		black: $black,
-		dark: $dark,
-
-		primary: $primary,
-		secondary: $secondary,
-
-		success: $success,
-		info: $info,
-		warning: $warning,
-		error: $error,
-
-		light-grey: $light-grey,
-		grey: $grey,
-		dark-grey: $dark-grey
-	);
-
-	// Button colors/classes
-	$button-colors: (
-		primary: $primary
-		, secondary: $secondary
-
-		, success: $success
-		, info: $info
-		, warning: $warning
-		, error: $error
-	);
-
-	// Message colors/classes
-	$message-colors: (
-		success: $success
-		, info: $info
-		, warning: $warning
-		, error: $error
-	);
-
-
-//============================================
-// ADVANCED
-//============================================
-	$pad0: $padding * 0; 							// padding size 0
-	$pad1: $padding * 1; 							// padding size 1
-	$pad2: $padding * 2 * $padding-multipler; 		// padding size 3
-	$pad3: $padding * 3 * $padding-multipler; 		// padding size 4
-	$pad4: $padding * 4 * $padding-multipler; 		// padding size 5
-
-	$sizings: (
-		0: 0,
-		1: $pad1,
-		2: $pad2, 
-		3: $pad3, 
-		4: $pad4
-	);

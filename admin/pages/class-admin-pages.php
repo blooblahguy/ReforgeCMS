@@ -13,7 +13,7 @@
 			$alias = str_replace("_delete", "", $alias);
 
 			$this->page = $this->get_page($alias);
-			$this->page->id = isset($args["id"]) ? $args["id"] : 0;
+			$this->page->id = isset($args["id"]) ? (int) $args["id"] : 0;
 
 			$request["page_id"] = $this->page->id;
 			$request["page_uid"] = $this->page->get_id();

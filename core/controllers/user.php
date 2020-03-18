@@ -38,7 +38,11 @@
 			parent::__construct();
 		}
 
-		function get_user($id = 0) {
+		function render_avatar() {
+			echo "<div class='user_avatar'><img src='{$this->avatar}' class='preview_{$this->username}' alt='{$this->username}'></div>";
+		}
+
+		function get_user(int $id = 0) {
 			if ($id === 0) {
 				if ($this->remembered()) {
 					$user_id = session()->get("user_id");

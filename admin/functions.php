@@ -134,17 +134,17 @@ function render_admin_field($field, $settings) {
 		$settings["placeholder"] = $settings["label"];
 	}
 
-	$layout = " os-12";
-	if ($settings["layout"]) {
-		$layout = " ".$settings["layout"];
-	}
+	// $layout = " os-12";
+	// if ($settings["layout"]) {
+	// 	$layout = " ".$settings["layout"];
+	// }
 
-	$layout = "horizontal";
-	if ($settings['layout']) {
-		$layout = $settings['layout'];
-	}
+	// $layout = "horizontal";
+	// if ($settings['layout']) {
+	// 	$layout = $settings['layout'];
+	// }
 
-	$label_size = "field_label os-12";
+	// $label_size = " os-12";
 	// $label_size = "field_label os-min pad1";
 	// if ($layout == "vertical") {
 
@@ -152,46 +152,46 @@ function render_admin_field($field, $settings) {
 	
 	?>
 
-	<div class="fieldset <?= $class.$layout; ?>">
-		<div class="row content-middle">
-			<?if ($settings['label']) { ?>
-			<div class="<?= $label_size; ?>">
+	<div class="fieldset os <?= $class; ?>">
+		<?if ($settings['label']) { ?>
+			<div class="field_label">
 				<label for="<?= $name; ?>"><?= $settings['label']; ?></label>
 			</div>
-
-			<? } ?>
-			<div class="os">
-				<? if ($type == "checkbox") {
-					$checked = (int) $value == 1 ? "checked" : ""; ?>
-					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-				<? } elseif ($type == "file") { ?>
-					<input type="file" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" <?= $required; ?>>
-				<? } elseif ($type == "number") { ?>
-					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-				<? } elseif ($type == "wysiwg") { ?>
-					<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $value; ?>">
-					<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: 300px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= htmlspecialchars_decode($value); ?></div>
-				<? } elseif ($type == "text") { ?>
-					<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-				<? } elseif ($type == "select") { 
-					$choices = $settings["choices"];
-					?>
-					<select name="<?= $name; ?>" id="<?= $name; ?>" class="type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
-						<?
-						foreach ($choices as $key => $option) { 
-							if (is_array($option)) { ?>
-								<optgroup label="<?= $key; ?>">
-									<? foreach ($option as $skey => $label) { ?>
-										<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
-									<? } ?>
-								</optgroup>
-							<? } else { ?>
-								<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
-							<? } ?>
+		<? } ?>
+		<div class="field_value">
+			<? if ($type == "checkbox") {
+				$checked = (int) $value == 1 ? "checked" : ""; ?>
+				<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<? } elseif ($type == "file") { ?>
+				<input type="file" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" <?= $required; ?>>
+			<? } elseif ($type == "number") { ?>
+				<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<? } elseif ($type == "wysiwg") { ?>
+				<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $value; ?>">
+				<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: 300px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= htmlspecialchars_decode($value); ?></div>
+			<? } elseif ($type == "textarea") { ?>
+				<textarea type="text" rows="5" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>><?= $value?></textarea>
+			<? } elseif ($type == "text") { ?>
+				<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+			<? } elseif ($type == "select") { 
+				$choices = $settings["choices"];
+				?>
+				<select name="<?= $name; ?>" id="<?= $name; ?>" class="type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
+					<option value="" disabled selected>--Select</option>
+					<?
+					foreach ($choices as $key => $option) {
+						if (is_array($option)) { ?>
+							<optgroup label="<?= $key; ?>">
+								<? foreach ($option as $skey => $label) { ?>
+									<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
+								<? } ?>
+							</optgroup>
+						<? } else { ?>
+							<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
 						<? } ?>
-					</select>
-				<? } ?>
-			</div>
+					<? } ?>
+				</select>
+			<? } ?>
 		</div>
 	</div>
 

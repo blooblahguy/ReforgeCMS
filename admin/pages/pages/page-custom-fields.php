@@ -48,7 +48,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 
 		<div class="section">
 			<label for="title">Title</label>
-			<div class="row margb2 cfheader">
+			<div class="row cfheader">
 				<div class="os padr2">
 					<input type="text" name="title" value="<?= $cf->title; ?>" placeholder="Title">
 				</div>

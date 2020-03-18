@@ -131,7 +131,9 @@
 			$this->page_id = $page_id;
 
 			// load view
+			echo '<div class="section">';
 			rcf_get_template('group-fields', $view);
+			echo '</div>';
 		}
 
 		function render_settings($id) {

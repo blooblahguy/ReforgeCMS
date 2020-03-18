@@ -3,8 +3,8 @@
 
 // INPUTS
 body input, body select, body textarea {
-	display:block; border-radius: 0; padding: $g1; width: 100%; background: $form-input-background; color: contrast($form-input-background); border: 1px solid $form-border-color; font-family: inherit; margin:0; line-height: $g2;
-	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $g1/4 rgba($primary, .25); }
+	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-family: inherit; margin:0; line-height: $pad2;
+	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $pad1/4 rgba($primary, .25); }
 	&:required {border-left-width: 4px;}
 	&:invalid {border-left-color: $warning; font-style: italic; }
 	&:invalid:focus, &:invalid:active {border-left-color: $error;}
@@ -15,10 +15,10 @@ body input, body select, body textarea {
 textarea {resize: vertical;}
 select[multiple] {height: auto; overflow:auto; padding: 0;}
 input[type="range"] {border: none; -webkit-appearance: slider-horizontal;}
-input[type="date"], input[type="datetime-local"] { padding: calc(#{$g1} - .1rem) $g1; }
+input[type="date"], input[type="datetime-local"] { padding: calc(#{$pad1} - .1rem) $pad1; }
 input[type="color"] { padding: 2px; display: block;  height: calc(#{$line-height}rem);  }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto; }
-input[type="submit"] { margin-top: $g1; }
+input[type="submit"] { margin-top: $pad1; }
 
 // Placeholder italicize
 ::-webkit-input-placeholder, ::-moz-placeholder, ::-ms-input-placeholder, ::placeholder { font-style:italic; }
@@ -27,28 +27,28 @@ input[type="submit"] { margin-top: $g1; }
 input[type="radio"], input[type="checkbox"] {background: none;}
 input[type="radio"] {border-radius: 50%;}
 input[type="checkbox"], input[type="radio"] {
-	-webkit-appearance: none; vertical-align: bottom; display: inline-block; position:relative; margin: 0 $g1/2 0 $g1; border-width: 1px; padding: 2px; top: -2px; height: $g2; border-radius: $g2;
+	-webkit-appearance: none; vertical-align: bottom; display: inline-block; position:relative; margin: 0 $pad1/2 0 $pad1; border-width: 1px; padding: 2px; top: -2px; height: $pad2; border-radius: $pad2;
 
 	// validation
 	&:first-of-type {margin-left:0;}
 	&:invalid {border-width:1px; border-color: $warning;}
 	&:invalid:focus, &:invalid:active {border-color: $error; }
-	&:not(:invalid) { border-color: $form-border-color; }
+	&:not(:invalid) { border-color: $input-border; }
 
 	&:after {content: '';  position: absolute; border-radius: 50%; }
 	&:focus { box-shadow: 0 0 6px rgba($black, .25); }
 }
 
 input[type="checkbox"] {
-	width: $g4; background: $grey; 
-	&:after { background: $white; top: 0px; left: 0px; height: calc(#{$g2} - 2px); width: calc(#{$g2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
+	width: $pad4; background: $grey; 
+	&:after { background: $white; top: 0px; left: 0px; height: calc(#{$pad2} - 2px); width: calc(#{$pad2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
 	&:checked {
 		background: $success; border-color: $success;
-		&:after {left: $g2; background: $white;}
+		&:after {left: $pad2; background: $white;}
 	}
 }
 input[type="radio"] {
-	width: $g2; 
+	width: $pad2; 
 	&::after { left: 2px; right: 2px; top: 2px; bottom: 2px;  }
 	&:checked {
 		background: $white; border-color: $success;
@@ -57,7 +57,7 @@ input[type="radio"] {
 }
 
 // Selectboxes
-option {font-style: normal; padding: $g1;}
+option {font-style: normal; padding: $pad1;}
 option[disabled] {color: $grey; font-style: normal;}
 
 // Label with required asterix

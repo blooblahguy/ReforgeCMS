@@ -19,7 +19,7 @@
 .h100 {height: 100%;}
 .h100vh {height: 100vh;}
 
-.fixed {position:fixed; z-index: $z-high; }
+.fixed {position:fixed; z-index: 10; }
 .relative {position: relative;}
 .absolute {position: absolute;}
 .dbcenter {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%));}
@@ -30,5 +30,5 @@
 
 // media object fix
 .media { display: flex; align-items: flex-start; }
-.media .media-figure { margin-right: $g1; }
+.media .media-figure { margin-right: $pad1; }
 .media .media-body { flex: 1 0 0; }

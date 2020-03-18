@@ -27,6 +27,7 @@ $fields["text"] = "text.php";
 // $fields["flexible"] = "groups/flexible.php";
 // $fields["tabs"] = "groups/tab.php";
 $fields["repeater"] = "groups/repeater.php";
+$fields["wysiwyg"] = "wysiwyg.php";
 
 
 

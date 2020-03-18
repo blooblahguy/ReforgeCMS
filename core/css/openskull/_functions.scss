@@ -1,10 +1,4 @@
-// Generate helper variables from the variables sheet
-$background-color: #fff;
-$text-color: #fff;
-$text-inverse: #000;
-$hover-difference: 6%;
-
-@function rgba-rgb($rgba, $background: $background-color) {
+@function rgba-rgb($rgba, $background: $white) {
 	@return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%);
 }
 
@@ -18,7 +12,7 @@ $hover-difference: 6%;
 }
 
 // Calculates most readable color between the 2nd and 3rd paramter in relation to the 1st
-@function contrast($bg, $light: $text-color, $black: $text-inverse) {
+@function contrast($bg, $light: $black, $black: $white) {
 	$bg: rgba-rgb($bg);
 	$bg-luma: luma($bg);
 	$c1-luma: luma($light);

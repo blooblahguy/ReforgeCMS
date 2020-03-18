@@ -1,3 +1,10 @@
+// Material Icons
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url("/admin/css/materialicons.woff2") format('woff2');
+}
 
 //===========================================
 // OS Overrides
@@ -10,10 +17,8 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 .theme_dark {background: darken($black, 3%);}
 
 .sticky {position: sticky; position: -webkit-sticky; top: -1px; }
-// .cfheader {background: $white; margin: -$g2; padding: $g2; top: -$g2; box-shadow: 0 2px 10px rgba(0, 0, 0, .1)}
-.container {max-width: none; padding-left: $g2; padding-right: $g2;  }
-
-strong, .strong {font-weight: 500;}
+// .cfheader {background: $white; margin: -$pad2; padding: $pad2; top: -$pad2; box-shadow: 0 2px 10px rgba(0, 0, 0, .1)}
+.container {max-width: none; padding-left: $pad2; padding-right: $pad2;  }
 
 .message_outer {
 	position: absolute; bottom: 0; left: 0; right: 0; background: $white; border-top: 1px solid $grey; opacity: 1; @include prefix(transition, opacity 0.3s ease-in-out);
@@ -28,10 +33,10 @@ strong, .strong {font-weight: 500;}
 //===========================================
 .leftsidebar {
 	min-width: 220px; max-height: 100%; overflow-y: auto;
-	a {display:block; padding: $g1 $g3; }
+	a {display:block; padding: $pad1 $pad3; }
 	a:hover {background: $dark; color: $white;}
 	a.active {background: $primary; color: $white;}
-	span {display:block; padding: $g1; }
+	span {display:block; padding: $pad1; }
 	i {position: relative; top: 6px; margin: -5px 6px -5px 0; max-width: 24px;}
 }
 
@@ -59,11 +64,11 @@ strong, .strong {font-weight: 500;}
 }
 
 	// Dashboard
-	.dashboard_profile {margin: -$g2; margin-left: 0; }
-	.avatar {border: 8px solid $grey; border-radius: 6px; padding: $g1; }
+	.dashboard_profile {margin: -$pad2; margin-left: 0; }
+	.avatar {border: 8px solid $grey; border-radius: 6px; padding: $pad1; }
 
 	.dashboard_calendar {
-		.event {padding: 3px $g1; border-radius: 4px; }
+		.event {padding: 3px $pad1; border-radius: 4px; }
 	}
 
 	// modals
@@ -71,22 +76,29 @@ strong, .strong {font-weight: 500;}
 		position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 0, 0, .5); z-index: 100; 
 
 		.modal_inner {
-			width: 1300px; height: 90vh; max-width: 95%; max-height: 95%; position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); background: $white; box-shadow: 0 0 $g2 rgba($black, .5);
+			width: 1300px; height: 90vh; max-width: 95%; max-height: 95%; position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); background: $white; box-shadow: 0 0 $pad2 rgba($black, .5);
 		}
 
 		.modal_header {position: relative; }
 		.modal_title {
-			background: $black; color: $white; padding: $g1; font-size: 1.5rem; font-weight: 500; 
+			background: $black; color: $white; padding: $pad1; font-size: 1.5rem; font-weight: 500; 
 		}
 		.modal_close {
 			border-radius: 50%; position: absolute; top: 0; right: 0; background: $white; width: 30px; height: 30px; padding: 3px; @include prefix(transform, translate(-50%, 50%)); cursor:pointer;
 			&:hover {background: $primary; color: $white; }
 		}
 		.modal_body {
-			max-height: calc(100% - 63px); overflow: hidden; padding: $g2; 
+			max-height: calc(100% - 63px); overflow: hidden; padding: $pad2; 
 			// position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%));
 		}
 	}
+
+	// Wysiwyg
+	body .ql-editor {background: $input-background; }
+	body .ql-toolbar.ql-snow, body .ql-container.ql-snow {border: 1px solid $input-border;}
+	body .ql-snow .ql-fill, body .ql-snow .ql-stroke.ql-fill {fill: $text; }
+	body .ql-snow .ql-stroke {stroke: $text; }
+	body .ql-snow .ql-picker {color: $text; }
 
 //===========================================
 // MEDIA
@@ -120,7 +132,7 @@ strong, .strong {font-weight: 500;}
 	&.enabled {background: rgba(mix($success, $white, 6%), 1); }
 	&.disabled {background: $light-grey; color: $grey; }
 }
-.formsec {padding: $g2 0 0;}
+.formsec {padding: $pad2 0 0;}
 
 //===========================================
 // Custom Fields

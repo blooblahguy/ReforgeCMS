@@ -73,6 +73,12 @@ function render_admin_field($field, $settings) {
 	$name = $settings["name"];
 	$value = is_string($field) ? $field : $field[$settings["name"]];
 
+	// debug($value);
+
+	if ($value == "" && $settings['default']) {
+		$value = $settings['default'];
+	}
+
 	// $value = ;
 	$bind = "";
 	if ($settings["bind"]) {
@@ -124,6 +130,9 @@ function render_admin_field($field, $settings) {
 					<input type="file" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" <?= $required; ?>>
 				<? } elseif ($type == "number") { ?>
 					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
+				<? } elseif ($type == "wysiwg") { ?>
+					<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $value; ?>">
+					<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: <?= $settings['height']; ?>px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= $value; ?></div>
 				<? } elseif ($type == "text") { ?>
 					<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "select") { 

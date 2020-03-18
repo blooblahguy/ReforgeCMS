@@ -10,6 +10,7 @@
 			global $core; 
 			RCF()->register_field_type($this);
 
+			$this->add_field_filter('rcf/prepare_value', array($this, 'prepare_value'), 9);
 			$this->add_field_action('rcf/html', array($this, 'html'), 9);
 			$this->add_field_action('rcf/options_html', array($this, 'options_html'), 9);
 
@@ -53,14 +54,16 @@
 		}
 
 		function add_field_action($action, $func, $priority = 10) {
-			// append
 			$action .= '/type=' . $this->name;
 			add_action( $action, $func, $priority );
 		}
+		function add_field_filter($action, $func, $priority = 10) {
+			$action .= '/type=' . $this->name;
+			add_filter( $action, $func, $priority );
+		}
 
-		function load_value() {
-			global $request;
-			$page_id = $request["page_id"];
+		function prepare_value($meta) {
+			return $meta;
 		}
 
 		function prepare_save($meta, $metas) {

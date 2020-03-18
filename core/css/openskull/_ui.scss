@@ -12,12 +12,15 @@
 
 // Pagination
 .pagination {
-	margin: $g1 0 $g2;
-	& > * + * {margin-left: 4px;}
+	$el_background: $light-grey;
+	$el_hover: $dark-grey;
+	$el_text: $text;
+
+	margin: $pad1 0 $pad2;
+	& > * + * {margin-left: $pad1;}
 	& > * {
-		$hover: hover($background-color);
-		border: none; display:inline-block; padding: $g1 / 4 $g2; text-align:center; color: contrast($background-color); background: $hover;
-		&:hover {background: hover($hover); color: contrast($hover); text-decoration:none;}
+		border: none; display:inline-block; padding: $pad1 $pad2; text-align:center; color: $el_text; background: $el_background;
+		&:hover {background: $el_hover; color: $el_text; text-decoration:none;}
 		&.active {background: $primary; color: contrast($primary); cursor: default; }
 	}
 }
@@ -28,35 +31,35 @@
 		overflow:hidden; font-size:0; list-style:none; margin-bottom: -1px;
 		li {display:inline-block;}
 		a {
-			$hover: hover($background-color);
-			font-size: 1rem; border-bottom: 4px solid transparent; cursor:pointer; color: contrast($background-color); display:inline-block; padding: $g1 $g2;
+			$hover: hover($background);
+			font-size: 1rem; border-bottom: 4px solid transparent; cursor:pointer; color: contrast($background); display:inline-block; padding: $pad1 $pad2;
 			&:hover {background: $hover; text-decoration:none; border-color: $grey;}
 			&:active, &:focus, &.active {border-color: $primary; color: contrast($hover);}
 		}
-		a + a {margin-left: $g1;}
+		a + a {margin-left: $pad1;}
 	}
 
 	.tab_content {
-		display:none; padding: $g3 0;
+		display:none; padding: $pad3 0;
 		&.active, &:target {display:block;}
 	}
 }
 
 // Tooltips
 [tooltip] {
-	$background: $background-inverse;
+	$bg: contrast($background, $black, $white);
 
 	$notch_size: 5px;
-	$offset: $g1;
+	$offset: $pad1;
 	$body_pos: calc(100% + #{$notch_size});
 	$notch_pos: calc(100%);
 	
 	position:relative; border:none; cursor: pointer; 
 	&::before, &::after {position: absolute; z-index: 100; opacity:1; left:50%;}
 	// Body
-	&:before {bottom: $body_pos; transform: translate(-50%, 0); max-width:300px; min-width: calc(100% + #{$g4 * 2}); background: $background; color: contrast($background); padding: $g1 $g2; pointer-events: none; text-align: center; font-size: 0.9rem;}
+	&:before {bottom: $body_pos; transform: translate(-50%, 0); max-width:300px; min-width: calc(100% + #{$pad4 * 2}); background: $bg; color: contrast($bg); padding: $pad1 $pad2; pointer-events: none; text-align: center; font-size: 0.9rem;}
 	// Notch
-	&:after {bottom: $notch_pos; transform: translate(-50%, -50%) rotate(45deg); height: $notch_size; width: $notch_size; background: $background; }
+	&:after {bottom: $notch_pos; transform: translate(-50%, -50%) rotate(45deg); height: $notch_size; width: $notch_size; background: $bg; }
 
 	&[tooltip-right] {
 		&:before {transform: translate(0, -50%); top: 50%; right: auto; bottom: auto; left: $body_pos; }
@@ -79,23 +82,22 @@
 
 // Modal
 .modal {
-	display:none; padding: $g2; position:fixed; @include prefix(transform, translateY(-50%)); top:50%; left:0; right:0; width:100%; z-index: $z-high; max-height:100%;
-	&:target {display:block;}
-	.modal_body {@extend .container; color: contrast($background-color); padding: $g2; background: $background-color; position: relative; box-shadow: 0 0 $g4 rgba($background-inverse, .35); max-height:100%; }
-	.modal_bg, &:before {cursor:default; position: fixed; top: -50vh; bottom: -50vh; left: -25%; right: -25%; z-index: $z-bg;}
+	$el_background: $dark;
+	$el_text: contrast($el_background);
 
-	&:before { content: ''; background:rgba($background-inverse, .6);}
+	display:none; padding: $pad2; position:fixed; @include prefix(transform, translateY(-50%)); top:50%; left:0; right:0; width:100%; z-index: 10; max-height:100%;
+	&:target {display:block;}
+	.modal_body {@extend .container; color: $el_text; padding: $pad2; background: $el_background; position: relative; max-height:100%; }
+	.modal_bg, &:before {cursor:default; position: fixed; top: -50vh; bottom: -50vh; left: -25%; right: -25%; z-index: -1;}
+
+	&:before { content: ''; background:rgba($el_background, .6);}
 	.modal_close {
-		font-size: $g3; position:absolute; top: -$g2; right: -$g2; cursor: pointer; height: $g4; width: $g4; border-radius: 50%; background: $background-color;
+		font-size: $pad3; position:absolute; top: -$pad2; right: -$pad2; cursor: pointer; height: $pad4; width: $pad4; border-radius: 50%; background: $primary;
 		&:before, &:after {
-			content: ''; width: 50%; height: 3px; position:absolute; top: 50%; left: 50%; background: $background-inverse; 
+			content: ''; width: 50%; height: 3px; position:absolute; top: 50%; left: 50%; background: contrast($primary);
 		}
 		&:before {transform: translate(-50%, -50%) rotate(45deg); }
 		&:after {transform: translate(-50%, -50%) rotate(-45deg); }
-		&:hover {
-			background: $background-inverse;
-			&:before, &:after {background: $background-color;}
-		}
 	}
 	&:after {@extend .clear;}
 }
@@ -103,14 +105,14 @@
 
 // TABLES
 table, .table {
-	&, thead, tbody {width: 100%; border-spacing: 0; border-collapse: collapse; max-width:100%; margin-bottom:$g2;}
+	&, thead, tbody {width: 100%; border-spacing: 0; border-collapse: collapse; max-width:100%; margin-bottom:$pad2;}
 
 	th, td { 
-		padding: $g1; word-wrap: normal; line-height: 1; vertical-align: middle; width: auto; 
+		padding: $pad1; word-wrap: normal; line-height: 1; vertical-align: middle; width: auto; 
 		&.min {width: 1%; white-space: nowrap; text-align:center; }
 	}
 	tr {border-bottom: 1px solid $light-grey;}
-	th { @extend .text-cap; @extend .text-left; font-weight: $font-bold; padding: $g2 $g1;}
+	th { @extend .text-cap; @extend .text-left; font-weight: $font-bold; padding: $pad2 $pad1;}
 
 	&.odd tbody tr:nth-child(odd) {background: $light-grey}
 	&.even tbody tr:nth-child(even) {background: $light-grey}
@@ -124,20 +126,20 @@ table, .table {
 	list-style: none; padding: 0; margin: 0; right:0;
 	li {
 		display:inline-block; position: relative; 
-		& > a {display:block; padding: $g1 $g2; font-weight: $font-bold; }
+		& > a {display:block; padding: $pad1 $pad2; font-weight: $font-bold; }
 		&.active > a {}
 		&:hover > .sub-menu {display:block;}
 	}
 
 	.sub-menu {
-		display:none; padding:0; position: absolute; top: 100%; left: 50%; @include prefix(transform, translateX(-50%)); width: 200px; max-width: 80vw; z-index: $z-high; background: inherit; background: $grey;
+		display:none; padding:0; position: absolute; top: 100%; left: 50%; @include prefix(transform, translateX(-50%)); width: 200px; max-width: 80vw; z-index: 10; background: inherit; background: $grey;
 		li {display:block;}
 		li:hover {background: rgba($black, .25)}
-		a {display:block; padding: $g1 $g2;}
+		a {display:block; padding: $pad1 $pad2;}
 	}
 }
 .os_menu_button {
-	display:none; float:right; text-align:right; border:none; padding:4px; margin: 0; width: $g4; line-height: 0; font-size:0;
+	display:none; float:right; text-align:right; border:none; padding:4px; margin: 0; width: $pad4; line-height: 0; font-size:0;
 
 	span { height: 3px; width: 100%; background: $white; display: block;}
 	span + span {margin-top:4px;}

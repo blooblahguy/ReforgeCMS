@@ -8,6 +8,8 @@ if (! isset($data['meta_info'])) {
 	$data["meta_info"] = $field['key'];
 }
 
+$data = apply_filters("rcf/prepare_value/type={$field['type']}", $data, $field, $context);
+
 // $name = preg_replace('/(?:_[0-9]_)/', "][][", $context);
 $name = "rcf_meta[$context][meta_value]";
 $meta_name = "rcf_meta[$context]";

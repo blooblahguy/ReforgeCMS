@@ -1,6 +1,6 @@
 // MESSAGES
 %message {
-	border: 2px solid transparent; padding: $g1 $g2; margin-bottom: $g2; border-radius: $border-radius; font-weight: $font-medium;
+	border: 2px solid transparent; padding: $pad1 $pad2; margin-bottom: $pad2; font-weight: $font-medium;
 	&:last-child {margin-bottom:0;}
 }
 @each $name, $color in $message-colors {

@@ -20,7 +20,10 @@
 
 		require "init.php";
 		do_action("admin/user_logged_in", $current_user->id);
+
+		queue_style("https://cdn.quilljs.com/1.3.6/quill.snow.css");
 		queue_script("/core/js/lazy.js");
+		queue_script("https://cdn.quilljs.com/1.3.6/quill.js", 5);
 
 		$core->route("GET /admin/clear-cache", function($core, $args) {
 			Cache::instance()->reset();

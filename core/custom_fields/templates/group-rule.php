@@ -43,7 +43,7 @@ if ($group !== 0) {
 			</div>
 
 			<div class="os-min">
-				<a href="#" class="btn btn-sm rcf-add-rule" data-target=".rule_group_<?= $group; ?>">And</a>
+				<a href="#" class="btn rcf-add-rule" data-target=".rule_group_<?= $group; ?>">And</a>
 			</div>
 
 			<div class="os-min rcf-delete-rule">

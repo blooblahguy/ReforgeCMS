@@ -53,13 +53,14 @@ class reforge_field_TEXT extends reforge_field {
 			"name" => "layout",
 			"choices" => array(
 				"os-12" => "Full",
+				"os" => "Auto Fit",
+				"os-min" => "Minimum",
 				"os-9" => "3/4",
 				"os-8" => "2/3",
 				"os-6" => "1/2",
 				"os-4" => "1/3",
-				"os-3" => "1/4"
+				"os-3" => "1/4",
 			)
-			// "placeholder" => "Placeholder",
 		));
 	}
 }

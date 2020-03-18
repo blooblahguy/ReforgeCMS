@@ -20,12 +20,14 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 
 		$fieldsets = $db->exec("SELECT * FROM custom_fields"); 
 
+		echo '<div class="section">';
 		display_results_table($fieldsets, array(
 			"title" => array(
 				"label" => "Title",
-				"html" => '<a href="/admin/custom_fields/edit/%2$d">%1$s</a>',
+				"html" => '<a href="/admin/custom_fields/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
 			),
 		));
+		echo '</div>';
 	}
 
 	function render_edit() {
@@ -44,22 +46,41 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		}
 		?>
 
-		<label for="title">Title</label>
-		<div class="row margb2 cfheader">
-			<div class="os padr2">
-				<input type="text" name="title" value="<?= $cf->title; ?>" placeholder="Title">
-			</div>
-			<div class="os-2">
-				<input type="submit" class="marg0" value="Save">
+		<div class="section">
+			<label for="title">Title</label>
+			<div class="row margb2 cfheader">
+				<div class="os padr2">
+					<input type="text" name="title" value="<?= $cf->title; ?>" placeholder="Title">
+				</div>
+				<div class="os-2">
+					<input type="submit" class="marg0 btn-primary w100" value="Save">
+				</div>
 			</div>
 		</div>
 
+		<div class="section">
+			<h2>Fields</h2>
+			<?
+			// Renders the fields
+			do_action("rcf/admin_render_settings", $id);
+			?>
+		</div>
 		<? 
-		// Renders the fields
-		do_action("rcf/admin_render_settings", $id);
+		
 
-		// render the rules
-		do_action("rcf/admin_render_rules", $id);
+		?>
+		<div class="row g2">
+			<div class="os">
+				<div class="section">
+					<h2>Load Conditions</h2>
+					<?
+					// render the rules
+					do_action("rcf/admin_render_rules", $id);
+					?>
+				</div>
+			</div>
+		</div>
+		<?
 	}
 
 	private function build_hierarchy($source) {

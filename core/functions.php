@@ -100,35 +100,6 @@
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $string), '_'));
     }
 
-	function display_results_table($rs, $fields) { ?>
-		<table class="even">
-			<thead>
-				<tr>
-					<? foreach ($fields as $f) { ?>
-						<th class="<?= $f["class"]; ?>"><?= $f["label"]; ?></th>
-					<? } ?>
-				</tr>
-			</thead>
-			<tbody>
-				<? foreach ($rs as $k => $r) { ?>
-					<tr>
-						<? 
-						foreach ($fields as $i => $f) { ?>
-							<td class="<?= $f["class"]; ?>">
-								<? if ($f["calculate"]) {
-									echo $f["calculate"]($r[$i], $r["id"]);
-								} elseif ($f["html"]) {
-									echo sprintf($f["html"], $r[$i], $r["id"]);
-								} else {
-									echo $r[$i]; 
-								} ?>
-							</td>
-						<? } ?>
-					</tr>
-				<? } ?>
-			</tbody>
-		</table>
-	<? }
 	function repeater_existing($key) {
 		return isset($_POST[$key]) ? $_POST[$key] : array();
 	}
@@ -145,14 +116,6 @@
 		}
 
 		return $new_entries;
-	}
-
-	function the_field() {
-
-	}
-
-	function get_field() {
-		
 	}
 
 	function debug(...$params) {

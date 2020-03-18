@@ -26,12 +26,12 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 
 	function render_index() {
 		$user = current_user();
-		?>
-			<div class="row h100">
-				<div class="os">
-					<h1>Dashboard</h1>
 
-					<div class="widget activity pad2">
+		?>
+			<div class="row h100 g2">
+				<div class="os">
+
+					<div class="os widget activity section">
 						<h2>Last Two Weeks</h2>
 						<div class="row dashboard_calendar g1">
 						<? // loop through last 2 weeks
@@ -57,23 +57,26 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 						</div>
 					</div>
 				</div>
-				<div class="os-3 bg-light-grey dashboard_profile pad4 h100">
-					<div class="row content-middle">
-						<div class="profile os">
-							<h2>Profile</h2>
+
+				<div class="os-3 h100">
+					<div class="section dashboard_profile">
+						<div class="row content-middle">
+							<div class="profile os">
+								<h2>Profile</h2>
+							</div>
+							<div class="os-min">
+								<a href="/admin/users/edit/<?= $user->id; ?>" class="pad1 border display-block"><i class="edit display-block">edit</i></a>
+							</div>
 						</div>
-						<div class="os-min">
-							<a href="/admin/users/edit/<?= $user->id; ?>" class="pad1 border display-block"><i class="edit display-block">edit</i></a>
+						<div class="pady2 text-center">
+							<div class="pad2">
+								<img src="<?= $user->avatar; ?>" class="avatar" alt="<?= $user->username; ?>">
+							</div>
+							<a href="" class="username strong">
+								<?= $user->username; ?>
+							</a>
+							<div class="role"><?= $user->role; ?></div>
 						</div>
-					</div>
-					<div class="pady2 text-center">
-						<div class="pad2">
-							<img src="<?= $user->avatar; ?>" class="avatar" alt="<?= $user->username; ?>">
-						</div>
-						<a href="" class="username strong">
-							<?= $user->username; ?>
-						</a>
-						<div class="role"><?= $user->role; ?></div>
 					</div>
 				</div>
 			</div>

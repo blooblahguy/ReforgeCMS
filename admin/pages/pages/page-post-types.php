@@ -22,6 +22,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		global $db;
 
 		$post_types = $db->exec("SELECT * FROM post_types ORDER BY `order` ASC");
+		echo '<div class="section">';
 		display_results_table($post_types, array(
 			'icon' => array(
 				"label" => "",
@@ -30,7 +31,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 			),
 			'label_plural' => array(
 				"label" => "Name",
-				"html" => '<a href="post_types/edit/%2$d">%1$s</a>',
+				"html" => '<a href="post_types/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
 			),
 			'slug' => array(
 				"label" => "Slug",
@@ -59,6 +60,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 				"class" => "min"
 			),
 		));
+		echo '</div>';
 	}
 
 	function render_edit() {

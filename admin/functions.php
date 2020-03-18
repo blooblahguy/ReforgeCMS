@@ -38,6 +38,44 @@ function render_admin_menu() {
 	}
 }
 
+function remove_template() {
+
+}
+
+function display_results_table($rs, $fields) {
+	
+	?>
+	<table>
+		<thead>
+			<tr>
+				<? foreach ($fields as $k => $f) { ?>
+					<th class="<?= $k." ".$f["class"]; ?>"><?= $f["label"]; ?></th>
+				<? } ?>
+			</tr>
+		</thead>
+		<tbody>
+			<? foreach ($rs as $k => $r) { ?>
+				<tr>
+					<? 
+					foreach ($fields as $i => $f) {
+						$val = isset($r[$i]) ? $r[$i] : $i;
+						?>
+						<td class="<?= $i." ".$f["class"]; ?>">
+							<? if ($f["calculate"]) {
+								echo $f["calculate"]($val, $r["id"]);
+							} elseif ($f["html"]) {
+								echo sprintf($f["html"], $val, $r["id"]);
+							} else {
+								echo $r[$i]; 
+							} ?>
+						</td>
+					<? } ?>
+				</tr>
+			<? } ?>
+		</tbody>
+	</table>
+<? }
+
 function render_admin_title($title) {
 	global $PATH;
 
@@ -106,11 +144,11 @@ function render_admin_field($field, $settings) {
 		$layout = $settings['layout'];
 	}
 
-	$label_size = "os-1 pad1";
-	if ($layout == "vertical") {
-		$label_size = "os-12";
+	$label_size = "field_label os-12";
+	// $label_size = "field_label os-min pad1";
+	// if ($layout == "vertical") {
 
-	}
+	// }
 	
 	?>
 
@@ -122,7 +160,7 @@ function render_admin_field($field, $settings) {
 			</div>
 
 			<? } ?>
-			<div class="os pady1">
+			<div class="os">
 				<? if ($type == "checkbox") {
 					$checked = (int) $value == 1 ? "checked" : ""; ?>
 					<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
@@ -132,7 +170,7 @@ function render_admin_field($field, $settings) {
 					<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "wysiwg") { ?>
 					<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $value; ?>">
-					<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: <?= $settings['height']; ?>px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= $value; ?></div>
+					<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: 300px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= htmlspecialchars_decode($value); ?></div>
 				<? } elseif ($type == "text") { ?>
 					<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
 				<? } elseif ($type == "select") { 

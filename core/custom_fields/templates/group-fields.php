@@ -2,6 +2,7 @@
 $source = RCF()->current_data;
 
 // loop through field layout
+echo "<div class='field_group row g1'>";
 foreach ($fields as $field_id => $field) {
 
 	// Create context aware key
@@ -27,5 +28,6 @@ foreach ($fields as $field_id => $field) {
 		"data" => $data,
 	));
 }
+echo "</div>";
 
 ?>

@@ -55,16 +55,18 @@
 
 		function index($core, $args) {
 			if ($this->page->can_view()) {
-				$this->page->render_title();
-				do_action("admin/page/index_before", $this->page);
-				$this->page->render_index($core, $args);
-				do_action("admin/page/index_after", $this->page);
+				echo '<div class="page_content">';
+					$this->page->render_title();
+					do_action("admin/page/index_before", $this->page);
+					$this->page->render_index($core, $args);
+					do_action("admin/page/index_after", $this->page);
+				echo '</div>';
 			}
 		}
 		function edit($core, $args) {
 			if ($this->page->can_edit()) {
-				$this->page->render_title();
-				echo "<form action='{$this->page->route}/save/{$this->page->id}' method='POST' enctype='multipart/form-data'>";
+				echo "<form action='{$this->page->route}/save/{$this->page->id}' method='POST' class='page_content' enctype='multipart/form-data'>";
+					$this->page->render_title();
 					do_action("admin/page/edit_before", $this->page);
 					$this->page->render_edit($core, $args);
 					do_action("admin/page/edit_after", $this->page);

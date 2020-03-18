@@ -50,44 +50,47 @@ window.setTimeout(function() {
 	window.setTimeout(function() {
 		$(".message_outer").hide();
 	}, 300)
-}, 2000)
+}, 3000)
 
 
 
+function hook_editors() {
+	$(".wysiwg").not(".hooked").each(function(i, e) {
+		var quill_div = $(this)
+		quill_div.addClass("hooked")
+		var input = $(this).siblings(".wysiwyg_input").first();
+		var form = input.parents("form").first();
 
-$(".wysiwg").each(function(i, e) {
-	var quill_div = $(this)
-	var input = $(this).siblings(".wysiwyg_input").first();
-	var form = input.parents("form").first();
+		// Text Editor
+		var quill = new Quill(this, {
+			modules: {
+				toolbar: [
+					['bold', 'italic', 'underline', 'strike'], // toggled buttons
+					['blockquote', 'code-block'],
+					['link'],
+					['image'],
 
-	// Text Editor
-	var quill = new Quill(this, {
-		modules: {
-			toolbar: [
-				['bold', 'italic', 'underline', 'strike'], // toggled buttons
-				['blockquote', 'code-block'],
-				['link'],
-				['image'],
+					[{ 'header': 1 }, { 'header': 2 }], // custom button values
+					[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+					[{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
 
-				[{ 'header': 1 }, { 'header': 2 }], // custom button values
-				[{ 'list': 'ordered'}, { 'list': 'bullet' }],
-				[{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
+					[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-				[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+					[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 
-				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
+					['clean'] // remove formatting button
+				]
+			},
+			theme: 'snow',
+		});
 
-				['clean'] // remove formatting button
-			]
-		},
-		theme: 'snow',
-	});
-
-	form.on("submit", function() {
-		var value = quill_div.find(".ql-editor").first().html();
-		input.val(value)
+		form.on("submit", function() {
+			var value = quill_div.find(".ql-editor").first().html();
+			input.val(value)
+		})
 	})
-})
+}
+hook_editors()
 
 // quill.on("text-change", sync_editor)
 // function sync_editor() {

@@ -20,6 +20,8 @@ $("body").on("click", "[data-template]", function() {
 	if ($(this).attr("data-index")) {
 		$(this).attr("data-index", parseInt($(this).attr("data-index")) + 1)
 	}
+
+	hook_editors()
 })
 
 // Template accordions

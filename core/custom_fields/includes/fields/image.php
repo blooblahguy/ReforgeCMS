@@ -28,7 +28,7 @@ class reforge_field_IMAGE extends reforge_field {
 		?>
 		<div class="fieldset">
 			<div class="row content-middle">
-				<div class="os-1 pad1">
+				<div class="os-12 field_label">
 					<label for="title"><?= $field['label']; ?></label>
 				</div>
 				<div class="os">
@@ -67,11 +67,13 @@ class reforge_field_IMAGE extends reforge_field {
 			"name" => "layout",
 			"choices" => array(
 				"os-12" => "Full",
+				"os" => "Auto Fit",
+				"os-min" => "Minimum",
 				"os-9" => "3/4",
 				"os-8" => "2/3",
 				"os-6" => "1/2",
 				"os-4" => "1/3",
-				"os-3" => "1/4"
+				"os-3" => "1/4",
 			)
 		));
 	}

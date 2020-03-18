@@ -3,7 +3,7 @@
 
 // INPUTS
 body input, body select, body textarea {
-	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-family: inherit; margin:0; line-height: $pad2;
+	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-weight: $font-normal; font-family: inherit; margin:0; line-height: $pad2;
 	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $pad1/4 rgba($primary, .25); }
 	&:required {border-left-width: 4px;}
 	&:invalid {border-left-color: $warning; font-style: italic; }
@@ -18,7 +18,7 @@ input[type="range"] {border: none; -webkit-appearance: slider-horizontal;}
 input[type="date"], input[type="datetime-local"] { padding: calc(#{$pad1} - .1rem) $pad1; }
 input[type="color"] { padding: 2px; display: block;  height: calc(#{$line-height}rem);  }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto; }
-input[type="submit"] { margin-top: $pad1; }
+input[type="submit"] { @extend .btn-primary; line-height: $pad2; }
 
 // Placeholder italicize
 ::-webkit-input-placeholder, ::-moz-placeholder, ::-ms-input-placeholder, ::placeholder { font-style:italic; }

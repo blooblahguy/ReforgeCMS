@@ -5,15 +5,12 @@
 	$line-height: 1.8;					// Body line height
 	$border-radius: 3px;
 
-	$padding: 0.65rem; 					// Padding starting value
-	$padding-multipler: 1.2; 			// Grow padding by multipler
+	$padding: 10px !default; 		// Padding starting value
+	$padding-multipler: 1.2 !default; 	// Grow padding by multipler
 
 	$viewport-md: 768px;				// Responsiveness breakpoint medium
 	$viewport-lg: 1024px;				// Responsiveness breakpoint large
-	$custom_grids: (); 					// Custom Grids  -  ie: $custom_grids: ("sv": 7) creates os-sv7 - .os-sv-7 (sevenths)
-	$custom_grids: (
-		"sv": 7
-	);
+	$custom_grids: (); 				// Custom Grids  -  ie: $custom_grids: ("sv": 7) creates os-sv7 - .os-sv-7 (sevenths)
 
 //============================================
 // Defaults - Uncommon
@@ -32,15 +29,16 @@
 	$h5: 1.0rem;
 	$h6: 0.8rem;
 
+	$font-normal: 400;
 	$font-medium: 500;
-	$font-bold: 600;
+	$font-bold: 700;
 
 //============================================
 // Theme
 //============================================
-	$theme: "dark" !default; // default, dark
+	$theme: "default"; // default, dark
 
-	$primary: #a02c2f;
+	$primary: #2b80b9;
 	$secondary: #3b914e;
 
 	$error: #e74c3c;
@@ -58,16 +56,6 @@
 	$dark: lighten($black, $hover-difference);
 	$light-grey: rgba($black, 0.05);
 	$dark-grey: rgba($black, 0.1);
-
-	@if $theme == "dark" {
-		$background: $black;
-		$text: $white;
-		$dark: darken($black, $hover-difference);
-		$light-grey: rgba($white, 0.05);
-		$dark-grey: rgba($white, 0.05);
-	}
-
-	$dark: #171c23;
 
 //============================================
 // Calculated

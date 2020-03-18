@@ -11,15 +11,15 @@
 
 ?>
 
-<div class="rcf_field rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
+<div class="rcf_field menu_header rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
 	<div class="meta">
 		<input type="hidden" name="rcf_fields[<?= $key?>][ID]" value="<?= $meta['id']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
 	</div>
-	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle border">
-		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1">(no label)</div>
+	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
+		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1 strong">(no label)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][slug]" class="os slug pad1">(no slug)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][type]" class="os type pad1">text</div>
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>

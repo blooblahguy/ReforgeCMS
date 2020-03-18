@@ -25,7 +25,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$columns = array(
 			'title' => array(
 				"label" => "Title",
-				"html" => '<a class="pad1 display-block strong" href="'.$this->link.'/edit/%2$d">%1$s</a>',
+				"html" => '<a class="pady1 display-block strong" href="'.$this->link.'/edit/%2$d">%1$s</a>',
 			),
 			'author' => array(
 				"label" => "Author",
@@ -56,11 +56,22 @@ class admin_page_POSTS extends RF_Admin_Page {
 					}
 				}
 			),
+			'remove' => array (
+				"label" => "Remove",
+				"class" => "min",
+				"calculate" => function($s, $id) {
+					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				}
+			)
 		);
 		$columns = apply_filters("admin/posts/columns", $columns);
 
 		// display table
-		display_results_table($posts, $columns);	
+		?>
+		<div class="section">
+			<? display_results_table($posts, $columns);	?>
+		</div>
+		<?
 	}
 
 	function render_edit() {
@@ -74,12 +85,11 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 		?>
 
-		<div class="row">
+		<div class="row g1">
 			<div class="os">
-				<div class="content pad2 padl0">
-					<div class="padb2">
-
-					<?
+				<div class="content">
+					<div class="padb2 section">
+						<?
 						render_admin_field($post, array(
 							"type" => "text",
 							"label" => "Title",
@@ -94,26 +104,31 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"class" => "sub_title",
 							"required" => false,
 						));
-					echo '</div>';
-
-					do_action("admin/custom_fields", "post");
-					?>
+						?>
+					</div>
+					<div class="section">
+						<? do_action("admin/custom_fields", "post"); ?>
+					</div>
 				</div>
 			</div>
 
-			<div class="os-2 sidebar pad3">
-				<input type="submit" class="marg0" value="Save">
-				<hr>
-				<?
-				render_admin_field($post, array(
-					"type" => "text",
-					"name" => "permalink",
-					"label" => "Permalink",
-					"layout" => "vertical",
-					"class" => "post_permalink",
-					"required" => true,
-				));
-				?>
+			<div class="os-2">
+				<div class="sidebar autosticky">
+					<div class="section">
+						<input type="submit" class="marg0" value="Save">
+						<hr>
+						<?
+						render_admin_field($post, array(
+							"type" => "text",
+							"name" => "permalink",
+							"label" => "Permalink",
+							"layout" => "vertical",
+							"class" => "post_permalink",
+							"required" => true,
+						));
+						?>
+					</div>
+				</div>
 			</div>
 		</div>
 

@@ -37,7 +37,7 @@ class reforge_field_REPEATER extends reforge_field {
 			<div class="os repeater_<?= $context; ?> pad1">
 
 				<label for=""><?= $field['label']; ?></label>
-				<div class="repeater_body row border">
+				<div class="repeater_body">
 					<?
 					// loop through data to populate children layouts
 					for ($i = 0; $i < $data['meta_value']; $i++) {

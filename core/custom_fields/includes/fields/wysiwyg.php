@@ -15,6 +15,8 @@ class reforge_field_WYSIWYG extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
+		// debug($data);
+		// debug($field);
 		render_admin_field($data, array(
 			"type" => "wysiwg",
 			"label" => $field['label'],

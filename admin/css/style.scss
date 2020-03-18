@@ -9,6 +9,9 @@
 //===========================================
 // OS Overrides
 //===========================================
+.autosticky {position: sticky; top: 0; z-index: 100; }
+b, strong, .strong {font-weight: $font-medium; }
+body {background: darken($background, 3%); }
 i.info {opacity:0.6; margin: -4px 6px; position: relative; top: 4px; }
 option.material-icons {
 	width: 45px;
@@ -21,7 +24,16 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 .container {max-width: none; padding-left: $pad2; padding-right: $pad2;  }
 
 .message_outer {
-	position: absolute; bottom: 0; left: 0; right: 0; background: $white; border-top: 1px solid $grey; opacity: 1; @include prefix(transition, opacity 0.3s ease-in-out);
+	position: absolute; top: 40px; left: 0; right: 0; opacity: 1; @include prefix(transition, opacity 0.3s ease-in-out); z-index: 100;
+	& > * {
+		max-width: 100%; width: 1000px; margin: auto; position: relative;
+		&:after {content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: $white; z-index: -1; }
+	}
+}
+
+.fieldset {padding: 4px 0;}
+.section {
+	background: $input-background; padding: $pad2; box-shadow: 0 0 $pad1 rgba(0, 0, 0, 0.05); margin-bottom: $pad2; border-radius: $border-radius; border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 //===========================================
@@ -49,22 +61,26 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 //===========================================
 // CONTENT
 //===========================================
-@keyframes fadepulse {
-	0% {opacity: 1; }
-	50% {opacity: 0.5; }
-	10% {opacity: 1; }
-}
-.lazy:not(.loaded) {
-	animation: fadepulse 1s linear infinite; 
-}
-.content_outer {max-height: 100%; overflow: hidden; position: relative; }
-.content_inner {
-	max-height: calc(100vh - 50px); overflow: auto;
-	// &:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
-}
+	@keyframes fadepulse {
+		0% {opacity: 1; }
+		50% {opacity: 0.5; }
+		10% {opacity: 1; }
+	}
+	.lazy:not(.loaded) {
+		animation: fadepulse 1s linear infinite; 
+	}
+	.content_outer {max-height: 100%; overflow: hidden; position: relative; }
+	.content_inner {
+		max-height: calc(100vh - 50px); overflow: auto;
+		// &:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
+	}
+
+	.delete_btn {
+		padding: $pad1 / 2; color: $error; display:block; 
+		&:hover {background: $light-grey; color: $error; }
+	}
 
 	// Dashboard
-	.dashboard_profile {margin: -$pad2; margin-left: 0; }
 	.avatar {border: 8px solid $grey; border-radius: 6px; padding: $pad1; }
 
 	.dashboard_calendar {
@@ -93,12 +109,11 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 		}
 	}
 
-	// Wysiwyg
-	body .ql-editor {background: $input-background; }
-	body .ql-toolbar.ql-snow, body .ql-container.ql-snow {border: 1px solid $input-border;}
-	body .ql-snow .ql-fill, body .ql-snow .ql-stroke.ql-fill {fill: $text; }
-	body .ql-snow .ql-stroke {stroke: $text; }
-	body .ql-snow .ql-picker {color: $text; }
+	// Custom Fields
+	.field_label label {min-width: 100px; }
+	.custom_field.os-min {
+		.preview img {max-width: 150px; }
+	}
 
 //===========================================
 // MEDIA
@@ -111,7 +126,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 		@extend .img_border;
 		overflow: hidden; position:relative; z-index:1;
 		.bg {display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-height: 101%; max-width: none; z-index: -1; }
-		.overlay {display: block; position: absolute; z-index: 1; top: -1px; right: -1px; bottom: -1px; left: -1px; background: linear-gradient(0deg, rgba(23, 28, 35, 1) 0%, rgba(23, 28, 35, .8) 40%, rgba(23, 28, 35, 0) 80%); opacity: 0; -webkit-backface-visibility: none; @include prefix(transition, opacity 0.2s ease-in-out); }
+		.overlay {display: block; position: absolute; z-index: 1; top: -1px; right: -1px; bottom: -1px; left: -1px; background: linear-gradient(0deg, rgba(23, 28, 35, 1) 0%, rgba(23, 28, 35, .8) 40%, rgba(23, 28, 35, 0) 80%); opacity: 0; backface-visibility: none; -webkit-backface-visibility: none; @include prefix(transition, opacity 0.2s ease-in-out); }
 		&:hover .overlay:hover {opacity: 0.3; }
 		&.square {
 			&:after {content: ''; padding-top: 100%; display:block; }
@@ -143,7 +158,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 .rcf_rules .rule_group:nth-child(1) .condition_row:nth-child(1) .rcf-delete-rule {display: none;}
 
 .accordion_handle {
-	@include prefix(transition, background $animation-speed ease-in-out); font-weight: 500; cursor: pointer; position: relative;
+	@include prefix(transition, background $animation-speed ease-in-out); cursor: pointer; position: relative;
 	&.toggled {
 		background: $primary; color: $white; 
 	}
@@ -152,7 +167,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	overflow:hidden; opacity: 1; background: $white; @include prefix(transition, max-height $animation-speed ease-in-out, padding $animation-speed ease-in-out, opacity $animation-speed ease-in-out);
 	&.collapsed { opacity: 0; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border: none; }
 }
-.menu_header {border-top: 1px solid $grey;}
+.menu_header {border-top: 1px solid $grey; margin-top: -1px;}
 .menu_header:first-child {border: none;}
 
 // Medium

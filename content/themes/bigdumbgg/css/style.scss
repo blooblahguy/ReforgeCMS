@@ -25,9 +25,9 @@ body {background: $black; color: $white; }
 }
 
 .header .menu {
-	margin:0; padding:0; list-style: none; padding-right: $g2; 
+	margin:0; padding:0; list-style: none; padding-right: $pad2; 
 	li {display: inline-block; }
-	a {display:block; padding: $g1 $g2; opacity: 0.5; }
+	a {display:block; padding: $pad1 $pad2; opacity: 0.5; }
 	a:hover {opacity: 1; color: $white;  }
 	a.active {opacity: 1; }
 }

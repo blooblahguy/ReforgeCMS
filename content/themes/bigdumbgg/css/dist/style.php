@@ -7,6 +7,7 @@
 	$out_file = "openskull.min.css";
 
 	$sheets = array();
+	$sheets[] = $root."/core/css/openskull/_defaults.scss";
 	$sheets[] = $root."/core/css/openskull/_functions.scss";
 	$sheets[] = "../_variables.scss";
 	$sheets[] = $root."/core/css/openskull/_reset.scss";

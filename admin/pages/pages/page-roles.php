@@ -21,10 +21,11 @@ class admin_page_ROLES extends RF_Admin_Page {
 		global $db;
 		$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
 
+		echo '<div class="section">';
 		display_results_table($roles, array(
 			'label' => array(
 				"label" => "Label",
-				"html" => '<a href="/admin/roles/edit/%2$d">%1$s</a>',
+				"html" => '<a href="/admin/roles/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
 			),
 			'slug' => array(
 				"label" => "Slug",
@@ -49,14 +50,15 @@ class admin_page_ROLES extends RF_Admin_Page {
 					}
 				}
 			),
-			'actions' => array (
-				"label" => "Actions",
+			'remove' => array (
+				"label" => "Remove",
 				"class" => "min",
 				"calculate" => function($s, $id) {
-					return '<a href="/admin/roles/delete/'.$id.'" class="delete">Delete</a>';
+					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
 		));
+		echo '</div>';
 	}
 
 	function render_edit() {

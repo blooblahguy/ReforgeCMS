@@ -111,8 +111,9 @@ table, .table {
 		padding: $pad1; word-wrap: normal; line-height: 1; vertical-align: middle; width: auto; 
 		&.min {width: 1%; white-space: nowrap; text-align:center; }
 	}
-	tr {border-bottom: 1px solid $light-grey;}
-	th { @extend .text-cap; @extend .text-left; font-weight: $font-bold; padding: $pad2 $pad1;}
+	tr {border-top: 1px solid $light-grey;}
+	thead tr {border-top: none; border-bottom: 1px solid $light-grey;}
+	th {text-align: left; font-weight: $font-bold; padding: $pad1; color: $dark-grey; }
 
 	&.odd tbody tr:nth-child(odd) {background: $light-grey}
 	&.even tbody tr:nth-child(even) {background: $light-grey}
@@ -127,7 +128,6 @@ table, .table {
 	li {
 		display:inline-block; position: relative; 
 		& > a {display:block; padding: $pad1 $pad2; font-weight: $font-bold; }
-		&.active > a {}
 		&:hover > .sub-menu {display:block;}
 	}
 

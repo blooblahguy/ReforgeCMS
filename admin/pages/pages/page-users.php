@@ -23,11 +23,12 @@ class admin_page_USERS extends RF_Admin_Page {
 			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
 		"); 
 
+		echo '<div class="section">';
 		// display table
 		display_results_table($users, array(
 			'username' => array(
 				"label" => "Username",
-				"html" => '<a href="/admin/users/edit/%2$d">%1$s</a>',
+				"html" => '<a href="/admin/users/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
 			),
 			'email' => array(
 				"label" => "Email",
@@ -48,7 +49,15 @@ class admin_page_USERS extends RF_Admin_Page {
 					return Date("Y-m", strtotime($label));
 				}
 			),
+			'remove' => array (
+				"label" => "Remove",
+				"class" => "min",
+				"calculate" => function($s, $id) {
+					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				}
+			)
 		));
+		echo '</div>';
 	}
 
 	function render_edit() {

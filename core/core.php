@@ -49,8 +49,7 @@
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
 	queue_script("/core/js/core.js", 5);
-	queue_script("/core/custom-fields/js/custom_fields.js", 10);
-	
+	queue_script("/core/custom_fields/js/custom_fields.js", 10);
 
 	$meta = new Meta();
 	

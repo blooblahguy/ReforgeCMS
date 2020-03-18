@@ -1,8 +1,11 @@
 <?php
-	header('Content-Type: text/css');
+	
 
-	ini_set("display_errors", 1);
-	error_reporting(E_ALL);
+	// function debug($i) {
+	// 	print_r($i);
+	// 	echo "\n";
+	// 	echo "\n";
+	// }
 
 	// cached updating
 	$update = false;
@@ -11,18 +14,27 @@
 		$fh = fopen($out_file, 'w');
 	}
 	$this_mod = filemtime(__FILE__);
+	// debug($cache_mod);
 	foreach ($sheets as $sheet) {
+		// debug($sheet);
+		// if (filemtime($sheet) > $cache_mod) {
+		// 	// debug("higher than out file");
+		// }
+		// if ($this_mod > $cache_mod) {
+		// 	// debug("higher than current file");
+		// }
 		if (filemtime($sheet) > $cache_mod || $this_mod > $cache_mod) {
 			$update = true;
 			break;
 		}
 	}
 
+	// debug($update);
+
+
 	use Leafo\ScssPhp\Compiler;
 	if ($update) {
-		require_once($root.'/core/css/scssphp/scss.inc.php');
-
-		error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+		require $root.'/core/css/scssphp/scss.inc.php';
 
 		$scss = new Compiler();
 		$scss->setImportPaths('');

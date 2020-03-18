@@ -111,7 +111,7 @@
 	}
 
 	function theme_url() {
-		return "/content/themes/".get_option("active_theme")."/";
+		return "/content/themes/".get_option("active_theme");
 	}
 
 	function theme_path() {

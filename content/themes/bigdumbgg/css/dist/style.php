@@ -1,7 +1,9 @@
 <?php
 	header('Content-Type: text/css');
-	$root = $_SERVER['DOCUMENT_ROOT'];
+	ini_set("display_errors", 1);
+	error_reporting(E_ALL);
 
+	$root = $_SERVER['DOCUMENT_ROOT'];
 	$out_file = "openskull.min.css";
 
 	$sheets = array();
@@ -17,5 +19,5 @@
 	$sheets[] = $root."/core/css/openskull/_grid.scss";
 	$sheets[] = "../style.scss";
 
-	require_once("build.php");
+	require "build.php";
 ?>

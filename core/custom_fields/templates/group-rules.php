@@ -1,7 +1,7 @@
 <?
 
 if (count($all_rules) == 0) {
-	$all_rules[] = array();
+	$all_rules[] = array(array());
 }
 
 ?>

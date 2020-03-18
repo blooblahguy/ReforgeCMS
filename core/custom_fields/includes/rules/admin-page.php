@@ -1,6 +1,6 @@
 <?
 
-class rcf_rule_POSTTYPE extends rcf_rule {
+class rcf_rule_ADMINPAGE extends rcf_rule {
 	function __construct() {
 		$this->name = 'post_type';
 		$this->label = "Admin Page";

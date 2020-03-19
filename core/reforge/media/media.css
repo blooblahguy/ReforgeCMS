@@ -1,9 +1,7 @@
 .dropper {border: 2px dashed rgba(125, 125, 125, .2); position:relative; background: rgba(125, 125, 125, .1)}
 .dropper .dropper_field {position: absolute; top: 0; bottom: 0; left: 0; right: 0; opacity:0; }
 .dropper.hover {background: rgb(211, 235, 255, .3); }
-.rf_gallery {overflow-x: hidden; overflow-y: auto; max-height: calc(100vh - 380px); margin-top: 2rem; }
-/* .progress {display:none;} */
-
+.rf_gallery { margin-top: 2rem; }
 .dropper #preview img {max-width: 120px; max-height: 120px; }
 /* 
 progress:not([value]) {

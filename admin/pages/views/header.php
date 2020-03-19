@@ -7,10 +7,6 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 
 $active_theme = get_option('active_theme');
 $admin_theme = get_option("admin_theme");
-$theme = "theme_$admin_theme";
-if ($admin_theme == "dark") {
-	$theme .= " bg-black";
-}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h100">
@@ -18,13 +14,13 @@ if ($admin_theme == "dark") {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= admin_page_title(); ?></title>
-	<link rel="stylesheet" href="/admin/css/dist/style.php">
+	<link rel="stylesheet" href="/admin/css/dist/style.php?theme=<?= $admin_theme; ?>">
 	<link rel="shortcut icon" href="<?= $favicon; ?>" type="image/x-icon" />
 
 	<? rf_styles(); ?>
 </head>
 <body class="h100">
-	<div class="wrapper h100 <?= $theme; ?>">
+	<div class="wrapper h100">
 		<div class="row h100">
 			<div class="os-min leftsidebar bg-black">
 				<? render_admin_menu(); ?>

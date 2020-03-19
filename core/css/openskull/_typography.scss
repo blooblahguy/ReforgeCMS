@@ -30,8 +30,8 @@ s, .strike {text-decoration:line-through;}
 u, .underline {text-decoration:underline;}
 
 // LINKS
-a {color: contrast($white, $secondary, $primary); text-decoration: none; }
-a:active, a:hover, *.active > a { outline: 0; color: hover(contrast($white, $secondary, $primary)); }
+a {color: $primary; text-decoration: none; }
+a:active, a:hover, *.active > a { outline: 0; color: hover($primary); }
 
 // HEADERS
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {

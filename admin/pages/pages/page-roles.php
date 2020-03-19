@@ -25,7 +25,8 @@ class admin_page_ROLES extends RF_Admin_Page {
 		display_results_table($roles, array(
 			'label' => array(
 				"label" => "Label",
-				"html" => '<a href="/admin/roles/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
+				"class" => "tablelabel",
+				"html" => '<a href="/admin/roles/edit/%2$d">%1$s</a>',
 			),
 			'slug' => array(
 				"label" => "Slug",
@@ -158,34 +159,41 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 	<div class="row">
 		<div class="os">
+			<div class="section">
+				<?
+				render_admin_field($role, array(
+					"type" => "text",
+					"label" => "Label",
+					"name" => "label",
+					"required" => true,
+				));
+				render_admin_field($role, array(
+					"type" => "text",
+					"label" => "Slug",
+					"name" => "slug",
+					"class" => "padt1",
+					"required" => false,
+				));
+				?>
+			</div>
 
-			<div class="content pad2 padl0">
-				<div class="padb2">
-					<label for="">Slug <span>*</span></label>
-					<input type="text" name="slug" value="<?= $role->slug?>" required placeholder="Slug">
-				</div>
-				<div class="padb2">
-					<label for="">Label <span>*</span></label>
-					<input type="text" name="label" value="<?= $role->label; ?>" required placeholder="Label">
-				</div>
-
-				<h3>General Permissions</h3>
-				<div class="row g2">
-					<? foreach ($defaults as $perm) { ?>
-						<div class="os-lg-3 os-md-4 os-6">
-							<div class="row border pad2 h100 role_wrapper <?= $perm["slug"]; ?>">
-								<div class="os strong">
-									<?= $perm["label"]; ?>
-								</div>
-								<div class="os-min">
-									<input type="checkbox" class="toggle" name="permissions[]" value="<?= $perm["slug"]; ?>" <? if (in_array($perm['slug'], $permissions)) {echo "checked"; } ?>>
-								</div>
-								<div class="description padt1 os-12"><?= $perm["description"]; ?></div>
+			<div class="row g1 margb2">
+				<? foreach ($defaults as $perm) { ?>
+					<div class="os-lg-3 os-md-4 os-6">
+						<div class="row pad2 section h100 role_wrapper <?= $perm["slug"]; ?>">
+							<div class="os strong">
+								<?= $perm["label"]; ?>
 							</div>
+							<div class="os-min">
+								<input type="checkbox" class="toggle" name="permissions[]" value="<?= $perm["slug"]; ?>" <? if (in_array($perm['slug'], $permissions)) {echo "checked"; } ?>>
+							</div>
+							<div class="description padt1 os-12"><?= $perm["description"]; ?></div>
 						</div>
-					<? } ?>
-				</div>
+					</div>
+				<? } ?>
+			</div>
 
+			<div class="section">
 				<h3>Post Type Permissions</h3>
 				<? $cpts = $db->exec("SELECT * FROM post_types ORDER BY `order`"); 
 				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own", "View");
@@ -194,7 +202,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 					<div class="row g1">
 						<? foreach ($rights as $right) { ?>
 							<div class="os-4 os-md-3 os-lg-2">
-								<div class="row border pad1 role_wrapper <?= $type["slug"]; ?>">
+								<div class="row section pad1 role_wrapper <?= $type["slug"]; ?>">
 									<div class="os strong">
 										<?= ucfirst($right)." ".$type["label_plural"]; ?>
 									</div>

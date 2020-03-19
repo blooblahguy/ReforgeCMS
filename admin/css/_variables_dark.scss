@@ -1,0 +1,22 @@
+//============================================
+// Defaults - Common
+//============================================
+	// $font-size: 0.7vmax; 
+	// $padding: 10px;
+	$custom_grids: (
+		"sv": 7
+	);
+
+	$primary: #09f;
+	$secondary: #3b914e;
+
+	$black: #252830;
+	$white: #f0f4ff;
+
+	$grey: rgba(mix($white, $black, 50%), 0.3);
+
+	$background: $black;
+	$text: $white;
+	$dark: lighten($black, $hover-difference);
+	$light-grey: lighten($background, 8%);
+	$dark-grey: lighten($background, 50%);

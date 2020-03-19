@@ -18,18 +18,17 @@
 		}
 	}
 
-	use Leafo\ScssPhp\Compiler;
 	if ($update) {
-		require_once($root.'/core/css/scssphp/scss.inc.php');
+		require $root.'/core/css/scssphp/scss.inc.php';
 
 		error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 
-		$scss = new Compiler();
+		$scss = new Leafo\ScssPhp\Compiler();
 		$scss->setImportPaths('');
 
 		ob_start();
 		foreach($sheets as $s) {
-			require_once($s);
+			require $s;
 		}
 		$css_all = ob_get_contents();
 		ob_end_clean();
@@ -37,6 +36,7 @@
 		// 1 minified
 		$scss->setFormatter('Leafo\ScssPhp\Formatter\Compressed');
 		$data = $scss->compile($css_all);
+
 		file_put_contents($out_file, $data);
 	}
 

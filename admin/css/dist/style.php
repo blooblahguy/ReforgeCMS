@@ -2,12 +2,18 @@
 	header('Content-Type: text/css');
 	$root = $_SERVER['DOCUMENT_ROOT'];
 
-	$out_file = "openskull.min.css";
+
+	$theme = "default";
+	if (isset($_GET['theme'])) {
+		$theme = $_GET['theme'];
+	} 
+
+	$out_file = "{$theme}_openskull.min.css";
 
 	$sheets = array();
 	$sheets[] = $root."/core/css/openskull/_defaults.scss";
 	$sheets[] = $root."/core/css/openskull/_functions.scss";
-	$sheets[] = "../_variables.scss";
+	$sheets[] = "../_variables_{$theme}.scss";
 	$sheets[] = $root."/core/css/openskull/_variables.scss";
 	$sheets[] = $root."/core/css/openskull/_reset.scss";
 	$sheets[] = $root."/core/css/openskull/_colors.scss";

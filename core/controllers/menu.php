@@ -20,5 +20,13 @@
 
 			parent::__construct( );
 		}
+
+		function get_menu_array() {
+			if (! $this->id) { return null; }
+
+			$links = unserialize($this->links);
+
+			return $links;
+		}
 	}
 ?>

@@ -3,7 +3,7 @@
 
 // INPUTS
 body input, body select, body textarea {
-	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-weight: $font-normal; font-family: inherit; margin:0; line-height: $pad2;
+	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-weight: $font-normal; font-family: inherit; font-size: inherit; margin:0; line-height: $pad2;
 	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $pad1/4 rgba($primary, .25); }
 	&:required {border-left-width: 4px;}
 	&:invalid {border-left-color: $warning; font-style: italic; }
@@ -57,7 +57,7 @@ input[type="radio"] {
 }
 
 // Selectboxes
-option {font-style: normal; padding: $pad1;}
+option {font-style: normal; padding: $pad1; background: $background; color: $text; }
 option[disabled] {color: $grey; font-style: normal;}
 
 // Label with required asterix

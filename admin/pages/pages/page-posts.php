@@ -25,7 +25,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$columns = array(
 			'title' => array(
 				"label" => "Title",
-				"html" => '<a class="pady1 display-block strong" href="'.$this->link.'/edit/%2$d">%1$s</a>',
+				"class" => "tablelabel",
+				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
 			),
 			'author' => array(
 				"label" => "Author",
@@ -101,7 +102,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"type" => "text",
 							"label" => "Sub Title",
 							"name" => "subtitle",
-							"class" => "sub_title",
+							"class" => "sub_title padt1",
 							"required" => false,
 						));
 						?>
@@ -144,19 +145,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 			$post->load("id = $id");
 		}
 
-		RCF()->save_fields("post", $id);
-
-		// poopulate group meta values with # children
-		
-
-		// debug($args);
-
-		// debug($data);
-
-		// debug($metas);
-
-		// exit();
-
 		$post->title = $_POST["title"];
 		$post->subtitle = $_POST["subtitle"];
 		$post->slug = $_POST["permalink"];
@@ -164,6 +152,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->post_type = $this->name;
 		$post->author = $user->id;
 		$post->save();
+
+		$id = $post->get('_id');
+		RCF()->save_fields("post", $id);
 
 		$this->save_success($post->title, $changed, $post->id);
 	}

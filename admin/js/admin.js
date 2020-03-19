@@ -4,6 +4,7 @@ function update_role_checks() {
 	var admin = $(".role_wrapper.administrator .toggle").prop("checked")
 
 	if (admin) {
+		$(".role_wrapper.administrator").addClass("enabled")
 		$(".role_wrapper").not(".administrator").addClass("disabled")
 		$(".role_wrapper").not(".administrator").find(".toggle").prop("disabled", true)
 	} else {

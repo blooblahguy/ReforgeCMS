@@ -28,7 +28,8 @@ class admin_page_USERS extends RF_Admin_Page {
 		display_results_table($users, array(
 			'username' => array(
 				"label" => "Username",
-				"html" => '<a href="/admin/users/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
+				"class" => "tablelabel",
+				"html" => '<a href="/admin/users/edit/%2$d">%1$s</a>',
 			),
 			'email' => array(
 				"label" => "Email",
@@ -135,24 +136,16 @@ class admin_page_USERS extends RF_Admin_Page {
 		}
 
 		$avatar = $_POST["avatar_path"];
-
-		RCF()->save_fields("user", $id);
-
-		debug($user->avatar);
-		debug($user->email);
-		debug($user->role_id);
-		debug($user->username);
-
 		$user->username = $_POST['username'];
 		$user->avatar = $avatar;
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
-
-		
-
-		// exit();
-
 		$user->save();
+
+		if ($id == 0) {
+			$id = $user->get('_id');
+		}
+		RCF()->save_fields("user", $id);
 
 		\Alerts::instance()->success("User $user->username $changed");
 		redirect("/admin/users/edit/{$user->id}");

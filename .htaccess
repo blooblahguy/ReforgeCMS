@@ -21,7 +21,7 @@ RewriteRule . index.php [L]
 
 <IfModule mod_expires.c>
 	ExpiresActive On
-    ExpiresDefault										"access plus 6 months"
+    # ExpiresDefault										"access plus 6 months"
 
 	# css
     # ExpiresByType text/css                              "access plus 1 year"
@@ -29,8 +29,8 @@ RewriteRule . index.php [L]
     ExpiresByType text/x-component                      "access plus 2 months"
     ExpiresByType text/html                             "access plus 6 months"
 	#javascript
-    ExpiresByType application/javascript                "access plus 1 year"
-    ExpiresByType application/x-javascript              "access plus 1 year"
+    # ExpiresByType application/javascript                "access plus 1 year"
+    # ExpiresByType application/x-javascript              "access plus 1 year"
 	#manifest
 	ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
     ExpiresByType text/cache-manifest                   "access plus 0 seconds"
@@ -58,12 +58,8 @@ RewriteRule . index.php [L]
     ExpiresByType application/x-font-ttf                "access plus 1 year"
     ExpiresByType font/opentype                         "access plus 1 year"
 
-	<FilesMatch "\.(jpg|jpeg|png|gif|ico)$">
-		Header set Cache-Control "max-age=2419200, public"
-	</FilesMatch>
-
 	<FilesMatch "\style.php$">
-		Header set Cache-Control "max-age=2419200, public"
+		# Header set Cache-Control "max-age=2419200, public"
 		# ExpiresByType text/html "access plus 1 day"
 	</FilesMatch>
 </IfModule>

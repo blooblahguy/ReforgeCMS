@@ -45,7 +45,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 			"choices" => $choices,
 		));
 
-		$choices = array("dark" => "Dark", "light" => "Light");
+		$choices = array("dark" => "Dark", "default" => "Default");
 		render_admin_field($admin_theme, array(
 			"type" => "select",
 			"label" => "Admin theme",

@@ -24,7 +24,8 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		display_results_table($fieldsets, array(
 			"title" => array(
 				"label" => "Title",
-				"html" => '<a href="/admin/custom_fields/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
+				"class" => "tablelabel",
+				"html" => '<a href="/admin/custom_fields/edit/%2$d">%1$s</a>',
 			),
 		));
 		echo '</div>';

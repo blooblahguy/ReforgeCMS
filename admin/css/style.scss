@@ -51,7 +51,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	position: absolute; top: 40px; left: 0; right: 0; opacity: 1; @include prefix(transition, opacity 0.3s ease-in-out); z-index: 100;
 	& > * {
 		max-width: 100%; width: 1000px; margin: auto; position: relative;
-		&:after {content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: $white; z-index: -1; }
+		&:after {content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: $background; z-index: -1; }
 	}
 }
 
@@ -60,6 +60,8 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	background: $input-background; padding: $pad2; box-shadow: 0 0 $pad1 rgba(0, 0, 0, 0.05); margin-bottom: $pad2; border-radius: $border-radius; border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .section:last-child {margin: 0;}
+
+// .page_content {margin: auto; max-width: 100%; width: 1400px; }
 
 //===========================================
 // TYPEOGRAPHY
@@ -104,6 +106,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 		padding: $pad1 / 2; color: $error; display:block; 
 		&:hover {background: $light-grey; color: $error; }
 	}
+	table .tablelabel a {font-weight: 500; padding: $pad1 0; display: block; }
 
 	// Dashboard
 	.dashboard .avatar {border: 8px solid $grey; border-radius: 6px; padding: $pad1; }
@@ -139,6 +142,10 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	.custom_field.os-min {
 		.preview img {max-width: 150px; }
 	}
+	.field_group_outer {border-bottom: none;}
+	// .repeater_footer {border: 1px solid $input-border;}
+	.group_remove {border-left: 1px solid $grey; }
+	.group_drag {border-right: 1px solid $grey; cursor: move; }
 
 //===========================================
 // MEDIA
@@ -169,7 +176,8 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 // FORMS
 //===========================================
 .role_wrapper {
-	&.enabled {background: rgba(mix($success, $white, 6%), 1); }
+	position: relative;
+	&.enabled:after {content:''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; background: rgba($success, 0.4); }
 	&.disabled {background: $light-grey; color: $grey; }
 }
 .formsec {padding: $pad2 0 0;}
@@ -189,7 +197,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	}
 }
 .accordion {
-	overflow:hidden; opacity: 1; background: $white; @include prefix(transition, max-height $animation-speed ease-in-out, padding $animation-speed ease-in-out, opacity $animation-speed ease-in-out);
+	overflow:hidden; opacity: 1; background: $background; @include prefix(transition, max-height $animation-speed ease-in-out, padding $animation-speed ease-in-out, opacity $animation-speed ease-in-out);
 	&.collapsed { opacity: 0; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border: none; }
 }
 .menu_header {border-top: 1px solid $grey; margin-top: -1px;}

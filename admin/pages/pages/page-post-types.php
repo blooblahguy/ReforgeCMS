@@ -31,7 +31,8 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 			),
 			'label_plural' => array(
 				"label" => "Name",
-				"html" => '<a href="post_types/edit/%2$d" class="pad1 display-block strong">%1$s</a>',
+				"class" => "tablelabel",
+				"html" => '<a href="post_types/edit/%2$d">%1$s</a>',
 			),
 			'slug' => array(
 				"label" => "Slug",

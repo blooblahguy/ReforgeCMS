@@ -24,6 +24,7 @@
 	$dark-grey: rgba($black, 0.1) !default;
 	
 	$input-background: lighten($background, $hover-difference) !default;
+	$input-background: rgba($input-background, 0.61);
 	$input-border: rgba(contrast($background, $white, $black), $contrast) !default;
 
 	$system-colors: (

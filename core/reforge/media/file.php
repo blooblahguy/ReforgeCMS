@@ -30,6 +30,17 @@ class RF_File extends RF_Model {
 		parent::__construct();
 	}
 
+	function erase($filter = NULL, $quick = true) {
+		global $root;
+		$sizes = unserialize($this->sizes);
+		@unlink("{$root}{$this->original}");
+		foreach ($sizes as $size) {
+			@unlink("{$root}{$size['path']}");
+		}
+
+		return parent::erase($filter);
+	}
+
 	function sort_sizes($sizes, $height, $width) {
 
 		if ($width) {

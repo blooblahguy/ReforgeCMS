@@ -12,10 +12,10 @@
 .row {
 	display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; 
 	&.g0 {margin: 0; }
-	&.g1 {margin: -$pad1; }
-	&.g2 {margin: -$pad2; }
-	&.g3 {margin: -$pad3; }
-	&.g4 {margin: -$pad4; }
+	&.g1 {margin-top: -$pad1; margin-bottom: -$pad1; }
+	&.g2 {margin-top: -$pad2; margin-bottom: -$pad1; }
+	&.g3 {margin-top: -$pad3; margin-bottom: -$pad1; }
+	&.g4 {margin-top: -$pad4; margin-bottom: -$pad1; }
 }
 // grid gutters
 .g0 > [class*="os"] {padding: 0;}

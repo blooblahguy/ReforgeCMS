@@ -1,51 +1,42 @@
 <?
 $source = RCF()->current_data;
-// var_dump($context);
-
 ?>
 
-
-
-<div class="field_group_outer row <? if ($context != "") { echo " border"; } ?>">
+<div class="field_group_outer row<? if ($context != "") { echo " border"; } ?>">
 	<? if ($context != "") { ?>
-		<div class="os-min pad1 bg-light-grey group_drag">
+		<div class="group_drag os-min pad1 bg-light-grey">
 			<i>drag_indicator</i>
 		</div>
 	<? } ?>
-	<div class="os pad1">
-		<div class="field_group row g1">
-			<?
-			// loop through field layout
-			foreach ($fields as $field_id => $field) {
+	<div class="field_group os row g1 pady1">
+		<?
+		// loop through field layout
+		foreach ($fields as $field_id => $field) {
 
-				// Create context aware key
-				$key = $context;
-				if ($index !== null) {
-					$key .= "_{$index}_";
-				}
-				$key .= $field["slug"];
-
-				// DATA
-				// find data relevant to this field only
-				$data = array();
-				foreach ($source as $info) {
-					if ($info['meta_key'] == $key) {
-						$data = $info;
-						break;
-					}
-				}
-
-				rcf_get_template('group-field', array(
-					'field' => $field,
-					'context' => $key,
-					"data" => $data,
-				));
+			$key = $context;
+			if (isset($index)) {
+				$key .= "_{$index}_";
 			}
-			?>
-		</div>
+			$key .= $field["slug"];
+
+			$data = array();
+			foreach ($source as $info) {
+				if ($info['meta_key'] == $key) {
+					$data = $info;
+					break;
+				}
+			}
+
+			rcf_get_template('group-field', array(
+				'field' => $field,
+				'context' => $key,
+				"data" => $data,
+			));
+		}
+		?>
 	</div>
 	<? if ($context != "") { ?>
-		<div class="os-min pad1 bg-light-grey group_remove">
+		<div class="group_remove os-min pad1 bg-light-grey">
 			<a href="#" class=""><i>remove_circle</i></a>
 		</div>
 	<? } ?>

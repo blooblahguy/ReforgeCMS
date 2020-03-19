@@ -1,15 +1,48 @@
+// Row removal
+$("body").on("click", ".group_remove", function() {
+	$(this).parents(".field_group_outer").first().remove()
+})
+
+// specifically for custom fields
+$("body").on("click", "[data-rcf-template]", function() {
+	var target = $(this).data("target")
+	var template = $($(this).data("rcf-template"))
+	var replace = $(this).attr("data-replace")
+	var index = $(this).data("index")
+	var html = template.html()
+
+	var repreg = new RegExp("\\$"+replace, "gi")
+	html = html.replace(repreg, index)
+
+	$(this).attr("data-index", parseInt(index) + 1)
+
+	$(target).append(html);
+
+	hook_editors()
+})
+
+$("body").on("click", ".flexible_add", function() {
+	var index = $(this).data("index")
+	var siblings = $(this).siblings();
+
+	siblings.each(function(i, e) {
+		$(e).data("index", index)
+	})
+})
+
+
+
 // Template multiplication
 $("body").on("click", "[data-template]", function() {
 	var self = $(this)
-	var target = $(this).attr("data-target")
-	var template = $($(this).attr("data-template"))
-	var html = template.html()
-
+	var target = $(this).data("target")
+	var template = $($(this).data("template"))
 
 	var replace = $(this).attr("data-replace")
 	if (replace) {
 		var data = replace.split(",")
-			$.each(data, function(i, e) {
+		var html = template.html()
+		$.each(data, function(i, e) {
 			var r = self.attr("data-"+e)
 			var repreg = new RegExp("\\$"+e, "gi")
 			html = html.replace(repreg, r)

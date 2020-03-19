@@ -153,8 +153,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->author = $user->id;
 		$post->save();
 
-		$id = $post->get('_id');
-		RCF()->save_fields("post", $id);
+		RCF()->save_fields("post", $post->id);
 
 		$this->save_success($post->title, $changed, $post->id);
 	}

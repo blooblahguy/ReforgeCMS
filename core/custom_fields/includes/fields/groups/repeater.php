@@ -6,13 +6,6 @@ class reforge_field_REPEATER extends reforge_field {
 		$this->name = "repeater";
 		$this->label = "Repeater";
 		$this->category = "Layout";
-		$this->defaults = array(
-			'sub_fields'	=> array(),
-			'min'			=> 0,
-			'max'			=> 0,
-			'layout' 		=> 'table',
-			'button_label'	=> ''
-		);
 
 		// now register in parent
 		parent::__construct();
@@ -29,37 +22,43 @@ class reforge_field_REPEATER extends reforge_field {
 		if (! isset($children)) { return; }
 
 		$field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
+		$friendly = str_replace("[]", "", $data['name']);
+		$friendly = str_replace("[", "_", $friendly);
+		$friendly = str_replace("]", "", $friendly);
 
 		?>
 
-		<div class="cf_repeater row">
-			<div class="os repeater_<?= $context; ?>">
-				<div class="repeater_body">
-					<?
-					// loop through data to populate children layouts
-					for ($i = 0; $i < $data['meta_value']; $i++) {
-						rcf_get_template('group-fields', array(
-							'fields' => $children,
-							"context" => $context,
-							"index" => $i
-						));
-						$index++;
-					}
-					?>
-				</div>
+		<div class="repeater_outer">
+			<div class="repeater_body repeater_<?= $friendly; ?>">
+				<?
+				// loop through data to populate children layouts
+				// debug($children);
+				for ($i = 0; $i < $data['meta_value']; $i++) {
+					rcf_get_template('group-fields', array(
+						'fields' => $children,
+						"context" => $context,
+						"index" => $i
+					));
+					$index++;
+				}
+				?>
 			</div>
-			<div class="repeater_footer border bg-light-grey pad1 os-12 text-right">
-				<div class="btn-primary" data-template=".<?= $context; ?>_template" data-replace="index" data-index="<?= $index; ?>" data-target=".repeater_<?= $context; ?>"><?= $field['button_label']; ?></div>
+
+			
+			<div class="repeater_footer border bg-light-grey pad1 text-right">
+				<div class="btn-primary" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".repeater_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
 			</div>
-			<template class="<?= $context; ?>_template">
+			<template class="template_<?= $friendly; ?>">
 				<? 
 				$template = array( 
 					'fields' => $children,
 					"context" => $context,
-					"index" => "\$index"
+					"index" => "\${$field['key']}index",
+					"template" => true,
 				);
 
-				rcf_get_template('group-fields', $template); ?>
+				rcf_get_template('group-fields', $template); 
+				?>
 			</template>
 		</div>
 
@@ -131,7 +130,6 @@ class reforge_field_REPEATER extends reforge_field {
 			$meta['meta_value'] = $children;
 			$metas[$key]['meta_value'] = $children;
 		}
-		
 
 		return $meta;
 	}

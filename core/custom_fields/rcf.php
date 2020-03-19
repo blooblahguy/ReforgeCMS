@@ -68,19 +68,18 @@
 		function load_fields($type, $id) {
 			if (! isset($this->loaded[$type.":".$id])) {
 				$metas = new Meta();
-				$this->loaded[$type.":".$id] = $metas->query("SELECT * FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
+				$rs = $metas->query("SELECT * FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
+				$rs = rekey_array("meta_key", $rs);
+				$this->loaded[$type.":".$id] = $rs;
 			}
 			return $this->loaded[$type.":".$id];
 		}
 
 		function save_fields($type, $id) {
-			// $cf = new CustomField();
 
 			$metas = $_POST['rcf_meta'];
 			$current = $this->load_fields($type, $id);
 			$current = rekey_array("meta_key", $current);
-
-			// debug($metas);
 
 			// run save preperations
 			if (isset($metas)) {
@@ -90,10 +89,7 @@
 					$metas[$key] = $values;
 				}
 
-
 				foreach ($metas as $key => $values) {
-					// debug($values);
-					// debug($key);
 					$meta = new Meta();
 					$meta->load("meta_key = '{$key}' AND meta_parent = {$id} AND meta_type = '{$type}'");
 					$meta->meta_parent = $id;

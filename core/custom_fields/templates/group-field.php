@@ -22,16 +22,16 @@ if (isset($field["layout"])) {
 }
 
 ?>
-
-<div class="custom_field <?= $layout; ?>">
+<div class="field <?= $layout; ?>">
 	<div class="meta">
 		<input type="hidden" name="<?= $meta_name; ?>[meta_key]" value="<?= $data['meta_key']; ?>" >
 		<input type="hidden" name="<?= $meta_name; ?>[meta_info]" value="<?= $data['meta_info']; ?>" >
 		<input type="hidden" name="<?= $meta_name; ?>[type]" value="<?= $field['type']; ?>" >
+		<input type="hidden" name="<?= $meta_name; ?>[parent]" value="<?= $name; ?>" >
 	</div>
-	
-	<? 
-		do_action("rcf/html", $data, $field, $context);
-		do_action("rcf/html/type={$field['type']}", $data, $field, $context);
+
+	<?
+	do_action("rcf/html", $data, $field, $context);
+	do_action("rcf/html/type={$field['type']}", $data, $field, $context);
 	?>
 </div>

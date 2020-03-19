@@ -7,7 +7,6 @@
 			</div>
 		</div>		
 	</div>
-
 	<? rf_scripts(); ?>
 </body>
 </html>

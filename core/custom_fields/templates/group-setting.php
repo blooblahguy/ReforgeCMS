@@ -13,7 +13,6 @@
 
 <div class="rcf_field menu_header rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
 	<div class="meta">
-		<input type="hidden" name="rcf_fields[<?= $key?>][ID]" value="<?= $meta['id']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
@@ -26,7 +25,7 @@
 	</a>
 	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
 		<div class="section">
-			<div class="row g2 content-middle">
+			<div class="row g1 content-middle">
 				<?
 					// label
 					rcf_render_field_setting($field, array(

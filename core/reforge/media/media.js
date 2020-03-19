@@ -11,10 +11,6 @@ function rf_media_initialize() {
 	progressBar = document.getElementById('dropper_progress')
 	preview = document.getElementById('preview')
 	gallery = document.getElementById('rf_gallery')
-	offset = gallery.getBoundingClientRect();
-	gallery.style.cssText = "max-height: calc(100vh - "+(offset.top+40)+"px);"
-
-	console.log("rf_media loaded")
 
 	/** Events */
 	;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -128,7 +124,29 @@ function preview_image(key, src) {
 	previewer.src = src
 }
 
+// Ajax Browsing
+$(".rf_media.mode_browse").on("click", ".rf_media .file_card .overlay", function(e) {
+	preventDefaults(e);
 
+	var href = $(this).attr("href");
+	var id = $(this).data("id")
+	var editor = $(".rf_media_editor")
+	var editor_id = editor.data("id");
+
+	if (editor_id && id == editor_id) {
+		editor.data('id', 0)
+		editor.hide();
+	} else {
+
+		$.get(href, {id: id}, function(r) {
+			editor.show()
+			editor.data("id", id)
+			editor.children(".inner_content").first().html(r)
+		});
+	}
+})
+
+// Modal Button
 $("body").on("click", ".rf_media_browse", function(e) {
 	preventDefaults(e);
 	modal_create();
@@ -147,7 +165,7 @@ $("body").on("click", ".rf_media_browse", function(e) {
 			elements_selector: ".lazy"
 		});
 
-		modal.on("click", ".file_card a", function(e) {
+		modal.on("click", ".rf_media.mode_select .file_card a", function(e) {
 			preventDefaults(e);
 			var id = $(this).data("id")
 			var img = $(this).siblings("img").first().attr("src")

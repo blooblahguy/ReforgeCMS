@@ -29,18 +29,7 @@ class admin_page_MEDIA extends RF_Admin_Page {
 	}
 
 	function render_edit($core, $args) {
-		$media = RF_Media::instance();
-
-		?>
-		<div class="row">
-			<div class="os media_main">
-				<?= $media->display("browse", "3"); ?>
-			</div>
-			<div class="os-4 media_edit">
-				<?= $media->edit($args['id']); ?>
-			</div>
-		</div>
-		<?
+		
 	}
 
 	function save_page($core, $args) {
@@ -48,7 +37,13 @@ class admin_page_MEDIA extends RF_Admin_Page {
 	}
 
 	function delete_page($core, $args) {
+		$id = $args['id'];
+		$file = new RF_File();
+		$file->load("id = $id");
+		$file->erase();
 
+		\Alerts::instance()->warning("Media File $file->name removed");
+		redirect($this->link);
 	}
 
 	/**

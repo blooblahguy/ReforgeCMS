@@ -80,6 +80,12 @@ $.get = function(url, data, success, failure) {
 /**
  * Modal Windows
  */
+
+$("body").on("click", ".modal_outer", function(e, e2) {
+	if ($(e.target).hasClass("modal_outer")) {
+		modal_destroy()
+	}
+})
 $("body").on("click", ".modal_close", function() {
 	modal_destroy()
 })

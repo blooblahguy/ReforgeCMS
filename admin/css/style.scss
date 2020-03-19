@@ -33,6 +33,7 @@ $wow-colors: (
 //===========================================
 // OS Overrides
 //===========================================
+.template {display: none; }
 .autosticky {position: sticky; top: 0; z-index: 100; }
 b, strong, .strong {font-weight: $font-medium; }
 body {background: darken($background, 3%); }
@@ -96,10 +97,12 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	.lazy:not(.loaded) {
 		animation: fadepulse 1s linear infinite; 
 	}
+
+	// .top_outer, .leftsidebar  {position: fixed; top: 0; }
 	.content_outer {max-height: 100%; overflow: hidden; position: relative; }
 	.content_inner {
-		max-height: calc(100vh - 50px); overflow: auto;
-		// &:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
+		overflow: auto; max-height: calc(100% - 47px);
+	// 	// &:after {content: ''; display: block; float: none; clear: both; padding: $g4;}
 	}
 
 	.delete_btn {
@@ -117,7 +120,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 
 	// modals
 	.modal_outer {
-		position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 0, 0, .5); z-index: 100; 
+		position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 0, 0, .5); z-index: 300; 
 
 		.modal_inner {
 			width: 1300px; height: 90vh; max-width: 95%; max-height: 95%; position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); background: $white; box-shadow: 0 0 $pad2 rgba($black, .5);
@@ -132,7 +135,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 			&:hover {background: $primary; color: $white; }
 		}
 		.modal_body {
-			max-height: calc(100% - 63px); overflow: hidden; padding: $pad2; 
+			max-height: calc(100% - 60px); overflow: auto; padding: $pad2; 
 			// position: fixed; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%));
 		}
 	}

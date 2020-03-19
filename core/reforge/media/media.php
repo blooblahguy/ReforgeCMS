@@ -157,13 +157,15 @@ class RF_Media extends Prefab {
 	//=============================================================
 	// Views
 	//=============================================================
-	function edit($id) {
+	function edit($core, $args) {
+		$id = $args['id'];
 		$file = new RF_File();
 		$file->load("id = $id");
 		?>
 			<div class="padx2 rf_media_edit">
 				<div class="image text-center">
 					<img src="<?= $file->original; ?>" alt="<?= $file->name; ?>">
+					<br class="clear">
 					<strong class="name pad1"><?= $file->name.".".$file->extension; ?></strong>
 				</div>
 
@@ -174,12 +176,14 @@ class RF_Media extends Prefab {
 						<input type="text" name="name" value="<?= $file->name; ?>">
 					</div>
 
+					<br>
 					<input type="submit" value="Save">
 
 					<br><br>
 
-					<a href="/admin/rf_media/regenerate/<?= $id; ?>" class="regenerate btn display-block">Regenerate</a>
-					<a href="/admin/rf_media/regenerate/<?= $id; ?>" class="regenerate btn display-block">Delete</a>
+					<a href="/admin/rf_media/regenerate/<?= $id; ?>" class="regenerate btn display-block pull-left">Regenerate</a>
+					<a href="/admin/media/delete/<?= $id; ?>" class="delete btn-error display-block pull-right">Delete</a>
+					<div class="clear"></div>
 
 				</form>
 			</div>
@@ -219,7 +223,8 @@ class RF_Media extends Prefab {
 	}
 	function display($mode = "browse", $size = "2") {
 		?>
-			<div class="rf_media">
+		<div class="row g1">
+			<div class="rf_media os mode_<?= $mode; ?>">
 				<div id="dropper" class="dropper text-center pad4">
 					<em class="muted">Drag Files to Upload</em>
 					<input type="file" class="dropper_field" multiple accept="image/*" onchange="handleFiles(this.files)">
@@ -239,17 +244,21 @@ class RF_Media extends Prefab {
 							if ($file['type'] == "file") {
 								$bg = "/core/img/".$file['extension']."_default.png";
 							}
-						?>
-						<div class="os-lg-<?= $size; ?> os-md-3 os-sm-4">
-							<div class="file_card square">
-								<img src="/core/img/image_placeholder.jpg" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
-								<a href="/admin/media/edit/<?= $file['id']; ?>" data-id="<?= $file['id']; ?>" class="overlay"></a>
+							?>
+							<div class="os-lg-<?= $size; ?> os-md-3 os-sm-4">
+								<div class="file_card square">
+									<img src="/core/img/image_placeholder.jpg" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
+									<a href="/admin/rf_media/edit/<?= $file['id']; ?>" data-id="<?= $file['id']; ?>" class="overlay"></a>
+								</div>
 							</div>
-						</div>
 						<? } ?>
 					</div>
 				</div>
 			</div>
+			<div class="os-3 hidden rf_media_editor">
+				<div class="section autosticky inner_content"></div>
+			</div>
+		</div>
 		<?
 	}
 }

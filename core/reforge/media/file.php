@@ -161,4 +161,26 @@ class RF_File extends RF_Model {
 	}
 }
 
+function get_file_size($id, $width = null, $height = null) {
+	$file = new RF_File();
+	$file->load("id = $id");
+
+	return $file->get_size($width, $height);
+}
+
+function get_file($id) {
+	if (! $id) { return false; }
+	$arr = array();
+
+	$file = new RF_File();
+	$file->load("id = $id");
+
+	$arr['id'] = $file->id;
+	$arr['name'] = $file->name;
+	$arr['original'] = $file->original;
+	$arr['sizes'] = unserialize($file->sizes);
+
+	return $arr;
+}
+
 ?>

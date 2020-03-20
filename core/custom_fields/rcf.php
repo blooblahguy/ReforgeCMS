@@ -75,18 +75,70 @@
 			return $this->loaded[$type.":".$id];
 		}
 
+		function get_fields($type, $id) {
+			// debug("loading fields");
+			$fields = $this->load_fields($type, $id);
+			if (! $fields) {
+				$fields = array();
+			}
+
+			$data = array();
+			$row = array();
+			foreach ($fields as $key => $meta) {
+				$more = preg_split("/_[0-9]_/", $key);
+				array_shift($more);
+				preg_match_all('/_[0-9]_/', $key, $matches);
+				$matches = reset($matches);
+
+
+				if (count($more) == 0) {
+					$data[$key] = $meta['meta_value'];
+					$row = &$data[$key];
+
+					continue;
+				}
+
+				// reference loop build array
+				$sub = &$row;
+				foreach ($more as $i => $v) {
+					$k = false;
+					if (isset($matches[$i])) {
+						$k = (int) preg_replace("/[^0-9]/", "", $matches[$i]);
+					}
+
+					if (gettype($sub) !== "array") {
+						$sub = array();
+					}
+					$sub[$k] = isset($sub[$k]) ? $sub[$k] : array();
+					$sub[$k][$v] = isset($sub[$k][$v]) ? $sub[$k][$v] : array();
+
+					$sub = &$sub[$k][$v];
+				}
+
+				$sub = htmlspecialchars_decode($meta['meta_value']);
+
+			
+			}
+
+			return $data;
+		}
+
 		function save_fields($type, $id) {
 
 			$metas = $_POST['rcf_meta'];
 			$current = $this->load_fields($type, $id);
 			$current = rekey_array("meta_key", $current);
 
+			// debug($metas);
+			// exit();
+
 			// run save preperations
 			if (isset($metas)) {
 				foreach ($metas as $key => $values) {
 					$field = $this->types[ $values['type'] ];
-					$values = $field->prepare_save($values, $metas);
-					$metas[$key] = $values;
+					$prepared_values = $field->prepare_save($values, $metas);
+					$metas[$key] = $prepared_values;
+					// $metas[$key]['field_type'] = $values['type'];
 				}
 
 				foreach ($metas as $key => $values) {
@@ -96,7 +148,7 @@
 					$meta->meta_type = $type;
 					$meta->meta_key = $key;
 					$meta->meta_value = $values['meta_value'];
-					$meta->meta_info = $values['meta_info'];
+					$meta->meta_info = $values['type'];
 					$meta->save();
 
 					unset($current[$key]);

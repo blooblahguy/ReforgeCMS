@@ -17,13 +17,17 @@ class reforge_field_IMAGE extends reforge_field {
 	//========================================================
 	function html($data, $field) {
 		$key = $data['name'];
-		$value = $data['meta_value'];
-		$image = "";
-		if (isset($value) && $value) {
-			$file = new RF_File();
-			$file->load("id = $value");
-			$image = $file->original;
-		}
+
+		// debug($data);
+		// debug($field);
+
+		// debug($value);
+		// $image = "";
+		// if (isset($value) && $value) {
+			// $file = new RF_File();
+			// $file->load("id = $value");
+			// $image = $file->original;
+		// }
 
 		?>
 		<div class="fieldset">
@@ -33,19 +37,24 @@ class reforge_field_IMAGE extends reforge_field {
 				</div>
 				<div class="os">
 					<? 
+					$id = (int) $data['meta_value'];
+					$file = new RF_File();
+					if ($id > 0) {
+						$file->load("id = $id");
+					}
 					$src = "style='display:none'";
 					$datasrc = "";
-					if ($image != "") {
+					if ($id != 0) {
 						$src = "src='/core/img/image_placeholder.jpg'";
-						$datasrc = "data-src='$image'";
+						$datasrc = "data-src='{$file->original}'";
 						$class = "lazy";
 					} ?>
 					<div class="preview">
 						<img class="image_preview preview_<?= $key; ?> <?= $class; ?>" <?= $src; ?> <?= $datasrc; ?> alt="<?= $field['label']; ?>">
 					</div>
 					<?= RF_Media::instance()->select_button($key);?>
-					<input type="hidden" name="<?= $key; ?>" value="<?= $value; ?>">
-					<input type="hidden" name="<?= $key; ?>_path" value="<?= $value; ?>">
+					<input type="hidden" name="<?= $key; ?>_path" value="<?= $file->original; ?>">
+					<input type="hidden" name="<?= $key; ?>" value="<?= $id; ?>">
 
 				</div>
 			</div>

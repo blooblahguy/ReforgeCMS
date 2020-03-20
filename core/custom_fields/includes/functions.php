@@ -1,5 +1,25 @@
 <?
 
+function get_field($key, $type = "post") {
+	global $request;
+
+	if (! isset($request['fields'])) {
+		get_fields();
+	}
+
+	return $request['fields'][$key];
+}
+
+function get_fields($object_uid = "post") {
+	global $request;
+
+	if (! isset($request['fields'])) {
+		$request['fields'] = RCF::instance()->get_fields("post", $request['page_id']);
+	}
+
+	return $request['fields'];
+}
+
 function rcf_get_field_types() {
 	return RCF::instance()->get_field_types();
 }

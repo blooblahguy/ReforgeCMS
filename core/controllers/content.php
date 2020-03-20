@@ -96,6 +96,7 @@
 			$templates[] = "single.php";
 			$templates[] = "index.php";
 
+
 			locate_template($templates, true);
 		}
 
@@ -106,10 +107,34 @@
 			$templates[] = "page.php";
 			$templates[] = "single.php";
 
+			add_body_class("page");
+
 			locate_template($templates, true);
 		}
 	}
 
+	function body_classes() {
+		global $request;
+		if (! $request['body_classes']) {
+			$request['body_classes'] = array();
+		}
+		echo 'class="'.implode(" ", $request['body_classes']).'"';
+	}
+
+	function add_body_class($class) {
+		global $request;
+		if (! $request['body_classes']) {
+			$request['body_classes'] = array();
+		}
+		if (! in_array($class, $request['body_classes'])) {
+			$request['body_classes'][] = $class;
+		}
+	}
+
+	function theme_dir() {
+		global $root;
+		return $root."/content/themes/".get_option("active_theme");
+	}
 	function theme_url() {
 		return "/content/themes/".get_option("active_theme");
 	}
@@ -130,10 +155,15 @@
 	}
 
 	function rf_require($path) {
-		// set globals for each file
+		global $request;
 		$user = current_user();
 		$page = Content::instance()->page;
 
+		$request['user_id'] = $user->id;
+		$request['page_id'] = $page->id;
+
+		add_body_class(slugify($page->title));
+		
 		require $path;
 	}
 

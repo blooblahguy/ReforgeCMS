@@ -247,7 +247,7 @@ class RF_Media extends Prefab {
 							?>
 							<div class="os-lg-<?= $size; ?> os-md-3 os-sm-4">
 								<div class="file_card square">
-									<img src="/core/img/image_placeholder.jpg" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
+									<img src="/core/img/image_placeholder.jpg" data-original="<?= $f->original; ?>" data-src="<?= $bg; ?>" alt="<?= $file['name']; ?>" class="bg lazy">
 									<a href="/admin/rf_media/edit/<?= $file['id']; ?>" data-id="<?= $file['id']; ?>" class="overlay"></a>
 								</div>
 							</div>

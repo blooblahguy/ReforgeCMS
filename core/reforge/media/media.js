@@ -168,7 +168,7 @@ $("body").on("click", ".rf_media_browse", function(e) {
 		modal.on("click", ".rf_media.mode_select .file_card a", function(e) {
 			preventDefaults(e);
 			var id = $(this).data("id")
-			var img = $(this).siblings("img").first().attr("src")
+			var img = $(this).siblings("img").first().attr("data-original")
 
 			var hidden = $("[name='"+key+"']")
 			hidden.val(id);

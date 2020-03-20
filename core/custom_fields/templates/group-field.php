@@ -5,7 +5,7 @@ if (! isset($data['meta_key'])) {
 	$data["meta_key"] = $field['slug'];
 }
 if (! isset($data['meta_info'])) {
-	$data["meta_info"] = $field['key'];
+	$data["meta_info"] = $field['type'];
 }
 
 // $data = apply_filters("rcf/prepare_value/type={$field['type']}", $data, $field, $context);
@@ -20,7 +20,6 @@ $layout = "os-12";
 if (isset($field["layout"])) {
 	$layout = $field['layout'];
 }
-
 ?>
 <div class="field <?= $layout; ?>">
 	<div class="meta">

@@ -17,6 +17,6 @@
 
 	$background: $black;
 	$text: $white;
-	$dark: lighten($black, $hover-difference);
+	$dark: darken($black, $hover-difference);
 	$light-grey: lighten($background, 8%);
 	$dark-grey: lighten($background, 50%);

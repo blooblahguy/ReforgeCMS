@@ -35,12 +35,12 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 
 	<link rel="shortcut icon" href="<?= $favicon; ?>" type="image/x-icon" />
 </head>
-<body>
+<body <?= body_classes(); ?>>
 	<div class="wrapper">
 		<div class="top_outer bg-dark">
 			<div class="top container row content-middle">
 				<div class="os-md-min">
-					<? $socials = get_field("socials", "options"); ?>
+					<? //$socials = get_field("socials", "options"); ?>
 				</div>
 				
 				<div class="os-12 os-md links hidden md-display-block text-right">

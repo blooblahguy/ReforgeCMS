@@ -10,6 +10,7 @@
 	$sheets[] = $root."/core/css/openskull/_defaults.scss";
 	$sheets[] = $root."/core/css/openskull/_functions.scss";
 	$sheets[] = "../_variables.scss";
+	$sheets[] = $root."/core/css/openskull/_variables.scss";
 	$sheets[] = $root."/core/css/openskull/_reset.scss";
 	$sheets[] = $root."/core/css/openskull/_colors.scss";
 	$sheets[] = $root."/core/css/openskull/_buttons.scss";

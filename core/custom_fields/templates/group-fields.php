@@ -1,5 +1,6 @@
 <?
 $source = RCF()->current_data;
+// debug($source);
 ?>
 
 <div class="field_group_outer row<? if ($context != "") { echo " border"; } ?>">
@@ -19,13 +20,16 @@ $source = RCF()->current_data;
 			}
 			$key .= $field["slug"];
 
-			$data = array();
-			foreach ($source as $info) {
-				if ($info['meta_key'] == $key) {
-					$data = $info;
-					break;
-				}
+			if (isset($source[$key])) {
+				$data = $source[$key];
 			}
+			// $data = array();
+			// foreach ($source as $info) {
+			// 	if ($info['meta_key'] == $key) {
+			// 		$data = $info;
+			// 		break;
+			// 	}
+			// }
 
 			rcf_get_template('group-field', array(
 				'field' => $field,

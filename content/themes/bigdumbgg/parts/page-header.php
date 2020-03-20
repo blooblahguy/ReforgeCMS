@@ -1,8 +1,9 @@
 <?
-$bg = $fields;
+$bg = get_file(get_field("page_hero"));
 $sub = $page->subtitle;
-if (! $bg) {
-	// $bg = rand;
+if ($bg) {
+	$bg = $bg['original'];
+} else {
 	$hero = rand(1, 8);
 	$bg = "/content/uploads/banner_{$hero}.raw.png";
 }

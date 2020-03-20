@@ -9,21 +9,24 @@ body {background: $black; color: $white; }
 //===========================================
 // TYPEOGRAPHY
 //===========================================
+.ql-align-center {text-align: center; }
 
 //===========================================
 // HEADER
 //===========================================
 .logo {
-	color: $white; display: block; font-weight: bold; font-size: 20px; 
+	color: $white; display: block; font-weight: bold; font-size: 20px; padding: $pad1;
 	svg {display:inline-block; max-width: 34px; height: 34px; margin: -10px 2px; margin-left: 0; fill: $primary; }
 	span {color: $primary; }
 	&:hover {opacity: 0.8; color: $white; }
 }
 .top_outer {
+	position: relative; z-index: 301; 
 	.links a {font-size:13px; opacity:0.3; color: #ddd; padding: 4px 4px 6px; display:inline-block; }
 	.links a:hover { opacity: 1;}
 }
 
+.header_outer {position: sticky; top: 0; z-index: 300; box-shadow: 0 2px $pad1 rgba(0, 0, 0, .3); }
 .header .menu {
 	margin:0; padding:0; list-style: none; padding-right: $pad2; 
 	li {display: inline-block; }
@@ -49,6 +52,14 @@ body {background: $black; color: $white; }
 //===========================================
 // CONTENT
 //===========================================
+.section {padding: $pad3 0;}
+.page_header_outer {
+	position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0;
+	.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
+	.page_header {position: relative; z-index: 5; }
+	h1 {margin: 0; padding: $pad1 0 0; font-size: 2rem; text-shadow: 1px 1px 4px black;  }
+	h3 {margin: 0; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black;}
+}
 
 // Medium
 @media screen and (max-width : 1024px) {

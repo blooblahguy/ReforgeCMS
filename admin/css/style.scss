@@ -30,9 +30,11 @@ $wow-colors: (
 	.#{$name} {color: $color; }
 } 
 
+.bg-darken {background: rgba(0, 0, 0, .05);}
 //===========================================
 // OS Overrides
 //===========================================
+.dragger {cursor: move; }
 .template {display: none; }
 .autosticky {position: sticky; top: 0; z-index: 100; }
 b, strong, .strong {font-weight: $font-medium; }
@@ -154,7 +156,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 // MEDIA
 //===========================================
 .img_border {
-	box-shadow: 0 4px 10px rgba($black, .2); border: 2px solid rgba($black, .1); background: $light-grey;
+	box-shadow: 0 4px 10px rgba($black, .2); border: 2px solid rgba($black, .1); background: $input-background;
 }
 .rf_media {
 	.file_card {
@@ -205,6 +207,11 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 }
 .menu_header {border-top: 1px solid $grey; margin-top: -1px;}
 .menu_header:first-child {border: none;}
+.menu_children:empty {padding: $pad1}
+.menu_children {border: 1px solid $input-border; padding-top: $pad1; background: $input-background}
+.menu_children .menu_item {margin-left: -1px; margin-right: -1px; }
+.btn_remove {cursor:pointer;}
+.btn_remove:hover {color: $error; }
 
 // Medium
 @media screen and (max-width : 1024px) {

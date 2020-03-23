@@ -104,3 +104,40 @@ function modal_create() {
 function modal_destroy() {
 	$(".modal_outer").remove()
 }
+
+function hook_sorters() {
+	[].forEach.call(document.getElementsByClassName('menu_group'), function (el){
+		new Sortable(el, { 
+			group: 'menu',
+			handle: ".dragger",
+			direction: "vertical",
+			invertSwap: true,
+			animation: 150,
+		});
+	});
+}
+hook_sorters();
+
+// $(".sortable").each(function(i, e) {
+	// var group = $(this).data("sort-group")
+	// if (! group) { group = false; }
+
+	// new Sortable(e, {
+	// 	group: group,
+	// 	handle: ".dragger",
+	// 	draggable: ".sort",
+	// 	ghostClass: "sortable-ghost",
+	// 	onAdd: function (evt){
+	// 		console.log("add", evt)
+	// 	},
+	// 	onUpdate: function (evt){
+	// 		var itemEl = evt.item; // the current dragged HTMLElement
+	// 		console.log("update", evt, itemEl)
+	// 	},
+	// 	onRemove: function (evt){
+	// 		var itemEl = evt.item;
+	// 		console.log("remove", evt, itemEl)
+	// 	}
+	// });
+
+// })

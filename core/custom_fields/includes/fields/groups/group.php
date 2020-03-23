@@ -26,23 +26,26 @@ class reforge_field_GROUP extends reforge_field {
 		$friendly = str_replace("]", "", $friendly);
 
 		?>
-		<div class="rcf_group row g1">
-		<?			
-		foreach ($children as $field) {
-			$key = $context;
-			$key .= "_".$field["slug"];
+		<div class="rcf_group">
+			<label for=""><?= $field['label']; ?></label>
+			<div class="row g1">
+				<?			
+				foreach ($children as $field) {
+					$key = $context;
+					$key .= "_".$field["slug"];
 
-			$data = $source[$key];
+					$data = $source[$key];
 
-			
-			rcf_get_template('group-field', array(
-				'field' => $field,
-				'context' => $key,
-				"data" => $data,
-			));
-			
-		}
-		?>
+					
+					rcf_get_template('group-field', array(
+						'field' => $field,
+						'context' => $key,
+						"data" => $data,
+					));
+					
+				}
+				?>
+			</div>
 		</div>
 		<?
 	}

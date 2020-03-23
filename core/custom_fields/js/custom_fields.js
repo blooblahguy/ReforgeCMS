@@ -19,6 +19,7 @@ $("body").on("click", "[data-rcf-template]", function() {
 	$(target).append(html);
 
 	hook_editors()
+	hook_sorters()
 })
 
 $("body").on("click", ".flexible_add", function() {
@@ -55,6 +56,7 @@ $("body").on("click", "[data-template]", function() {
 	}
 
 	hook_editors()
+	hook_sorters()
 })
 
 // Template accordions

@@ -18,6 +18,8 @@ $admin_theme = get_option("admin_theme");
 	<link rel="shortcut icon" href="<?= $favicon; ?>" type="image/x-icon" />
 
 	<? rf_styles(); ?>
+
+	<script src="/core/js/sortable.min.js"></script>
 </head>
 <body class="h100">
 	<div class="wrapper h100">

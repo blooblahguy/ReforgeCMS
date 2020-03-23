@@ -4,9 +4,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 // change highlight text
 *::selection, *::-moz-selection {background: $primary; color: contract($primary); }
 // change scrollbars
-*::-webkit-scrollbar {width: $pad3/2;}
-*::-webkit-scrollbar-track { background: $white; border-left: 1px solid $light-grey; }
-*::-webkit-scrollbar-thumb { background-color: $dark-grey; opacity: 0.8; }
+*::-webkit-scrollbar {width: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background-color: #757575; opacity: 0.8; }
 
 // html fixes
 hr {margin-top: $pad2; margin-bottom: $pad2; border: none; border-top: 1px solid $grey; display:block; clear:both; float:none;}

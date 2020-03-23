@@ -36,30 +36,34 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 			</div>
 		</div>
 
-		<? 
-		$choices = array_extract($pages, "id", "title");
-		render_admin_field($home_page, array(
-			"type" => "select",
-			"label" => "Site Homepage",
-			"name" => "site_homepage",
-			"choices" => $choices,
-		));
+		<div class="section">
+			<? 
+			$choices = array_extract($pages, "id", "title");
+			render_admin_field($home_page, array(
+				"type" => "select",
+				"label" => "Site Homepage",
+				"name" => "site_homepage",
+				"choices" => $choices,
+			));
 
-		$choices = array("dark" => "Dark", "default" => "Default");
-		render_admin_field($admin_theme, array(
-			"type" => "select",
-			"label" => "Admin theme",
-			"name" => "admin_theme",
-			"choices" => $choices,
-		));
+			$choices = array("dark" => "Dark", "default" => "Default");
+			render_admin_field($admin_theme, array(
+				"type" => "select",
+				"label" => "Admin theme",
+				"name" => "admin_theme",
+				"choices" => $choices,
+			));
 
-		render_admin_field($disable_seo, array(
-			"type" => "checkbox",
-			"label" => "Discourage Search Engines",
-			"name" => "disable_seo",
-		));
-		
-		?>
+			render_admin_field($disable_seo, array(
+				"type" => "checkbox",
+				"label" => "Discourage Search Engines",
+				"name" => "disable_seo",
+			));
+			
+			?>
+		</div>
+
+		<? do_action("admin/custom_fields", "settings"); ?>
 
 		<input type="submit">
 		<?
@@ -70,6 +74,8 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		set_option("site_homepage", $_POST['site_homepage']);
 		set_option("disable_seo", $_POST['disable_seo']);
 		set_option("admin_theme", $_POST['admin_theme']);
+
+		RCF()->save_fields("settings", "0");
 
 		\Alerts::instance()->success("Setttings updated");
 		redirect($this->link);

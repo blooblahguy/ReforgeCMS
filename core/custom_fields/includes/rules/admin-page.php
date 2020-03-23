@@ -19,6 +19,9 @@ class rcf_rule_ADMINPAGE extends rcf_rule {
 		global $db;
 
 		$admin_pages = RF_Admin_Pages::instance()->pages;
+		usort($admin_pages, function($a, $b) {
+			return $a->admin_menu > $b->admin_menu;
+		});
 		foreach ($admin_pages as $slug => $page) {
 			$choices[$page->name] = $page->label_plural;
 		}

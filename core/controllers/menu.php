@@ -22,9 +22,12 @@
 		}
 
 		function get_menu_array() {
-			if (! $this->id) { return null; }
+			if (! $this->id) { return array(); }
 
 			$links = unserialize($this->links);
+			if (! $links) {
+				$links = array();
+			}
 
 			return $links;
 		}

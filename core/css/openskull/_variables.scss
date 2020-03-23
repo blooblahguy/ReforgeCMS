@@ -1,11 +1,11 @@
 //============================================
 // ADVANCED
 //============================================
-	$pad0: $padding * 0; 							// padding size 0
-	$pad1: $padding * 1; 							// padding size 1
-	$pad2: $padding * 2 * $padding-multipler; 		// padding size 3
-	$pad3: $padding * 3 * $padding-multipler; 		// padding size 4
-	$pad4: $padding * 4 * $padding-multipler; 		// padding size 5
+	$pad0: $padding * 0 !default; 									// padding size 0
+	$pad1: $padding * 1 !default; 									// padding size 1
+	$pad2: $padding * 2 !default; 									// padding size 3
+	$pad3: $padding * 3 !default; 									// padding size 4
+	$pad4: $padding * 4 !default; 									// padding size 5
 
 	$sizings: (
 		0: 0,

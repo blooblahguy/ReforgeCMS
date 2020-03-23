@@ -52,14 +52,33 @@ body {background: $black; color: $white; }
 //===========================================
 // CONTENT
 //===========================================
-.section {padding: $pad3 0;}
-.page_header_outer {
-	position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0;
-	.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
-	.page_header {position: relative; z-index: 5; }
-	h1 {margin: 0; padding: $pad1 0 0; font-size: 2rem; text-shadow: 1px 1px 4px black;  }
-	h3 {margin: 0; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black;}
-}
+	.section {padding: $pad4 0;}
+	.page_header_outer {
+		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0;
+		.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
+		.page_header {position: relative; z-index: 5; }
+		h1 {margin: 0; padding: $pad1 0 0; font-size: 2rem; text-shadow: 1px 1px 4px black;  }
+		h3 {margin: 0; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black;}
+	}
+
+	.table_lead {background: $dark; border-radius: 3px 3px 0 0; color: white; font-size: 16px; font-weight: 600; margin: 20px 0 0; padding: $pad1;}
+	table tr, .table tr, table thead tr, .table thead tr {border: none; }
+	table {
+		word-break: break-all;
+
+		th {font-size: 0.9rem; text-transform: uppercase; font-weight: 600; color: white; padding: $pad1; line-height:2;}
+		tbody {
+			tr:nth-child(even) { background: $dark-grey;  }
+			td {padding: $pad1; font-weight:300; letter-spacing: 0.025rem; }
+		}
+
+		thead {background: $dark; }
+	}
+
+//===========================================
+// PAGES
+//===========================================
+.achivements {}
 
 // Medium
 @media screen and (max-width : 1024px) {

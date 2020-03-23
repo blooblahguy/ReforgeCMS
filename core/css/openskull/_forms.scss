@@ -12,6 +12,10 @@ body input, body select, body textarea {
 	&:disabled {opacity: 0.5; cursor: not-allowed; }
 }
 
+div[data-placeholder]:empty:before {
+	content:attr(data-placeholder); color:gray;
+}
+
 textarea {resize: vertical;}
 select[multiple] {height: auto; overflow:auto; padding: 0;}
 input[type="range"] {border: none; -webkit-appearance: slider-horizontal;}
@@ -40,11 +44,11 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 input[type="checkbox"] {
-	width: $pad4; background: $grey; 
+	width: ($padding * 4); background: $grey; 
 	&:after { background: $white; top: 0px; left: 0px; height: calc(#{$pad2} - 2px); width: calc(#{$pad2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
 	&:checked {
 		background: $success; border-color: $success;
-		&:after {left: $pad2; background: $white;}
+		&:after {left: ($padding * 2); background: $white;}
 	}
 }
 input[type="radio"] {

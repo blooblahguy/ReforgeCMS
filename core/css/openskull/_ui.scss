@@ -6,7 +6,7 @@
 .border {border: 1px solid $grey; }
 @each $name, $color in $system-colors {
 	.bg-#{$name} .border {
-		border: 1px solid contrast($color, $light-grey, $dark-grey)
+		border: 1px solid $input-border;
 	}
 }
 

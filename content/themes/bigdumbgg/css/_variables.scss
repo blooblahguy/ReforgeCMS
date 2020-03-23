@@ -1,6 +1,6 @@
-//============================================
-// Defaults - Common
-//============================================
+
+$padding: 12px;
+$padding-multipler: 1.2;
 
 //============================================
 // Theme
@@ -16,5 +16,5 @@
 	$background: $black;
 	$text: $white;
 	$dark: darken($black, $hover-difference);
-	$light-grey: lighten($background, 8%);
-	$dark-grey: lighten($background, 50%);
+	$light-grey: lighten($background, 5%);
+	$dark-grey: darken($background, 2%);

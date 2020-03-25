@@ -94,7 +94,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 								<? if (! $current) { ?>
 									<a href="/admin/plugins/activate/<?= $slug; ?>" class="btn">Activate</a>
 								<? } else { ?>
-									<button class="btn-primary" disabled>Active</button>
+									<a href="/admin/plugins/deactivate/<?= $slug; ?>" class="btn-primary">Deactivate</a>
 								<? } ?>
 							</div>
 							<div class="os-12 plugin_info padt1">
@@ -131,7 +131,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		}
 		$active_plugins = unserialize($active_plugins);
 
-		$active_plugins[$slug] = true;
+		$active_plugins[$slug] = plugins_dir()."/$slug/$slug.php";
 
 		set_option("active_plugins", serialize($active_plugins));
 		\Alerts::instance()->success("Plugin '{$slug}' activated");

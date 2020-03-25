@@ -35,7 +35,6 @@ class admin_page_MENUS extends RF_Admin_Page {
 	<? }
 
 	function menu_link_template($menu) {
-		// debug($menu);
 		?>
 		<div class="menu_item pad1 bg-background margb1 sort border">
 			<div class="row g1">
@@ -285,6 +284,8 @@ class admin_page_MENUS extends RF_Admin_Page {
 		}
 
 		$links = $this->build_menu();
+		// debug($links);
+		// exit();
 
 		$menu->label = $_POST['label'];
 		$menu->slug = $_POST['slug'];

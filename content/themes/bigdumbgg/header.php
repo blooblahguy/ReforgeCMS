@@ -63,34 +63,15 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 						<a href="/" class="logo"><?= get_file_contents_url(theme_url()."/img/emblem.svg"); ?>BIG<span>DUMB</span>GAMING</a>
 					</h1>
 					<?
-					$menu = array();
-					$menu[] = array(
-						"label" => "News",
-						"link" => "/",
-					);
-					$menu[] = array(
-						"label" => "Raid Guides",
-						"link" => "/raid-guides",
-					);
-					$menu[] = array(
-						"label" => "About Us",
-						"link" => "/about-us",
-					);
-					$menu[] = array(
-						"label" => "Players",
-						"link" => "/players",
-					);
+					$menu = get_menu("main-menu");
 					?>
 					<ul class="os menu text-right">
 						<? foreach ($menu as $link) { ?>
 							<li class="link">
-								<a href="<?= $link['link']; ?>"><?= $link['label']; ?></a>
+								<?= $link['html']; ?>
 							</li>
 						<? } ?>
 					</ul>
-					<div class="os-min">
-						<a href="/apply" class="apply btn">Apply</a>
-					</div>
 				</div>
 			</div>
 		</div>

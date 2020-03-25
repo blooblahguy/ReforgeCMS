@@ -58,6 +58,7 @@
 
 	$option = new Option();
 	$options = $option->load_all();
+
 	
 	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
@@ -67,6 +68,12 @@
 		
 		$core->run();
 	} else {
+		// Load Plugins
+		$plugins = unserialize($options['active_plugins']);
+		foreach ($plugins as $path) {
+			require $path;
+		}
+
 		$core->route("GET|POST /logout", "User->logout");
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {

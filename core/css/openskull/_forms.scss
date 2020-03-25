@@ -40,13 +40,13 @@ input[type="checkbox"], input[type="radio"] {
 	&:invalid:focus, &:invalid:active {border-color: $error; }
 	&:not(:invalid) { border-color: $input-border; }
 
-	&:after {content: '';  position: absolute; border-radius: 50%; }
+	&:after {content: ''; position: absolute; border-radius: 50%; }
 	&:focus { box-shadow: 0 0 6px rgba($black, .25); }
 }
 
 input[type="checkbox"] {
 	width: ($padding * 4); background: $grey; 
-	&:after { background: $white; top: 0px; left: 0px; height: calc(#{$pad2} - 2px); width: calc(#{$pad2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
+	&:after { background: $white; top: 0; left: 0; height: calc(#{$pad2} - 2px); width: calc(#{$pad2} - 2px); @include prefix(transition, left $animation-speed ease-in-out); }
 	&:checked {
 		background: $success; border-color: $success;
 		&:after {left: ($padding * 2); background: $white;}

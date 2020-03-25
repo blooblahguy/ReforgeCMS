@@ -24,8 +24,8 @@
 		function link_loop($links) {
 			foreach ($links as &$l) {
 				$l['html'] = $this->build_link_html($l);
-				unset($l['class']);
-				unset($l['target']);
+				// unset($l['class']);
+				// unset($l['target']);
 
 				if (count($l['children']) > 0) {
 					$l['children'] = $this->link_loop($l['children']);
@@ -44,6 +44,7 @@
 			if (! $links) {
 				$links = array();
 			}
+
 
 			$links = $this->link_loop($links);
 			// debug($links);
@@ -68,8 +69,8 @@
 			}
 
 			if ($link['url'] == "#0" || $link['url'] == "") {
-				unset($link['url']);
-				unset($link['target']);
+				// unset($link['url']);
+				// unset($link['target']);
 				$link['class'] .= " head_link";
 			}
 

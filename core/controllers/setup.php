@@ -60,6 +60,7 @@
 			// default options
 			set_option("sitename", $sitename);
 			set_option("active_theme", "reforge2020");
+			set_option("active-plugins", serialize(array()));
 
 			$alert->message("First setup successful");
 			redirect("/admin");

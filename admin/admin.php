@@ -1,6 +1,6 @@
 <?
 	require "functions.php";
-
+	
 	if (! $current_user->logged_in()) {
 		$core->route("GET /admin", function($core, $args) {
 			require "pages/views/login.php";

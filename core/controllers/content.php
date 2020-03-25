@@ -131,18 +131,6 @@
 		}
 	}
 
-	function theme_dir() {
-		global $root;
-		return $root."/content/themes/".get_option("active_theme");
-	}
-	function theme_url() {
-		return "/content/themes/".get_option("active_theme");
-	}
-
-	function theme_path() {
-		return $_SERVER['DOCUMENT_ROOT']."/content/themes/".get_option("active_theme")."/";
-	}
-
 	function get_template_part($slug, $name = '', $include = true) {
 		$templates = array();
 		if ($name !== '') {

@@ -75,11 +75,11 @@ body {background: $black; color: $white; }
 // CONTENT
 //===========================================
 	.home_hero {
-		position: relative; border-top: 2px solid black; 
-		img {z-index: -1; min-width: 100%; display:block; }
-		.text_overlay {width: 100%; position: absolute; top: 50%; left: 0; @include prefix(transform, translateY(-50%)); }
-		h2 {font-size: 2.5vmax; }
-		h3 {font-size: 1vmax; font-weight: normal; }
+		position: relative; border-top: 2px solid black; overflow:hidden; 
+		img {z-index: -1; min-width: 100%; max-width: none; display:block; }
+		.text_overlay {width: 100%; max-width: none; position: absolute; top: 50%; left: 0; @include prefix(transform, translateY(-50%)); }
+		h2 {font-size: 2.5rem; }
+		h3 {font-size: 1.1rem; font-weight: normal; }
 	}
 	.section {padding: $pad4 0;}
 	.page_header_outer {

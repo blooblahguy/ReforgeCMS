@@ -23,6 +23,7 @@ function update_role_checks() {
 }
 
 function slugify(text) {
+	if (! text) { return text; }
 	return text.replace(/\s+/g, '-') // Replace spaces with -
 		.replace(/&/g, '-and-') // Replace & with 'and'
 		.replace(/[^\w\-]+/g, '') // Remove all non-word characters

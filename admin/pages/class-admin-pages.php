@@ -2,6 +2,7 @@
 
 	class RF_Admin_Pages extends Prefab {
 		var $pages = array();
+		var $pending_children = array();
 
 		function beforeroute($core, $args) {
 			global $request;
@@ -14,6 +15,14 @@
 
 			$this->page = $this->get_page($alias);
 			$this->page->id = isset($args["id"]) ? (int) $args["id"] : 0;
+
+			$user = current_user();
+			if ($this->page->base_permission) {
+
+				if (! $user->can($this->page->base_permission)) {
+					exit();
+				}
+			}
 
 			$request["page_id"] = $this->page->id;
 			$request["page_uid"] = $this->page->get_id();
@@ -32,6 +41,35 @@
 			require "views/footer.php";
 		}
 
+		function build_menus() {
+			global $admin_menu;
+
+			usort($admin_menu, function($a, $b) {
+				if ($a->admin_menu_parent == $b->admin_menu_parent) {
+					return $a->admin_menu > $b->admin_menu;
+				}
+				return $a->admin_menu_parent > $b->admin_menu_parent;
+			});
+
+			$final = array();
+			foreach ($admin_menu as $class) {
+				$entry = array(
+					"label" => $class->label_plural,
+					"icon" => $class->icon,
+					"link" => $class->link,
+					"order" => $class->admin_menu,
+					'children' => array(),
+				);
+				if (! $class->admin_menu_parent) {
+					$final[$class->name] = $entry;
+				} else {
+					$final[$class->admin_menu_parent]['children'][] = $entry;
+				}
+			}
+
+			$admin_menu = $final;
+		}
+
 		function register_page($class) {
 			global $admin_menu, $core;
 
@@ -39,12 +77,8 @@
 			$this->pages[ $class->name ] = $class;
 
 			// add to user menu
-			if (isset($class->admin_menu) && $class->admin_menu !== false) {
-				$admin_menu[$class->admin_menu] = array(
-					"label" => $class->label_plural,
-					"icon" => $class->icon,
-					"link" => $class->link,
-				);
+			if (isset($class->admin_menu)) {
+				$admin_menu[] = $class;
 			}
 		}
 

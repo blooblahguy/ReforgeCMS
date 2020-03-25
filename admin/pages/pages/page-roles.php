@@ -6,6 +6,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		$this->name = "roles";
 		$this->label = "Role";
 		$this->label_plural = "Roles";
+		$this->admin_menu_parent = 'users';
 		$this->admin_menu = 35;
 		$this->icon = "how_to_reg";
 		$this->base_permission = "manage_roles";

@@ -15,15 +15,13 @@ class reforge_field_WYSIWYG extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-		// debug($data);
-		// debug($field);
 		render_admin_field($data, array(
-			"type" => "wysiwg",
+			"type" => "wysiwyg",
 			"label" => $field['label'],
 			"name" => $data["name"],
 			"required" => $field['required'],
 			"placeholder" => $field['placeholder'],
-			"height" => $field['height'],
+			"style" => "height: {$field['height']}px",
 		));
 	}
 
@@ -59,12 +57,8 @@ class reforge_field_WYSIWYG extends reforge_field {
 		));
 	}
 
-	function prepare_value($data) {
-		// debug($data);
-		// exit();
-		$data['meta_value'] = htmlspecialchars_decode($data['meta_value']);
-
-		return $data;
+	function prepare_value($value) {
+		return htmlspecialchars_decode($value);
 	}
 
 	function prepare_save($meta, $all_metas) {

@@ -6,7 +6,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$this->name = "partials";
 		$this->label = "Partial";
 		$this->label_plural = "Partials";
-		$this->admin_menu = 80;
+		$this->admin_menu = 25;
 		$this->icon = "widgets";
 		$this->base_permission = "manage_partials";
 		$this->link = "/admin/{$this->name}";
@@ -15,16 +15,124 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
-		echo "Partials index";
+	function render_index() { 
+		global $db;
+		?>
+		<div class="section">
+		<?
+		$partials = $db->exec("SELECT * FROM posts WHERE post_type = 'partial' "); 
+		// display table
+		display_results_table($partials, array(
+			'title' => array(
+				"label" => "Title",
+				"class" => "tablelabel",
+				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
+			),
+		)); 
+		?>
+		</div>
+		<?
 	}
 
-	function render_edit() {
-		
+	function render_edit() { ?>
+		<div class="row g1">
+			<div class="os main">
+				<div class="section">
+					<?
+					$id = $this->id;
+
+					$partial = new Partial();
+					if ($id > 0) {
+						$partial->load("id = $id");
+					}
+					$cache = get_meta("partial_$id", 'cache');
+
+					render_admin_field($partial, array(
+						"type" => "text",
+						"label" => "Title",
+						"name" => "title",
+						"class" => "post_title",
+						"required" => true,
+					));
+					
+					render_admin_field($partial, array(
+						"type" => "wysiwyg",
+						"label" => "Content",
+						"name" => "content",
+						"layout" => "padt1",
+						"style" => "height: 300px",
+					));
+					?>
+				</div>
+
+				<? do_action("admin/custom_fields", "partial"); ?>
+			</div>
+			<div class="os-400px sidebar">
+				<div class="section autosticky">
+					<input type="submit" value="save">
+
+					<? 
+					render_admin_field($cache, array(
+						"type" => "select",
+						"label" => "Cache HTML For:",
+						"name" => "cache",
+						"class" => "padt1",
+						"required" => true,
+						"choices" => array(
+							(0) => "Disabled",
+							(60) => "1 minute",
+							(60 * 5) => "5 minutes",
+							(60 * 30) => "30 minutes",
+							(60 * 60) => "1 hour",
+							(60 * 60 * 6) => "6 hours",
+							(60 * 60 * 12) => "12 hours",
+						),
+					));
+					render_admin_field($partial, array(
+						"type" => "text",
+						"label" => "Slug",
+						"name" => "slug",
+						"class" => "post_permalink padt1",
+						"required" => false,
+					));
+					render_admin_field(array(), array(
+						"type" => "text",
+						"label" => "Post File",
+						"name" => "post_file",
+						"class" => "post_file padt1 inline",
+						"instructions" => "If this file exists in your theme, then it will be used to render the partials HTML. Otherwise the content field is used.",
+						"disabled" => true,
+					));
+					?>
+				</div>
+			</div>
+		</div>
+		<?
 	}
 
 	function save_page() {
+		$id = $this->id;
 
+		$partial = new Partial();
+		$changed = "created";
+		if ($id > 0) {
+			$changed = "updated";
+			$partial->load("id = $id");
+		}
+
+		$partial->title = $_POST['title'];
+		$partial->slug = $_POST['slug'];
+		$partial->content = $_POST['content'];
+		$partial->post_type = "partial";
+		$partial->author = current_user()->id;
+		$partial->save();
+
+		RCF()->save_fields("partial", $partial->id);
+		$uid = "partial_{$partial->id}";
+
+		set_meta($uid, 'cache', $_POST['cache']);
+
+		$this->save_success($partial->title, $changed, $partial->id);
 	}
 
 	function delete_page() {

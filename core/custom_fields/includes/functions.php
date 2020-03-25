@@ -1,23 +1,44 @@
 <?
 
-function get_field($key, $type = "post") {
+function split_uid($uid) {
 	global $request;
-
-	if (! isset($request['fields'])) {
-		get_fields();
+	if (! $uid) {
+		$uid = "post_".$request['page_id'];
+	}
+	if ($uid == "settings") {
+		$uid = "settings_0";
 	}
 
-	return $request['fields'][$key];
+	list($type, $id) = explode("_", $uid);
+	if ($id === NULL) {
+		$id = $type;
+		$type = NULL;
+		$uid = "post_{$id}";
+	}
+
+	return array($type, $id);
 }
 
-function get_fields($object_uid = "post") {
+function get_field($key, $uid = false) {
 	global $request;
+	list($type, $id) = split_uid($uid);
 
-	if (! isset($request['fields'])) {
-		$request['fields'] = RCF::instance()->get_fields("post", $request['page_id']);
+	if (! isset($request['fields'][$uid])) {
+		get_fields($uid);
 	}
 
-	return $request['fields'];
+	return $request['fields'][$uid][$key];
+}
+
+function get_fields($uid = false) {
+	global $request;
+	list($type, $id) = split_uid($uid);
+
+	if (! isset($request['fields'][$uid])) {
+		$request['fields'][$uid] = RCF::instance()->get_fields($type, $id);
+	}
+
+	return $request['fields'][$uid];
 }
 
 function rcf_get_field_types() {

@@ -1,5 +1,6 @@
 <?
 $source = RCF()->current_data;
+// debug($fields);
 // debug($source);
 ?>
 
@@ -9,7 +10,7 @@ $source = RCF()->current_data;
 			<i>drag_indicator</i>
 		</div>
 	<? } ?>
-	<div class="field_group os row g1 pady1">
+	<div class="field_group os padx1 row g1 pady1">
 		<?
 		// loop through field layout
 		foreach ($fields as $field_id => $field) {
@@ -23,13 +24,6 @@ $source = RCF()->current_data;
 			if (isset($source[$key])) {
 				$data = $source[$key];
 			}
-			// $data = array();
-			// foreach ($source as $info) {
-			// 	if ($info['meta_key'] == $key) {
-			// 		$data = $info;
-			// 		break;
-			// 	}
-			// }
 
 			rcf_get_template('group-field', array(
 				'field' => $field,

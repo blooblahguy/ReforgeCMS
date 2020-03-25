@@ -63,16 +63,18 @@ class RF_File extends RF_Model {
 		$regs = $media->sizes;
 		$regs = $this->sort_sizes($regs, $width, $height);
 
+		debug($regs);
+
 		$target = false;
 		foreach ($regs as $dimension) {
-			if ($width) {
-				if ($dimension['width'] >= $width) {
+			if ($width && $width > 0) {
+				if ($dimension['width'] >= (int) $width) {
 					$target = $dimension;
 					break;
 				}
 
-			} elseif ($height) {
-				if ($dimension['height'] >= $height) {
+			} elseif ($height && $height > 0) {
+				if ($dimension['height'] >= (int) $height) {
 					$target = $dimension;
 					break;
 				}
@@ -80,8 +82,6 @@ class RF_File extends RF_Model {
 		}
 
 		if ($target) {
-			// debug($target);
-
 			$path = $media->save_size($target['name'], $this->original);
 
 			$sizes = unserialize($this->sizes);
@@ -93,7 +93,7 @@ class RF_File extends RF_Model {
 		}
 	}
 
-	function get_size($width = null, $height = null) {
+	function get_size(int $width = null, int $height = null) {
 		if (in_array($this->extension, $this->noresize)) {
 			return $this->original;
 		}
@@ -127,7 +127,7 @@ class RF_File extends RF_Model {
 
 		$found = false;
 		foreach ($sizes as $dim) {
-			if ($dim['name'] = $target['name']) {
+			if ($dim['name'] == $target['name']) {
 				$found = $dim;
 				break;
 			}
@@ -137,7 +137,7 @@ class RF_File extends RF_Model {
 			$this->create_size($width, $height);
 		}
 
-		return $dim['path'];
+		return $found['path'];
 	}
 
 	/**

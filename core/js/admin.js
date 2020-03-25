@@ -22,27 +22,43 @@ function update_role_checks() {
 	}
 }
 
+function slugify(text) {
+	return text.replace(/\s+/g, '-') // Replace spaces with -
+		.replace(/&/g, '-and-') // Replace & with 'and'
+		.replace(/[^\w\-]+/g, '') // Remove all non-word characters
+		.replace(/\-\-+/g, '-') // Replace multiple - with single -
+		.replace(/^-+/, '') // Trim - from start of text
+		.replace(/-+$/, '') // Trim - from end of text
+		.toLowerCase()
+}
+
 function set_permalink() {
 	var permalink = $("input.post_permalink")
 	if (permalink.val() == "") {
-		// console.log($(".post_title"))
-		var title_slug = $("input.post_title").val()
-			.replace(/\s+/g, '-') // Replace spaces with -
-			.replace(/&/g, '-and-') // Replace & with 'and'
-			.replace(/[^\w\-]+/g, '') // Remove all non-word characters
-			.replace(/\-\-+/g, '-') // Replace multiple - with single -
-			.replace(/^-+/, '') // Trim - from start of text
-			.replace(/-+$/, '') // Trim - from end of text
-			.toLowerCase()
-
+		var title_slug = slugify($("input.post_title").val())
 		permalink.val(title_slug)
 	}
 }
+function set_file_slug() {
+	var post_file = $("input.post_file")
+	var slug = slugify($("input.post_permalink").val())
+	if (slug != "") {
+		post_file.val("partials/"+slug+".php")
+	}
+
+	console.log(slug)
+}
+
+$(".post_permalink").on("blur", function() {
+	set_file_slug();
+});
 $(".post_title").on("blur", function() {
 	set_permalink();
+	set_file_slug();
 });
-set_permalink();
 
+set_permalink();
+set_file_slug();
 update_role_checks();
 
 window.setTimeout(function() {
@@ -56,7 +72,7 @@ window.setTimeout(function() {
 
 
 function hook_editors() {
-	$(".wysiwg").not(".hooked").each(function(i, e) {
+	$(".wysiwyg").not(".hooked").each(function(i, e) {
 		var quill_div = $(this)
 		quill_div.addClass("hooked")
 		var input = $(this).siblings(".wysiwyg_input").first();

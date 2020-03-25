@@ -33,7 +33,7 @@
 						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'label',
 						'type' => 'text',
-						'bind' => true,
+						'data-bind' => true,
 						'class' => 'field-label',
 						"grid" => "os",
 					));
@@ -44,7 +44,7 @@
 						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'slug',
 						'type' => 'text',
-						'bind' => true,
+						'data-bind' => true,
 						'class' => 'field-slug',
 						"grid" => "os",
 					));
@@ -55,7 +55,7 @@
 						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'type',
 						'type' => 'select',
-						'bind' => true,
+						'data-bind' => true,
 						'class' => 'field-type loaded rcf_dropdown',
 						"grid" => "os",
 						'choices' => rcf_get_field_types(),

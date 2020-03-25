@@ -8,33 +8,75 @@ function admin_page_title() {
 }
 
 function render_admin_menu() {
-	global $admin_menu, $PATH;
+	global $admin_menu;
 
-	list($admin, $controller, $action) = explode("/", $PATH);
-	$menu_path = "$admin/$controller";
-	if ($action) {
-		$menu_path_action = "$admin/$controller/$action";
-	}
+	$request = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
+
+	$info = explode("/", $request, 4);
+	$info1 = array_slice($info, 0, 2);
+	$info2 = array_slice($info, 0, 3);
+	$path1 = "/".implode("/", $info1);
+	$path2 = "/".implode("/", $info2);
 
 	// add seperators
-	$admin_menu[29] = array("type" => "seperator");
-	$admin_menu[69] = array("type" => "seperator");
-
+	$admin_menu[] = array("order" => 29, "type" => "seperator");
+	$admin_menu[] = array("order" => 69, "type" => "seperator");
 	$admin_menu = apply_filters("admin/menu", $admin_menu);
 
-	ksort($admin_menu);
+	usort($admin_menu, function($a, $b) {
+		return $a['order'] > $b['order'];
+	});
+
 	foreach ($admin_menu as $menu) {
-		list($admin, $controller, $action) = explode("/", trim($menu["link"], "/"));
-		$menu_key = "$admin/$controller";
-		if ($action) {
-			$menu_key = "$admin/$controller/$action";
+		// seperator
+		if ($menu['type'] == "seperator") {
+			echo '<div class="pad1"></div>';
+			continue;
 		}
 
-		if ($menu["type"]) { 
-			echo "<span></span>"; 
-		} else { ?>
-			<a href="<?= $menu["link"]; ?>" <? if ($menu_key == $menu_path || $menu_key == $menu_path_action) { echo 'class="active"'; }?>><i><?= $menu["icon"]; ?></i> <?= $menu["label"]; ?></a>
-		<? }
+		// build classes
+		$class = array();
+		if ($menu['link'] == $path1) {
+			$class[] = "active";
+		}
+		if ($menu['link'] == $path2) {
+			$class[] = "ancestor";
+		} else {
+			foreach ($menu['children'] as $c) {
+				if ($c['link'] == $path1) {
+					$class[] = "ancestor";
+					break;
+				}
+			}
+		}
+		$class = implode(" ", $class);
+
+		?>
+		<div class="menu-item <?= $class; ?>">
+			<a href="<?= $menu["link"]; ?>" class="<?= $class; ?>"><i><?= $menu["icon"]; ?></i> <?= $menu["label"]; ?></a>
+			
+			<? if (count($menu['children'])) { ?>
+				<div class="sub-menu">
+					<a href="<?= $menu["link"]; ?>" class="<?= $class; ?>"><?= $menu["label"]; ?></a>
+					<? foreach ($menu['children'] as $child) {
+						$class = array();
+						if ($child['link'] == $path1) {
+							$class[] = "active";
+						}
+						if ($child['link'] == $path2) {
+							$class[] = "ancestor";
+						}
+						$class = implode(" ", $class);
+						?>
+						<a href="<?= $child["link"]; ?>" class="<?= $class; ?>"><?= $child["label"]; ?></a>
+						<?
+					} ?>
+				
+				</div>
+				
+			<? } ?>
+		</div>
+		<?
 	}
 }
 
@@ -109,74 +151,55 @@ function render_admin_title($title) {
 function render_admin_field($field, $settings) {
 	$type = $settings["type"];
 	$name = $settings["name"];
+	$label = $settings['label'];
+	$choices = $settings['choices'];
+	$instructions = $settings['instructions'];
+	$layout = isset($settings["layout"]) ? isset($settings["layout"]) : "os";
 	$value = is_string($field) ? $field : $field[$settings["name"]];
+	$unset = array("class", "default", "placeholder", "layout", "type", "choices", "instructions");
 
-	// debug($value);
+	// set up defaults in the attrs array
+	$attrs = array();
+	$attrs['id'] = $settings['name'];
+	$attrs['value'] = $value == "" && isset($settings['default']) ? $settings['default'] : $value;
+	$value = $attrs['value'];
+	$attrs['class'] = isset($settings['class']) ? $settings['class'] : "";
+	$attrs['placeholder'] = isset($settings["placeholder"]) ? $settings["placeholder"] : $settings["label"];
 
-	if ($value == "" && $settings['default']) {
-		$value = $settings['default'];
+	// unset things we don't want showing up on the input class
+	foreach ($unset as $k => $v) {unset($settings[$v]); }
+
+	if ($type == "wysiwyg") {
+		$attrs['class'] .= " wysiwyg";
+	} elseif ($type == "checkbox") {
+		$attrs['checked'] = (int) $attrs['value'] == 1 ? true : false;
 	}
 
-	// $value = ;
-	$bind = "";
-	if ($settings["bind"]) {
-		$bind = " data-bind";
-	}
-	$required = "";
-	if ($settings["required"]) {
-		$required = " required";
-	}
-	$class = "";
-	if ($settings["class"]) {
-		$class = $settings["class"];
-	}
-	if (! $settings["placeholder"]) {
-		$settings["placeholder"] = $settings["label"];
-	}
+	// now build input attribute string
+	$attrs_array = array_merge($attrs, $settings);
+	$attrs = array_map(function($key, $value) {
+		if (gettype($value) == "boolean" && $value === true) {
+			return $key;
+		} elseif (gettype($value) == "string") {
+			return $key.'="'.$value.'"';
+		}
+	}, array_keys($attrs_array), array_values($attrs_array));
+	$attrs = implode(' ', $attrs);
 
-	// $layout = " os-12";
-	// if ($settings["layout"]) {
-	// 	$layout = " ".$settings["layout"];
-	// }
-
-	// $layout = "horizontal";
-	// if ($settings['layout']) {
-	// 	$layout = $settings['layout'];
-	// }
-
-	// $label_size = " os-12";
-	// $label_size = "field_label os-min pad1";
-	// if ($layout == "vertical") {
-
-	// }
-	
 	?>
 
-	<div class="fieldset os <?= $class; ?>">
-		<?if ($settings['label']) { ?>
-			<div class="field_label">
-				<label for="<?= $name; ?>"><?= $settings['label']; ?></label>
-			</div>
-		<? } ?>
+	<div class="fieldset pady1 <?= $layout; ?>">
+		<div class="field_label">
+			<? if ($label) { ?>
+				<label for="<?= $name; ?>"><?= $label; ?></label>
+			<? } ?>
+			<? if ($instructions) { ?>
+				<div class="field_instructions muted em"><?= $instructions; ?></div>
+			<? } ?>
+		</div>
 		<div class="field_value">
-			<? if ($type == "checkbox") {
-				$checked = (int) $value == 1 ? "checked" : ""; ?>
-				<input type="checkbox" name="<?= $name; ?>" id="<?= $name; ?>" value="1" class="<?= $class; ?>" <?= $checked; ?> placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-			<? } elseif ($type == "file") { ?>
-				<input type="file" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" <?= $required; ?>>
-			<? } elseif ($type == "number") { ?>
-				<input type="number" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-			<? } elseif ($type == "wysiwg") { ?>
-				<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $value; ?>">
-				<div name="<?= $name; ?>" id="<?= $name; ?>" style="height: 300px" class="wysiwg <?= $class; ?>" <?= $required; ?> <?= $bind; ?>><?= htmlspecialchars_decode($value); ?></div>
-			<? } elseif ($type == "textarea") { ?>
-				<textarea type="text" rows="5" name="<?= $name; ?>" id="<?= $name; ?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>><?= $value?></textarea>
-			<? } elseif ($type == "text") { ?>
-				<input type="text" name="<?= $name; ?>" id="<?= $name; ?>" value="<?= $value?>" class="<?= $class; ?>" placeholder="<?= $settings["placeholder"]; ?>" <?= $bind; ?> <?= $required; ?>>
-			<? } elseif ($type == "select") { 
-				$choices = $settings["choices"];
-				?>
-				<select name="<?= $name; ?>" id="<?= $name; ?>" class="type <?= $class; ?>" <?= $bind; ?> <?= $required; ?>>
+			<? if ($type == "select") { ?>
+				<select <?= $attrs; ?>>
 					<option value="" disabled selected>--Select</option>
 					<?
 					foreach ($choices as $key => $option) {
@@ -191,11 +214,18 @@ function render_admin_field($field, $settings) {
 						<? } ?>
 					<? } ?>
 				</select>
+
+			<? } elseif ($type == "textarea") { ?>
+				<textarea type="text" rows="5" <?= $attrs; ?>><?= $attrs_array['value']; ?></textarea>
+			<? } elseif ($type == "wysiwyg") { ?>
+				<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $attrs_array['value']; ?>">
+				<div <?= $attrs; ?>><?= htmlspecialchars_decode($attrs_array['value']); ?></div>
+			<? } else { ?>
+				<input type="<?= $type; ?>" <?= $attrs; ?>>
 			<? } ?>
 		</div>
 	</div>
 
-	
 
 	<?
 }

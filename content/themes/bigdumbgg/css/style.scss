@@ -15,7 +15,7 @@ body {background: $black; color: $white; }
 // HEADER
 //===========================================
 .logo {
-	color: $white; display: block; font-weight: bold; font-size: 20px; padding: $pad1;
+	color: $white; display: block; font-weight: bold; font-size: 20px; padding: $pad1; padding-left: 0; 
 	svg {display:inline-block; max-width: 34px; height: 34px; margin: -10px 2px; margin-left: 0; fill: $primary; }
 	span {color: $primary; }
 	&:hover {opacity: 0.8; color: $white; }
@@ -34,13 +34,29 @@ body {background: $black; color: $white; }
 	a:hover {opacity: 1; color: $white;  }
 	a.active {opacity: 1; }
 }
+// Header
+.socials {
+	font-size:0.01rem;
+	a {display: inline-block; opacity: 0.8; margin: 0 2px; padding: 5px; width: 24px; height:24px;}
+	span {display:block; position:relative; height:100%;}
+	svg {fill:$white; display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); width:100%; height: auto !important; }
+	a:hover {
+		opacity: 1;
+		&.emblem svg {fill: $primary}
+		&.facebook svg {fill: #3b5998}
+		&.youtube svg {fill: #FF0000}
+		&.instagram svg {fill: #405de6}
+		&.twitch svg {fill: #6441a5}
+		&.twitter svg {fill: #1da1f2}
+		&.discord svg {fill: #7289da}
+	}
+}
 
 //===========================================
 // FOOTER
 //===========================================
 .footer_outer {
 	border-top: 4px solid $primary;
-	
 }
 .footerlogo {
 	h2 {color: $white; display: block; font-weight: bold; font-size: 20px; }
@@ -48,17 +64,30 @@ body {background: $black; color: $white; }
 	svg {width: 100px; margin: auto; }
 }
 .subfooter {background: #000; }
+.footer_menu {
+	.head_link {padding: $pad1 0; text-transform: uppercase; color: $white; font-weight: 500; }
+	a {opacity: 0.7; padding: 4px 0; padding-right: $pad2; display: inline-block; }
+	a.active {opacity: 1; color: $primary; }
+	a:hover {opacity: 1; color: $white; }
+}
 
 //===========================================
 // CONTENT
 //===========================================
+	.home_hero {
+		position: relative; border-top: 2px solid black; 
+		img {z-index: -1; min-width: 100%; display:block; }
+		.text_overlay {width: 100%; position: absolute; top: 50%; left: 0; @include prefix(transform, translateY(-50%)); }
+		h2 {font-size: 2.5vmax; }
+		h3 {font-size: 1vmax; font-weight: normal; }
+	}
 	.section {padding: $pad4 0;}
 	.page_header_outer {
 		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0;
 		.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
 		.page_header {position: relative; z-index: 5; }
-		h1 {margin: 0; padding: $pad1 0 0; font-size: 2rem; text-shadow: 1px 1px 4px black;  }
-		h3 {margin: 0; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black;}
+		h1 {margin: 0; padding: $pad1 0 0; font-size: 2rem; text-shadow: 1px 1px 4px black; }
+		h3 {margin: 0; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black; }
 	}
 
 	.table_lead {background: $dark; border-radius: 3px 3px 0 0; color: white; font-size: 16px; font-weight: 600; margin: 20px 0 0; padding: $pad1;}

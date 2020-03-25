@@ -7,6 +7,8 @@
 		public $current_data = array();
 		public $directory = "";
 
+		private $field_data = array();
+
 		function __construct() {
 			$this->directory = dirname(__FILE__);
 
@@ -20,6 +22,22 @@
 			// field rendering
 			add_action("rcf/admin_render_settings", array($this, "render_settings"));
 			add_action("rcf/admin_render_rules", array($this, "render_rules"));
+		}
+
+		/*
+		Recursively store information about fields by key
+		*/
+		function store_field_data($fields) {
+			foreach ($fields as $field) {
+				$children = $field['children'];
+				unset($field['children']);
+
+				$this->field_data[$field['key']] = $field;
+
+				if ($children and count($children) > 0) {
+					$this->store_field_data($children);
+				}
+			}
 		}
 		
 		// function load($slug) {
@@ -75,8 +93,34 @@
 			return $this->loaded[$type.":".$id];
 		}
 
+		function load_all_fields() {
+			$cfs = new CustomField();
+			$cfs = $cfs->load_all();
+		}
+
+		// recursively format and sanitize data for front end
+		function prepare_values($data) {
+			foreach ($data as $key => &$d) {
+				$type = $d['type'];
+				unset($d['type']);
+
+				// repeater have sub rows without types
+				if ($type) {
+					$d = $this->types[$type]->prepare_field_values($d['value']);
+				}
+
+				if (gettype($d) == "array") {
+					$d = $this->prepare_values($d);
+				}
+			}
+
+			return $data;
+		}
+
 		function get_fields($type, $id) {
 			// debug("loading fields");
+			$this->load_all_fields();
+
 			$fields = $this->load_fields($type, $id);
 			if (! $fields) {
 				$fields = array();
@@ -84,15 +128,19 @@
 
 			$data = array();
 			$row = array();
+			$last = false;
 			foreach ($fields as $key => $meta) {
 				$more = preg_split("/_[0-9]_/", $key);
 				array_shift($more);
 				preg_match_all('/_[0-9]_/', $key, $matches);
 				$matches = reset($matches);
-
-
+				$field = $this->field_data[$meta['meta_info']];
+				
 				if (count($more) == 0) {
-					$data[$key] = $meta['meta_value'];
+					$data[$key]  = array(
+						"type" => $field['type'],
+						"value" => $meta['meta_value'], 
+					);
 					$row = &$data[$key];
 
 					continue;
@@ -106,19 +154,27 @@
 						$k = (int) preg_replace("/[^0-9]/", "", $matches[$i]);
 					}
 
-					if (gettype($sub) !== "array") {
-						$sub = array();
+					// if parent row was already set to a value, make it an array to we can store values
+					if (gettype($sub['value']) !== "array") {
+						$sub['value'] = array();
 					}
-					$sub[$k] = isset($sub[$k]) ? $sub[$k] : array();
-					$sub[$k][$v] = isset($sub[$k][$v]) ? $sub[$k][$v] : array();
 
-					$sub = &$sub[$k][$v];
+					// build array
+					$sub['value'][$k] = isset($sub['value'][$k]) ? $sub['value'][$k] : array();
+					$sub['value'][$k][$v] = isset($sub['value'][$k][$v]) ? $sub['value'][$k][$v] : array();
+					$sub = &$sub['value'][$k][$v];
 				}
 
-				$sub = htmlspecialchars_decode($meta['meta_value']);
-
-			
+				// store values
+				$sub = array(
+					"type" => $field['type'],
+					"value" => $meta['meta_value'], 
+				);
 			}
+
+			// now run the data through the prepare_value methods
+			// debug($data);
+			$data = $this->prepare_values($data);
 
 			return $data;
 		}
@@ -129,16 +185,12 @@
 			$current = $this->load_fields($type, $id);
 			$current = rekey_array("meta_key", $current);
 
-			// debug($metas);
-			// exit();
-
 			// run save preperations
 			if (isset($metas)) {
 				foreach ($metas as $key => $values) {
-					$field = $this->types[ $values['type'] ];
+					$field = $this->types[ $values['meta_type'] ];
 					$prepared_values = $field->prepare_save($values, $metas);
 					$metas[$key] = $prepared_values;
-					// $metas[$key]['field_type'] = $values['type'];
 				}
 
 				foreach ($metas as $key => $values) {
@@ -148,7 +200,7 @@
 					$meta->meta_type = $type;
 					$meta->meta_key = $key;
 					$meta->meta_value = $values['meta_value'];
-					$meta->meta_info = $values['type'];
+					$meta->meta_info = $values['meta_info'];
 					$meta->save();
 
 					unset($current[$key]);

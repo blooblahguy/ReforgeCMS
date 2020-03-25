@@ -16,6 +16,12 @@ class RF_Admin_Page {
 		if (! $this->can_view()) {
 			return false;
 		}
+		// allow user to do anything here
+		if ($this->base_permission) {
+			if (! current_user()->can($this->base_permission)) {
+				return false;
+			}
+		}
 
 		// INDEX
 		$core->route("GET @{$this->name}_index: {$this->route}", "RF_Admin_Pages->index");

@@ -188,4 +188,14 @@
 			Alerts::instance()->error("Theme doesn't have required theme file: $looked");
 		}
 	}
+
+
+	function get_menu($slug) {
+		global $request;
+
+		$menu = new Menu;
+		$menu->load(array("slug = :slug", ":slug" => $slug));
+
+		return $menu->get_menu_array();
+	}
 ?>

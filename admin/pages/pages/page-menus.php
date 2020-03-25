@@ -146,8 +146,10 @@ class admin_page_MENUS extends RF_Admin_Page {
 						"type" => "text",
 						"label" => "Label",
 						"name" => "label",
+						"class" => "post_title",
 						"required" => true,
 					));
+				
 					$links = $menu->get_menu_array();
 					?>
 
@@ -163,6 +165,17 @@ class admin_page_MENUS extends RF_Admin_Page {
 			<div class="os-2">
 				<div class="section sidebar autosticky">
 					<input type="submit">
+
+					<?
+					render_admin_field($menu, array(
+						"type" => "text",
+						"name" => "slug",
+						"label" => "Slug",
+						"layout" => "vertical",
+						"class" => "post_permalink",
+						"required" => true,
+					));
+					?>
 				</div>
 			</div>
 		</div>
@@ -252,18 +265,11 @@ class admin_page_MENUS extends RF_Admin_Page {
 		return $menu;
 	}
 
-	function build_menu($start) {
+	function build_menu() {
 		if (! isset($_POST['menu'])) { return array(); }
 		$menu = array();
 
-		// debug($_POST['menu']);
-
 		$menu = $this->find_menu_post();
-		// $current = current(array_keys($_POST['menu']));
-		// $next = $current + 1;
-
-		// debug($menu);
-		// exit();
 
 		return $menu;
 	}
@@ -278,8 +284,10 @@ class admin_page_MENUS extends RF_Admin_Page {
 			$menu->load("id = $id");
 		}
 
-		$links = $this->build_menu(0);
+		$links = $this->build_menu();
+
 		$menu->label = $_POST['label'];
+		$menu->slug = $_POST['slug'];
 		$menu->links = serialize($links);
 		$menu->save();
 

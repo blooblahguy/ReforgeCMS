@@ -45,8 +45,10 @@ class reforge_field_REPEATER extends reforge_field {
 			</div>
 
 			
-			<div class="repeater_footer border bg-light-grey pad1 text-right">
-				<div class="btn-primary" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".repeater_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
+			<div class="repeater_footer border bg-light-grey pad1">
+				<div class="pull-left"><? $this->render_instructions($field); ?></div>
+				<div class="btn-primary pull-right" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".repeater_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
+				<div class="clear"></div>
 			</div>
 			<template class="template_<?= $friendly; ?>">
 				<? 

@@ -6,6 +6,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$this->name = "post_types";
 		$this->label = "Post Type";
 		$this->label_plural = "Post Types";
+		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 70;
 		$this->icon = "web";
 		$this->base_permission = "manage_post_types";

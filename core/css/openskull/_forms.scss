@@ -2,6 +2,7 @@
 
 
 // INPUTS
+*:disabled {opacity: 0.5; cursor: not-allowed; }
 body input, body select, body textarea {
 	display:block; border-radius: 0; padding: $pad1; width: 100%; background: $input-background; color: contrast($input-background); border: 1px solid $input-border; font-weight: $font-normal; font-family: inherit; font-size: inherit; margin:0; line-height: $pad2;
 	&:focus {border-color: $primary; outline: 0; box-shadow: 0 0 0 $pad1/4 rgba($primary, .25); }
@@ -9,7 +10,7 @@ body input, body select, body textarea {
 	&:invalid {border-left-color: $warning; font-style: italic; }
 	&:invalid:focus, &:invalid:active {border-left-color: $error;}
 	&:required:not(:invalid) {border-left-color: $success;}
-	&:disabled {opacity: 0.5; cursor: not-allowed; }
+	&.inline { background: none; display:inline; }
 }
 
 div[data-placeholder]:empty:before {

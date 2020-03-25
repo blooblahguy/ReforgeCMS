@@ -75,11 +75,28 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 //===========================================
 .leftsidebar {
 	min-width: 220px; max-height: 100%; overflow-y: auto;
-	a {display:block; padding: $pad1 $pad3; }
-	a:hover {background: $dark; color: $white;}
-	a.active {background: $primary; color: $white;}
-	span {display:block; padding: $pad1; }
-	i {position: relative; top: 6px; margin: -5px 6px -5px 0; max-width: 24px;}
+
+	.menu-item {
+		& > a {
+			display:block; padding: $pad1 $pad2;
+			&:hover {background: $dark; color: $white;}
+			&.active, &.ancestor {background: $primary; color: $white;}
+			i {position: relative; top: 6px; margin: -5px 6px -5px 0; max-width: 24px;}
+		}
+		.sub-menu {padding-bottom: $pad1; display:none; background: rgba(0, 0, 0, .2) }
+		&.active, &.ancestor {
+			.sub-menu {display: block; }
+		}
+		.sub-menu > a {
+			display:block; padding: 5px $pad2;
+			&:hover {background: rgba(255, 255, 255, .07); color: $white;}
+			&.active {background: rgba($primary, 0.2); color: $white;}
+			i {position: relative; top: 2px; margin: -5px 6px -5px 0; max-width: 14px; font-size: 14px;}
+		}
+	}
+	
+	// span {display:block; padding: $pad1; }
+	// i {position: relative; top: 6px; margin: -5px 6px -5px 0; max-width: 24px;}
 }
 
 .btn i {position: relative; top: 7px; margin: -10px 8px 4px 0; max-width: 24px;}
@@ -186,6 +203,7 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	&.disabled {background: $light-grey; color: $grey; }
 }
 .formsec {padding: $pad2 0 0;}
+.fieldset:first-child {padding-top: 0 !important;}
 
 //===========================================
 // Custom Fields

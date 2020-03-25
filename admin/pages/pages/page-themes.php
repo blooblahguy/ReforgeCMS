@@ -8,6 +8,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 		$this->name = "themes";
 		$this->label = "Theme";
 		$this->label_plural = "Themes";
+		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 95;
 		$this->icon = "web";
 		$this->base_permission = "manage_settings";
@@ -89,16 +90,20 @@ class admin_page_THEMES extends RF_Admin_Page {
 				$current = false;
 				if ($slug == $active) { $current = true; }
 				?>
-				<div class="os-3 theme_card<? if ($current) {echo " active"; } ?>">
-					<div class="thumbnail"><img src="<?= $info['thumbnail']; ?>" alt="<?= $info['name']; ?>"></div>
-					<div class="footer row">
-						<div class="pad1 os">
-							<?= $info['name']; ?>
-						</div>
-						<div class="pad1 os">
-							<? if (! $current) { ?>
-								<a href="/admin/themes/activate/<?= $slug; ?>" class="btn">Activate</a>
-							<? } ?>
+				<div class="os-3">
+					<div class="section padb1 theme_card<? if ($current) {echo " active"; } ?>">
+						<img src="<?= $info['thumbnail']; ?>" class="bg" alt="<?= $info['name']; ?>">
+						<div class="footer pad1 row content-middle">
+							<div class="os strong">
+								<?= $info['name']; ?>
+							</div>
+							<div class="os-min">
+								<? if (! $current) { ?>
+									<a href="/admin/themes/activate/<?= $slug; ?>" class="btn">Activate</a>
+								<? } else { ?>
+									<button class="btn-primary" disabled>Active</button>
+								<? } ?>
+							</div>
 						</div>
 					</div>
 				</div>

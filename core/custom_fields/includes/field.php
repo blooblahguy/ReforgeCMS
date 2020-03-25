@@ -53,6 +53,12 @@
 			}
 		}
 
+		function render_instructions($field) {
+			if (isset($field['instructions'])) { ?>
+				<div class="field_instructions"><?= $field['instructions']; ?></div>
+			<? }
+		}
+
 		function add_field_action($action, $func, $priority = 10) {
 			$action .= '/type=' . $this->name;
 			add_action( $action, $func, $priority );
@@ -62,8 +68,14 @@
 			add_filter( $action, $func, $priority );
 		}
 
-		function prepare_value($meta) {
-			return $meta;
+		function prepare_field_values($value) {
+			$value = parse_shortcodes($value);
+			$value = $this->prepare_value($value);
+			return $value;
+		}
+
+		function prepare_value($value) {
+			return $value;
 		}
 
 		function prepare_save($meta, $metas) {

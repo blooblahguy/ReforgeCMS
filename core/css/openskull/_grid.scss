@@ -72,11 +72,12 @@
 		.os#{$name}#{-$i} {max-width: (100% / 12) * $i; -ms-flex: 0 0 (100% / 12) * $i; flex: 0 0 (100% / 12) * $i; width: 100%; }
 	}
 	.os#{$name}-min {max-width: 100%; -ms-flex: none; flex: none; width: auto; }
+	.os#{$name}-100px {max-width: 100px; -ms-flex: 0 0 100px; flex: 0 0 100px; width: 100px; }
+	.os#{$name}-200px {max-width: 200px; -ms-flex: 0 0 200px; flex: 0 0 200px; width: 200px; }
+	.os#{$name}-400px {max-width: 400px; -ms-flex: 0 0 400px; flex: 0 0 400px; width: 400px; }
 
 	// custom grids
 	@each $name, $size in $custom_grids {
-
-		.custom_#{$name}_#{$size} {background: $black; }
 		@for $i from 1 through $size {
 			.os-#{$name}#{$i} {max-width: (100% / $size) * $i; -ms-flex: 0 0 (100% / $size) * $i; flex: 0 0 (100% / $size) * $i; width: 100%; }
 		}

@@ -6,6 +6,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$this->name = "custom_fields";
 		$this->label = "Custom Field";
 		$this->label_plural = "Custom Fields";
+		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 75;
 		$this->icon = "filter_list";
 		$this->base_permission = "manage_post_types";

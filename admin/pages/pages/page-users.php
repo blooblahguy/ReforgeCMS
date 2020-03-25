@@ -93,6 +93,7 @@ class admin_page_USERS extends RF_Admin_Page {
 			<div class="os">
 				<div class="section">
 					<? 
+
 					render_admin_field($user, array(
 						"type" => "text",
 						"name" => "username",
@@ -106,6 +107,15 @@ class admin_page_USERS extends RF_Admin_Page {
 						"label" => "Email",
 						"required" => true
 					)); 
+
+					$choices = array("dark" => "Dark", "default" => "Default");
+					render_admin_field($user, array(
+						"type" => "select",
+						"label" => "Admin theme",
+						"name" => "admin_theme",
+						"default" => "default",
+						"choices" => $choices,
+					));
 
 					render_admin_field($user, array(
 						"type" => "select",
@@ -135,11 +145,12 @@ class admin_page_USERS extends RF_Admin_Page {
 			$user->load("id = $id");
 		}
 
-		$avatar = $_POST["avatar_path"];
+		$avatar = get_file_size($_POST["avatar"], 200);
 		$user->username = $_POST['username'];
 		$user->avatar = $avatar;
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
+		$user->admin_theme = $_POST['admin_theme'];
 		$user->save();
 
 		if ($id == 0) {

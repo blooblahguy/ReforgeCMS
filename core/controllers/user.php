@@ -30,6 +30,9 @@
 				"avatar" => array(
 					"type" => "VARCHAR(256)"
 				),
+				"admin_theme" => array(
+					"type" => "VARCHAR(100)"
+				),
 				"last_login" => array(
 					"type" => "DATETIME",
 				)
@@ -197,7 +200,6 @@
 				$this->role = $role->label;
 			}
 
-			return true; 
 			$permissions = $this->permissions;
 			if ($request == null) {return;}
 

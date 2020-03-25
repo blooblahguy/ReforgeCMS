@@ -46,14 +46,6 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 				"choices" => $choices,
 			));
 
-			$choices = array("dark" => "Dark", "default" => "Default");
-			render_admin_field($admin_theme, array(
-				"type" => "select",
-				"label" => "Admin theme",
-				"name" => "admin_theme",
-				"choices" => $choices,
-			));
-
 			render_admin_field($disable_seo, array(
 				"type" => "checkbox",
 				"label" => "Discourage Search Engines",
@@ -73,7 +65,6 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		// debug("here");
 		set_option("site_homepage", $_POST['site_homepage']);
 		set_option("disable_seo", $_POST['disable_seo']);
-		set_option("admin_theme", $_POST['admin_theme']);
 
 		RCF()->save_fields("settings", "0");
 

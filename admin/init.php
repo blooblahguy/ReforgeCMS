@@ -17,12 +17,13 @@ $pages["roles"] = "page-roles.php";
 $pages["settings"] = "page-settings.php";
 $pages["users"] = "page-users.php";
 $pages["partials"] = "page-partials.php";
-// $pages["plugins"] = "page-plugins.php";
+$pages["plugins"] = "page-plugins.php";
 $pages["themes"] = "page-themes.php";
 
 foreach ($pages as $class => $path) {
 	require "$root/admin/pages/pages/$path";
 }
 
+RF_Admin_Pages::instance()->build_menus();
 
 ?>

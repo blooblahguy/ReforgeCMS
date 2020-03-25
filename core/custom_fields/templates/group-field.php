@@ -4,9 +4,11 @@
 if (! isset($data['meta_key'])) {
 	$data["meta_key"] = $field['slug'];
 }
-if (! isset($data['meta_info'])) {
-	$data["meta_info"] = $field['type'];
-}
+// if (! isset($data['meta_info'])) {
+// 	$data["meta_info"] = $field['key'];
+// }
+
+// debug($data);
 
 // $data = apply_filters("rcf/prepare_value/type={$field['type']}", $data, $field, $context);
 
@@ -24,8 +26,8 @@ if (isset($field["layout"])) {
 <div class="field <?= $layout; ?>">
 	<div class="meta">
 		<input type="hidden" name="<?= $meta_name; ?>[meta_key]" value="<?= $data['meta_key']; ?>" >
-		<input type="hidden" name="<?= $meta_name; ?>[meta_info]" value="<?= $data['meta_info']; ?>" >
-		<input type="hidden" name="<?= $meta_name; ?>[type]" value="<?= $field['type']; ?>" >
+		<input type="hidden" name="<?= $meta_name; ?>[meta_info]" value="<?= $field['key']; ?>" >
+		<input type="hidden" name="<?= $meta_name; ?>[meta_type]" value="<?= $field['type']; ?>" >
 		<input type="hidden" name="<?= $meta_name; ?>[parent]" value="<?= $name; ?>" >
 	</div>
 

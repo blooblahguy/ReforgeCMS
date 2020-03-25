@@ -32,17 +32,15 @@ class reforge_field_GROUP extends reforge_field {
 				<?			
 				foreach ($children as $field) {
 					$key = $context;
-					$key .= "_".$field["slug"];
+					$key .= "_0_".$field["slug"];
 
 					$data = $source[$key];
-
 					
 					rcf_get_template('group-field', array(
 						'field' => $field,
 						'context' => $key,
 						"data" => $data,
 					));
-					
 				}
 				?>
 			</div>
@@ -71,7 +69,10 @@ class reforge_field_GROUP extends reforge_field {
 		<?
 	}
 
-
+	function prepare_value($value) {
+		$value = $value[0];
+		return $value;
+	}
 
 	function prepare_save($meta, $metas) {
 		$key = $meta['meta_key'];

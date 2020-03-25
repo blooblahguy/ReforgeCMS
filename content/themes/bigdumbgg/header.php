@@ -40,7 +40,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 		<div class="top_outer bg-dark">
 			<div class="top container row content-middle">
 				<div class="os-md-min">
-					<? //$socials = get_field("socials", "options"); ?>
+					<? render_socials(); ?>
 				</div>
 				
 				<div class="os-12 os-md links hidden md-display-block text-right">

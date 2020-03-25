@@ -1,6 +1,8 @@
 <?
 
 	class CustomField extends RF_Model {
+		protected $cfs_load = array();
+
 		function __construct() {
 			$this->model_table = 'custom_fields';
 			$this->model_schema = array(
@@ -40,15 +42,22 @@
 			}
 		}
 
+		
+
 		function load_all() {
 			global $db;
-			// debug($this->caches["fields"]);
-			// $cached = $this->get_cache($this->caches["fields"]);
-			$cfs = $db->exec("SELECT * FROM `{$this->model_table}`", null, $cached);
-			$cfs = rekey_array("id", $cfs);
-			// $this->set_cache($this->caches["fields"]);
 
-			return $cfs;
+			if (count($this->cfs_load) == 0) {
+				$cfs = $db->exec("SELECT * FROM `{$this->model_table}`", null);
+				$cfs = rekey_array("id", $cfs);
+				foreach ($cfs as $cf) {
+					$fieldset = unserialize($cf['fieldset']);
+					RCF()->store_field_data($fieldset);
+				}
+				$this->cfs_load = $cfs;
+			}
+
+			return $this->cfs_load;
 		}
 	}
 

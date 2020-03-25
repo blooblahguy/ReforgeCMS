@@ -1,4 +1,86 @@
 <?
+	$shortcodes = array();	
+	function add_shortcode($tag, $callback) {
+		global $shortcodes;
+		if ( is_callable($callback) ) {
+			$shortcodes[$tag] = $callback;
+		}
+	}
+	
+	function remove_shortcode($tag) {
+		global $shortcodes;
+		unset($shortcodes[$tag]);
+	}
+	
+	function parse_shortcodes($fullcontent) {
+		global $shortcodes;
+
+		if (gettype($fullcontent) !== "string") { return $fullcontent; }
+		
+		$fullcontent = stripslashes($fullcontent);
+		
+		// if we don't have shortcodes or can't even find a bracket then we know there are none
+		if (strpos( $fullcontent, '[' ) === false || empty($shortcodes)) {
+			return $fullcontent;
+		}
+		
+		$tagnames = array_keys($shortcodes);
+		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+
+		foreach ($shortcodes as $tag => $callback) { 
+			$regex = "/\[$tag(.*?)\]/";
+			
+			$fullcontent = preg_replace_callback($regex, function($matches) {
+				global $shortcodes;
+				
+				// thank you wordpress
+				$atts = array();
+				$full = $matches[0];
+
+				$tag = explode(" ", $full);
+				$tag = $tag[0];
+				$tag = str_replace("[","",$tag);
+				$tag = str_replace("]","",$tag);
+				
+				$callback = $shortcodes[$tag];
+				
+				if (isset($matches[1])) {
+					$attributes = trim($matches[1]);
+					$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+					$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $attributes);
+					
+					if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) ) {
+						foreach ($match as $m) {
+							if (!empty($m[1]))
+								$atts[strtolower($m[1])] = stripcslashes($m[2]);
+							elseif (!empty($m[3]))
+								$atts[strtolower($m[3])] = stripcslashes($m[4]);
+							elseif (!empty($m[5]))
+								$atts[strtolower($m[5])] = stripcslashes($m[6]);
+							elseif (isset($m[7]) and strlen($m[7]))
+								$atts[] = stripcslashes($m[7]);
+							elseif (isset($m[8]))
+								$atts[] = stripcslashes($m[8]);
+						}
+					} else {
+						$atts = ltrim($text);
+					}
+				}
+
+				ob_start();
+				$callback($atts);
+				$content = ob_get_contents();
+				ob_get_clean();
+
+				return $content;
+			
+			}, $fullcontent);
+		}
+		
+		return $fullcontent;
+	}
+
+
 	function array_extract($array, $key, $value) {
 		$new = array();
 		foreach ($array as $v) {

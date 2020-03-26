@@ -1,21 +1,27 @@
 <?
 	// F3 Core
 	$core = require $root."/core/vendor/fatfree-core/base.php";
-	$core->set("CACHE", true);
+	// $core->set("CACHE", true);
+	// Cache::instance()->load("folder=$root/tmp/cache/");
 	$core->set("DEBUG", 1);
 	$core->set("UI", $root."/content/");
 	$core->set("salt", $configuration["salt"]);
 
+	require "$root/core/globals.php";
 	require "$root/core/functions.php";
 	require "$root/core/hook.php";
+	require "$root/core/reforge/cache.php";
+	require "$root/core/reforge/db/mapper.php";
 	require "$root/core/reforge/class-alerts.php";
-	require "$root/core/reforge/class-db.php";
+	// require "$root/core/reforge/class-db.php";
 	require "$root/core/reforge/class-model.php";
 	require "$root/core/reforge/class-schema.php";
 	require "$root/core/reforge/session.php";
 	require "$root/core/reforge/media/media.php";
 	require "$root/core/reforge/media/file.php";
 	require "$root/core/custom_fields/rcf.php";
+
+	new Session();
 
 	// media manager
 	$media = RF_Media::instance();
@@ -35,7 +41,7 @@
 	});	
 
 	// Database
-	$db = new RFDB(
+	$db = new DB\SQL(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
 		"{$configuration["database_user"]}",
 		"{$configuration["database_password"]}",
@@ -48,9 +54,10 @@
 
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
-	queue_script("/core/js/core.js", 11);
-	queue_script("/core/custom_fields/js/custom_fields.js", 12);
+	queue_script("/core/js/core.js", 16);
+	queue_script("/core/custom_fields/js/custom_fields.js", 18);
 
+	$post = new Post();
 	$meta = new Meta();
 	
 	$current_user = new User();
@@ -58,7 +65,6 @@
 
 	$option = new Option();
 	$options = $option->load_all();
-
 	
 	if (count($options) == 1) {
 		$core->route("GET *", function($core, $args) {
@@ -68,13 +74,16 @@
 		
 		$core->run();
 	} else {
+		do_action("init");
+
 		// Load Plugins
 		$plugins = unserialize($options['active_plugins']);
 		foreach ($plugins as $path) {
 			require $path;
 		}
-
 		$core->route("GET|POST /logout", "User->logout");
+
+
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {
 			// Administrator Area

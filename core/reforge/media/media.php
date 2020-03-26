@@ -238,7 +238,7 @@ class RF_Media extends Prefab {
 						$uploads = $this->get_uploads();
 						foreach ($uploads as $file) { 
 							$f = new RF_File();
-							$f->set_object($file);
+							$f->factory($file);
 
 							$bg = $f->get_size(400); //$file['original'];
 							if ($file['type'] == "file") {

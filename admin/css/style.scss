@@ -62,7 +62,6 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 .section {
 	background: $input-background; padding: $pad2; box-shadow: 0 0 $pad1 rgba(0, 0, 0, 0.05); margin-bottom: $pad2; border-radius: $border-radius; border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.section:last-child {margin: 0;}
 
 // .page_content {margin: auto; max-width: 100%; width: 1400px; }
 
@@ -168,6 +167,11 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	// .repeater_footer {border: 1px solid $input-border;}
 	.group_remove {border-left: 1px solid $grey; }
 	.group_drag {border-right: 1px solid $grey; cursor: move; }
+	.seo_preview {
+		max-width: 800px; font-family: 'Roboto',arial,sans-serif; line-height: 1.55;
+		.sitetitle {font-size: 0.9rem; color: #555; }
+		.link {font-size: 20px; color: #1a0dab; font-weight: 500;  }
+	}
 
 //===========================================
 // MEDIA
@@ -203,7 +207,6 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 	&.disabled {background: $light-grey; color: $grey; }
 }
 .formsec {padding: $pad2 0 0;}
-.fieldset:first-child {padding-top: 0 !important;}
 
 //===========================================
 // Custom Fields

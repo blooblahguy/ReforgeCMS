@@ -53,7 +53,6 @@ class reforge_field_IMAGE extends reforge_field {
 						<img class="image_preview preview_<?= $key; ?> <?= $class; ?>" <?= $src; ?> <?= $datasrc; ?> alt="<?= $field['label']; ?>">
 					</div>
 					<?= RF_Media::instance()->select_button($key);?>
-					<input type="hidden" name="<?= $key; ?>_path" value="<?= $file->original; ?>">
 					<input type="hidden" name="<?= $key; ?>" value="<?= $id; ?>">
 
 				</div>

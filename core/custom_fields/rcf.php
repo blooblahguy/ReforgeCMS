@@ -75,12 +75,8 @@
 
 		
 		function delete_all($type, $id) {
-			// if (! isset($this->loaded[$type.":".$id])) {
-				// $metas = new Meta();
 			global $db;
 			$this->loaded[$type.":".$id] = $db->query("DELETE FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
-			// }
-			// return $this->loaded[$type.":".$id];
 		}
 
 		function load_fields($type, $id) {
@@ -217,7 +213,7 @@
 			// global $db;
 			$cf = new CustomField();
 			if ($cf_id > 0) {
-				$cf->set_object($fields);
+				$cf->factory($fields);
 			}
 
 			$this->current_data = $this->load_fields($type, $page_id);
@@ -277,6 +273,14 @@
 		function get_rule_type_choices($key, $value) {
 			echo $this->rules[$key]->render_choices($value);
 		}
+
+		function ajax_render_choices($core, $args) {
+			$slug = $args['slug'];
+			$rule = $this->get_rule($slug);
+
+			$rule->render_choices();
+		}
+
 
 		/**
 		 * Register Field Type From Class

@@ -1,8 +1,7 @@
 <?
-	class Menu extends RF_Model {
+	class Menu extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "menus";
-			$this->model_schema = array(
+			$schema = array(
 				"slug" => array(
 					"type" => "VARCHAR(190)",
 					"unique" => true
@@ -18,7 +17,7 @@
 				)
 			);
 
-			parent::__construct( );
+			parent::__construct("menus", $schema);
 		}
 
 		function link_loop($links) {

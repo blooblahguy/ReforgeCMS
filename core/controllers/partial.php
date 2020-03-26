@@ -1,9 +1,7 @@
 <?
-	class Partial extends RF_Model {
+	class Partial extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "posts";
-
-			parent::__construct();
+			parent::__construct("posts");
 		}
 
 		function html() {

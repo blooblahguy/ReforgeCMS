@@ -1,8 +1,8 @@
 <?
-	class Post extends RF_Model {
+	
+	class Post extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "posts";
-			$this->model_schema = array(
+			$schema = array(
 				"post_type" => array(
 					"type" => "VARCHAR(100)"
 				),
@@ -10,7 +10,7 @@
 					"type" => "INT(7)",
 				),
 				"title" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(280)",
 				),
 				"subtitle" => array(
 					"type" => "VARCHAR(512)",
@@ -19,10 +19,13 @@
 					"type" => "LONGTEXT"
 				),
 				"seo_title" => array(
-					"type" => "LONGTEXT"
+					"type" => "VARCHAR(70)"
+				),
+				"seo_category" => array(
+					"type" => "VARCHAR(70)"
 				),
 				"seo_description" => array(
-					"type" => "LONGTEXT"
+					"type" => "VARCHAR(256)"
 				),
 				"slug" => array(
 					"type" => "VARCHAR(190)",
@@ -37,11 +40,11 @@
 					"type" => "INT(7)",
 				),
 				"post_status" => array(
-					"type" => "VARCHAR(256)",
+					"type" => "VARCHAR(250)",
 				),
 			);
 
-			parent::__construct();
+			parent::__construct("posts", $schema);
 		}
 	}
 ?>

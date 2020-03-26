@@ -17,8 +17,9 @@ class admin_page_USERS extends RF_Admin_Page {
 
 	function render_index() {
 		global $db;
+		$user = new User();
 
-		$users = $db->exec("SELECT users.*, roles.label AS role FROM users
+		$users = $user->query("SELECT users.*, roles.label AS role FROM users
 			LEFT JOIN roles ON roles.id = users.role_id
 			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
 		"); 
@@ -74,7 +75,8 @@ class admin_page_USERS extends RF_Admin_Page {
 			$subject = ucfirst($user->username);
 		}
 
-		$roles = $db->exec("SELECT * FROM roles ORDER BY `priority` ASC");
+		$roles = new Role();
+		$roles = $roles->find(null, array("order by" => "priority ASC"));
 		$roles = array_extract($roles, "id", "label");
 	?>
 		<div class="row g1">
@@ -145,9 +147,10 @@ class admin_page_USERS extends RF_Admin_Page {
 			$user->load("id = $id");
 		}
 
-		$avatar = get_file_size($_POST["avatar"], 200);
+
+		// $avatar = get_file_size($_POST["avatar"], 200);
 		$user->username = $_POST['username'];
-		$user->avatar = $avatar;
+		// $user->avatar = $avatar;
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
 		$user->admin_theme = $_POST['admin_theme'];

@@ -1,10 +1,38 @@
 <?
-function admin_page_title() {
+function admin_head() {
 	global $request, $options;
-	$sitename = $options["sitename"];
-	$page_title = $request["page"]->label_plural;
 
-	echo "Admin | {$page_title} | {$sitename}";
+	$favicon = "data:image/png;base64,";
+	$favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMS8yMy8xNiCnhC4AAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAACZ0lEQVRIib2XTWgUMRTHfy0VVBAUFQ8WhIJKbaMBRVhdtCIoKPSmgpfgzaMHUfzAKoJYd/HgpYgoBvyAHrwJBRELFimiEs1BvCz25qGKliqI1elhMnScTmZ3p519EObl/V/mR5K3mWxbEATkNS3kBmCpsuZTs2Pbc1NDOwWU8wzMDdZCrnXgPS0FA5fds6yFbGsJWAvZBZx03S5gS0vAwLXE2P2Fg7WQvcCxRPhg4WDgekqspIVcVhhYC7kTOJwirQL6CgOTPtvI1hUC1kKWgX0euQY8LAQM3MjQLipr/iw6WAt5CCh5ZKuseezy+hcVDAxmaOcctBu412h11wVrIY8CvR75rbLmqfOvAKuBngWD3Rl8NSMlmu1W4IiL7V0wGDgBbPJoL5U1z5xficUbOj69YC1kB+Hy+ey0y9sFHIjFS1rIFbnBgAI6PdqIsua185OFt5Jwr5sHayE7gTMZ4866vD7m30AeKWs+5wID5/Hv7bCy5oPzKwltBrhQD5oFHga+p8T/MlfJ/cCOhH63kdl6wcqaUeBjivRAWVNzh0Tyg/GbuetQXevI0Mb4/5icAQacvx7oTuQPKWu+aCE3A8cJV+yOsmY67eVZVf080b+trJlwfs21yKaBAS1kD/AOuATcBEa0kGuaBY8Dv5z/k9gyKmv+AaOx3IqyZoqw2pfH4rvxfMO9YGXND+CN61aVNZOJlGhFJoGq89O2bklTYGdjhHtbTdFeueegsiZamVtA/D/Re8Kf5jzLKi6AF8A3T4FMAE+AoSigrBnXQm4nvIVOEdbF19Q3B0Hgbfd7t7XX0Tdm6VltFjtf+JlxpZ4PAAAAAElFTkSuQmCC";
+
+	echo '<meta name="robots" content="noindex" />';
+
+	$parts = array();
+	$seperator = $options['seo_seperator'];
+	$sitename = $options['sitename'];
+	$title = $request['page_title'];
+	$category = "Admin";
+
+	$parts[] = $title;
+	if ($category != '') {
+		$parts[] = $category;
+	}
+	$parts[] = $sitename;
+
+	$title = implode(" $seperator ", $parts);
+
+	// Title and description
+	echo "<title>$title</title>";
+
+	// echo out SEO
+	echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+	echo '<meta name=viewport content="width=device-width, initial-scale=1">';
+
+	// favicon
+	echo '<link rel="shortcut icon" href="'.$favicon.'" type="image/x-icon" />';
+
+	// styles
+	rf_styles();
 }
 
 function render_admin_menu() {

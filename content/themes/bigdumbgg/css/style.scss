@@ -81,6 +81,12 @@ body {background: $black; color: $white; }
 		h2 {font-size: 2.5rem; }
 		h3 {font-size: 1.1rem; font-weight: normal; }
 	}
+	.home_parallax {
+		overflow: hidden; height: 100vh; max-height: 600px;
+		.bg {min-width: 130%; max-width: none; margin-left: -20%; margin-top: -10%; z-index: -1; }
+	}
+
+
 	.section {padding: $pad4 0;}
 	.page_header_outer {
 		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0;

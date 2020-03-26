@@ -1,9 +1,8 @@
 <?
 
-	class Option extends RF_Model {
+	class Option extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "options";
-			$this->model_schema = array(
+			$schema = array(
 				"key" => array(
 					"type" => "VARCHAR(190)",
 					"unique" => true
@@ -15,12 +14,13 @@
 				)
 			);
 
-			parent::__construct();
+			parent::__construct("options", $schema);
 		}
 
 		function load_all() {
-			$options = $this->query("SELECT * FROM {$this->model_table}");
+			$options = $this->find();
 			$options = array_extract($options, "key", "value");
+
 
 			return $options;
 		}

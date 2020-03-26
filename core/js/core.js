@@ -17,31 +17,47 @@ function update_binded_values(e) {
 	var variable = $(e).attr("name")
 	var type = e.tagName.toLowerCase()
 
-	var value = $(e).val() || $(e).html()
+	if (type == "select" || type == "input" || type == "checkbox" || type == "textarea") {
+		var value = $(e).val()
+	} else {
+		var value = $(e).html()
+	}
+
+
+	$("[data-hide-on-empty='"+variable+"']").each(function(i, obj) {
+		if (value == "") {
+			$(obj).hide()
+		} else {
+			$(obj).show()
+		}
+	})
 
 	$("[data-value='"+variable+"']").each(function(i, obj) {
 		var type = obj.tagName.toLowerCase()
-		if (! $(obj).attr("data-default")) {
-			$(obj).attr("data-default", $(obj).val() || $(obj).html())
-		}
-		if (value == "") {
-			value = $(obj).attr("data-default")
+		// if (! $(obj).attr("data-default")) {
+		// 	$(obj).attr("data-default", $(obj).val() || $(obj).html())
+		// }
+		if (value == "" && $(obj).data("default")) {
+			value = $(obj).data("default")
 		}
 		if (type == "input") {
-			$(obj).value(value)
+			$(obj).val(value)
 		} else {
 			$(obj).html(value)
 		}
 	})
 }
 
-$("body").on("input change paste", "[data-bind]", function() {
+$("body").on("input blur change paste", "[data-bind]", function() {
 	update_binded_values(this) 
 })
 
-$("[data-bind]").each(function(i, e) {
-	update_binded_values(e)
-})
+function update_binds() {
+	$("[data-bind]").each(function(i, e) {
+		update_binded_values(e)
+	})
+}
+update_binds()
 
 /**
  * Extend Cash.js

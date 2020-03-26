@@ -1,8 +1,7 @@
 <?
-	class Meta extends RF_Model {
+	class Meta extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "post_meta";
-			$this->model_schema = array(
+			$schema = array(
 				"meta_parent" => array(
 					"type" => "INT(7)",
 				),
@@ -18,11 +17,11 @@
 				"meta_info" => array(
 					"type" => "VARCHAR(100)",
 				),
+				"created" => false,
+				"modified" => false,
 			);
-			$this->disable_created = true;
-			$this->disable_modified = true;
 
-			parent::__construct();
+			parent::__construct("post_meta", $schema);
 		}
 	}
 

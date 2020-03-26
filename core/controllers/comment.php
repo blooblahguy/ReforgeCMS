@@ -1,10 +1,14 @@
 <?
-	class Comment extends RF_Model {
+	class Comment extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "comments";
-			$this->model_schema = array();
+			global $db;
+			$schema = array(
+				"author" => array(
+					"type" => "INT(7)",
+				)
+			);
 
-			parent::__construct();
+			parent::__construct("comments", $schema);
 		}
 	}
 ?>

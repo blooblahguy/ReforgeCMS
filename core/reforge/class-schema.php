@@ -1,5 +1,5 @@
 <?
-	class RF_Schema extends \Prefab {
+	final class RF_Schema extends \Prefab {
 		protected $schemas = array(),
 			$updated = array(),
 			$options = array(),
@@ -14,25 +14,28 @@
 			return md5(serialize($array));
 		}
 
+		function update($table, $fields, $options) {
+
+		}
+
 		function add($table, $fields, $options = array()) {
-			if (isset($this->updated[$table])) { return; }
+			// if (isset($this->updated[$table])) { return; }
 
-			$cache = \Cache::instance();
+			// $cache = Cache::instance();
 
-			$updating = false;
-			$hash = $this->hash(array($fields, $options));
-			$cached_hash = $cache->get($this->prefix.$table);
+			// $updating = false;
+			// $hash = $this->hash(array($fields, $options));
+			// $cached_hash = $cache->get($this->prefix.$table);
 
-			if (! $cached_hash || $cached_hash != $hash) {
-				$updating = true;
-				$this->schemas[$table] = $fields;
-				$this->options[$table] = $options;
-				$this->updated[$table] = true;
-				$this->setup();
-			}
+			// if (! $cached_hash || $cached_hash != $hash) {
+			// 	$updating = true;
+			// 	$this->schemas[$table] = $fields;
+			// 	$this->options[$table] = $options;
+			// 	$this->updated[$table] = true;
+			// 	// $this->setup();
+			// }
 
-
-			return $updating;
+			// return $updating;
 		}
 
 		private function column_sql($name, $info) {
@@ -62,6 +65,8 @@
 		 */
 		function setup() {
 			global $db;
+
+			return;
 			$cache = \Cache::instance();
 
 			// $cache::reset();
@@ -134,22 +139,22 @@
 
 						if (! isset($columns[$name])) {
 							$qry = "ALTER TABLE `{$table}` ADD {$col}";
-							// debug($qry);
+							debug($qry);
 							$db->exec($qry);
 						} else {
 							if (! $info["default"]) {
 								$qry = "ALTER TABLE `{$table}` ALTER COLUMN `{$name}` DROP DEFAULT";
-								// debug($qry);
+								debug($qry);
 								$db->exec($qry);
 							}
 							if (! $info["index"] && ! $info["unique"]) {
 								$qry = "ALTER TABLE `{$table}` DROP INDEX IF EXISTS `{$name}`";
-								// debug($qry);
+								debug($qry);
 								$db->exec($qry);
 							}
 
 							$qry = "ALTER TABLE `{$table}` MODIFY COLUMN {$col}";
-							// debug($qry);
+							debug($qry);
 							$db->exec($qry);
 						}
 						

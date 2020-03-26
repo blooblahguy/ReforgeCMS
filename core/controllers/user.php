@@ -3,7 +3,7 @@
 
 
 
-	class User extends RF_Model {
+	class User extends \RF\Mapper {
 		public $logged_in = false;
 		public $role;
 		private
@@ -11,9 +11,7 @@
 			$permissions = array();
 
 		function __construct() {
-			
-			$this->model_table = "users";
-			$this->model_schema = array(
+			$schema = array(
 				"username" => array(
 					"type" => "VARCHAR(256)"
 				), 
@@ -35,10 +33,11 @@
 				),
 				"last_login" => array(
 					"type" => "DATETIME",
-				)
+				),
+				"modified" => false
 			);
 
-			parent::__construct();
+			parent::__construct("users", $schema);
 		}
 
 		function render_avatar() {

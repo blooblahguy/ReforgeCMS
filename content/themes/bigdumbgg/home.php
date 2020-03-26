@@ -1,3 +1,13 @@
+<!-- <div class="home_parallax" id="scene">
+	<img data-depth="0.1" src="/content/themes/bigdumbgg/img/parallax.jpg" alt="" class="bg">
+	<div class="container">
+		<img data-depth="0.2" src="/content/themes/bigdumbgg/img/troll.png" alt="" class="troll">
+		<img data-depth="0.4" src="/content/themes/bigdumbgg/img/orc.png" alt="" class="orc">
+		<img data-depth="0.6" src="/content/themes/bigdumbgg/img/belf.png" alt="" class="belf">
+		<img data-depth="0.8" src="/content/themes/bigdumbgg/img/tauren.png" alt="" class="tauren">
+	</div>
+</div> -->
+
 <div class="container pady2">
 	Homepage
 </div>

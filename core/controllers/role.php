@@ -1,9 +1,8 @@
 <?
 
-	class Role extends RF_Model {
+	class Role extends \RF\Mapper {
 		function __construct() {
-			$this->model_table = "roles";
-			$this->model_schema = array(
+			$schema = array(
 				"slug" => array(
 					"type" => "VARCHAR(190)",
 					"unique" => true
@@ -34,7 +33,7 @@
 				)
 			);
 
-			parent::__construct( );
+			parent::__construct("roles", $schema);
 		}
 	}
 

@@ -1,10 +1,8 @@
 <?
 
-	class PostType extends RF_Model {
+	class PostType extends \RF\Mapper {
 		function __construct() {
-
-			$this->model_table = "post_types";
-			$this->model_schema = array(
+			$schema = array(
 				"slug" => array(
 					"type" => "VARCHAR(190)",
 					"unique" => true,
@@ -48,16 +46,27 @@
 				),
 			);
 
-			parent::__construct();
+			parent::__construct("post_types", $schema);
 		}
 
 		function get_admin_post_pages() {			
-			$cpts = $this->select("*", "admin_menu = 1", array(
-				"order" => "`order` ASC",
+			$cpts = $this->find("admin_menu = 1", array(
+				"order by" => "`order` ASC",
 			));
 
 			return $cpts;
 		}
 	}
 
+	function get_post_type($slug) {
+		global $rf_custom_posts;
+
+		foreach ($rf_custom_posts as $pt) {
+			if ($pt['slug'] == $slug) {
+				return $pt;
+			}
+		}
+
+		// debug($rf_custom_posts);
+	}
 ?>

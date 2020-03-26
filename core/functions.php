@@ -15,6 +15,28 @@
 		return $_SERVER['DOCUMENT_ROOT']."/content/themes/".get_option("active_theme")."/";
 	}
 	
+	function register_post_type($options) {
+		global $rf_custom_posts;
+
+		// debug($options);
+		$slug = $options['slug'];
+		// echo $slug;
+
+		$info = array(
+			"order" => 5 + $options["order"],
+			"statuses" => serialize($options["statuses"]),
+			"icon" => $options["icon"],
+			"slug" => $options["slug"],
+			"label" => $options["label"],
+			"label_plural" => $options["label_plural"],
+			"base_permission" => array("update_any_{$options['slug']}", "update_own_{$options['slug']}"),
+			"route" => "/admin/posts/@slug",
+			"link" => "/admin/posts/{$slug}",
+		);
+
+		$rf_custom_posts[$slug] = $info;
+	}
+
 	$shortcodes = array();	
 	function add_shortcode($tag, $callback) {
 		global $shortcodes;
@@ -114,9 +136,7 @@
 		return $new;
 	}
 
-	$rf_styles = array();
-	$rf_scss = array();
-	$rf_scripts = array();
+	
 	function dequeue_style($path) {
 		global $rf_styles;
 		foreach ($rf_styles as $priority => $styles) {

@@ -20,7 +20,8 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		?>
 		<div class="section">
 		<?
-		$partials = $db->exec("SELECT * FROM posts WHERE post_type = 'partial' "); 
+		$partials = new Partial();
+		$partials = $partials->find("post_type = 'partial' "); 
 		// display table
 		display_results_table($partials, array(
 			'title' => array(

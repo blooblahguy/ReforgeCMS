@@ -25,7 +25,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  -->
 
-	<title>Big Dumb Gaming</title>
+	<? rf_head(); ?>
 
 	<meta name="theme-color" content="#171C23">
 	<meta name="msapplication-navbutton-color" content="#171C23">

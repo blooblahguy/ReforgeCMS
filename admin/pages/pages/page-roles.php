@@ -150,12 +150,6 @@ class admin_page_ROLES extends RF_Admin_Page {
 			"label" => "Upload Files",
 			"description" => "Role can upload files to the website, front end or backend.",
 		);
-
-		// $defaults[] = array(
-		// 	"slug" => "sync_battlenet",
-		// 	"label" => "Sync Battlnet",
-		// 	"description" => "Role can synd their BattleNet account to the website for character syncing.",
-		// );
 	?>
 
 	<div class="row">

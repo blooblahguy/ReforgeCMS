@@ -43,7 +43,7 @@ foreach ($fields as $type => $file) {
 //===============================================
 $rules = array();
 // $rules["form"] = "form.php";
-// $rules["page"] = "page.php";
+// $rules["post"] = "posts.php";
 $rules["adminpage"] = "admin-page.php";
 $rules["user"] = "user.php";
 // $rules["userrole"] = "userrole.php";
@@ -54,5 +54,6 @@ foreach ($rules as $type => $file) {
 	require "$local/rules/{$file}";
 	new $class_name();
 }
+require "$local/rules/posts.php";
 
 ?>

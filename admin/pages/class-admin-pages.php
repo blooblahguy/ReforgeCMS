@@ -18,7 +18,6 @@
 
 			$user = current_user();
 			if ($this->page->base_permission) {
-
 				if (! $user->can($this->page->base_permission)) {
 					exit();
 				}
@@ -26,6 +25,7 @@
 
 			$request["page_id"] = $this->page->id;
 			$request["page_uid"] = $this->page->get_id();
+			$request["page_title"] = $this->page->label_plural;
 			$request["page_slug"] = $this->page->name;
 
 			// header
@@ -118,6 +118,17 @@
 				do_action("admin/page/delete_before", $this->page);
 				$this->page->delete_page($core, $args);
 				do_action("admin/page/delete_after", $this->page);
+			}
+		}
+
+
+		function delete_page($core, $args) {
+			$page = $this->page;
+			$id = $this->page->id;
+
+			
+			if ($id > 0) {
+
 			}
 		}
 	}

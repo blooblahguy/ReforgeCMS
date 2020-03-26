@@ -1,11 +1,10 @@
 <?php
 
-class RF_File extends RF_Model {
+class RF_File extends \RF\Mapper {
 	private $noresize = array("svg");
 
 	function __construct() {
-		$this->model_table = "rf_media";
-		$this->model_schema = array(
+		$schema = array(
 			"hash" => array(
 				"type" => "VARCHAR(32)",
 				"unique" => true
@@ -27,7 +26,7 @@ class RF_File extends RF_Model {
 			)
 		);
 
-		parent::__construct();
+		parent::__construct("rf_media", $schema);
 	}
 
 	function erase($filter = NULL, $quick = true) {
@@ -163,6 +162,7 @@ class RF_File extends RF_Model {
 
 function get_file_size($id, $width = null, $height = null) {
 	$file = new RF_File();
+	debug("id = $id");
 	$file->load("id = $id");
 
 	return $file->get_size($width, $height);

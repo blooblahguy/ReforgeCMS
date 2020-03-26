@@ -1,5 +1,4 @@
 <?
-	$rf_filters = array();
 
 	class RF_Hook {
 		public $callbacks = array();

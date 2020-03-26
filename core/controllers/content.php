@@ -113,6 +113,39 @@
 		}
 	}
 
+	function rf_head() {
+		global $request, $options;
+
+		if ($options['disable_seo']) {
+			echo '<meta name="robots" content="noindex" />';
+		}
+
+		$parts = array();
+		$seperator = $options['seo_seperator'];
+		$sitename = $options['sitename'];
+		$title = $request['page']['seo_title'];
+		$category = $request['page']['seo_category'];
+		$description = $request['page']['seo_description'];
+
+		$parts[] = $title;
+		if ($category != '') {
+			$parts[] = $category;
+		}
+		$parts[] = $sitename;
+
+		$title = implode(" $seperator ", $parts);
+
+		// Title and description
+		echo "<title>$title</title>";
+		echo "<meta name='description' content='$description'>";
+
+		// echo out SEO
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+		echo '<meta name=viewport content="width=device-width, initial-scale=1">';
+
+		//
+	}
+
 	function body_classes() {
 		global $request;
 		if (! $request['body_classes']) {
@@ -149,6 +182,17 @@
 
 		$request['user_id'] = $user->id;
 		$request['page_id'] = $page->id;
+
+		// populate out basic fields
+		if ($request['page_id'] > 0) {
+			$request['page'] = array();
+			$request['page']["id"] = $request['page_id'];
+			$p = new Post();
+			$p->load("id = {$request['page_id']}");
+			foreach ($p->model_schema as $k => $f) {
+				$request['page'][$k] = $p->{$k};
+			}
+		}
 
 		add_body_class(slugify($page->title));
 		

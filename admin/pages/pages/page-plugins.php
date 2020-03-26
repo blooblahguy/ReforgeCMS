@@ -1,8 +1,9 @@
 <?
 
 class admin_page_PLUGINS extends RF_Admin_Page {
+	private $cache = array();
 	function __construct() {
-		global $core; 
+		global $core, $plugin_cache; 
 
 		$this->category = "Settings";
 		$this->name = "plugins";
@@ -15,9 +16,11 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 
+		$this->cache = new RF\Cache("THEMES");
+
 		// Rescan route
 		$core->route("GET {$this->link}/rescan", function() {
-			\Cache::instance()->clear("plugins");
+			$this->cache->reset();
 			redirect("/admin/plugins");
 		});
 
@@ -30,7 +33,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 	function scan_plugins() {
 		global $root;
-		$plugins = \Cache::instance()->get("plugins");
+		$plugins = $this->cache->get("plugins");
 
 		if ($plugins) { return $plugins; }
 		$plugins = array();
@@ -54,7 +57,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		}
 
 		\Alerts::instance()->success("Plugins scanned");
-		\Cache::instance()->set("plugins", $plugins);
+		$this->cache->set("plugins", $plugins);
 
 		return $plugins;
 	}

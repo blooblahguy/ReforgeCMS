@@ -26,7 +26,7 @@
 		queue_script("/core/js/admin.js", 15);
 
 		$core->route("GET /admin/clear-cache", function($core, $args) {
-			Cache::instance()->reset();
+			resetCaches();
 			$ref = $_SERVER['HTTP_REFERER'];
 			redirect($ref);
 		});

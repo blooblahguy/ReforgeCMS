@@ -1,16 +1,17 @@
 <?
 
-	class CustomField extends RF_Model {
+	class CustomField extends \RF\Mapper {
 		protected $cfs_load = array();
 
 		function __construct() {
-			$this->model_table = 'custom_fields';
-			$this->model_schema = array(
+			$schema = array(
 				"title" => array(
 					"type" => "VARCHAR(255)",
 				),
-				"first_rule" => array(
-					"type" => "VARCHAR(255)"
+				"priority" => array(
+					"type" => "INT(1)",
+					"nullable" => false,
+					"default" => 0
 				),
 				"load_rules" => array(
 					"type" => "LONGTEXT",
@@ -18,12 +19,12 @@
 				"fieldset" => array(
 					"type" => "LONGTEXT",
 				),
-				"active" => array(
+				"inactive" => array(
 					"type" => "INT(1)",
 				),
 			);
 
-			parent::__construct();
+			parent::__construct("custom_fields", $schema);
 		}
 
 		function get_fields() {
@@ -42,13 +43,11 @@
 			}
 		}
 
-		
-
 		function load_all() {
 			global $db;
 
 			if (count($this->cfs_load) == 0) {
-				$cfs = $db->exec("SELECT * FROM `{$this->model_table}`", null);
+				$cfs = $this->find(null, array("order by" => "priority DESC"));
 				$cfs = rekey_array("id", $cfs);
 				foreach ($cfs as $cf) {
 					$fieldset = unserialize($cf['fieldset']);

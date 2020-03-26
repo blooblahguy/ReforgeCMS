@@ -71,16 +71,37 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		
 
 		?>
-		<div class="row g2">
-			<div class="os">
-				<div class="section">
-					<h2>Load Conditions</h2>
-					<?
-					// render the rules
-					do_action("rcf/admin_render_rules", $id);
-					?>
-				</div>
-			</div>
+
+		<div class="section">
+			<h2>Load Conditions</h2>
+			<?
+			// render the rules
+			do_action("rcf/admin_render_rules", $id);
+			?>
+		</div>
+		<div class="section">
+			<h2>Options</h2>
+			<? 
+			debug($cf->priority);
+			render_admin_field($cf, array(
+				"type" => "checkbox",
+				"label" => "Active",
+				"name" => "inactive",
+				"value" => "1",
+			));
+			render_admin_field($cf, array(
+				"type" => "select",
+				"label" => "Display Priority",
+				"name" => "priority",
+				"choices" => array(
+					3 => "Very High",	
+					2 => "High",	
+					0 => "Normal",	
+					-1 => "Low",	
+					-2 => "Very Low"	
+				),
+			));
+			?>
 		</div>
 		<?
 	}
@@ -121,10 +142,6 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$fields = $_POST['rcf_fields'];
 		$fieldset = $this->build_hierarchy($fields);
 
-		// debug($fieldset);
-
-		// return;
-
 		// LOAD RULES
 		$load_conditions = $_POST["load_conditions"];
 		$rules = array();
@@ -143,13 +160,14 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 
 				$rules[$group] = $set;
 			}		
-		}		
-
-		// debug($rules);
+		}
 
 		$cf->title = $title;
+		$cf->active = $_POST['priority'];
+		$cf->priority = $_POST['inactive'];
 		$cf->fieldset = serialize($fieldset);
 		$cf->load_rules = serialize($rules);
+		// exit();
 		$cf->save();
 
 		\Alerts::instance()->success("Custom Field $title $changed");

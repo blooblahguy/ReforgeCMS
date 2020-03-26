@@ -22,6 +22,7 @@ class reforge_field_TEXTAREA extends reforge_field {
 			"name" => $data["name"],
 			"required" => $field['required'],
 			"placeholder" => $field['placeholder'],
+			"field-slug" => $field['slug'],
 		));
 	}
 

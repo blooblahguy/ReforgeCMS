@@ -1,6 +1,7 @@
 <?
 
 class admin_page_THEMES extends RF_Admin_Page {
+	private $cache = array();
 	function __construct() {
 		global $core;
 
@@ -15,13 +16,15 @@ class admin_page_THEMES extends RF_Admin_Page {
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 
+		$this->cache = new RF\Cache("THEMES");
+
 		// Be sure to set up the parent
 		parent::__construct();
 
 		$this->scan_themes();
 
 		$core->route("GET {$this->route}/rescan", function() {
-			\Cache::instance()->clear("themes");
+			$this->cache->reset();
 			redirect("/admin/themes");
 		});
 
@@ -41,7 +44,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 
 	function scan_themes() {
 		global $root;
-		$themes = \Cache::instance()->get("themes");
+		$themes = $this->cache->get("themes");
 
 		if ($themes) { return $themes; }
 		$themes = array();
@@ -65,7 +68,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 		}
 
 		\Alerts::instance()->success("Themes scanned");
-		\Cache::instance()->set("themes", $themes);
+		$this->cache->set("themes", $themes);
 
 		return $themes;
 	}

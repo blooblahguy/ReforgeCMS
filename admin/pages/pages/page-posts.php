@@ -16,11 +16,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 	}
 
 	function render_index() {
-		global $db;
-
 		$this->post_type = $this->name;
-		$post = new Post();
-		$posts = $post->find("post_type = '{$this->post_type}' ");
+		$posts = new Post();
+		$posts = $posts->find("post_type = '{$this->post_type}' ");
 
 		$columns = array(
 			'title' => array(
@@ -246,7 +244,10 @@ class admin_page_POSTS extends RF_Admin_Page {
 		// exit();
 		$post->save();
 
+		// debug($post);
+
 		RCF()->save_fields("post", $post->id);
+		// exit();
 
 		$this->save_success($post->title, $changed, $post->id);
 	}

@@ -205,7 +205,7 @@
 
 			foreach ($current as $key => $values) {
 				$meta = new Meta();
-				$meta->query("DELETE FROM {$meta->model_table} WHERE meta_key = '{$key}' AND meta_type = '{$type}' AND meta_parent = $id ");
+				$meta->query("DELETE FROM {$meta->table} WHERE meta_key = '{$key}' AND meta_type = '{$type}' AND meta_parent = $id ");
 			}
 		}
 

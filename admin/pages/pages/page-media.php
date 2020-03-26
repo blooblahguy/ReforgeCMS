@@ -20,11 +20,6 @@ class admin_page_MEDIA extends RF_Admin_Page {
 
 		$media->display();
 
-		// $media->display();
-		// global $db;
-		// $file = new File();
-		// $media = $db->exec("SELECT * FROM {$file->model_table} ORDER BY modified DESC");
-		// debug($media);
 
 	}
 

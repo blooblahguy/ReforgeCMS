@@ -36,8 +36,10 @@ class admin_page_ROLES extends RF_Admin_Page {
 			'users' => array(
 				"label" => "Users",
 				"calculate" => function($s, $id) {
-					global $db;
-					$rs = $db->exec("SELECT id FROM `users` WHERE role_id = $id");
+					// global $db;
+					$rs = new User();
+					$rs = $rs->find("role_id = $id");
+					// var_dump($rs->cache);
 					return (count($rs));
 				},
 			),

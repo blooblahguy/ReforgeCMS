@@ -210,7 +210,8 @@ class RF_Media extends Prefab {
 
 	function get_uploads() {
 		global $db;
-		$media = $db->exec("SELECT * FROM rf_media ORDER BY created DESC, modified DESC");
+		$file = new RF_File();
+		$media = $file->find(null, array("ORDER BY created DESC, modified DESC"));
 
 		return $media;
 	}

@@ -21,7 +21,7 @@ class rcf_rule_POSTS extends rcf_rule {
 		$choices = array();
 
 		$post = new Post();
-		$posts = $post->query("SELECT * FROM {$post->model_table} WHERE post_type = '{$this->name}'");
+		$posts = $post->query("SELECT * FROM {$post->table} WHERE post_type = '{$this->name}'");
 		foreach ($posts as $p) {
 			$choices[$p['id']] = $p['title'];
 		}

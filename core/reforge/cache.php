@@ -12,22 +12,16 @@ class Cache {
 
 	/**
 	 * The path to the cache file folder
-	 *
-	 * @var string
 	 */
 	private $_cachepath = 'tmp/';
 
 	/**
 	 * The name of the default cache file
-	 *
-	 * @var string
 	 */
 	private $_cachename = 'default';
 
 	/**
 	 * The cache file extension
-	 *
-	 * @var string
 	 */
 	private $_extension = '.cache';
 
@@ -39,6 +33,7 @@ class Cache {
 	 */
 	public function __construct($config = null) {
 		global $rf_caches;
+
 		if (true === isset($config)) {
 			if (is_string($config)) {
 				$this->setCache($config);

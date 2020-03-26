@@ -1,8 +1,6 @@
 <?
 	// F3 Core
 	$core = require $root."/core/vendor/fatfree-core/base.php";
-	// $core->set("CACHE", true);
-	// Cache::instance()->load("folder=$root/tmp/cache/");
 	$core->set("DEBUG", 1);
 	$core->set("UI", $root."/content/");
 	$core->set("salt", $configuration["salt"]);
@@ -78,8 +76,9 @@
 
 		// Load Plugins
 		$plugins = unserialize($options['active_plugins']);
+		if (! $plugins) {$plugins = array(); }
 		foreach ($plugins as $path) {
-			require $path;
+			// require $path;
 		}
 		$core->route("GET|POST /logout", "User->logout");
 

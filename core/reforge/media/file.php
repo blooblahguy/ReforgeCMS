@@ -88,7 +88,8 @@ class RF_File extends \RF\Mapper {
 			$sizes[$target['name']]['path'] = $path;
 
 			$this->sizes = serialize($sizes);
-			$this->query("UPDATE {$this->model_table} SET sizes = '{$this->sizes}' WHERE id = {$this->id}");
+			$this->update();
+			// $this->query("UPDATE {$this->table} SET sizes = '{$this->sizes}' WHERE id = {$this->id}");
 		}
 	}
 

@@ -99,24 +99,25 @@ class Schema extends \Prefab {
 	}
 }
 
+// $rf_mapper_cache = array();
+
 class Mapper extends \Magic {
 	// variables
 	protected 
 		$data,
 		$changed = array();
-	private 
+	public 
 		$cache = array(),
 		$schema = array();
 
 	// construct mapper with provided information
 	function __construct($table, $schema = false) {
 		if (! $table) { echo "no table"; return false; }
-		// if (! $schema) { echo "no schema"; return false; }
-
 		$this->table = $table;
 
 		$this->cache['queries'] = new \RF\Cache("{$table}.queries");
 		$this->cache['schema'] = new \RF\Cache("{$table}.schema");
+
 
 		// Build schema out, and store for reference
 		if ($schema !== false && count($schema) > 0) {
@@ -229,6 +230,7 @@ class Mapper extends \Magic {
 	}
 
 	private function wipe_query_cache() {
+		debug("wiped cache for {$this->table}");
 		$this->cache['queries']->reset();
 	}
 
@@ -236,7 +238,6 @@ class Mapper extends \Magic {
 	 * Updated exsiting record in the database
 	 */
 	function update() {
-		global $db;
 		if (count($this->changed) == 0) { return; }
 
 		$qry = array();
@@ -262,8 +263,6 @@ class Mapper extends \Magic {
 	function insert() {
 		global $db;
 
-		// debug($this);
-
 		$cols = array();
 		$vals = array();
 		$params = array();
@@ -278,13 +277,10 @@ class Mapper extends \Magic {
 
 		$qry = "INSERT INTO `{$this->table}` ($cols) VALUES ($vals)";
 
-		// debug($qry, $params);
-		// exit();
 
-		// $cols = array_keys($this->changed);
-		$db->exec($qry, $params);
+		$this->wipe_query_cache();
+		$this->query($qry, $params);
 		$this->id = $db->lastinsertid();
-		// debug($rs);
 		return $this->id;
 	}
 
@@ -292,6 +288,7 @@ class Mapper extends \Magic {
 	 * Automatically maps to update or insert depending on if we've loaded any data
 	 */
 	function save() {
+		$this->wipe_query_cache();
 		if ($this->id && $this->id > 0) {
 			$this->update();
 		} else {
@@ -304,16 +301,16 @@ class Mapper extends \Magic {
 	 */
 	function query($cmds, $args = NULL, $ttl = 0, $log = TRUE, $stamp = FALSE) {
 		global $db;
-		// if we're making changes to our table, then wipe our query cache
 		$op = reset(explode(" ", trim($cmds)));
 		$cache = $this->cache['queries'];
+		$sql_key = md5(serialize(array(
+			$cmds, $args
+		)));
+
+		// if we're making changes to our table, then wipe our query cache
 		if ($op == "INSERT" || $op == "DELETE" || $op == "UPDATE") {
 			$this->wipe_query_cache();
 		} else {
-			$sql_key = md5(serialize(array(
-				$cmds, $args
-			)));
-
 			if ($cache->get($sql_key)) {
 				return $cache->get($sql_key);
 			}
@@ -339,8 +336,13 @@ class Mapper extends \Magic {
 		];
 
 		$qry = array();
+		$params = array();
 		$qry[] = "SELECT * FROM `{$this->table}`";
 		if ($filter !== NULL) {
+			if (gettype($filter) == "array") {
+				$params = $filter;
+				$filter = array_shift($params);
+			}
 			$qry[] = "WHERE $filter";
 		}
 		foreach ($options as $key => $opt) {
@@ -350,8 +352,10 @@ class Mapper extends \Magic {
 			}
 		}
 
+
+		// debug($qry, $params);
 		$qry = implode(" ", array_filter($qry));
-		$rs = $this->query($qry);
+		$rs = $this->query($qry, $params);
 
 		return $rs;
 	}
@@ -371,7 +375,6 @@ class Mapper extends \Magic {
 		if (! $rs) {
 			$rs = $this->find($filter, $options);
 			if (count($rs) > 1) {
-				// error
 				return;
 			}
 

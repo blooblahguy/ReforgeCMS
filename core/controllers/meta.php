@@ -51,7 +51,7 @@
 				$vars[":key"] = $key;
 			}
 
-			$meta = $meta->query("SELECT * FROM {$meta->model_table} WHERE meta_parent = :pid $extra", $vars);
+			$meta = $meta->query("SELECT * FROM {$meta->table} WHERE meta_parent = :pid $extra", $vars);
 			$meta = array_extract($meta, "meta_key", "meta_value");
 
 			if ($key !== false) {

@@ -90,10 +90,10 @@ class admin_page_MENUS extends RF_Admin_Page {
 		$id = $args['id'];
 
 		$pts = new PostType();
-		$pts = $pts->query("SELECT * FROM {$pts->model_table} WHERE public = 1 ORDER BY `order` ASC");
+		$pts = $pts->query("SELECT * FROM {$pts->table} WHERE public = 1 ORDER BY `order` ASC");
 
 		$posts = new Post();
-		$posts = $posts->query("SELECT * FROM {$posts->model_table} ORDER BY post_type ASC, modified DESC");
+		$posts = $posts->query("SELECT * FROM {$posts->table} ORDER BY post_type ASC, modified DESC");
 
 		$menu = new Menu();
 		if ($id > 0) {

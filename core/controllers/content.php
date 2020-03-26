@@ -2,7 +2,7 @@
 	$request = array();
 
 	class Page extends Magic {
-		private $model_schema;
+		private $schema;
 		protected $fields = array();
 		protected $data;
 
@@ -24,11 +24,11 @@
 
 		function __construct() {
 			$post = new Post();
-			$this->model_schema = $post->model_schema;
+			$this->schema = $post->schema;
 		}
 
-		function set_object($object) {
-			foreach ($this->model_schema as $key => $info) {
+		function factory($object) {
+			foreach ($this->schema as $key => $info) {
 				$this->$key = $object[$key];
 			}
 
@@ -77,7 +77,7 @@
 			$home = get_option("site_homepage");
 			foreach ($pages as $post) {
 				$page = new Page();
-				$page->set_object($post);
+				$page->factory($post);
 
 				if ($post['id'] == $home) {
 					$this->pages["/"] = $page;
@@ -189,7 +189,7 @@
 			$request['page']["id"] = $request['page_id'];
 			$p = new Post();
 			$p->load("id = {$request['page_id']}");
-			foreach ($p->model_schema as $k => $f) {
+			foreach ($p->schema as $k => $f) {
 				$request['page'][$k] = $p->{$k};
 			}
 		}

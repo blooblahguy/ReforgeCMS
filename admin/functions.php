@@ -200,7 +200,7 @@ function render_admin_field($field, $settings) {
 	if ($type == "wysiwyg") {
 		$attrs['class'] .= " wysiwyg";
 	} elseif ($type == "checkbox") {
-		$attrs['checked'] = (int) $attrs['value'] == 1 ? true : false;
+		$attrs['checked'] = isset($attrs['value']) ? true : false;
 	}
 
 	// now build input attribute string
@@ -226,7 +226,12 @@ function render_admin_field($field, $settings) {
 			<? } ?>
 		</div>
 		<div class="field_value">
-			<? if ($type == "select") { ?>
+			<? if ($type == "select") { 
+				if (gettype($value) != "array") {
+					$value = array($value);
+				}
+
+				?>
 				<select <?= $attrs; ?>>
 					<option value="" disabled selected>--Select</option>
 					<?
@@ -234,11 +239,11 @@ function render_admin_field($field, $settings) {
 						if (is_array($option)) { ?>
 							<optgroup label="<?= $key; ?>">
 								<? foreach ($option as $skey => $label) { ?>
-									<option value="<?= $skey; ?>" <? if ($skey == $value) {echo "selected"; } ?>><?= $label; ?></option>
+									<option value="<?= $skey; ?>" <? if (in_array($skey, $value) == true) {echo "selected"; } ?>><?= $label; ?></option>
 								<? } ?>
 							</optgroup>
 						<? } else { ?>
-							<option value="<?= $key; ?>" <? if ($key == $value) {echo "selected"; } ?>><?= $option; ?></option>
+							<option value="<?= $key; ?>" <? if (in_array($key, $value) == true) {echo "selected"; } ?>><?= $option; ?></option>
 						<? } ?>
 					<? } ?>
 				</select>

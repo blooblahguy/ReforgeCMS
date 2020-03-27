@@ -1,5 +1,14 @@
 <?
 
+$profile_time = microtime(true);
+function profile_step($name = "") {
+	global $profile_time;
+
+	echo "<pre>".$name.": ".round((microtime(true) - $profile_time), 2)."</pre>";
+
+	$profile_time = microtime(true);
+}
+
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -9,31 +18,4 @@ $root = rtrim($_SERVER['DOCUMENT_ROOT'], "/");
 
 $configuration = require "reforge-config.php";
 require $root."/core/core.php";
-
-// $meta = array(
-// 	"field_5e5568ea32c29" => array(
-// 		0 => array(
-// 			"field_5e5568fc32c2b" => "Text value in repeater",
-// 			"field_5e55690332c2c" => array(
-// 				0 => array(
-// 					"field_5e55690c32c2d" => "1 test1 in subrepeater",
-// 					"field_5e55690d32c2e" => "1 test2 in subrepeater"
-// 				),
-// 				1 => array(
-// 					"field_5e55690c32c2d" => "2 test1 in subrepeater",
-// 					"field_5e55690d32c2e" => "2 test2 in subrepeater"
-// 				),
-// 			)
-// 		),
-// 	),
-// 	"field_5e5568ed32c2a" => "Text String Here"
-// );
-
-// print_r(serialize($meta));
-
-
-
-	// phpinfo();
-	// opcache_get_status();
-	
 ?>

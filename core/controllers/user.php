@@ -266,12 +266,18 @@
 	}
 
 	// Login Cookies
-	\RF_Schema::instance()->add("login_cookies", array(
-		"token" => array(
-			"type" => "VARCHAR(256)"
-		), 
-		"user_id" => array(
-			"type" => "INT(7)"
-		), 
-	));
+	class LoginCookies extends \RF\Mapper {
+		function __construct() {
+			$schema = array(
+				"token" => array(
+					"type" => "VARCHAR(256)"
+				), 
+				"user_id" => array(
+					"type" => "INT(7)"
+				), 
+			);
+
+			parent::__construct("login_cookies", $schema);
+		}
+	}
 ?>

@@ -108,7 +108,8 @@ class Mapper extends \Magic {
 		$changed = array();
 	public 
 		$cache = array(),
-		$schema = array();
+		$schema = array(),
+		$table;
 
 	// construct mapper with provided information
 	function __construct($table, $schema = false) {
@@ -117,7 +118,6 @@ class Mapper extends \Magic {
 
 		$this->cache['queries'] = new \RF\Cache("{$table}.queries");
 		$this->cache['schema'] = new \RF\Cache("{$table}.schema");
-
 
 		// Build schema out, and store for reference
 		if ($schema !== false && count($schema) > 0) {
@@ -134,6 +134,12 @@ class Mapper extends \Magic {
 		// first, store schema information in our object
 		foreach ($schema as $col => $props) {
 			$this->schema[$col] = $props['type'];
+		}
+		if ($this->schema["created"] !== false) {
+			$this->schema["created"] = "DATETIME";
+		}
+		if ($this->schema["modified"] !== false) {
+			$this->schema["modified"] = "DATETIME";
 		}
 
 		// Now, determine if this needs to be updated
@@ -153,8 +159,12 @@ class Mapper extends \Magic {
 	 * Load array or database query into this object
 	 */
 	function factory($object) {
-		foreach ($this->schema as $key => $info) {
+		if (! $object) { return; }
+		foreach ($object as $key => $info) {
 			$this->data[$key] = $object[$key];
+			if (! $this->schema[$key]) {
+				$this->schema[$key] = "inherited";
+			}
 		}
 
 		if (isset($object['id'])) {
@@ -162,9 +172,11 @@ class Mapper extends \Magic {
 		}
 		if (isset($object['created'])) {
 			$this->data['created'] = $object['created'];
+			$this->schema["created"] = "DATETIME";
 		}
 		if (isset($object['modified'])) {
 			$this->data['modified'] = $object['modified'];
+			$this->schema["modified"] = "DATETIME";
 		}
 	}
 
@@ -174,7 +186,10 @@ class Mapper extends \Magic {
 	}
 
 	function set($key, $val) {
-		if ($this->schema[$key] && $val !== $this->{$key}) {
+		// debug($this->schema);
+		// debug($key);
+		// debug($val);
+		if ($key != "id" && $val !== $this->{$key}) {
 			$this->changed[$key] = true;
 		}
 		$this->data[$key] = $val;	
@@ -316,6 +331,7 @@ class Mapper extends \Magic {
 			}
 		}
 
+
 		// query and cache
 		$rs = $db->exec($cmds, $args, 0, $log, $stamp);
 		$cache->set($sql_key, $rs);
@@ -355,6 +371,8 @@ class Mapper extends \Magic {
 
 		// debug($qry, $params);
 		$qry = implode(" ", array_filter($qry));
+
+		// debug($qry, $params);
 		$rs = $this->query($qry, $params);
 
 		return $rs;
@@ -375,12 +393,14 @@ class Mapper extends \Magic {
 		if (! $rs) {
 			$rs = $this->find($filter, $options);
 			if (count($rs) > 1) {
+				echo "error";
 				return;
 			}
 
 			$rs = reset($rs);
 			$cache->set($sql_key, $rs);
 		}
+
 
 		// attach data to this object
 		$this->factory($rs);

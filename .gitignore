@@ -1,8 +1,9 @@
 reforge-config.php
-content/plugins/
-content/themes/
-content/uploads/*
-content/uploads/sizes*
+info.php
+.vscode/
 tmp/
+content/plugins/*
+content/themes/*
+content/uploads/*
 
 !content/themes/reforge2020/

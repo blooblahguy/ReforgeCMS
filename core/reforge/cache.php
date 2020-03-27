@@ -5,7 +5,7 @@ function resetCaches() {
 		$c->reset();
 	}
 }
-
+// TODO: Convert to Magic Class to increase speed
 namespace RF;
 $rf_caches = array();
 class Cache {
@@ -53,7 +53,7 @@ class Cache {
 	 * @param string $key
 	 * @return boolean
 	 */
-	public function isCached($key) {
+	public function exists($key) {
 		if (false != $this->_loadCache()) {
 			$cachedData = $this->_loadCache();
 			return isset($cachedData[$key]['data']);

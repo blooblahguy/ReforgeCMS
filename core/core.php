@@ -10,17 +10,15 @@
 	require "$root/core/hook.php";
 	require "$root/core/reforge/cache.php";
 	require "$root/core/reforge/db/mapper.php";
-	require "$root/core/reforge/class-alerts.php";
+	// require "$root/core/reforge/class-alerts.php";
 	// require "$root/core/reforge/class-db.php";
-	require "$root/core/reforge/class-model.php";
-	require "$root/core/reforge/class-schema.php";
-	require "$root/core/reforge/session.php";
+	// require "$root/core/reforge/class-model.php";
+	// require "$root/core/reforge/class-schema.php";
+	// require "$root/core/reforge/session.php";
 	require "$root/core/reforge/media/media.php";
 	require "$root/core/reforge/media/file.php";
 	require "$root/core/custom_fields/rcf.php";
-
-	new Session();
-
+	
 	// media manager
 	$media = RF_Media::instance();
 	$media->add_size("medium", 400, null, false);
@@ -32,11 +30,16 @@
 		global $root;
 		$class = strtolower($class);
 		$path = $root."/core/controllers/$class.php";
+		$rf_path = $root."/core/reforge/$class.php";
 
 		if (file_exists($path)) {
 			require $path;
+		} elseif (file_exists($rf_path)) {
+			require $rf_path;
 		}
 	});	
+
+	new Session();
 
 	// Database
 	$db = new DB\SQL(
@@ -49,15 +52,11 @@
 			\PDO::MYSQL_ATTR_COMPRESS => TRUE
 		)
 	);
-
 	queue_script("/core/js/cash.js", 1);
 	queue_script("/core/js/ajax.min.js", 3);
 	queue_script("/core/js/core.js", 16);
 	queue_script("/core/custom_fields/js/custom_fields.js", 18);
 
-	$post = new Post();
-	$meta = new Meta();
-	
 	$current_user = new User();
 	$current_user->get_user();
 
@@ -81,7 +80,6 @@
 			// require $path;
 		}
 		$core->route("GET|POST /logout", "User->logout");
-
 
 		// Determine Where we are now
 		if ("/".$CONTROLLER == "/admin") {

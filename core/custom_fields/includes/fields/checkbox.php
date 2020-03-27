@@ -26,8 +26,6 @@ class reforge_field_CHECKBOX extends reforge_field {
 	function options_html($key, $field) {
 
 	}
-
-
 }
 
 ?>

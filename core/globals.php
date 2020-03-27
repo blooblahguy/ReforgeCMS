@@ -1,6 +1,6 @@
 <?
 // CACHE BUCKETS
-
+$meta_cache = array();
 
 $rf_permissions = array();
 $rf_custom_posts = array();

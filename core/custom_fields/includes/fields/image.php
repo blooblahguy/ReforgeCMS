@@ -43,18 +43,20 @@ class reforge_field_IMAGE extends reforge_field {
 						$file->load("id = $id");
 					}
 					$src = "style='display:none'";
+					$rm_btn = "style='display:none'";
 					$datasrc = "";
 					if ($id != 0) {
 						$src = "src='/core/img/image_placeholder.jpg'";
 						$datasrc = "data-src='{$file->original}'";
 						$class = "lazy";
+						$rm_btn = "";
 					} ?>
 					<div class="preview">
 						<img class="image_preview preview_<?= $key; ?> <?= $class; ?>" <?= $src; ?> <?= $datasrc; ?> alt="<?= $field['label']; ?>">
+						<a href="#0" data-key="<?= $key; ?>" class="rf_media_remove" <?= $rm_btn; ?>><i>close</i></a>
 					</div>
 					<?= RF_Media::instance()->select_button($key);?>
 					<input type="hidden" name="<?= $key; ?>" value="<?= $id; ?>">
-
 				</div>
 			</div>
 		</div>

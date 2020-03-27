@@ -13,8 +13,9 @@
 </div>
 
 <? 
-$bg = get_file(get_field("page_hero")); 
 $fields = get_fields();
+$bg = $fields['hero_text']['recruitment_hero'];
+$bg = get_file($bg); 
 ?>
 <div class="home_hero text-center">
 	<img src="<?= $bg['original']; ?>" alt="Big Dumb Gaming Homepage Hero">

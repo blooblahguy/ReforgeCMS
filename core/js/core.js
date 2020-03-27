@@ -131,6 +131,17 @@ function hook_sorters() {
 			animation: 150,
 		});
 	});
+
+	[].forEach.call(document.getElementsByClassName('sortable'), function (el){
+		new Sortable(el, { 
+			group: 'sortable',
+			handle: ".dragger",
+			draggable: ".sort",
+			// direction: "vertical",
+			// invertSwap: true,
+			animation: 150,
+		});
+	})
 }
 hook_sorters();
 

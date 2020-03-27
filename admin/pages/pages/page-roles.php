@@ -192,7 +192,9 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 			<div class="section">
 				<h3>Post Type Permissions</h3>
-				<? $cpts = $db->exec("SELECT * FROM post_types ORDER BY `order`"); 
+				<? 
+				$cpts = new PostType();
+				$cpts = $cpts->find(null, array("order by" => "`order` ASC")); 
 				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own", "View");
 				?>
 				<? foreach ($cpts as $type) { ?>

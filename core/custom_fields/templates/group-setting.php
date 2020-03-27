@@ -11,13 +11,14 @@
 
 ?>
 
-<div class="rcf_field menu_header rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
+<div class="rcf_field menu_header sort rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
 	<div class="meta">
 		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
 		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
 	</div>
 	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
+		<div class="os-min text-grey self-middle dragger"><i class="display-block">drag_indicator</i></div>
 		<div data-value="rcf_fields[<?= $key; ?>][label]" class="os label pad1 strong">(no label)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][slug]" class="os slug pad1">(no slug)</div>
 		<div data-value="rcf_fields[<?= $key; ?>][type]" class="os type pad1">text</div>

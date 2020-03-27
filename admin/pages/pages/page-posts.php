@@ -180,6 +180,18 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"class" => "post_permalink",
 							"required" => true,
 						));
+						$created = Date("Y-m-d", strtotime($post['created']));
+						// if (! $post['created']) {
+						// 	$created = Date("Y-m-d");
+						// }
+						
+						render_admin_field($created, array(
+							"type" => "date",
+							"name" => "created",
+							"label" => "Post Date",
+							"class" => "created",
+							"required" => false,
+						));
 						?>
 						<?
 						$default = "";
@@ -225,6 +237,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->subtitle = $_POST["subtitle"];
 		$post->slug = $_POST["permalink"];
 		$post->permalink = $_POST["permalink"];
+		$post->created = $_POST["created"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;
 		$post->seo_title = $_POST['seo_title'];
@@ -243,6 +256,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		// debug($post->seo_description);
 		// exit();
 		$post->save();
+
+		// exit();
 
 		// debug($post);
 

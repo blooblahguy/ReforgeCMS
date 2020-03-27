@@ -35,18 +35,21 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit() { ?>
+	function render_edit($core, $args) {
+		$id = $this->id;
+		$partial = new Partial();
+		if ($id > 0) {
+			$partial->load("id = $id");
+		}
+
+		$cache = get_meta("partial_$id", 'cache');
+
+		?>
 		<div class="row g1">
 			<div class="os main">
 				<div class="section">
 					<?
-					$id = $this->id;
-
-					$partial = new Partial();
-					if ($id > 0) {
-						$partial->load("id = $id");
-					}
-					$cache = get_meta("partial_$id", 'cache');
+					
 
 					render_admin_field($partial, array(
 						"type" => "text",

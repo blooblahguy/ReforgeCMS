@@ -44,8 +44,6 @@
 		}
 
 		function load_all() {
-			global $db;
-
 			if (count($this->cfs_load) == 0) {
 				$cfs = $this->find(null, array("order by" => "priority DESC"));
 				$cfs = rekey_array("id", $cfs);

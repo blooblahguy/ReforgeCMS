@@ -19,7 +19,8 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function render_index() {
 		global $db;
 
-		$fieldsets = $db->exec("SELECT * FROM custom_fields"); 
+		$cf = new CustomField();
+		$fieldsets = $cf->find(); 
 
 		echo '<div class="section">';
 		display_results_table($fieldsets, array(
@@ -67,10 +68,6 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 			do_action("rcf/admin_render_settings", $id);
 			?>
 		</div>
-		<? 
-		
-
-		?>
 
 		<div class="section">
 			<h2>Load Conditions</h2>
@@ -82,7 +79,6 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		<div class="section">
 			<h2>Options</h2>
 			<? 
-			debug($cf->priority);
 			render_admin_field($cf, array(
 				"type" => "checkbox",
 				"label" => "Active",
@@ -163,8 +159,8 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		}
 
 		$cf->title = $title;
-		$cf->active = $_POST['priority'];
-		$cf->priority = $_POST['inactive'];
+		$cf->priority = $_POST['priority'];
+		$cf->inactive = $_POST['inactive'];
 		$cf->fieldset = serialize($fieldset);
 		$cf->load_rules = serialize($rules);
 		// exit();

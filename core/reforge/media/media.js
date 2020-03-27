@@ -147,6 +147,18 @@ $(".rf_media.mode_browse").on("click", ".rf_media .file_card .overlay", function
 })
 
 // Modal Button
+$("body").on("click", ".rf_media_remove", function(e) {
+	preventDefaults(e);
+	var key = $(this).data("key")
+
+	var hidden = $("[name='"+key+"']")
+	hidden.val("");
+
+	var preview = hidden.siblings(".preview").first().find("img").first()
+	preview.hide();
+	preview.attr("src", "");
+	$(this).hide();
+})
 $("body").on("click", ".rf_media_browse", function(e) {
 	preventDefaults(e);
 	modal_create();
@@ -173,6 +185,9 @@ $("body").on("click", ".rf_media_browse", function(e) {
 			var hidden = $("[name='"+key+"']")
 			hidden.val(id);
 			// $("[name='"+key+"_path']").val(img);
+			
+			// show the remove button now
+			hidden.siblings(".preview").find(".rf_media_remove").first().show()
 
 			var preview = hidden.siblings(".preview").first().find("img").first()
 			preview.show();

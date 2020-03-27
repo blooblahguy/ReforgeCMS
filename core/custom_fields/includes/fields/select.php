@@ -18,28 +18,44 @@ class reforge_field_SELECT extends reforge_field {
 		// var_dump($field);
 		$choices = array();
 		$options = explode("\n", $field['choices']);
+
 		foreach ($options as $opt) {
-			list($key, $value) = explode(" : ", $opt);
+			list($key, $value) = explode(" : ", trim($opt));
 			if (! $value) { $value = $key; }
-			$choices[$key] = $value;
+			if (! $value) { continue; }
+			$choices[trim($key)] = trim($value);
 		}
 
-		render_admin_field($data, array(
-			"type" => "select",
-			"label" => $field['label'],
-			"name" => $data["name"],
-			"required" => $field['required'],
-			"choices" => $choices,
-		));
+		// $data[$data["name"]] = unserialize($value);
+		if ($field['select_multiple']) {
+			$value = $data[$data["name"]];
+			$data[$data["name"]."[]"] = unserialize($value);
+
+			render_admin_field($data, array(
+				"type" => "select",
+				"label" => $field['label'],
+				"name" => $data["name"]."[]",
+				"required" => $field['required'],
+				"choices" => $choices,
+				"multiple" => true,
+				"instructions" => "Hold ctrl to select multiple values",
+			));
+		} else {
+			render_admin_field($data, array(
+				"type" => "select",
+				"label" => $field['label'],
+				"name" => $data["name"],
+				"required" => $field['required'],
+				"choices" => $choices,
+			));
+		}
 	}
-
-
 
 	//========================================================
 	// OPTIONS EDIT
 	//========================================================
 	function options_html($field) {
-		// Layout
+		
 		rcf_render_field_setting($field, array(
 			"label" => "Choices",
 			"type" => "textarea",
@@ -68,6 +84,12 @@ class reforge_field_SELECT extends reforge_field {
 			));
 			// Default
 			rcf_render_field_setting($field, array(
+				"label" => "Select multible",
+				"type" => "checkbox",
+				"name" => "select_multiple",
+			));
+			// Default
+			rcf_render_field_setting($field, array(
 				"label" => "Default Value",
 				"type" => "text",
 				"name" => "default_value",
@@ -76,6 +98,14 @@ class reforge_field_SELECT extends reforge_field {
 			?>
 		</div>
 		<?
+	}
+
+	function prepare_save($meta, $metas) {
+		if (gettype($meta['meta_value']) == "array") {
+			$meta['meta_value'] = serialize($meta['meta_value']);
+		}
+
+		return $meta;
 	}
 }
 

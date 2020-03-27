@@ -22,7 +22,8 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 	function render_index() {
 		global $db;
 
-		$post_types = $db->exec("SELECT * FROM post_types ORDER BY `order` ASC");
+		$post_types = new PostType();
+		$post_types = $post_types->find(null, array("order by" => "`order` ASC"));
 		echo '<div class="section">';
 		display_results_table($post_types, array(
 			'icon' => array(

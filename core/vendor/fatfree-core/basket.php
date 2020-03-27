@@ -37,7 +37,7 @@ class Basket extends Magic {
 		$item=[];
 
 	/**
-	*	Return TRUE if field is defined
+	*	Return true if field is defined
 	*	@return bool
 	*	@param $key string
 	**/
@@ -47,17 +47,17 @@ class Basket extends Magic {
 
 	/**
 	*	Assign value to field
-	*	@return scalar|FALSE
+	*	@return scalar|false
 	*	@param $key string
 	*	@param $val scalar
 	**/
 	function set($key,$val) {
-		return ($key=='_id')?FALSE:($this->item[$key]=$val);
+		return ($key=='_id')?false:($this->item[$key]=$val);
 	}
 
 	/**
 	*	Retrieve value of field
-	*	@return scalar|FALSE
+	*	@return scalar|false
 	*	@param $key string
 	**/
 	function &get($key) {
@@ -66,12 +66,12 @@ class Basket extends Magic {
 		if (array_key_exists($key,$this->item))
 			return $this->item[$key];
 		user_error(sprintf(self::E_Field,$key),E_USER_ERROR);
-		return FALSE;
+		return false;
 	}
 
 	/**
 	*	Delete field
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
 	function clear($key) {
@@ -85,7 +85,7 @@ class Basket extends Magic {
 	*	@param $key string
 	*	@param $val mixed
 	**/
-	function find($key=NULL,$val=NULL) {
+	function find($key=null,$val=null) {
 		$out=[];
 		if (isset($_SESSION[$this->key])) {
 			foreach ($_SESSION[$this->key] as $id=>$item)
@@ -103,12 +103,12 @@ class Basket extends Magic {
 
 	/**
 	*	Return first item that matches key/value pair
-	*	@return object|FALSE
+	*	@return object|false
 	*	@param $key string
 	*	@param $val mixed
 	**/
 	function findone($key,$val) {
-		return ($data=$this->find($key,$val))?$data[0]:FALSE;
+		return ($data=$this->find($key,$val))?$data[0]:false;
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Basket extends Magic {
 	}
 
 	/**
-	*	Return TRUE if current item is empty/undefined
+	*	Return true if current item is empty/undefined
 	*	@return bool
 	**/
 	function dry() {
@@ -148,7 +148,7 @@ class Basket extends Magic {
 	**/
 	function save() {
 		if (!$this->id)
-			$this->id=uniqid(NULL,TRUE);
+			$this->id=uniqid(null,true);
 		$_SESSION[$this->key][$this->id]=$this->item;
 		return $this->item;
 	}
@@ -165,23 +165,23 @@ class Basket extends Magic {
 			unset($_SESSION[$this->key][$id]);
 			if ($id==$this->id)
 				$this->reset();
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
 	*	Reset cursor
-	*	@return NULL
+	*	@return null
 	**/
 	function reset() {
-		$this->id=NULL;
+		$this->id=null;
 		$this->item=[];
 	}
 
 	/**
 	*	Empty basket
-	*	@return NULL
+	*	@return null
 	**/
 	function drop() {
 		unset($_SESSION[$this->key]);
@@ -189,7 +189,7 @@ class Basket extends Magic {
 
 	/**
 	*	Hydrate item using hive array variable
-	*	@return NULL
+	*	@return null
 	*	@param $var array|string
 	**/
 	function copyfrom($var) {
@@ -201,7 +201,7 @@ class Basket extends Magic {
 
 	/**
 	*	Populate hive array variable with item contents
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
 	function copyto($key) {

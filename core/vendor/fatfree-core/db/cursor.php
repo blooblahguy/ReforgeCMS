@@ -55,7 +55,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@return array
 	*	@param $obj object
 	**/
-	abstract function cast($obj=NULL);
+	abstract function cast($obj=null);
 
 	/**
 	*	Return records (array of mapper objects) that match criteria
@@ -64,7 +64,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	abstract function find($filter=NULL,array $options=NULL,$ttl=0);
+	abstract function find($filter=null,array $options=null,$ttl=0);
 
 	/**
 	*	Count records that match criteria
@@ -73,7 +73,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	abstract function count($filter=NULL,array $options=NULL,$ttl=0);
+	abstract function count($filter=null,array $options=null,$ttl=0);
 
 	/**
 	*	Insert new record
@@ -89,15 +89,15 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Hydrate mapper object using hive array variable
-	*	@return NULL
+	*	@return null
 	*	@param $var array|string
 	*	@param $func callback
 	**/
-	abstract function copyfrom($var,$func=NULL);
+	abstract function copyfrom($var,$func=null);
 
 	/**
 	*	Populate hive array variable with mapper fields
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
 	abstract function copyto($key);
@@ -111,7 +111,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 
 	/**
-	*	Return TRUE if current cursor position is not mapped to any record
+	*	Return true if current cursor position is not mapped to any record
 	*	@return bool
 	**/
 	function dry() {
@@ -120,17 +120,17 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Return first record (mapper object) that matches criteria
-	*	@return static|FALSE
+	*	@return static|false
 	*	@param $filter string|array
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	function findone($filter=NULL,array $options=NULL,$ttl=0) {
+	function findone($filter=null,array $options=null,$ttl=0) {
 		if (!$options)
 			$options=[];
 		// Override limit
 		$options['limit']=1;
-		return ($data=$this->find($filter,$options,$ttl))?$data[0]:FALSE;
+		return ($data=$this->find($filter,$options,$ttl))?$data[0]:false;
 	}
 
 	/**
@@ -146,7 +146,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $bounce bool
 	**/
 	function paginate(
-		$pos=0,$size=10,$filter=NULL,array $options=NULL,$ttl=0,$bounce=TRUE) {
+		$pos=0,$size=10,$filter=null,array $options=null,$ttl=0,$bounce=true) {
 		$total=$this->count($filter,$options,$ttl);
 		$count=ceil($total/$size);
 		if ($bounce)
@@ -168,15 +168,15 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Map to first record that matches criteria
-	*	@return array|FALSE
+	*	@return array|false
 	*	@param $filter string|array
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	function load($filter=NULL,array $options=NULL,$ttl=0) {
+	function load($filter=null,array $options=null,$ttl=0) {
 		$this->reset();
 		return ($this->query=$this->find($filter,$options,$ttl)) &&
-			$this->skip(0)?$this->query[$this->ptr]:FALSE;
+			$this->skip(0)?$this->query[$this->ptr]:false;
 	}
 
 	/**
@@ -211,7 +211,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	function skip($ofs=1) {
 		$this->ptr+=$ofs;
 		return $this->ptr>-1 && $this->ptr<count($this->query)?
-			$this->query[$this->ptr]:FALSE;
+			$this->query[$this->ptr]:false;
 	}
 
 	/**
@@ -250,8 +250,8 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@return int|bool
 	**/
 	function erase() {
-		$this->query=array_slice($this->query,0,$this->ptr,TRUE)+
-			array_slice($this->query,$this->ptr,NULL,TRUE);
+		$this->query=array_slice($this->query,0,$this->ptr,true)+
+			array_slice($this->query,$this->ptr,null,true);
 		$this->skip(0);
 	}
 
@@ -378,7 +378,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Reset cursor
-	*	@return NULL
+	*	@return null
 	**/
 	function reset() {
 		$this->query=[];

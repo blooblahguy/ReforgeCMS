@@ -280,4 +280,3 @@
 			parent::__construct("login_cookies", $schema);
 		}
 	}
-?>

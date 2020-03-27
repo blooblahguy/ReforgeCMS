@@ -328,4 +328,3 @@ class admin_page_MENUS extends RF_Admin_Page {
 
 new admin_page_MENUS();
 
-?>

@@ -109,4 +109,3 @@ class reforge_field_SELECT extends reforge_field {
 	}
 }
 
-?>

@@ -10,4 +10,3 @@ $rf_styles = array();
 $rf_scss = array();
 $rf_scripts = array();
 
-?>

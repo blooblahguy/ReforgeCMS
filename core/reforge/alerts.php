@@ -70,4 +70,3 @@
 			echo "<div class='message-$level'>$message</div>";
 		}
 	}
-?>

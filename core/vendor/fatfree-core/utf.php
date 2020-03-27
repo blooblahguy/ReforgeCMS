@@ -45,65 +45,65 @@ class UTF extends Prefab {
 
 	/**
 	*	Find position of first occurrence of a string (case-insensitive)
-	*	@return int|FALSE
+	*	@return int|false
 	*	@param $stack string
 	*	@param $needle string
 	*	@param $ofs int
 	**/
 	function stripos($stack,$needle,$ofs=0) {
-		return $this->strpos($stack,$needle,$ofs,TRUE);
+		return $this->strpos($stack,$needle,$ofs,true);
 	}
 
 	/**
 	*	Find position of first occurrence of a string
-	*	@return int|FALSE
+	*	@return int|false
 	*	@param $stack string
 	*	@param $needle string
 	*	@param $ofs int
 	*	@param $case bool
 	**/
-	function strpos($stack,$needle,$ofs=0,$case=FALSE) {
+	function strpos($stack,$needle,$ofs=0,$case=false) {
 		return preg_match('/^(.{'.$ofs.'}.*?)'.
 			preg_quote($needle,'/').'/us'.($case?'i':''),$stack,$match)?
-			$this->strlen($match[1]):FALSE;
+			$this->strlen($match[1]):false;
 	}
 
 	/**
 	*	Returns part of haystack string from the first occurrence of
 	*	needle to the end of haystack (case-insensitive)
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $stack string
 	*	@param $needle string
 	*	@param $before bool
 	**/
-	function stristr($stack,$needle,$before=FALSE) {
-		return $this->strstr($stack,$needle,$before,TRUE);
+	function stristr($stack,$needle,$before=false) {
+		return $this->strstr($stack,$needle,$before,true);
 	}
 
 	/**
 	*	Returns part of haystack string from the first occurrence of
 	*	needle to the end of haystack
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $stack string
 	*	@param $needle string
 	*	@param $before bool
 	*	@param $case bool
 	**/
-	function strstr($stack,$needle,$before=FALSE,$case=FALSE) {
+	function strstr($stack,$needle,$before=false,$case=false) {
 		if (!$needle)
-			return FALSE;
+			return false;
 		preg_match('/^(.*?)'.preg_quote($needle,'/').'/us'.($case?'i':''),
 			$stack,$match);
 		return isset($match[1])?
 			($before?
 				$match[1]:
 				$this->substr($stack,$this->strlen($match[1]))):
-			FALSE;
+			false;
 	}
 
 	/**
 	*	Return part of a string
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $str string
 	*	@param $start int
 	*	@param $len int
@@ -114,7 +114,7 @@ class UTF extends Prefab {
 		if (!$len)
 			$len=$this->strlen($str)-$start;
 		return preg_match('/^.{'.$start.'}(.{0,'.$len.'})/us',$str,$match)?
-			$match[1]:FALSE;
+			$match[1]:false;
 	}
 
 	/**

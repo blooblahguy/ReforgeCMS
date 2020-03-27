@@ -10,9 +10,9 @@ function split_uid($uid) {
 	}
 
 	list($type, $id) = explode("_", $uid);
-	if ($id === NULL) {
+	if ($id === null) {
 		$id = $type;
-		$type = NULL;
+		$type = null;
 		$uid = "post_{$id}";
 	}
 
@@ -64,16 +64,15 @@ function rcf_get_template( $file = '', $args = array() ) {
 	$path = RCF()->directory."/templates/".$file;
 	
 	// allow view file name shortcut
-	if( substr($file, -4) !== '.php' ) {
+	if ( substr($file, -4) !== '.php' ) {
 		$path .= ".php";
 	}
 	
 	// include
-	if( file_exists($path) ) {
+	if ( file_exists($path) ) {
 		extract( $args );
 		require  $path ;
 	}
 }
 
 
-?>

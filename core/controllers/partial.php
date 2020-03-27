@@ -27,4 +27,3 @@
 	function render_widget($slug) {
 
 	}
-?>

@@ -27,4 +27,3 @@
 	$sheets[] = "../editor.scss";
 
 	require "build.php";
-?>

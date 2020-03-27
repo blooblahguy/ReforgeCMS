@@ -28,4 +28,3 @@ class reforge_field_CHECKBOX extends reforge_field {
 	}
 }
 
-?>

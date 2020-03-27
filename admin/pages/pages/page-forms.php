@@ -61,4 +61,3 @@ class admin_page_FORMS extends RF_Admin_Page {
 
 new admin_page_FORMS();
 
-?>

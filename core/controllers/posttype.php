@@ -69,4 +69,3 @@
 
 		// debug($rf_custom_posts);
 	}
-?>

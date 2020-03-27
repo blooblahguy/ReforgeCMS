@@ -313,11 +313,8 @@ foreach ($rf_custom_posts as $post) {
 		"route" => "/admin/posts/@slug",
 		"link" => "/admin/posts/{$post['slug']}",
 	);
-	// debug($post['slug']);
-	// debug($info);
 
 	new admin_page_POSTS($info);
 }
 
 
-?>

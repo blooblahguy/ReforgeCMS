@@ -45,13 +45,13 @@ class Log {
 						FILTER_VALIDATE_IP))?(' ('.$fwd.')'):'')
 					.']'):'').' '.
 				trim($line).PHP_EOL,
-				TRUE
+				true
 			);
 	}
 
 	/**
 	*	Erase log
-	*	@return NULL
+	*	@return null
 	**/
 	function erase() {
 		@unlink($this->file);
@@ -64,7 +64,7 @@ class Log {
 	function __construct($file) {
 		$fw=Base::instance();
 		if (!is_dir($dir=$fw->LOGS))
-			mkdir($dir,Base::MODE,TRUE);
+			mkdir($dir,Base::MODE,true);
 		$this->file=$dir.$file;
 	}
 

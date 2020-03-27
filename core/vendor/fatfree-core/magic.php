@@ -24,7 +24,7 @@
 abstract class Magic implements ArrayAccess {
 
 	/**
-	*	Return TRUE if key is not empty
+	*	Return true if key is not empty
 	*	@return bool
 	*	@param $key string
 	**/
@@ -47,7 +47,7 @@ abstract class Magic implements ArrayAccess {
 
 	/**
 	*	Unset key
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
 	abstract function clear($key);
@@ -60,7 +60,7 @@ abstract class Magic implements ArrayAccess {
 	function offsetexists($key) {
 		return Base::instance()->visible($this,$key)?
 			isset($this->$key):
-			($this->exists($key) && $this->get($key)!==NULL);
+			($this->exists($key) && $this->get($key)!==null);
 	}
 
 	/**
@@ -89,7 +89,7 @@ abstract class Magic implements ArrayAccess {
 
 	/**
 	*	Convenience method for removing property value
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
 	function offsetunset($key) {

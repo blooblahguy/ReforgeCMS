@@ -28,4 +28,3 @@ class rcf_rule_USER extends rcf_rule {
 }
 
 
-?>

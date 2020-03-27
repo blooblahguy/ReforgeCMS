@@ -68,4 +68,3 @@ class reforge_field_WYSIWYG extends reforge_field {
 	}
 }
 
-?>

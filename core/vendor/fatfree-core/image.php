@@ -48,13 +48,13 @@ class Image {
 		//! Image resource
 		$data,
 		//! Enable/disable history
-		$flag=FALSE,
+		$flag=false,
 		//! Filter count
 		$count=0;
 
 	/**
 	*	Convert RGB hex triad to array
-	*	@return array|FALSE
+	*	@return array|false
 	*	@param $color int|string
 	**/
 	function rgb($color) {
@@ -144,7 +144,7 @@ class Image {
 	*	@param $size int
 	**/
 	function pixelate($size) {
-		imagefilter($this->data,IMG_FILTER_PIXELATE,$size,TRUE);
+		imagefilter($this->data,IMG_FILTER_PIXELATE,$size,true);
 		return $this->save();
 	}
 
@@ -153,7 +153,7 @@ class Image {
 	*	@return object
 	*	@param $selective bool
 	**/
-	function blur($selective=FALSE) {
+	function blur($selective=false) {
 		imagefilter($this->data,
 			$selective?IMG_FILTER_SELECTIVE_BLUR:IMG_FILTER_GAUSSIAN_BLUR);
 		return $this->save();
@@ -175,7 +175,7 @@ class Image {
 	function hflip() {
 		$tmp=imagecreatetruecolor(
 			$width=$this->width(),$height=$this->height());
-		imagesavealpha($tmp,TRUE);
+		imagesavealpha($tmp,true);
 		imagefill($tmp,0,0,IMG_COLOR_TRANSPARENT);
 		imagecopyresampled($tmp,$this->data,
 			0,0,$width-1,0,$width,$height,-$width,$height);
@@ -191,7 +191,7 @@ class Image {
 	function vflip() {
 		$tmp=imagecreatetruecolor(
 			$width=$this->width(),$height=$this->height());
-		imagesavealpha($tmp,TRUE);
+		imagesavealpha($tmp,true);
 		imagefill($tmp,0,0,IMG_COLOR_TRANSPARENT);
 		imagecopyresampled($tmp,$this->data,
 			0,0,0,$height-1,$width,$height,$width,-$height);
@@ -210,7 +210,7 @@ class Image {
 	**/
 	function crop($x1,$y1,$x2,$y2) {
 		$tmp=imagecreatetruecolor($width=$x2-$x1+1,$height=$y2-$y1+1);
-		imagesavealpha($tmp,TRUE);
+		imagesavealpha($tmp,true);
 		imagefill($tmp,0,0,IMG_COLOR_TRANSPARENT);
 		imagecopyresampled($tmp,$this->data,
 			0,0,$x1,$y1,$width,$height,$width,$height);
@@ -228,7 +228,7 @@ class Image {
 	*	@param $crop bool
 	*	@param $enlarge bool
 	**/
-	function resize($width=NULL,$height=NULL,$crop=TRUE,$enlarge=TRUE) {
+	function resize($width=null,$height=null,$crop=true,$enlarge=true) {
 		if (is_null($width) && is_null($height))
 			return $this;
 		$origw=$this->width();
@@ -251,7 +251,7 @@ class Image {
 		}
 		// Create blank image
 		$tmp=imagecreatetruecolor($width,$height);
-		imagesavealpha($tmp,TRUE);
+		imagesavealpha($tmp,true);
 		imagefill($tmp,0,0,IMG_COLOR_TRANSPARENT);
 		// Resize
 		if ($crop) {
@@ -282,7 +282,7 @@ class Image {
 	function rotate($angle) {
 		$this->data=imagerotate($this->data,$angle,
 			imagecolorallocatealpha($this->data,0,0,0,127));
-		imagesavealpha($this->data,TRUE);
+		imagesavealpha($this->data,true);
 		return $this->save();
 	}
 
@@ -293,7 +293,7 @@ class Image {
 	*	@param $align int|array
 	*	@param $alpha int
 	**/
-	function overlay(Image $img,$align=NULL,$alpha=100) {
+	function overlay(Image $img,$align=null,$alpha=100) {
 		if (is_null($align))
 			$align=self::POS_Right|self::POS_Bottom;
 		if (is_array($align)) {
@@ -301,7 +301,7 @@ class Image {
 			$align = 0;
 		}
 		$ovr=imagecreatefromstring($img->dump());
-		imagesavealpha($ovr,TRUE);
+		imagesavealpha($ovr,true);
 		$imgw=$this->width();
 		$imgh=$this->height();
 		$ovrw=imagesx($ovr);
@@ -383,13 +383,13 @@ class Image {
 				}
 				imagedestroy($sprite);
 			}
-		imagesavealpha($this->data,TRUE);
+		imagesavealpha($this->data,true);
 		return $this->save();
 	}
 
 	/**
 	*	Generate CAPTCHA image
-	*	@return object|FALSE
+	*	@return object|false
 	*	@param $font string
 	*	@param $size int
 	*	@param $len int
@@ -399,14 +399,14 @@ class Image {
 	*	@param $bg int
 	**/
 	function captcha($font,$size=24,$len=5,
-		$key=NULL,$path='',$fg=0xFFFFFF,$bg=0x000000) {
+		$key=null,$path='',$fg=0xFFFFFF,$bg=0x000000) {
 		if ((!$ssl=extension_loaded('openssl')) && ($len<4 || $len>13)) {
 			user_error(sprintf(self::E_Length,$len),E_USER_ERROR);
-			return FALSE;
+			return false;
 		}
 		if (!function_exists('imagettftext')) {
 			user_error(self::E_TTF,E_USER_ERROR);
-			return FALSE;
+			return false;
 		}
 		$fw=Base::instance();
 		foreach ($fw->split($path?:$fw->UI.';./') as $dir)
@@ -446,13 +446,13 @@ class Image {
 						imagesx($tmp[$i]),imagesy($tmp[$i]));
 					imagedestroy($tmp[$i]);
 				}
-				imagesavealpha($this->data,TRUE);
+				imagesavealpha($this->data,true);
 				if ($key)
 					$fw->$key=$seed;
 				return $this->save();
 			}
 		user_error(self::E_Font,E_USER_ERROR);
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -473,7 +473,7 @@ class Image {
 
 	/**
 	*	Send image to HTTP client
-	*	@return NULL
+	*	@return null
 	**/
 	function render() {
 		$args=func_get_args();
@@ -484,7 +484,7 @@ class Image {
 		}
 		call_user_func_array(
 			'image'.$format,
-			array_merge([$this->data,NULL],$args)
+			array_merge([$this->data,null],$args)
 		);
 	}
 
@@ -498,7 +498,7 @@ class Image {
 		ob_start();
 		call_user_func_array(
 			'image'.$format,
-			array_merge([$this->data,NULL],$args)
+			array_merge([$this->data,null],$args)
 		);
 		return ob_get_clean();
 	}
@@ -519,7 +519,7 @@ class Image {
 		$fw=Base::instance();
 		if ($this->flag) {
 			if (!is_dir($dir=$fw->TEMP))
-				mkdir($dir,Base::MODE,TRUE);
+				mkdir($dir,Base::MODE,true);
 			$this->count++;
 			$fw->write($dir.'/'.$fw->SEED.'.'.
 				$fw->hash($this->file).'-'.$this->count.'.png',
@@ -540,7 +540,7 @@ class Image {
 			if (is_resource($this->data))
 				imagedestroy($this->data);
 			$this->data=imagecreatefromstring($fw->read($file));
-			imagesavealpha($this->data,TRUE);
+			imagesavealpha($this->data,true);
 			foreach (glob($path.'*.png',GLOB_NOSORT) as $match)
 				if (preg_match('/-(\d+)\.png/',$match,$parts) &&
 					$parts[1]>$state)
@@ -565,13 +565,13 @@ class Image {
 
 	/**
 	*	Load string
-	*	@return object|FALSE
+	*	@return object|false
 	*	@param $str string
 	**/
 	function load($str) {
 		if (!$this->data=@imagecreatefromstring($str))
-			return FALSE;
-		imagesavealpha($this->data,TRUE);
+			return false;
+		imagesavealpha($this->data,true);
 		$this->save();
 		return $this;
 	}
@@ -582,7 +582,7 @@ class Image {
 	*	@param $flag bool
 	*	@param $path string
 	**/
-	function __construct($file=NULL,$flag=FALSE,$path=NULL) {
+	function __construct($file=null,$flag=false,$path=null) {
 		$this->flag=$flag;
 		if ($file) {
 			$fw=Base::instance();
@@ -590,7 +590,7 @@ class Image {
 			$this->file=$file;
 			if (!isset($path))
 				$path=$fw->UI.';./';
-			foreach ($fw->split($path,FALSE) as $dir)
+			foreach ($fw->split($path,false) as $dir)
 				if (is_file($dir.$file))
 					return $this->load($fw->read($dir.$file));
 			user_error(self::E_File,E_USER_ERROR);
@@ -599,7 +599,7 @@ class Image {
 
 	/**
 	*	Wrap-up
-	*	@return NULL
+	*	@return null
 	**/
 	function __destruct() {
 		if (is_resource($this->data)) {

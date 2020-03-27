@@ -312,4 +312,3 @@
 	RCF();
 
 	require "$root/core/custom_fields/includes/init.php";
-?>

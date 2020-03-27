@@ -277,4 +277,3 @@ function uploads_url() {
 	return RF_Media::instance()->path;
 }
 
-?>

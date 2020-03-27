@@ -26,4 +26,3 @@ foreach ($pages as $class => $path) {
 
 RF_Admin_Pages::instance()->build_menus();
 
-?>

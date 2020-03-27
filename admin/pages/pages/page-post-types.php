@@ -315,4 +315,3 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 
 new admin_page_POSTTYPES();
 
-?>

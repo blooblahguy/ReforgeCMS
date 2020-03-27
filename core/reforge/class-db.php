@@ -37,4 +37,3 @@ class RF_Mapper extends Magic {
 	function exec() {}
 }
 
-?>

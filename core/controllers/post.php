@@ -47,4 +47,3 @@
 			parent::__construct("posts", $schema);
 		}
 	}
-?>

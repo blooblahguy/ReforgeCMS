@@ -146,7 +146,7 @@ class Auth {
 			@ldap_close($dc)) {
 			return in_array($id,(array_map(function($value){return $value[0];},
 				array_intersect_key($info[0],
-					array_flip($this->args['attr'])))),TRUE);
+					array_flip($this->args['attr'])))),true);
 		}
 		user_error(self::E_LDAP,E_USER_ERROR);
 	}
@@ -162,7 +162,7 @@ class Auth {
 			(strtolower($this->args['scheme'])=='ssl'?
 				'ssl://':'').$this->args['host'],
 				$this->args['port']);
-		$dialog=function($cmd=NULL) use($socket) {
+		$dialog=function($cmd=null) use($socket) {
 			if (!is_null($cmd))
 				fputs($socket,$cmd."\r\n");
 			$reply='';
@@ -177,14 +177,14 @@ class Auth {
 			return $reply;
 		};
 		if ($socket) {
-			stream_set_blocking($socket,TRUE);
+			stream_set_blocking($socket,true);
 			$dialog();
 			$fw=Base::instance();
 			$dialog('EHLO '.$fw->HOST);
 			if (strtolower($this->args['scheme'])=='tls') {
 				$dialog('STARTTLS');
 				stream_socket_enable_crypto(
-					$socket,TRUE,STREAM_CRYPTO_METHOD_TLS_CLIENT);
+					$socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
 				$dialog('EHLO '.$fw->HOST);
 			}
 			// Authenticate
@@ -205,7 +205,7 @@ class Auth {
 	*	@param $pw string
 	*	@param $realm string
 	**/
-	function login($id,$pw,$realm=NULL) {
+	function login($id,$pw,$realm=null) {
 		return $this->{'_'.$this->storage}($id,$pw,$realm);
 	}
 
@@ -214,10 +214,10 @@ class Auth {
 	*	@return bool
 	*	@param $func callback
 	**/
-	function basic($func=NULL) {
+	function basic($func=null) {
 		$fw=Base::instance();
 		$realm=$fw->REALM;
-		$hdr=NULL;
+		$hdr=null;
 		if (isset($_SERVER['HTTP_AUTHORIZATION']))
 			$hdr=$_SERVER['HTTP_AUTHORIZATION'];
 		elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']))
@@ -233,11 +233,11 @@ class Auth {
 					$_SERVER['PHP_AUTH_PW'],
 				$realm
 			))
-			return TRUE;
+			return true;
 		if (PHP_SAPI!='cli')
 			header('WWW-Authenticate: Basic realm="'.$realm.'"');
 		$fw->status(401);
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Auth {
 	*	@param $args array
 	*	@param $func callback
 	**/
-	function __construct($storage,array $args=NULL,$func=NULL) {
+	function __construct($storage,array $args=null,$func=null) {
 		if (is_object($storage) && is_a($storage,'DB\Cursor')) {
 			$this->storage=$storage->dbtype();
 			$this->mapper=$storage;

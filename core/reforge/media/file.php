@@ -29,7 +29,7 @@ class RF_File extends \RF\Mapper {
 		parent::__construct("rf_media", $schema);
 	}
 
-	function erase($filter = NULL, $quick = true) {
+	function erase($filter = null, $quick = true) {
 		global $root;
 		$sizes = unserialize($this->sizes);
 		@unlink("{$root}{$this->original}");
@@ -184,4 +184,3 @@ function get_file($id) {
 	return $arr;
 }
 
-?>

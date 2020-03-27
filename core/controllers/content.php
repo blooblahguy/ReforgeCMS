@@ -230,4 +230,3 @@
 
 		return $menu->get_menu_array();
 	}
-?>

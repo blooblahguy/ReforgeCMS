@@ -144,4 +144,3 @@ class reforge_field_FLEXIBLE extends reforge_field {
 	}
 }
 
-?>

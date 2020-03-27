@@ -72,26 +72,27 @@ if (count($options) == 1) {
 
 	$core->run();
 } else {
-	do_action("init");
-
 	// Load Plugins
 	$plugins = unserialize($options['active_plugins']);
 	if (!$plugins) {
 		$plugins = array();
 	}
 	foreach ($plugins as $path) {
-		// require $path;
+		require $path;
 	}
 	$core->route("GET|POST /logout", "User->logout");
 
+	
 	// Determine Where we are now
 	if ("/" . $CONTROLLER == "/admin") {
-		// Administrator Area
 		require "$root/admin/admin.php";
+		do_action("admin/init");
+		$core->run();
 	} else {
 		// Theme manager
 		Content::instance();
-
+		
+		do_action("init");
 		$core->run();
 	}
 }

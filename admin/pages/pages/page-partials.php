@@ -171,4 +171,3 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 
 new admin_page_PARTIALS();
 
-?>

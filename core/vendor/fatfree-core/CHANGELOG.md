@@ -282,7 +282,7 @@ CHANGELOG
 *	RFC2616: Use absolute URIs for Location header
 *	Matrix->calendar: Check if calendar extension is loaded
 *	Markdown: require start of line/whitespace for text processing (#136)
-*	DB\[SQL|Jig|Mongo]->log(FALSE) disables logging
+*	DB\[SQL|Jig|Mongo]->log(false) disables logging
 *	DB\SQL->exec: Added timestamp toggle to db log
 *	DB\SQL->schema: Remove unnecessary line terminators
 *	DB\SQL\Mapper: allow array filter with empty string
@@ -298,7 +298,7 @@ CHANGELOG
 *	Web->send flush while sending big files
 *	Image->rgb: allow hex strings
 *	Image->captcha: Check if GD module supports TrueType
-*	Image->load: Return FALSE on load failure
+*	Image->load: Return false on load failure
 *	Image->resize: keep aspect ratio when only width or height was given
 *	Updated OpenID lib (bcosca/fatfree#965)
 *	Audit->card: add new mastercard "2" BIN range (bcosca/fatfree#954)
@@ -382,10 +382,10 @@ CHANGELOG
 3.5.0 (2 June 2015)
 *	NEW: until() method for long polling
 *	NEW: abort() to disconnect HTTP client (and continue execution)
-*	NEW: SQL Mapper->required() returns TRUE if field is not nullable
+*	NEW: SQL Mapper->required() returns true if field is not nullable
 *	NEW: PREMAP variable for allowing prefixes to handlers named after HTTP verbs
 *	NEW: [configs] section to allow config includes
-*	NEW: Test->passed() returns TRUE if no test failed
+*	NEW: Test->passed() returns true if no test failed
 *	NEW: SQL mapper changed() function
 *	NEW: fatfree-core composer support
 *	NEW: constants() method to expose constants
@@ -584,7 +584,7 @@ CHANGELOG
 *	NEW: EMOJI variable, UTF->translate(), UTF->emojify(), and UTF->strrev()
 *	Allow empty strings in config()
 *	Add support for turning off php://input buffering via RAW
-	(FALSE by default)
+	(false by default)
 *	Add Cursor->load() and Cursor->find() TTL support
 *	Support Web->receive() large file downloads via PUT
 *	ONERROR safety check
@@ -628,7 +628,7 @@ CHANGELOG
 	value
 *	Use $ttl for cookie expiration (Issue #457)
 *	Fix needs_rehash() cost comparison
-*	Add pass-by-reference argument to exists() so if method returns TRUE,
+*	Add pass-by-reference argument to exists() so if method returns true,
 	a subsequent get() is unnecessary
 *	Improve MySQL support
 *	Move esc(), raw(), and dupe() to View class where they more
@@ -678,7 +678,7 @@ CHANGELOG
 3.1.2 (5 November 2013)
 *	Abandon .chm help format; Package API documentation in plain HTML;
 	(Launch lib/api/index.html in your browser)
-*	Deprecate BAIL in favor of HALT (default: TRUE)
+*	Deprecate BAIL in favor of HALT (default: true)
 *	Revert to 3.1.0 autoload behavior; Add support for lowercase folder
 	names
 *	Allow Spring-style HTTP method overrides
@@ -699,7 +699,7 @@ CHANGELOG
 *	NEW: Support OpenID attribute exchange
 *	NEW: BAIL variable enables/disables continuance of execution on non-fatal
 	errors
-*	Deprecate BAIL in favor of HALT (default: FALSE)
+*	Deprecate BAIL in favor of HALT (default: false)
 *	Add support for Oracle
 *	Mark cached queries in log (Feature Request #405)
 *	Implement Bcrypt->needs_reshash()
@@ -767,7 +767,7 @@ CHANGELOG
 *	Bug fix: MongoId object not preserved
 *	Bug fix: Double-quotes included in lexicon() string (Issue #341)
 *	Bug fix: UTF-8 formatting mangled on Windows (Issue #342)
-*	Bug fix: Cache->load() error when CACHE is FALSE (Issue #344)
+*	Bug fix: Cache->load() error when CACHE is false (Issue #344)
 *	Bug fix: send() ternary expression
 *	Bug fix: Country code constants
 
@@ -789,7 +789,7 @@ CHANGELOG
 *	NEW: ismobile() and isdesktop() methods
 *	NEW: Prefab class and descendants now accept constructor arguments
 *	Change in behavior: Cache->exists() now returns timestamp and TTL of
-	cache entry or FALSE if not found (Feature request #315)
+	cache entry or false if not found (Feature request #315)
 *	Preserve timestamp and TTL when updating cache entry (Feature request
 	#316)
 *	Improved currency formatting with C99 compliance
@@ -849,7 +849,7 @@ CHANGELOG
 *	Bug fix: minify() fails when commenting CSS @ rules (Issue #251)
 *	Bug fix: Handling of commas inside quoted strings
 *	Bug fix: Glitch in stringify() handling of closures
-*	Bug fix: dry() in mappers returns TRUE despite being hydrated by
+*	Bug fix: dry() in mappers returns true despite being hydrated by
 	factory() (Issue #265)
 *	Bug fix: expect() not handling flags correctly
 *	Bug fix: weather() fails when server is unreachable

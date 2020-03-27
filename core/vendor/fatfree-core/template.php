@@ -77,7 +77,7 @@ class Template extends Preview {
 					(preg_match('/^\{\{(.+?)\}\}$/',$attrib['href'])?
 						$this->token($attrib['href']):
 						Base::instance()->stringify($attrib['href'])).','.
-					'NULL,'.$hive.','.$ttl.'); ?>');
+					'null,'.$hive.','.$ttl.'); ?>');
 	}
 
 	/**
@@ -240,7 +240,7 @@ class Template extends Preview {
 
 	/**
 	*	Extend template with custom tag
-	*	@return NULL
+	*	@return null
 	*	@param $tag string
 	*	@param $func callback
 	**/
@@ -251,7 +251,7 @@ class Template extends Preview {
 
 	/**
 	*	Call custom tag handler
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $func string
 	*	@param $args array
 	**/
@@ -314,7 +314,7 @@ class Template extends Preview {
 									(isset($kv[3]) && $kv[3]!==''?
 										$kv[3]:
 										(isset($kv[4]) && $kv[4]!==''?
-											$kv[4]:NULL));
+											$kv[4]:null));
 					}
 				}
 				$tmp='';

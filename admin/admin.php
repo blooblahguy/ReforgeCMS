@@ -32,8 +32,4 @@ if (!$current_user->logged_in()) {
 			redirect($ref);
 		});
 	};
-
-	// run routes now
-	do_action("admin/init");
-	$core->run();
 }

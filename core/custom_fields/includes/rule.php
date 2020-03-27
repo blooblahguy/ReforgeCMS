@@ -35,4 +35,3 @@ class rcf_rule {
 
 }
 
-?>

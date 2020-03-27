@@ -41,4 +41,3 @@
 	}
 
 	require $out_file;
-?>

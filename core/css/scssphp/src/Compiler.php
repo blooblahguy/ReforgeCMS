@@ -100,7 +100,7 @@ class Compiler
 
     static public $true = [Type::T_KEYWORD, 'true'];
     static public $false = [Type::T_KEYWORD, 'false'];
-    static public $null = [Type::T_NULL];
+    static public $null = [Type::T_null];
     static public $nullString = [Type::T_STRING, '', []];
     static public $defaultValue = [Type::T_KEYWORD, ''];
     static public $selfSelector = [Type::T_SELF];
@@ -1646,10 +1646,10 @@ class Compiler
 
                 // if the value reduces to null from something else then
                 // the property should be discarded
-                if ($value[0] !== Type::T_NULL) {
+                if ($value[0] !== Type::T_null) {
                     $value = $this->reduce($value);
 
-                    if ($value[0] === Type::T_NULL || $value === static::$nullString) {
+                    if ($value[0] === Type::T_null || $value === static::$nullString) {
                         break;
                     }
                 }
@@ -2719,7 +2719,7 @@ class Compiler
                 $filtered = [];
 
                 foreach ($items as $item) {
-                    if ($item[0] === Type::T_NULL) {
+                    if ($item[0] === Type::T_null) {
                         continue;
                     }
 
@@ -2780,7 +2780,7 @@ class Compiler
                         $filtered = [];
 
                         foreach ($items as $item) {
-                            if ($item[0] === Type::T_NULL) {
+                            if ($item[0] === Type::T_null) {
                                 continue;
                             }
 
@@ -2801,13 +2801,13 @@ class Compiler
                         $reduced = [Type::T_KEYWORD, $this->compileStringContent($reduced)];
                         break;
 
-                    case Type::T_NULL:
+                    case Type::T_null:
                         $reduced = [Type::T_KEYWORD, ''];
                 }
 
                 return $this->compileValue($reduced);
 
-            case Type::T_NULL:
+            case Type::T_null:
                 return 'null';
 
             default:

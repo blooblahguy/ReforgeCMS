@@ -45,7 +45,7 @@ class SQL {
 		//! Database name
 		$dbname,
 		//! Transaction flag
-		$trans=FALSE,
+		$trans=false,
 		//! Number of rows affected by query
 		$rows=0,
 		//! SQL log
@@ -57,7 +57,7 @@ class SQL {
 	**/
 	function begin() {
 		$out=$this->pdo->begintransaction();
-		$this->trans=TRUE;
+		$this->trans=true;
 		return $out;
 	}
 
@@ -67,7 +67,7 @@ class SQL {
 	**/
 	function rollback() {
 		$out=$this->pdo->rollback();
-		$this->trans=FALSE;
+		$this->trans=false;
 		return $out;
 	}
 
@@ -77,7 +77,7 @@ class SQL {
 	**/
 	function commit() {
 		$out=$this->pdo->commit();
-		$this->trans=FALSE;
+		$this->trans=false;
 		return $out;
 	}
 
@@ -96,8 +96,8 @@ class SQL {
 	**/
 	function type($val) {
 		switch (gettype($val)) {
-			case 'NULL':
-				return \PDO::PARAM_NULL;
+			case 'null':
+				return \PDO::PARAM_null;
 			case 'boolean':
 				return \PDO::PARAM_BOOL;
 			case 'integer':
@@ -123,8 +123,8 @@ class SQL {
 				if (!is_string($val))
 					$val=str_replace(',','.',$val);
 				return $val;
-			case \PDO::PARAM_NULL:
-				return NULL;
+			case \PDO::PARAM_null:
+				return null;
 			case \PDO::PARAM_INT:
 				return (int)$val;
 			case \PDO::PARAM_BOOL:
@@ -138,18 +138,18 @@ class SQL {
 
 	/**
 	*	Execute SQL statement(s)
-	*	@return array|int|FALSE
+	*	@return array|int|false
 	*	@param $cmds string|array
 	*	@param $args string|array
 	*	@param $ttl int|array
 	*	@param $log bool
 	*	@param $stamp bool
 	**/
-	function exec($cmds,$args=NULL,$ttl=0,$log=TRUE,$stamp=FALSE) {
+	function exec($cmds,$args=null,$ttl=0,$log=true,$stamp=false) {
 		$tag='';
 		if (is_array($ttl))
 			list($ttl,$tag)=$ttl;
-		$auto=FALSE;
+		$auto=false;
 		if (is_null($args))
 			$args=[];
 		elseif (is_scalar($args))
@@ -160,7 +160,7 @@ class SQL {
 				$args=array_fill(0,$count,$args);
 			if (!$this->trans) {
 				$this->begin();
-				$auto=TRUE;
+				$auto=true;
 			}
 		}
 		else {
@@ -168,11 +168,11 @@ class SQL {
 			$cmds=[$cmds];
 			$args=[$args];
 		}
-		if ($this->log===FALSE)
-			$log=FALSE;
+		if ($this->log===false)
+			$log=false;
 		$fw=\Base::instance();
 		$cache=\Cache::instance();
-		$result=FALSE;
+		$result=false;
 		for ($i=0;$i<$count;$i++) {
 			$cmd=$cmds[$i];
 			$arg=$args[$i];
@@ -183,12 +183,12 @@ class SQL {
 			}
 			if (!preg_replace('/(^\s+|[\s;]+$)/','',$cmd))
 				continue;
-			$now=microtime(TRUE);
+			$now=microtime(true);
 			$keys=$vals=[];
 			if ($fw->CACHE && $ttl && ($cached=$cache->exists(
 				$hash=$fw->hash($this->dsn.$cmd.
 				$fw->stringify($arg)).($tag?'.'.$tag:'').'.sql',$result)) &&
-				$cached[0]+$ttl>microtime(TRUE)) {
+				$cached[0]+$ttl>microtime(true)) {
 				foreach ($arg as $key=>$val) {
 					$vals[]=$fw->stringify(is_array($val)?$val[0]:$val);
 					$keys[]='/'.preg_quote(is_numeric($key)?chr(0).'?':$key).
@@ -196,7 +196,7 @@ class SQL {
 				}
 				if ($log)
 					$this->log.=($stamp?(date('r').' '):'').'('.
-						sprintf('%.1f',1e3*(microtime(TRUE)-$now)).'ms) '.
+						sprintf('%.1f',1e3*(microtime(true)-$now)).'ms) '.
 						'[CACHED] '.
 						preg_replace($keys,$vals,
 							str_replace('?',chr(0).'?',$cmd),1).PHP_EOL;
@@ -226,7 +226,7 @@ class SQL {
 				$query->execute();
 				if ($log)
 					$this->log=str_replace('(-0ms)',
-						'('.sprintf('%.1f',1e3*(microtime(TRUE)-$now)).'ms)',
+						'('.sprintf('%.1f',1e3*(microtime(true)-$now)).'ms)',
 						$this->log);
 				if (($error=$query->errorinfo()) && $error[0]!=\PDO::ERR_NONE) {
 					// Statement-level error occurred
@@ -283,14 +283,14 @@ class SQL {
 	*	@return string
 	*	@param $flag bool
 	**/
-	function log($flag=TRUE) {
+	function log($flag=true) {
 		if ($flag)
 			return $this->log;
-		$this->log=FALSE;
+		$this->log=false;
 	}
 
 	/**
-	*	Return TRUE if table exists
+	*	Return true if table exists
 	*	@return bool
 	*	@param $table string
 	**/
@@ -305,18 +305,18 @@ class SQL {
 
 	/**
 	*	Retrieve schema of SQL table
-	*	@return array|FALSE
+	*	@return array|false
 	*	@param $table string
 	*	@param $fields array|string
 	*	@param $ttl int|array
 	**/
-	function schema($table,$fields=NULL,$ttl=0) {
+	function schema($table,$fields=null,$ttl=0) {
 		$fw=\Base::instance();
 		$cache=\Cache::instance();
 		if ($fw->CACHE && $ttl &&
 			($cached=$cache->exists(
 				$hash=$fw->hash($this->dsn.$table).'.schema',$result)) &&
-			$cached[0]+$ttl>microtime(TRUE))
+			$cached[0]+$ttl>microtime(true))
 			return $result;
 		if (strpos($table,'.'))
 			list($schema,$table)=explode('.',$table);
@@ -324,7 +324,7 @@ class SQL {
 		$cmd=[
 			'sqlite2?'=>[
 				'PRAGMA table_info(`'.$table.'`)',
-				'name','type','dflt_value','notnull',0,'pk',TRUE],
+				'name','type','dflt_value','notnull',0,'pk',true],
 			'mysql'=>[
 				'SHOW columns FROM `'.$this->dbname.'`.`'.$table.'`',
 				'Field','Type','Default','Null','YES','Key','PRI'],
@@ -333,7 +333,7 @@ class SQL {
 					'C.COLUMN_NAME AS field,'.
 					'C.DATA_TYPE AS type,'.
 					'C.COLUMN_DEFAULT AS defval,'.
-					'C.IS_NULLABLE AS nullable,'.
+					'C.IS_nullABLE AS nullable,'.
 					'T.CONSTRAINT_TYPE AS pkey '.
 				'FROM INFORMATION_SCHEMA.COLUMNS AS C '.
 				'LEFT OUTER JOIN '.
@@ -371,7 +371,7 @@ class SQL {
 						'AND constraint_type='.$this->quote('P').') AS pkey '.
 				'FROM all_tab_cols c '.
 				'WHERE c.table_name='.$this->quote($table),
-				'FIELD','TYPE','DEFVAL','NULLABLE','Y','PKEY','P']
+				'FIELD','TYPE','DEFVAL','nullABLE','Y','PKEY','P']
 		];
 		if (is_string($fields))
 			$fields=\Base::instance()->split($fields);
@@ -385,7 +385,7 @@ class SQL {
 		foreach ($cmd as $key=>$val)
 			if (preg_match('/'.$key.'/',$this->engine)) {
 				$rows=[];
-				foreach ($this->exec($val[0],NULL) as $row)
+				foreach ($this->exec($val[0],null) as $row)
 					if (!$fields || in_array($row[$val[1]],$fields)) {
 						foreach ($conv as $regex=>$type)
 							if (preg_match('/'.$regex.'/i',$row[$val[2]]))
@@ -406,7 +406,7 @@ class SQL {
 				return $rows;
 			}
 		user_error(sprintf(self::E_PKey,$table),E_USER_ERROR);
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -469,7 +469,7 @@ class SQL {
 	*	@param $key
 	*	@param bool $split
 	 **/
-	function quotekey($key, $split=TRUE) {
+	function quotekey($key, $split=true) {
 		$delims=[
 			'sqlite2?|mysql'=>'``',
 			'pgsql|oci'=>'""',
@@ -506,14 +506,14 @@ class SQL {
 	*	@param $pw string
 	*	@param $options array
 	**/
-	function __construct($dsn,$user=NULL,$pw=NULL,array $options=NULL) {
+	function __construct($dsn,$user=null,$pw=null,array $options=null) {
 		$fw=\Base::instance();
 		$this->uuid=$fw->hash($this->dsn=$dsn);
 		if (preg_match('/^.+?(?:dbname|database)=(.+?)(?=;|$)/is',$dsn,$parts))
 			$this->dbname=$parts[1];
 		if (!$options)
 			$options=[];
-		if (isset($parts[0]) && strstr($parts[0],':',TRUE)=='mysql')
+		if (isset($parts[0]) && strstr($parts[0],':',true)=='mysql')
 			$options+=[\PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES '.
 				strtolower(str_replace('-','',$fw->ENCODING)).';'];
 		$this->pdo=new \PDO($dsn,$user,$pw,$options);

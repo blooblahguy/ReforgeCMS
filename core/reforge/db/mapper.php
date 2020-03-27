@@ -9,7 +9,7 @@ class Schema extends \Prefab {
 		global $db;
 
 		// ensure the table exists
-		$db->exec("CREATE TABLE IF NOT EXISTS `$table` (id INT(7) PRIMARY KEY NOT NULL AUTO_INCREMENT)");
+		$db->exec("CREATE TABLE IF NOT EXISTS `$table` (id INT(7) PRIMARY KEY NOT null AUTO_INCREMENT)");
 
 		// track indexes
 		$indexes = $db->exec("SHOW INDEXES FROM `$table`");
@@ -26,13 +26,13 @@ class Schema extends \Prefab {
 		if (! isset($fields["created"])) {
 			$fields["created"] = array(
 				"type" => "DATETIME",
-				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP",
+				"attrs" => "NOT null DEFAULT CURRENT_TIMESTAMP",
 			);
 		}
 		if (! isset($fields["modified"])) {
 			$fields["modified"] = array(
 				"type" => "DATETIME",
-				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+				"attrs" => "NOT null DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
 			);
 		}
 
@@ -219,22 +219,22 @@ class Mapper extends \Magic {
 		// 		$pkeys[$key]=$field['previous'];
 		// 		$ctr++;
 		// 	}
-		// 	$field['value']=NULL;
+		// 	$field['value']=null;
 		// 	$field['changed']=(bool)$field['default'];
 		// 	if ($field['pkey'])
-		// 		$field['previous']=NULL;
+		// 		$field['previous']=null;
 		// 	unset($field);
 		// }
 		// if (!$filter)
 		// 	user_error(sprintf(self::E_PKey,$this->source),E_USER_ERROR);
 		// foreach ($this->adhoc as &$field) {
-		// 	$field['value']=NULL;
+		// 	$field['value']=null;
 		// 	unset($field);
 		// }
 		// parent::erase();
 		// if (isset($this->trigger['beforeerase']) &&
 		// 	\Base::instance()->call($this->trigger['beforeerase'],
-		// 		[$this,$pkeys])===FALSE)
+		// 		[$this,$pkeys])===false)
 		// 	return 0;
 		// $out=$this->db->
 		// 	exec('DELETE FROM '.$this->table.' WHERE '.$filter.';',$args);
@@ -314,7 +314,7 @@ class Mapper extends \Magic {
 	/**
 	 * Allows for open database queries with a cached backend
 	 */
-	function query($cmds, $args = NULL, $ttl = 0, $log = TRUE, $stamp = FALSE) {
+	function query($cmds, $args = null, $ttl = 0, $log = true, $stamp = false) {
 		global $db;
 		$op = reset(explode(" ", trim($cmds)));
 		$cache = $this->cache['queries'];
@@ -342,11 +342,11 @@ class Mapper extends \Magic {
 	/**
 	 * Builds a select query out of provided paramters
 	 */
-	function find($filter = NULL, array $options = NULL) {
+	function find($filter = null, array $options = null) {
 		$options = $options ? $options : [];
 		$options += [
-			'group by' => NULL,
-			'order by' => NULL,
+			'group by' => null,
+			'order by' => null,
 			'limit' => 0,
 			'offset' => 0
 		];
@@ -354,7 +354,7 @@ class Mapper extends \Magic {
 		$qry = array();
 		$params = array();
 		$qry[] = "SELECT * FROM `{$this->table}`";
-		if ($filter !== NULL) {
+		if ($filter !== null) {
 			if (gettype($filter) == "array") {
 				$params = $filter;
 				$filter = array_shift($params);
@@ -381,7 +381,7 @@ class Mapper extends \Magic {
 	/**
 	 * Load data about this object, then attach it to $this
 	 */
-	function load($filter = NULL, array $options = NULL, $ttl = 0) {
+	function load($filter = null, array $options = null, $ttl = 0) {
 		$cache = $this->cache['queries'];
 		$sql_key = md5(serialize(array(
 			$filter, $options
@@ -409,4 +409,3 @@ class Mapper extends \Magic {
 	}
 }
 
-?>

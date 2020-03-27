@@ -219,8 +219,8 @@ class Markdown extends Prefab {
 		$len=strlen($str);
 		$ptr=0;
 		$dst='';
-		$first=TRUE;
-		$tight=TRUE;
+		$first=true;
+		$tight=true;
 		$type='ul';
 		// Main loop
 		while ($ptr<$len) {
@@ -236,10 +236,10 @@ class Markdown extends Prefab {
 				'(.+?(?:\n+|$))((?:(?: {4}|\t)+.+?(?:\n+|$))*)/s',
 				substr($str,$ptr),$match)) {
 				$match[3]=preg_replace('/(?<=^|\n)(?: {4}|\t)/','',$match[3]);
-				$found=FALSE;
+				$found=false;
 				foreach (array_slice($this->blocks,0,-1) as $regex)
 					if (preg_match($regex,$match[3])) {
-						$found=TRUE;
+						$found=true;
 						break;
 					}
 				// List
@@ -250,8 +250,8 @@ class Markdown extends Prefab {
 					if (preg_match('/\n{2,}$/',$match[2].
 						($found?'':$match[3])))
 						// Loose structure; Use paragraphs
-						$tight=FALSE;
-					$first=FALSE;
+						$tight=false;
+					$first=false;
 				}
 				// Strip leading whitespaces
 				$ptr+=strlen($match[0]);
@@ -429,7 +429,7 @@ class Markdown extends Prefab {
 		foreach ($this->special as $key=>$val)
 			$str=preg_replace('/'.preg_quote($key,'/').'/i',$val,$str);
 		return htmlspecialchars($str,ENT_COMPAT,
-			Base::instance()->ENCODING,FALSE);
+			Base::instance()->ENCODING,false);
 	}
 
 	/**

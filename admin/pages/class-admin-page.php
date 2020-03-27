@@ -107,4 +107,3 @@ class RF_Admin_Page {
 	}
 }
 
-?>

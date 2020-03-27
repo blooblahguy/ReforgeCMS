@@ -71,6 +71,9 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 								<?= $link['html']; ?>
 							</li>
 						<? } ?>
+						<li class="link">
+							<a href="/players" class="players">Players</a>
+						</li>
 					</ul>
 				</div>
 			</div>

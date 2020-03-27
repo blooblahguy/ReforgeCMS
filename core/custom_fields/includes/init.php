@@ -56,4 +56,3 @@ foreach ($rules as $type => $file) {
 }
 require "$local/rules/posts.php";
 
-?>

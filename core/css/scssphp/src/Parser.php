@@ -420,7 +420,7 @@ class Parser
 
 
             if ($this->literal('@return') && ($this->valueList($retVal) || true) && $this->end()) {
-                $this->append([Type::T_RETURN, isset($retVal) ? $retVal : [Type::T_NULL]], $s);
+                $this->append([Type::T_RETURN, isset($retVal) ? $retVal : [Type::T_null]], $s);
 
                 return true;
             }
@@ -1353,7 +1353,7 @@ class Parser
 
         if ($this->keyword($keyword)) {
             if ($keyword === 'null') {
-                $out = [Type::T_NULL];
+                $out = [Type::T_null];
             } else {
                 $out = [Type::T_KEYWORD, $keyword];
             }

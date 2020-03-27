@@ -43,4 +43,3 @@ add_filter("admin/post_types", function($rf_custom_posts) {
 	return $rf_custom_posts;
 });
 
-?>

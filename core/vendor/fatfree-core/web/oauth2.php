@@ -37,19 +37,19 @@ class OAuth2 extends \Magic {
 	*	@param $endpoint string
 	*	@param $query bool
 	**/
-	function uri($endpoint,$query=TRUE) {
+	function uri($endpoint,$query=true) {
 		return $endpoint.($query?('?'.
 				http_build_query($this->args,null,'&',$this->enc_type)):'');
 	}
 
 	/**
 	*	Send request to API/token endpoint
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $uri string
 	*	@param $method string
 	*	@param $token array
 	**/
-	function request($uri,$method,$token=NULL) {
+	function request($uri,$method,$token=null) {
 		$web=\Web::instance();
 		$options=[
 			'method'=>$method,
@@ -71,7 +71,7 @@ class OAuth2 extends \Magic {
 		if (isset($response['body'])) {
 			if (preg_grep('/^Content-Type:.*application\/json/i',
 				$response['headers'])) {
-				$token=json_decode($response['body'],TRUE);
+				$token=json_decode($response['body'],true);
 				if (isset($token['error_description']))
 					user_error($token['error_description'],E_USER_ERROR);
 				if (isset($token['error']))
@@ -81,7 +81,7 @@ class OAuth2 extends \Magic {
 			else
 				return $response['body'];
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class OAuth2 extends \Magic {
 			base64_decode(
 				str_replace(['-','_'],['+','/'],explode('.',$token)[1])
 			),
-			TRUE
+			true
 		);
 	}
 
@@ -116,7 +116,7 @@ class OAuth2 extends \Magic {
 	}
 
 	/**
-	*	Return TRUE if scope/claim exists
+	*	Return true if scope/claim exists
 	*	@return bool
 	*	@param $key string
 	**/
@@ -143,16 +143,16 @@ class OAuth2 extends \Magic {
 		if (isset($this->args[$key]))
 			$val=&$this->args[$key];
 		else
-			$val=NULL;
+			$val=null;
 		return $val;
 	}
 
 	/**
 	*	Remove scope/claim
-	*	@return NULL
+	*	@return null
 	*	@param $key string
 	**/
-	function clear($key=NULL) {
+	function clear($key=null) {
 		if ($key)
 			unset($this->args[$key]);
 		else

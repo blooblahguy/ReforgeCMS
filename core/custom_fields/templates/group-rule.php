@@ -63,4 +63,3 @@ if ($group != 0) {
 	echo '</div>';
 }
 
-?>

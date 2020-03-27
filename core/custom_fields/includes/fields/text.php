@@ -65,4 +65,3 @@ class reforge_field_TEXT extends reforge_field {
 	}
 }
 
-?>

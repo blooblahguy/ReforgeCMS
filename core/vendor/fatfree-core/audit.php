@@ -31,7 +31,7 @@ class Audit extends Prefab {
 	//@}
 
 	/**
-	*	Return TRUE if string is a valid URL
+	*	Return true if string is a valid URL
 	*	@return bool
 	*	@param $str string
 	**/
@@ -40,20 +40,20 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if string is a valid e-mail address;
+	*	Return true if string is a valid e-mail address;
 	*	Check DNS MX records if specified
 	*	@return bool
 	*	@param $str string
 	*	@param $mx boolean
 	**/
-	function email($str,$mx=TRUE) {
+	function email($str,$mx=true) {
 		$hosts=[];
 		return is_string(filter_var($str, FILTER_VALIDATE_EMAIL)) &&
 			(!$mx || getmxrr(substr($str,strrpos($str,'@')+1),$hosts));
 	}
 
 	/**
-	*	Return TRUE if string is a valid IPV4 address
+	*	Return true if string is a valid IPV4 address
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -62,7 +62,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if string is a valid IPV6 address
+	*	Return true if string is a valid IPV6 address
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -71,7 +71,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if IP address is within private range
+	*	Return true if IP address is within private range
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -81,7 +81,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if IP address is within reserved range
+	*	Return true if IP address is within reserved range
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -91,7 +91,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if IP address is neither private nor reserved
+	*	Return true if IP address is neither private nor reserved
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -102,11 +102,11 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if user agent is a desktop browser
+	*	Return true if user agent is a desktop browser
 	*	@return bool
 	*	@param $agent string
 	**/
-	function isdesktop($agent=NULL) {
+	function isdesktop($agent=null) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Desktop.')/i',$agent) &&
@@ -114,35 +114,35 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return TRUE if user agent is a mobile device
+	*	Return true if user agent is a mobile device
 	*	@return bool
 	*	@param $agent string
 	**/
-	function ismobile($agent=NULL) {
+	function ismobile($agent=null) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Mobile.')/i',$agent);
 	}
 
 	/**
-	*	Return TRUE if user agent is a Web bot
+	*	Return true if user agent is a Web bot
 	*	@return bool
 	*	@param $agent string
 	**/
-	function isbot($agent=NULL) {
+	function isbot($agent=null) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Bot.')/i',$agent);
 	}
 
 	/**
-	*	Return TRUE if specified ID has a valid (Luhn) Mod-10 check digit
+	*	Return true if specified ID has a valid (Luhn) Mod-10 check digit
 	*	@return bool
 	*	@param $id string
 	**/
 	function mod10($id) {
 		if (!ctype_digit($id))
-			return FALSE;
+			return false;
 		$id=strrev($id);
 		$sum=0;
 		for ($i=0,$l=strlen($id);$i<$l;$i++)
@@ -152,7 +152,7 @@ class Audit extends Prefab {
 
 	/**
 	*	Return credit card type if number is valid
-	*	@return string|FALSE
+	*	@return string|false
 	*	@param $id string
 	**/
 	function card($id) {
@@ -172,7 +172,7 @@ class Audit extends Prefab {
 			if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/',$id))
 				return 'Visa';
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**

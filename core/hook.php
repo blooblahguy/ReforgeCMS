@@ -145,4 +145,3 @@
 		return remove_filter( $action, $func, $priority );
 	}
 	
-?>

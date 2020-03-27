@@ -10,9 +10,9 @@
 	function get_meta($uid, $key = false) {
 		global $meta_cache;
 		list($type, $post_id) = explode("_", $uid);
-		if ($post_id === NULL) {
+		if ($post_id === null) {
 			$post_id = $type;
-			$type = NULL;
+			$type = null;
 			$uid = "post_{$post_id}";
 		}
 
@@ -54,9 +54,9 @@
 	function set_meta($uid, $key, $value) {
 		$meta = new Meta();
 		list($type, $post_id) = explode("_", $uid);
-		if ($post_id === NULL) {
+		if ($post_id === null) {
 			$post_id = $type;
-			$type = NULL;
+			$type = null;
 			$uid = "post_{$post_id}";
 		}
 
@@ -350,4 +350,3 @@
 			return file_get_contents($_SERVER['DOCUMENT_ROOT'].$url);
 		}
 	}
-?>

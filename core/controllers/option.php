@@ -48,4 +48,3 @@
 
 		$options[$key] = $value;
 	}
-?>

@@ -67,7 +67,7 @@ class Matrix extends Prefab {
 
 	/**
 	*	Rotate a two-dimensional array variable
-	*	@return NULL
+	*	@return null
 	*	@param $var array
 	**/
 	function transpose(array &$var) {
@@ -102,7 +102,7 @@ class Matrix extends Prefab {
 
 	/**
 	*	Change the key of a two-dimensional array element
-	*	@return NULL
+	*	@return null
 	*	@param $var array
 	*	@param $old string
 	*	@param $new string
@@ -122,7 +122,7 @@ class Matrix extends Prefab {
 	*	@param $first int
 	**/
 	function calendar($date='now',$first=0) {
-		$out=FALSE;
+		$out=false;
 		if (extension_loaded('calendar')) {
 			if (is_string($date))
 				$date=strtotime($date);

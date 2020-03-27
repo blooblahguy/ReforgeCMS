@@ -18,4 +18,3 @@
 	$config["salt"] = "bdg_lightweight";
 
 	return $config;
-?>

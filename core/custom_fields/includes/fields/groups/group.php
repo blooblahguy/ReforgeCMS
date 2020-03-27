@@ -95,4 +95,3 @@ class reforge_field_GROUP extends reforge_field {
 	}
 }
 
-?>

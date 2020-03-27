@@ -19,7 +19,9 @@ if (! $admin_theme) { $admin_theme = "default"; }
 			</div>
 			<div class="os content_outer">
 				<div class="top_outer text-right pad1 bg-black">
-					<a href="/admin/clear-cache" class="view padx2 pady1">Clear Cache</a>
+					<? if (current_user()->can("administrator")) { ?>
+						<a href="/admin/clear-cache" class="view padx2 pady1">Clear Cache</a>
+					<? } ?>
 					<a href="/admin/users/edit/<?= current_user()->id; ?>" class="view padx2 pady1">Profile</a>
 					<a href="/" class="view padx2 pady1">View Website</a>
 					<a href="/logout" class="self-end padx2 pady1">Logout</a>

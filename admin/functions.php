@@ -1,4 +1,25 @@
 <?
+
+/**
+ * Add arbitrary links to the admin menu, with parenting
+ */
+function add_admin_menu($info) {
+	global $admin_menu;
+
+	$info = array_merge(array(
+		"label" => "Menu Item",
+		"link" => "/admin",
+		"order" => "30",
+		"icon" => "30",
+		"parent" => false,
+		),
+		$info
+	);
+
+	$admin_menu[] = $info;
+}
+
+
 function admin_head() {
 	global $request, $options;
 
@@ -43,6 +64,7 @@ function render_admin_menu() {
 	$info = explode("/", $request, 4);
 	$info1 = array_slice($info, 0, 2);
 	$info2 = array_slice($info, 0, 3);
+	$path = "/".implode("/", $info);
 	$path1 = "/".implode("/", $info1);
 	$path2 = "/".implode("/", $info2);
 
@@ -65,14 +87,14 @@ function render_admin_menu() {
 		// build classes
 		$class = array();
 		if ($menu['link'] == $path1) {
-			$class[] = "active";
+			$class[] = "active idk";
 		}
 		if ($menu['link'] == $path2) {
-			$class[] = "ancestor";
+			$class[] = "ancestor idk";
 		} else {
 			foreach ($menu['children'] as $c) {
-				if ($c['link'] == $path1) {
-					$class[] = "ancestor";
+				if ($c['link'] == $path) {
+					$class[] = "active";
 					break;
 				}
 			}
@@ -146,7 +168,16 @@ function display_results_table($rs, $fields) {
 	</table>
 <? }
 
-function render_admin_title($title) {
+function render_admin_header($title) { ?>
+	<div class="row content-middle padb2">
+		<div class="os-min padr2">
+			<h2 class="marg0"><?= $title; ?></h1>
+		</div>
+	</div>
+	<?
+} 
+
+function render_admin_title($title, $edit = true) {
 	global $PATH;
 
 	$link_base = ltrim($title["link"], "/");
@@ -160,6 +191,10 @@ function render_admin_title($title) {
 		$btn = false;
 	} elseif ($id > 0) {
 		$label = "Edit ".$title['label'];
+	}
+
+	if (! $edit) {
+		$btn = false;
 	}
 
 	?>

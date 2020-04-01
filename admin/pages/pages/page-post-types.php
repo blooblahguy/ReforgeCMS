@@ -19,8 +19,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
-		global $db;
+	function index($args) {
 
 		$post_types = new PostType();
 		$post_types = $post_types->find(null, array("order by" => "`order` ASC"));
@@ -66,7 +65,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		echo '</div>';
 	}
 
-	function render_edit() {
+	function edit($args) {
 		$id = $this->id;
 		$post = new \PostType();
 
@@ -236,7 +235,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 	<?
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		$id = $this->id;
 		$type = new \PostType();
 		$changed = "created";
@@ -283,7 +282,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		redirect("/admin/post_types/edit/{$type->id}");
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

@@ -97,7 +97,7 @@ class SQL {
 	function type($val) {
 		switch (gettype($val)) {
 			case 'null':
-				return \PDO::PARAM_null;
+				return \PDO::PARAM_NULL;
 			case 'boolean':
 				return \PDO::PARAM_BOOL;
 			case 'integer':
@@ -123,7 +123,7 @@ class SQL {
 				if (!is_string($val))
 					$val=str_replace(',','.',$val);
 				return $val;
-			case \PDO::PARAM_null:
+			case \PDO::PARAM_NULL:
 				return null;
 			case \PDO::PARAM_INT:
 				return (int)$val;

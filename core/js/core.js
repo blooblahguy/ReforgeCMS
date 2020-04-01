@@ -145,6 +145,22 @@ function hook_sorters() {
 }
 hook_sorters();
 
+
+// tabs
+$(".tabs").each(function() {
+	if ($(this).find("[data-tab].active").length == 0) {
+		$(".tab_nav [data-tab]").first().addClass("active")
+		$(".tab_content[data-tab]").first().addClass("active")
+	}
+});
+$(".tab_nav [data-tab]").on("click", function() {
+	var tar = $(this).data("tab")
+	$("[data-tab].active").removeClass('active')
+	$('[data-tab="'+tar+'"]').addClass("active")
+
+	return false	
+})
+
 // $(".sortable").each(function(i, e) {
 	// var group = $(this).data("sort-group")
 	// if (! group) { group = false; }

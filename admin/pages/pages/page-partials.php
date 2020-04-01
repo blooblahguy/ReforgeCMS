@@ -15,8 +15,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() { 
-		global $db;
+	function index($args) { 
 		?>
 		<div class="section">
 		<?
@@ -35,7 +34,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit($core, $args) {
+	function edit($args) {
 		$id = $this->id;
 		$partial = new Partial();
 		if ($id > 0) {
@@ -114,7 +113,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		<?
 	}
 
-	function save_page() {
+	function save($args) {
 		$id = $this->id;
 
 		$partial = new Partial();
@@ -139,7 +138,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$this->save_success($partial->title, $changed, $partial->id);
 	}
 
-	function delete_page() {
+	function delete($args) {
 
 	}
 

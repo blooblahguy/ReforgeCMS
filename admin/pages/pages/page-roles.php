@@ -18,7 +18,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
+	function index($args) {
 		global $db;
 		$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
 
@@ -65,8 +65,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		echo '</div>';
 	}
 
-	function render_edit() {
-		global $db;
+	function edit($args) {
 
 		$id = $this->id;
 		$role = new Role();
@@ -193,14 +192,14 @@ class admin_page_ROLES extends RF_Admin_Page {
 			<div class="section">
 				<h3>Post Type Permissions</h3>
 				<? 
-				$cpts = new PostType();
-				$cpts = $cpts->find(null, array("order by" => "`order` ASC")); 
-				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own", "View");
+				$cpts = get_post_types();
+				debug($cpts);
+				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own");
 				?>
 				<? foreach ($cpts as $type) { ?>
 					<div class="row g1">
 						<? foreach ($rights as $right) { ?>
-							<div class="os-4 os-md-3 os-lg-2">
+							<div class="os-4 os-md-3 os-lg">
 								<div class="row section pad1 role_wrapper <?= $type["slug"]; ?>">
 									<div class="os strong">
 										<?= ucfirst($right)." ".$type["label_plural"]; ?>
@@ -238,7 +237,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 	<?
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		global $db; 
 		$id = $this->id;
 		$permissions = serialize($_POST['permissions']);
@@ -269,7 +268,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		redirect("/admin/roles/edit/{$role->id}");
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 		$id = $args['id'];
 		$role = new Role();
 		$role->load("id = $id");

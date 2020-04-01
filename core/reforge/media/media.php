@@ -48,6 +48,12 @@ class RF_Media extends Prefab {
 	function __construct() {
 		global $core, $root;
 
+		$this->add_size("medium", 400, null, false);
+		$this->add_size("large", 1000, null, false);
+		$this->add_size("hero", 1600, 400);
+
+		$this->sizes = apply_filters("admin/media_sizes", $this->sizes);
+
 		queue_style("/core/reforge/media/media.css");
 		queue_script("/core/reforge/media/media.js");
 

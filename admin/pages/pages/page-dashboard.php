@@ -24,7 +24,7 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		$core->reroute("/admin/dashboard");
 	}
 
-	function render_index() {
+	function index($args) {
 		$user = current_user();
 
 		?>
@@ -83,15 +83,15 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit() {
+	function edit($args) {
 		echo "edit dashboard";
 	}
 
-	function save_page() {
+	function save($args) {
 
 	}
 
-	function delete_page() {
+	function delete($args) {
 
 	}
 

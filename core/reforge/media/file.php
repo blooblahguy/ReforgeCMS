@@ -62,8 +62,6 @@ class RF_File extends \RF\Mapper {
 		$regs = $media->sizes;
 		$regs = $this->sort_sizes($regs, $width, $height);
 
-		debug($regs);
-
 		$target = false;
 		foreach ($regs as $dimension) {
 			if ($width && $width > 0) {

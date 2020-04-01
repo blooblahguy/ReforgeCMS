@@ -50,7 +50,7 @@
 		}
 
 		function get_admin_post_pages() {			
-			$cpts = $this->find("admin_menu = 1", array(
+			$cpts = $this->find(null, array(
 				"order by" => "`order` ASC",
 			));
 

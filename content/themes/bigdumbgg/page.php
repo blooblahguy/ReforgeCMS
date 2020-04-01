@@ -1,8 +1,9 @@
 <?
-	get_template_part("parts", "page-header");
 
-	get_template_part("parts", "content-mega");
+get_template_part("parts", "page-header");
+get_template_part("parts", "content-mega");
+
 ?>
-
-
-<? //debug($page);?>
+<div class="container content">
+	<? the_content(); ?>
+</div>

@@ -73,7 +73,7 @@ class admin_page_THEMES extends RF_Admin_Page {
 		return $themes;
 	}
 
-	function render_index() {
+	function index($args) {
 		$themes = $this->scan_themes();
 		$active = get_option('active_theme');
 
@@ -114,15 +114,15 @@ class admin_page_THEMES extends RF_Admin_Page {
 		</div>
 	<? }
 
-	function render_edit() {
+	function edit($args) {
 		
 	}
 
-	function save_page() {
+	function save($args) {
 
 	}
 
-	function delete_page() {
+	function delete($args) {
 
 	}
 

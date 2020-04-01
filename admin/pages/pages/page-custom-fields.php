@@ -16,8 +16,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
-		global $db;
+	function index($args) {
 
 		$cf = new CustomField();
 		$fieldsets = $cf->find(); 
@@ -33,7 +32,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		echo '</div>';
 	}
 
-	function render_edit() {
+	function edit($args) {
 		$id = $this->id;
 		$cf = new CustomField();
 		$action = "Create";
@@ -125,7 +124,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		return $nested;
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		$id = $this->id;
 		$cf = new CustomField();
 		$changed = "created";
@@ -170,7 +169,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		redirect("/admin/custom_fields/edit/{$cf->id}");
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

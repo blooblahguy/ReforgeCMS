@@ -15,8 +15,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
-		global $db;
+	function index($args) {
 		$user = new User();
 
 		$users = $user->query("SELECT users.*, roles.label AS role FROM users
@@ -62,8 +61,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		echo '</div>';
 	}
 
-	function render_edit() {
-		global $db;
+	function edit($args) {
 		$id = $this->id;
 
 		$user = new User();
@@ -137,7 +135,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		<?
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		$id = $this->id;
 
 		$user = new User();
@@ -165,7 +163,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		redirect("/admin/users/edit/{$user->id}");
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

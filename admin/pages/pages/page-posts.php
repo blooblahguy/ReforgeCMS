@@ -15,10 +15,12 @@ class admin_page_POSTS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
+	function index($args) {
 		$this->post_type = $this->name;
 		$posts = new Post();
 		$posts = $posts->find("post_type = '{$this->post_type}' ");
+
+		$this->render_title();
 
 		$columns = array(
 			'title' => array(
@@ -73,7 +75,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit() {
+	function edit($args) {
+		$this->render_title();
+		
 		$post_type = $this->name;
 		$id = $this->id;
 
@@ -180,11 +184,12 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"class" => "post_permalink",
 							"required" => true,
 						));
-						$created = Date("Y-m-d", strtotime($post['created']));
-						// if (! $post['created']) {
-						// 	$created = Date("Y-m-d");
-						// }
-						
+
+						$created = Date("Y-m-d");
+						if (isset($post['created'])) {
+							$created = Date("Y-m-d", strtotime($post['created']));
+						}
+
 						render_admin_field($created, array(
 							"type" => "date",
 							"name" => "created",
@@ -192,26 +197,37 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"class" => "created",
 							"required" => false,
 						));
+
+						$pages = new Post();
+						$pages = $pages->find("post_type = 'pages' ");
+						$pages = array_extract($pages, "id", "title");
+
+						render_admin_field($post, array(
+							"type" => "select",
+							"name" => "post_parent",
+							"label" => "Post Parent",
+							"choices" => $pages,
+						));
 						?>
 						<?
 						$default = "";
-						$statuses = array();
-						// debug($pt['statuses']);
-						foreach (unserialize($pt['statuses']) as $s) {
-							if ($s['default_status'] == 1) {
-								$default = $s['name'];
-							}
-							$statuses[$s['name']] = $s['name'];
-						}
-						render_admin_field($post, array(
-							"choices" => $statuses,
-							"type" => "select",
-							"name" => "post_status",
-							"label" => "Post Status",
-							"class" => "post_status",
-							"default" => $default,
-							"required" => true,
-						));
+						// $statuses = array();
+						// // debug($pt['statuses']);
+						// foreach (unserialize($pt['statuses']) as $s) {
+						// 	if ($s['default_status'] == 1) {
+						// 		$default = $s['name'];
+						// 	}
+						// 	$statuses[$s['name']] = $s['name'];
+						// }
+						// render_admin_field($post, array(
+						// 	"choices" => $statuses,
+						// 	"type" => "select",
+						// 	"name" => "post_status",
+						// 	"label" => "Post Status",
+						// 	"class" => "post_status",
+						// 	"default" => $default,
+						// 	"required" => true,
+						// ));
 						?>
 						<input type="hidden" name="post_type_statuses" value="<?= $pt->statuses; ?>">
 					</div>
@@ -222,7 +238,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		<?
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		$id = $this->id;
 		$user = current_user();
 
@@ -238,6 +254,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->slug = $_POST["permalink"];
 		$post->permalink = $_POST["permalink"];
 		$post->created = $_POST["created"];
+		$post->post_parent = $_POST["post_parent"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;
 		$post->seo_title = $_POST['seo_title'];
@@ -267,7 +284,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$this->save_success($post->title, $changed, $post->id);
 	}
 
-	function delete_page() {
+	function delete($args) {
 
 	}
 
@@ -297,24 +314,34 @@ class admin_page_POSTS extends RF_Admin_Page {
 	*/
 }
 
-$post = new PostType();
-$cpts = $post->get_admin_post_pages();
-$cpts = array_merge($cpts, $rf_custom_posts);
-$rf_custom_posts = apply_filters("admin/post_types", $cpts);
+function build_post_pages() {
+	$cpts = get_post_types();
 
-foreach ($rf_custom_posts as $post) {
-	$info = array(
-		"admin_menu" => 5 + $post["order"],
-		"icon" => $post["icon"],
-		"name" => $post["slug"],
-		"label" => $post["label"],
-		"label_plural" => $post["label_plural"],
-		"base_permission" => array("update_any_{$post['slug']}", "update_own_{$post['slug']}"),
-		"route" => "/admin/posts/@slug",
-		"link" => "/admin/posts/{$post['slug']}",
-	);
+	// debug($cpts);
 
-	new admin_page_POSTS($info);
+	foreach ($cpts as $post) {
+		$admin_menu = false;
+		if (isset($post['order']) && $post['order'] !== false) {
+			$admin_menu = 5 + $post['order'];
+		}
+		$info = array(
+			"admin_menu" => 5 + $admin_menu,
+			"icon" => $post["icon"],
+			"name" => $post["slug"],
+			"label" => $post["label"],
+			"label_plural" => $post["label_plural"],
+			"base_permission" => array("update_any_{$post['slug']}", "update_own_{$post['slug']}"),
+			"route" => "/admin/posts/@slug",
+			"link" => "/admin/posts/{$post['slug']}",
+		);
+
+		$class = "admin_page_POSTS";
+		if ($post['class']) {
+			$class = $post['class'];
+		}
+
+		new admin_page_POSTS($info);
+	}
 }
 
-
+build_post_pages();

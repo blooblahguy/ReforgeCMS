@@ -15,7 +15,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index($core, $args) {
+	function index($args) {
 		$menu = new Menu();
 		$menu = $menu->query("SELECT * FROM menus order by `order` ASC");
 
@@ -86,7 +86,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit($core, $args) {
+	function edit($args) {
 		$id = $args['id'];
 
 		$pts = new PostType();
@@ -273,7 +273,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 		return $menu;
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		$id = $this->id;
 
 		$menu = new Menu();
@@ -296,7 +296,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 		redirect("{$this->link}/edit/{$menu->id}");
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

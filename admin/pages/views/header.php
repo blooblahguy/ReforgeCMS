@@ -28,5 +28,6 @@ if (! $admin_theme) { $admin_theme = "default"; }
 				</div>
 				<? display_alerts(); ?>
 				<div class="content_inner pad2 padb4 <?= $theme; ?>">
+					<div class="page_content">
 				
 			

@@ -11,6 +11,9 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		$this->base_permission = "manage_settings";
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
+		$this->routes = array(
+			"index" => array("GET", "", "edit") 
+		);
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 
@@ -18,11 +21,11 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index($core, $args) {
-		RF_Admin_Pages::instance()->edit($core, $args);
-	}
+	// function index($core, $args) {
+	// 	$this->edit($core, $args);
+	// }
 
-	function render_edit() {
+	function edit($args) {
 		global $options;
 		$pages = new Post();
 		$pages = $pages->find("post_type = 'pages'");
@@ -49,8 +52,6 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 				"name" => "site_homepage",
 				"choices" => $choices,
 			));
-
-			
 			
 			?>
 		</div>

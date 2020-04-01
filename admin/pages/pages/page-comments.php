@@ -18,19 +18,19 @@ class admin_page_COMMENTS extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
+	function index($args) {
 		
 	}
 
-	function render_edit() {
+	function edit($args) {
 		
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

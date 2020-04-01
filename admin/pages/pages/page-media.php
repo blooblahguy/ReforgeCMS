@@ -15,7 +15,7 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		parent::__construct();
 	}
 
-	function render_index() {
+	function index($args) {
 		$media = RF_Media::instance();
 
 		$media->display();
@@ -23,15 +23,15 @@ class admin_page_MEDIA extends RF_Admin_Page {
 
 	}
 
-	function render_edit($core, $args) {
+	function edit($args) {
 		
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 		$id = $args['id'];
 		$file = new RF_File();
 		$file->load("id = $id");

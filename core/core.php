@@ -10,25 +10,18 @@ require "$root/core/functions.php";
 require "$root/core/hook.php";
 require "$root/core/reforge/cache.php";
 require "$root/core/reforge/db/mapper.php";
-// require "$root/core/reforge/class-alerts.php";
-// require "$root/core/reforge/class-db.php";
-// require "$root/core/reforge/class-model.php";
-// require "$root/core/reforge/class-schema.php";
-// require "$root/core/reforge/session.php";
 require "$root/core/reforge/media/media.php";
 require "$root/core/reforge/media/file.php";
 require "$root/core/custom_fields/rcf.php";
-
-// media manager
-$media = RF_Media::instance();
-$media->add_size("medium", 400, null, false);
-$media->add_size("large", 1000, null, false);
-$media->add_size("hero", 1600, 400);
 
 // Autoloader
 spl_autoload_register(function ($class) {
 	global $root;
 	$class = strtolower($class);
+	list($namespace, $class) = explode("\\", $class);
+	if (! $class) {
+		$class = $namespace;
+	}
 	$path = $root . "/core/controllers/$class.php";
 	$rf_path = $root . "/core/reforge/$class.php";
 
@@ -72,27 +65,25 @@ if (count($options) == 1) {
 
 	$core->run();
 } else {
-	// Load Plugins
-	$plugins = unserialize($options['active_plugins']);
-	if (!$plugins) {
-		$plugins = array();
-	}
-	foreach ($plugins as $path) {
-		require $path;
-	}
 	$core->route("GET|POST /logout", "User->logout");
 
+	// add plugin load to init
+	add_action("load_plugins", "load_plugins", 12);
 	
 	// Determine Where we are now
 	if ("/" . $CONTROLLER == "/admin") {
 		require "$root/admin/admin.php";
+		do_action("load_plugins");
+		do_action("init");
+		do_action("admin");
 		do_action("admin/init");
 		$core->run();
 	} else {
 		// Theme manager
-		Content::instance();
-		
+		do_action("load_plugins");
 		do_action("init");
+		do_action("front");
+		Content::instance();
 		$core->run();
 	}
 }

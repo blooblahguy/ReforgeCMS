@@ -1,4 +1,35 @@
 <?
+
+/**
+ * Load currently active plugins
+ * @return null
+ */
+function load_plugins() {	
+	$plugins = unserialize(get_option('active_plugins'));
+	if (!$plugins) {
+		$plugins = array();
+	}
+	foreach ($plugins as $path) {
+		require $path;
+	}
+}
+	
+/**
+ * Returns a list of all registered post types
+ * @return array $cpts
+ */
+function get_post_types() {
+	global $rf_custom_posts;
+
+	$post = new PostType();
+	$cpts = $post->get_admin_post_pages();
+
+	$cpts = array_merge($cpts, $rf_custom_posts);
+	$cpts = apply_filters("admin/post_types", $cpts);
+
+	return $cpts;
+}
+
 	function display_alerts($level = "all") {
 		\Alerts::instance()->display($level);
 	}
@@ -105,9 +136,9 @@
 	function register_post_type($options) {
 		global $rf_custom_posts;
 
+		
 		// debug($options);
 		$slug = $options['slug'];
-		// echo $slug;
 
 		$info = array(
 			"order" => 5 + $options["order"],

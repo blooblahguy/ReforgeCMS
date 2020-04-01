@@ -62,7 +62,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		return $plugins;
 	}
 
-	function render_index() {
+	function index($args) {
 		$plugins = $this->scan_plugins();
 		$active_plugins = get_option("active_plugins");
 		if (! $active_plugins) {
@@ -120,7 +120,7 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		<?
 	}
 
-	function render_edit() {
+	function edit($args) {
 		
 	}
 
@@ -157,11 +157,11 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		redirect("/admin/plugins");
 	}
 
-	function save_page() {
+	function save($args) {
 
 	}
 
-	function delete_page() {
+	function delete($args) {
 
 	}
 

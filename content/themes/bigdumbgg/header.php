@@ -72,7 +72,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 							</li>
 						<? } ?>
 						<li class="link">
-							<a href="/players" class="players">Players</a>
+							<a href="/apply" class="apply btn">Apply</a>
 						</li>
 					</ul>
 				</div>

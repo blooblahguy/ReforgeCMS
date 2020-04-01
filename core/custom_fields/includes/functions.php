@@ -34,6 +34,8 @@ function get_fields($uid = false) {
 	global $request;
 	list($type, $id) = split_uid($uid);
 
+	if ($id == null) { return array(); }
+
 	if (! isset($request['fields'][$uid])) {
 		$request['fields'][$uid] = RCF::instance()->get_fields($type, $id);
 	}

@@ -63,7 +63,7 @@
 
 			if ($this->avatar == "" || ! file_exists($root.$this->avatar)) {
 				$img = rand(1, 7);
-				$img = "/core/img/avatar_$img.png";
+				$img = "/core/assets/img/avatar_$img.png";
 				$this->avatar = $img;
 				$this->update();
 			}

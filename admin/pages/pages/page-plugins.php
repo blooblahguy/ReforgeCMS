@@ -17,7 +17,10 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 		$this->cache = new RF\Cache("THEMES");
 
-		// Rescan route
+		// Be sure to set up the parent
+		parent::__construct();
+
+		// Custom routes
 		$core->route("GET {$this->link}/rescan", function() {
 			$this->cache->reset();
 			redirect("/admin/plugins");
@@ -25,9 +28,6 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 		$core->route("GET {$this->link}/activate/@slug", "admin_page_PLUGINS->activate");
 		$core->route("GET {$this->link}/deactivate/@slug", "admin_page_PLUGINS->deactivate");
-
-		// Be sure to set up the parent
-		parent::__construct();
 	}
 
 	function scan_plugins() {

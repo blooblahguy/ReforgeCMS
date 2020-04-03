@@ -34,7 +34,7 @@
 
 	use Leafo\ScssPhp\Compiler;
 	if ($update) {
-		require $root.'/core/css/scssphp/scss.inc.php';
+		require $root.'/core/assets/css/scssphp/scss.inc.php';
 
 		$scss = new Compiler();
 		$scss->setImportPaths('');

@@ -3,6 +3,8 @@
 class Admin extends \Prefab {
 	function __construct() {
 		global $core;
+
+		$core->route("GET|POST /logout", "User->logout");
 	}
 
 	/**
@@ -45,9 +47,9 @@ $request["user_id"] = current_user()->id;
 $request["user_role"] = current_user()->role_id;
 
 // Header scripts
-queue_script("/core/js/lazy.js");
-queue_script("/core/js/quill.min.js", 5);
-queue_script("/core/js/admin.js", 15);
+queue_script("/core/assets/js/lazy.js");
+queue_script("/core/assets/js/quill.min.js", 5);
+queue_script("/core/assets/js/admin.js", 15);
 
 // allow for global cache clear
 if (current_user()->can("administrator")) {

@@ -101,28 +101,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		<?
 	}
 
-	private function build_hierarchy($source) {
-		$nested = array();
-		if (! isset($source)) { return array(); }
-
-		foreach ($source as &$field) {
-			if ($field["parent"] == "0") {
-				$nested[$field["key"]] = &$field;
-			} else {
-				$pid = $field["parent"];
-				if ( isset($source[$pid]) ) {
-					// If the parent ID exists in the source array
-					// we add it to the 'children' array of the parent after initializing it.
-					if ( !isset($source[$pid]['children']) ) {
-						$source[$pid]['children'] = array();
-					}
-					$source[$pid]['children'][$field["key"]] = &$field;
-				}
-			}
-		}
-
-		return $nested;
-	}
+	
 
 	function save($args) {
 		$id = $this->id;
@@ -134,43 +113,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		}
 
 		$title = $_POST["title"];
-		$fields = $_POST['rcf_fields'];
-		$fieldset = $this->build_hierarchy($fields);
-
-		// LOAD RULES
-		$load_conditions = $_POST["load_conditions"];
-		$rules = array();
-		if (isset($load_conditions)) {
-			foreach ($load_conditions as $group => $conditions) {
-				$set = array();
-				foreach ($conditions["key"] as $id => $value) {
-					$set[$id]["key"] = $value;
-				}
-				foreach ($conditions["expression"] as $id => $value) {
-					$set[$id]["expression"] = $value;
-				}
-				foreach ($conditions["value"] as $id => $value) {
-					$set[$id]["value"] = $value;
-				}
-
-				$rules[$group] = $set;
-			}		
-		}
-
-		$cf->title = $title;
-		$cf->priority = $_POST['priority'];
-		$cf->inactive = $_POST['inactive'];
-		$cf->fieldset = serialize($fieldset);
-		$cf->load_rules = serialize($rules);
-		if ($args['virtual']) {
-			$cf->virtual = 1;
-		}
-		$cf->save();
-
-		if ($args['noredir']) {
-			return $cf;
-		}
-
+		$cf->save_fieldset();
 
 		\Alerts::instance()->success("Custom Field $title $changed");
 		redirect("/admin/custom_fields/edit/{$cf->id}");

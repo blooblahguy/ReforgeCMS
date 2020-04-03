@@ -1,6 +1,139 @@
 <?
 
 /**
+ * ==============================================================
+ * HTML Functions
+ * ==============================================================
+ */
+function render_admin_field($field, $settings) {
+	$type = $settings["type"];
+	$name = $settings["name"];
+	$label = $settings['label'];
+	$choices = $settings['choices'];
+	$instructions = $settings['instructions'];
+	$layout = isset($settings["layout"]) ? $settings["layout"] : "os";
+	$value = is_string($field) ? $field : $field[$settings["name"]];
+	$unset = array("class", "default", "placeholder", "layout", "type", "choices", "instructions");
+
+	// set up defaults in the attrs array
+	$attrs = array();
+	$attrs['id'] = $settings['name'];
+	$attrs['value'] = $value == "" && isset($settings['default']) ? $settings['default'] : $value;
+	$value = $attrs['value'];
+	$attrs['class'] = isset($settings['class']) ? $settings['class'] : "";
+	$attrs['placeholder'] = isset($settings["placeholder"]) ? $settings["placeholder"] : $settings["label"];
+
+	// unset things we don't want showing up on the input class
+	foreach ($unset as $k => $v) {unset($settings[$v]); }
+
+	if ($type == "wysiwyg") {
+		$attrs['class'] .= " wysiwyg";
+	} elseif ($type == "checkbox") {
+		$attrs['checked'] = isset($attrs['value']) ? true : false;
+	}
+
+	// now build input attribute string
+	$attrs_array = array_merge($attrs, $settings);
+	$attrs = array_map(function($key, $value) {
+		if (gettype($value) == "boolean" && $value === true) {
+			return $key;
+		} elseif (gettype($value) == "string") {
+			return $key.'="'.$value.'"';
+		}
+	}, array_keys($attrs_array), array_values($attrs_array));
+	$attrs = implode(' ', $attrs);
+
+	?>
+
+	<div class="fieldset <?= $layout; ?>">
+		<div class="field_label">
+			<? if ($label) { ?>
+				<label for="<?= $name; ?>"><?= $label; ?></label>
+			<? } ?>
+			<? if ($instructions) { ?>
+				<div class="field_instructions muted em"><?= $instructions; ?></div>
+			<? } ?>
+		</div>
+		<div class="field_value">
+			<? if ($type == "select") { 
+				if (gettype($value) != "array") {
+					$value = array($value);
+				}
+
+				?>
+				<select <?= $attrs; ?>>
+					<option value="" disabled selected>--Select</option>
+					<?
+					foreach ($choices as $key => $option) {
+						if (is_array($option)) { ?>
+							<optgroup label="<?= $key; ?>">
+								<? foreach ($option as $skey => $label) { ?>
+									<option value="<?= $skey; ?>" <? if (in_array($skey, $value) == true) {echo "selected"; } ?>><?= $label; ?></option>
+								<? } ?>
+							</optgroup>
+						<? } else { ?>
+							<option value="<?= $key; ?>" <? if (in_array($key, $value) == true) {echo "selected"; } ?>><?= $option; ?></option>
+						<? } ?>
+					<? } ?>
+				</select>
+
+			<? } elseif ($type == "textarea") { ?>
+				<textarea type="text" rows="5" <?= $attrs; ?>><?= $attrs_array['value']; ?></textarea>
+			<? } elseif ($type == "wysiwyg") { ?>
+				<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $attrs_array['value']; ?>">
+				<div <?= $attrs; ?>><?= htmlspecialchars_decode($attrs_array['value']); ?></div>
+			<? } else { ?>
+				<input type="<?= $type; ?>" <?= $attrs; ?>>
+			<? } ?>
+		</div>
+	</div>
+
+
+	<?
+}
+
+/**
+ * ==============================================================
+ * Media Functions
+ * ==============================================================
+ */
+
+function uploads_dir() {
+	global $root;
+	return $root.Media::instance()->path;
+}
+
+function uploads_url() {
+	return Media::instance()->path;
+}
+
+function get_file_size($id, $width = null, $height = null) {
+	$file = new File();
+	debug("id = $id");
+	$file->load("id = $id");
+
+	return $file->get_size($width, $height);
+}
+
+function get_file($id) {
+	if (! $id) { return false; }
+	$arr = array();
+
+	$file = new File();
+	$file->load("id = $id");
+
+	$arr['id'] = $file->id;
+	$arr['name'] = $file->name;
+	$arr['original'] = $file->original;
+	$arr['sizes'] = unserialize($file->sizes);
+
+	return $arr;
+}
+
+
+
+
+/**
  * Clear global caches
  */
 function resetCaches() {

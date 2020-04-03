@@ -64,11 +64,11 @@ class Content extends Prefab {
 	// create content class
 	function __construct() {
 		global $core;
+		$posts = new Post();
+		$posttypes = new PostType();
 
-		$post = new Post();
-		$posttype = new PostType();
-		$pages = $post->query("SELECT posts.* FROM {$post->table} AS posts 
-			LEFT JOIN {$posttype->table} AS post_types ON posts.post_type = post_types.slug
+		$pages = $posts->query("SELECT posts.* FROM {$posts->table} AS posts 
+			LEFT JOIN {$posttypes->table} AS post_types ON posts.post_type = post_types.slug
 			WHERE post_types.public = 1 
 		");
 		$pages = apply_filters("pages", $pages);
@@ -245,6 +245,7 @@ function the_page() {
 function get_content() {
 	$page = the_page();
 	$content = apply_filters("get_content", $page['content'], $page);
+	$content = parse_shortcodes($content);
 
 	return $content;
 }

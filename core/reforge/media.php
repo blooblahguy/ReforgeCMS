@@ -271,16 +271,3 @@ class Media extends Prefab {
 }
 
 Media::instance();
-
-/**
- * Global functions
- */
-function uploads_dir() {
-	global $root;
-	return $root.Media::instance()->path;
-}
-
-function uploads_url() {
-	return Media::instance()->path;
-}
-

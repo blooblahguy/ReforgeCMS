@@ -90,7 +90,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		?>
 		<div class="row g1">
 			<div class="os">
-				<div class="section">
+				<div class="section g1">
 					<?
 					render_admin_field($form, array(
 						"type" => "text",
@@ -123,8 +123,6 @@ class admin_page_FORMS extends RF_Admin_Page {
 	}
 
 	function save($args) {
-		global $custom_fields_page;
-		// debug($custom_fields_page);
 		$id = $args['id'];
 
 		$form = new Post();
@@ -133,11 +131,17 @@ class admin_page_FORMS extends RF_Admin_Page {
 		}
 
 		// save custom fieldset
-		$cf = $custom_fields_page->save(array("id" => $form->post_parent, "noredir" => true, "virtual" => true));
+		$cf = new CustomField();
+		if ($id > 0) {
+			$cf->load("id = $id");
+		}
+		$_POST['virtual_fieldset'] = true;
+		$cf = $cf->save_fieldset();
 
 		// store form values
 		$form->title = $_POST['title'];
 		$form->subtitle = $_POST['subtitle'];
+		$form->slug = slugify($_POST['title']);
 		$form->post_type = 'forms';
 		$form->post_parent = $cf->id;
 		$form->author = current_user()->id;

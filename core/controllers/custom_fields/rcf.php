@@ -211,7 +211,6 @@
 		}
 
 		function render_fields($cf_id, $page_id, $type, $fields) {
-			// global $db;
 			$cf = new CustomField();
 			if ($cf_id > 0) {
 				$cf->factory($fields);
@@ -228,7 +227,7 @@
 			$this->page_id = $page_id;
 
 			// load view
-			echo '<div class="section">';
+			echo '<div class="field_section">';
 			rcf_get_template('group-fields', $view);
 			echo '</div>';
 		}
@@ -312,4 +311,4 @@
 
 	RCF();
 
-	require "$root/core/custom_fields/includes/init.php";
+	require "$root/core/controllers/custom_fields/includes/init.php";

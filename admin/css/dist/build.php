@@ -19,7 +19,7 @@
 	}
 
 	if ($update) {
-		require $root.'/core/css/scssphp/scss.inc.php';
+		require $root.'/core/assets/css/scssphp/scss.inc.php';
 
 		error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 

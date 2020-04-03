@@ -30,13 +30,16 @@ class Reforge extends \Prefab {
 			$class = $namespace;
 		}
 
-		$path = $this->root."/core/controllers/$class.php";
-		$rf_path = $this->root."/core/reforge/$class.php";
+		$model = $this->root."/core/models/$class.php";
+		$controller = $this->root."/core/controllers/$class.php";
+		$reforge = $this->root."/core/reforge/$class.php";
 
-		if (is_file($path)) {
-			require $path;
-		} elseif (is_file($rf_path)) {
-			require $rf_path;
+		if (is_file($model)) {
+			require $model;
+		} elseif (is_file($controller)) {
+			require $controller;
+		} elseif (is_file($reforge)) {
+			require $reforge;
 		}
 	}
 }

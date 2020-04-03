@@ -9,7 +9,7 @@ if (! $admin_theme) { $admin_theme = "default"; }
 	<? admin_head(); ?>
 
 	<link rel="stylesheet" href="/admin/css/dist/style.php?theme=<?= $admin_theme; ?>">
-	<script src="/core/js/sortable.min.js"></script>
+	<script src="/core/assets/js/sortable.min.js"></script>
 </head>
 <body class="h100">
 	<div class="wrapper h100">

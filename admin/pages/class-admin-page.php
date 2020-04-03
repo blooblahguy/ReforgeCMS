@@ -31,7 +31,7 @@ class RF_Admin_Page {
 		RF_Admin_Pages::instance()->register_page($this);
 	}
 
-	function route($method, $core, $args) {
+	function route($method, $args) {
 		// do a global and automatic permission check
 		if ($method == "edit" && ! $this->can_edit()) {
 			return false;	

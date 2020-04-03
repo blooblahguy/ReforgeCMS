@@ -94,7 +94,7 @@ class RF_Admin_Pages extends \Prefab {
 
 	function route($core, $args) {
 		// debug($args);
-		$this->page->route($this->method, $core, $args);
+		$this->page->route($this->method, $args);
 	}
 }
 

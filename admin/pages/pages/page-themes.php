@@ -5,7 +5,6 @@ class admin_page_THEMES extends RF_Admin_Page {
 	function __construct() {
 		global $core;
 
-		$this->category = "Settings";
 		$this->name = "themes";
 		$this->label = "Theme";
 		$this->label_plural = "Themes";

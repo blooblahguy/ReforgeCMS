@@ -162,21 +162,21 @@ class Mapper extends \Magic {
 	function factory($object) {
 		if (! $object) { return; }
 		foreach ($object as $key => $info) {
-			$this->data[$key] = $object[$key];
+			$this[$key] = $object[$key];
 			if (! $this->schema[$key]) {
 				$this->schema[$key] = "inherited";
 			}
 		}
 
 		if (isset($object['id'])) {
-			$this->data['id'] = $object['id'];
+			$this->id = $object['id'];
 		}
 		if (isset($object['created'])) {
-			$this->data['created'] = $object['created'];
+			$this->created = $object['created'];
 			$this->schema["created"] = "DATETIME";
 		}
 		if (isset($object['modified'])) {
-			$this->data['modified'] = $object['modified'];
+			$this->modified = $object['modified'];
 			$this->schema["modified"] = "DATETIME";
 		}
 	}

@@ -25,7 +25,7 @@
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
 	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
-		<div class="section padb0">
+		<div class="section">
 			<div class="row g1 content-middle">
 				<?
 					// label
@@ -69,7 +69,7 @@
 					));
 				?>
 			</div>
-			<div class="row content-middle">
+			<div class="row g1 content-middle">
 				<?
 					// Instructions
 					rcf_render_field_setting($field, array(

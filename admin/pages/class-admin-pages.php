@@ -13,18 +13,15 @@ class RF_Admin_Pages extends \Prefab {
 	
 		// set object
 		$this->page = $this->get_page($page_slug);
-		if (! $this->page) {
-
+		if (! $this->page || ! $this->page->can_view()) {
+			return false;
 		}
-		$this->page->id = isset($args["id"]) ? (int) $args["id"] : 0;
-		$this->page->slug = $page_slug;
-		$this->page->method = $page_method;
 
-		$user = current_user();
-		if ($this->page->base_permission) {
-			if (! $user->can($this->page->base_permission)) {
-				exit();
-			}
+		$this->page->id = isset($args["id"]) ? (int) $args["id"] : 0;
+		$this->slug = $page_slug;
+		$this->method = $page_method;
+		if (method_exists($this->page, "query_object")) {
+			$this->page->query_object($args);
 		}
 
 		$request["page_id"] = $this->page->id;
@@ -60,9 +57,6 @@ class RF_Admin_Pages extends \Prefab {
 		$final = array();
 		foreach ($admin_menu as $entry) {
 			$entry['children'] = array();
-			// $uid = md5(serialize($entry));
-
-			// var_dump($entry['parent']);
 			
 			if (! $entry['parent']) {
 				$final[strtolower($entry['label'])] = $entry;
@@ -75,6 +69,10 @@ class RF_Admin_Pages extends \Prefab {
 	}
 
 	function register_page($class) {
+		if (! $class || ! $class->can_view()) {
+			return false;
+		}
+		
 		// register by class name, then we can split the route name
 		$this->pages[ $class->name ] = $class;
 
@@ -96,7 +94,7 @@ class RF_Admin_Pages extends \Prefab {
 
 	function route($core, $args) {
 		// debug($args);
-		$this->page->route($this->page->method, $core, $args);
+		$this->page->route($this->method, $core, $args);
 	}
 }
 

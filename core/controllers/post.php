@@ -44,6 +44,6 @@
 				),
 			);
 
-			parent::__construct("posts", $schema);
+			parent::__construct("rf_posts", $schema);
 		}
 	}

@@ -7,12 +7,13 @@ require "$root/admin/pages/class-admin-pages.php";
 
 function build_pages() {
 	global $root;
+	global $custom_fields_page;
 	
 	$pages = array();
 	$pages["comments"] = "page-comments.php";
 	$pages["customfields"] = "page-custom-fields.php";
 	$pages["dashboard"] = "page-dashboard.php";
-	// $pages["forms"] = "page-forms.php";
+	$pages["forms"] = "page-forms.php";
 	$pages["media"] = "page-media.php";
 	$pages["menus"] = "page-menus.php";
 	$pages["posttypes"] = "page-post-types.php";

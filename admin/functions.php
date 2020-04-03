@@ -130,10 +130,6 @@ function render_admin_menu() {
 	}
 }
 
-function remove_template() {
-
-}
-
 function display_results_table($rs, $fields) {
 	
 	?>
@@ -217,7 +213,7 @@ function render_admin_field($field, $settings) {
 	$label = $settings['label'];
 	$choices = $settings['choices'];
 	$instructions = $settings['instructions'];
-	$layout = isset($settings["layout"]) ? isset($settings["layout"]) : "os";
+	$layout = isset($settings["layout"]) ? $settings["layout"] : "os";
 	$value = is_string($field) ? $field : $field[$settings["name"]];
 	$unset = array("class", "default", "placeholder", "layout", "type", "choices", "instructions");
 
@@ -251,7 +247,7 @@ function render_admin_field($field, $settings) {
 
 	?>
 
-	<div class="fieldset pady1 <?= $layout; ?>">
+	<div class="fieldset padb2 <?= $layout; ?>">
 		<div class="field_label">
 			<? if ($label) { ?>
 				<label for="<?= $name; ?>"><?= $label; ?></label>

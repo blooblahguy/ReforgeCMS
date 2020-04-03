@@ -1,6 +1,11 @@
 <?
-	class Setup {
-		static function process($core, $args) {
+	class Setup extends \Prefab {
+		function index() {
+			global $root;
+			require $root."/core/setup.php";
+		}
+
+		function process($core, $args) {
 			$alert = \Alerts::instance();
 			$audit = \Audit::instance();
 

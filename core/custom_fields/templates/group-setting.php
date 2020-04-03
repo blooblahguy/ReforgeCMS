@@ -25,13 +25,12 @@
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
 	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
-		<div class="section">
+		<div class="section padb0">
 			<div class="row g1 content-middle">
 				<?
 					// label
 					rcf_render_field_setting($field, array(
 						'label' => 'Field Label',
-						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'label',
 						'type' => 'text',
 						'data-bind' => true,
@@ -42,7 +41,6 @@
 					// Slug
 					rcf_render_field_setting($field, array(
 						'label' => 'Slug',
-						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'slug',
 						'type' => 'text',
 						'data-bind' => true,
@@ -53,18 +51,17 @@
 					// Types
 					rcf_render_field_setting($field, array(
 						'label' => 'Type',
-						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'type',
 						'type' => 'select',
 						'data-bind' => true,
-						'class' => 'field-type loaded rcf_dropdown',
+						'default' => "text",
+						'class' => 'field-type rcf_dropdown',
 						"grid" => "os",
 						'choices' => rcf_get_field_types(),
 					));
 					// Required
 					rcf_render_field_setting($field, array(
 						'label' => 'Required',
-						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'required',
 						'type' => 'checkbox',
 						'class' => 'field-required text-center',
@@ -72,12 +69,11 @@
 					));
 				?>
 			</div>
-			<div class="row g1 content-middle">
+			<div class="row content-middle">
 				<?
 					// Instructions
 					rcf_render_field_setting($field, array(
 						'label' => 'Instructions',
-						'instructions' => 'This is the name which will appear on the EDIT page',
 						'name' => 'instructions',
 						'type' => 'text',
 						'class' => 'field-instructions'

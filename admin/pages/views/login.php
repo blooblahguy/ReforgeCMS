@@ -3,15 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Setup New Website</title>
+	<title><?= get_option("sitename") ?> | Login</title>
 
 	<link rel="stylesheet" href="/admin/css/dist/style.php">
 </head>
 <body class="h100 bg-black">
 	<div class="row content-center content-middle h100">
+		<? 
+		display_alerts();
+		?>
 		<form action="/admin/login" method="POST" class="os-12 os-md-6 os-lg-3">
-			<? display_alerts(); ?>
-			<h1>Login</h1>
+		<h1>Login</h1>
+			<? do_action("admin/login/before_form"); ?>
 			<div class="row g1">
 				<div class="os-12">
 					<label for="">Email</label>
@@ -26,6 +29,7 @@
 					<input type="submit">
 				</div>
 			</div>
+			<? do_action("admin/login/after_form"); ?>
 		</form>
 	</div>
 </body>

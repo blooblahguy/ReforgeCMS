@@ -1,13 +1,6 @@
 <?php
-function resetCaches() {
-	global $rf_caches;
-	foreach ($rf_caches as $c) {
-		$c->reset();
-	}
-}
 // TODO: Convert to Magic Class to increase speed
 namespace RF;
-$rf_caches = array();
 class Cache {
 
 	/**
@@ -95,12 +88,13 @@ class Cache {
 	public function get($key, $timestamp = false) {
 		$cachedData = $this->_loadCache();
 		(false === $timestamp) ? $type = 'data' : $type = 'time';
-		if (!isset($cachedData[$key][$type])) return null; 
+		if (! isset($cachedData[$key][$type])) return null; 
 		$entry = $cachedData[$key];
 		if (true === $this->_checkExpired($entry['time'], $entry['expire'])) {
 			unset($cachedData[$key]);
 			return false;
 		}
+
 		return unserialize($cachedData[$key][$type]);
 	}
 

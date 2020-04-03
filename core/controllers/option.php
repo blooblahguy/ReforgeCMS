@@ -14,7 +14,7 @@
 				)
 			);
 
-			parent::__construct("options", $schema);
+			parent::__construct("rf_options", $schema);
 		}
 
 		function load_all() {

@@ -3,18 +3,17 @@
 class admin_page_PLUGINS extends RF_Admin_Page {
 	private $cache = array();
 	function __construct() {
-		global $core, $plugin_cache; 
+		global $core; 
 
-		$this->category = "Settings";
 		$this->name = "plugins";
 		$this->label = "Plugin";
 		$this->label_plural = "Plugins";
 		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 90;
 		$this->icon = "settings_input_svideo";
-		$this->base_permission = "manage_settings";
-		$this->link = "/admin/{$this->name}";
-		$this->disable_header = true;
+		$this->permissions = array(
+			"all" => "manage_settings"
+		);
 
 		$this->cache = new RF\Cache("THEMES");
 

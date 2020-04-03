@@ -9,7 +9,7 @@ class Schema extends \Prefab {
 		global $db;
 
 		// ensure the table exists
-		$db->exec("CREATE TABLE IF NOT EXISTS `$table` (id INT(7) PRIMARY KEY NOT null AUTO_INCREMENT)");
+		$db->exec("CREATE TABLE IF NOT EXISTS `$table` (id INT(7) PRIMARY KEY NOT NULL AUTO_INCREMENT)");
 
 		// track indexes
 		$indexes = $db->exec("SHOW INDEXES FROM `$table`");
@@ -26,13 +26,13 @@ class Schema extends \Prefab {
 		if (! isset($fields["created"])) {
 			$fields["created"] = array(
 				"type" => "DATETIME",
-				"attrs" => "NOT null DEFAULT CURRENT_TIMESTAMP",
+				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			);
 		}
 		if (! isset($fields["modified"])) {
 			$fields["modified"] = array(
 				"type" => "DATETIME",
-				"attrs" => "NOT null DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
 			);
 		}
 
@@ -112,12 +112,13 @@ class Mapper extends \Magic {
 		$table;
 
 	// construct mapper with provided information
-	function __construct($table, $schema = false) {
+	function __construct($table, $schema = false, $cache_key = false) {
 		if (! $table) { echo "no table"; return false; }
 		$this->table = $table;
+		$cache_key = $cache_key ? $cache_key : $table;
 
-		$this->cache['queries'] = new \RF\Cache("{$table}.queries");
-		$this->cache['schema'] = new \RF\Cache("{$table}.schema");
+		$this->cache['queries'] = new \RF\Cache("{$cache_key}.queries");
+		$this->cache['schema'] = new \RF\Cache("{$cache_key}.schema");
 
 		// Build schema out, and store for reference
 		if ($schema !== false && count($schema) > 0) {
@@ -186,9 +187,6 @@ class Mapper extends \Magic {
 	}
 
 	function set($key, $val) {
-		// debug($this->schema);
-		// debug($key);
-		// debug($val);
 		if ($key != "id" && $val !== $this->{$key}) {
 			$this->changed[$key] = true;
 		}
@@ -305,9 +303,9 @@ class Mapper extends \Magic {
 	function save() {
 		$this->wipe_query_cache();
 		if ($this->id && $this->id > 0) {
-			$this->update();
+			return $this->update();
 		} else {
-			$this->insert();
+			return $this->insert();
 		}
 	}
 
@@ -316,6 +314,7 @@ class Mapper extends \Magic {
 	 */
 	function query($cmds, $args = null, $ttl = 0, $log = true, $stamp = false) {
 		global $db;
+
 		$op = reset(explode(" ", trim($cmds)));
 		$cache = $this->cache['queries'];
 		$sql_key = md5(serialize(array(
@@ -325,10 +324,8 @@ class Mapper extends \Magic {
 		// if we're making changes to our table, then wipe our query cache
 		if ($op == "INSERT" || $op == "DELETE" || $op == "UPDATE") {
 			$this->wipe_query_cache();
-		} else {
-			if ($cache->get($sql_key)) {
-				return $cache->get($sql_key);
-			}
+		} elseif ($cache->exists($sql_key)) {
+			return $cache->get($sql_key);
 		}
 
 
@@ -369,11 +366,7 @@ class Mapper extends \Magic {
 			}
 		}
 
-
-		// debug($qry, $params);
 		$qry = implode(" ", array_filter($qry));
-
-		// debug($qry, $params);
 		$rs = $this->query($qry, $params);
 
 		return $rs;
@@ -387,7 +380,7 @@ class Mapper extends \Magic {
 		$sql_key = md5(serialize(array(
 			$filter, $options
 		)));
-		if ($cache->get($sql_key)) {
+		if ($cache->exists($sql_key)) {
 			$rs = $cache->get($sql_key);
 		}
 

@@ -2,14 +2,14 @@
 
 class admin_page_MENUS extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Design";
 		$this->name = "menus";
 		$this->label = "Menu";
 		$this->label_plural = "Menus";
 		$this->admin_menu = 50;
 		$this->icon = "menus";
-		$this->base_permission = "manage_menus";
-		$this->link = "/admin/{$this->name}";
+		$this->permissions = array(
+			"all" => "manage_menus"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();
@@ -17,7 +17,9 @@ class admin_page_MENUS extends RF_Admin_Page {
 
 	function index($args) {
 		$menu = new Menu();
-		$menu = $menu->query("SELECT * FROM menus order by `order` ASC");
+		$menu = $menu->find(null, array(
+			"order by" => "`order` ASC"
+		));
 
 		echo '<div class="section">';
 		display_results_table($menu, array(

@@ -17,7 +17,7 @@
 				)
 			);
 
-			parent::__construct("menus", $schema);
+			parent::__construct("rf_menus", $schema);
 		}
 
 		function link_loop($links) {

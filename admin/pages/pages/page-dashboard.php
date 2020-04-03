@@ -9,9 +9,10 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		$this->label_plural = "Dashboard";
 		$this->admin_menu = 0;
 		$this->icon = "speed";
-		$this->base_permission = "access_admin";
+		$this->permissions = array(
+			"all" => "access_admin"
+		);
 		$this->link = "/admin/dashboard";
-		$this->disable_header = true;
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
 		$core->route("GET /admin", "admin_page_DASHBOARD->goto_dashboard");

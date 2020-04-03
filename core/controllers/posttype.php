@@ -46,7 +46,7 @@
 				),
 			);
 
-			parent::__construct("post_types", $schema);
+			parent::__construct("rf_post_types", $schema);
 		}
 
 		function get_admin_post_pages() {			

@@ -2,13 +2,14 @@
 
 class admin_page_USERS extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Settings";
 		$this->name = "users";
 		$this->label = "User";
 		$this->label_plural = "Users";
 		$this->admin_menu = 30;
 		$this->icon = "account_circle";
-		$this->base_permission = "manage_users";
+		$this->permissions = array(
+			"all" => "manage_users"
+		);
 		$this->link = "/admin/{$this->name}";
 
 		// Be sure to set up the parent
@@ -17,11 +18,12 @@ class admin_page_USERS extends RF_Admin_Page {
 
 	function index($args) {
 		$user = new User();
+		$role = new Role();
 
-		$users = $user->query("SELECT users.*, roles.label AS role FROM users
-			LEFT JOIN roles ON roles.id = users.role_id
+		$users = $user->query("SELECT users.*, roles.label AS role FROM {$user->table} as users
+			LEFT JOIN {$role->table} as roles ON roles.id = users.role_id
 			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
-		"); 
+		");
 
 		echo '<div class="section">';
 		// display table
@@ -65,7 +67,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$id = $this->id;
 
 		$user = new User();
-		$user->load("id = $id");
+		$user->load(array("id = :id", ":id" => $id));
 		$action = "Create";
 		$subject = "User";
 		if ($id > 0) {
@@ -85,7 +87,7 @@ class admin_page_USERS extends RF_Admin_Page {
 						<? $user->render_avatar(); ?>
 					</div>
 					<br>
-					<?= RF_Media::instance()->select_button("avatar");?>
+					<?= Media::instance()->select_button("avatar");?>
 					<input type="hidden" name="avatar" value="<?= $user->avatar; ?>">
 					<input type="hidden" name="avatar_path" value="<?= $user->avatar; ?>">
 				</div>
@@ -142,7 +144,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$user->load("id = $id");
+			$user->load(array("id = :id", ":id" => $id));
 		}
 
 

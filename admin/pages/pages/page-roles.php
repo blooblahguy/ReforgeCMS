@@ -2,25 +2,25 @@
 
 class admin_page_ROLES extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Settings";
 		$this->name = "roles";
 		$this->label = "Role";
 		$this->label_plural = "Roles";
 		$this->admin_menu_parent = 'users';
 		$this->admin_menu = 35;
 		$this->icon = "how_to_reg";
-		$this->base_permission = "manage_roles";
-		$this->link = "/admin/{$this->name}";
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->permissions = array(
+			"all" => "manage_roles"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
 	function index($args) {
-		global $db;
-		$roles = $db->exec("SELECT roles.* FROM roles ORDER BY `priority` ASC");
+		$roles = new Role();
+		$roles = $roles->find(null, array(
+			"order by" => "priority ASC"
+		));
 
 		echo '<div class="section">';
 		display_results_table($roles, array(
@@ -69,13 +69,10 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 		$id = $this->id;
 		$role = new Role();
-		$action = "Create";
-		$subject = "Role";
 		if ($id > 0) {
 			$role->load("id = $id");
-			$action = "Edit";
-			$subject = ucfirst($role->label);
 		}
+
 		if (! $role->color) {$role->color = "#b83336"; }
 		if (! $role->priority) {$role->priority = 1; }
 
@@ -151,6 +148,8 @@ class admin_page_ROLES extends RF_Admin_Page {
 			"label" => "Upload Files",
 			"description" => "Role can upload files to the website, front end or backend.",
 		);
+
+		// $roles = apply_filters()
 	?>
 
 	<div class="row">
@@ -193,7 +192,6 @@ class admin_page_ROLES extends RF_Admin_Page {
 				<h3>Post Type Permissions</h3>
 				<? 
 				$cpts = get_post_types();
-				debug($cpts);
 				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own");
 				?>
 				<? foreach ($cpts as $type) { ?>

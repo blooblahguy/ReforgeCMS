@@ -1,6 +1,6 @@
 <?php
 
-class RF_Media extends Prefab {
+class Media extends Prefab {
 	const MODE = 0755;
 	public $sizes = array();
 	public $compression = 9;
@@ -54,20 +54,20 @@ class RF_Media extends Prefab {
 
 		$this->sizes = apply_filters("admin/media_sizes", $this->sizes);
 
-		queue_style("/core/reforge/media/media.css");
-		queue_script("/core/reforge/media/media.js");
+		queue_style("/core/reforge/assets/media.css");
+		queue_script("/core/reforge/assets/media.js");
 
 		// ROUTES
-		$core->route("GET /admin/rf_media/load_media", "RF_Media->load_media");
-		$core->route("GET /admin/rf_media/display", "RF_Media->display");
-		$core->route("GET /admin/rf_media/select", "RF_Media->select");
-		$core->route("GET /admin/rf_media/edit/@id", "RF_Media->edit");
-		// $core->route("GET /admin/rf_media/delete", "RF_Media->delete");
+		$core->route("GET /admin/rf_media/load_media", "Media->load_media");
+		$core->route("GET /admin/rf_media/display", "Media->display");
+		$core->route("GET /admin/rf_media/select", "Media->select");
+		$core->route("GET /admin/rf_media/edit/@id", "Media->edit");
+		// $core->route("GET /admin/rf_media/delete", "Media->delete");
 
 		// POST ROUTES
-		$core->route("POST /admin/rf_media/upload", "RF_Media->upload");
-		// $core->route("POST /admin/rf_media/save", "RF_Media->save");
-		$core->route("POST /admin/rf_media/view", "RF_Media->view");
+		$core->route("POST /admin/rf_media/upload", "Media->upload");
+		// $core->route("POST /admin/rf_media/save", "Media->save");
+		$core->route("POST /admin/rf_media/view", "Media->view");
 
 		// Directories
 		$this->ensure_directory($root.$this->path);
@@ -130,7 +130,7 @@ class RF_Media extends Prefab {
 		$name = str_replace(".$ext", "", $name);
 		
 		// try and load existing file from database
-		$file = new RF_File();
+		$file = new File();
 		$file->load("hash = '{$hash}'");
 		$file->name = $name;
 		$file->extension = $ext;
@@ -165,7 +165,7 @@ class RF_Media extends Prefab {
 	//=============================================================
 	function edit($core, $args) {
 		$id = $args['id'];
-		$file = new RF_File();
+		$file = new File();
 		$file->load("id = $id");
 		?>
 			<div class="padx2 rf_media_edit">
@@ -216,7 +216,7 @@ class RF_Media extends Prefab {
 
 	function get_uploads() {
 		global $db;
-		$file = new RF_File();
+		$file = new File();
 		$media = $file->find(null, array("ORDER BY created DESC, modified DESC"));
 
 		return $media;
@@ -244,7 +244,7 @@ class RF_Media extends Prefab {
 						<?
 						$uploads = $this->get_uploads();
 						foreach ($uploads as $file) { 
-							$f = new RF_File();
+							$f = new File();
 							$f->factory($file);
 
 							$bg = $f->get_size(400); //$file['original'];
@@ -270,16 +270,17 @@ class RF_Media extends Prefab {
 	}
 }
 
+Media::instance();
 
 /**
  * Global functions
  */
 function uploads_dir() {
 	global $root;
-	return $root.RF_Media::instance()->path;
+	return $root.Media::instance()->path;
 }
 
 function uploads_url() {
-	return RF_Media::instance()->path;
+	return Media::instance()->path;
 }
 

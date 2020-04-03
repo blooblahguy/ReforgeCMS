@@ -2,14 +2,14 @@
 
 class admin_page_PARTIALS extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Design";
 		$this->name = "partials";
 		$this->label = "Partial";
 		$this->label_plural = "Partials";
 		$this->admin_menu = 25;
 		$this->icon = "widgets";
-		$this->base_permission = "manage_partials";
-		$this->link = "/admin/{$this->name}";
+		$this->permissions = array(
+			"all" => "manage_partials"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();

@@ -21,7 +21,7 @@
 				"modified" => false,
 			);
 
-			parent::__construct("post_meta", $schema);
+			parent::__construct("rf_post_meta", $schema);
 		}
 	}
 

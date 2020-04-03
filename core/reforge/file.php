@@ -1,6 +1,6 @@
 <?php
 
-class RF_File extends \RF\Mapper {
+class File extends \RF\Mapper {
 	private $noresize = array("svg");
 
 	function __construct() {
@@ -58,7 +58,7 @@ class RF_File extends \RF\Mapper {
 
 	function create_size($width, $height) {
 		// debug("create size");
-		$media = RF_Media::instance();
+		$media = Media::instance();
 		$regs = $media->sizes;
 		$regs = $this->sort_sizes($regs, $width, $height);
 
@@ -95,7 +95,7 @@ class RF_File extends \RF\Mapper {
 		if (in_array($this->extension, $this->noresize)) {
 			return $this->original;
 		}
-		$media = RF_Media::instance();
+		$media = Media::instance();
 		$sizes = unserialize($this->sizes);
 		if (! $sizes) {
 			$sizes = array();
@@ -160,7 +160,7 @@ class RF_File extends \RF\Mapper {
 }
 
 function get_file_size($id, $width = null, $height = null) {
-	$file = new RF_File();
+	$file = new File();
 	debug("id = $id");
 	$file->load("id = $id");
 
@@ -171,7 +171,7 @@ function get_file($id) {
 	if (! $id) { return false; }
 	$arr = array();
 
-	$file = new RF_File();
+	$file = new File();
 	$file->load("id = $id");
 
 	$arr['id'] = $file->id;

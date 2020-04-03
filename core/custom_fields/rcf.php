@@ -61,10 +61,16 @@
 					$passed = true;
 					foreach ($rules as $rule) {
 						$rs = $this->get_rule($rule['key'])->rule_match($request, $rule);
-						if (! $rs) { $passed = false; }
+						if (! $rs) { 
+							$passed = false;
+							break;
+						}
 					}
 
-					if ($passed) { $load = true; }
+					if ($passed) { 
+						$load = true;
+						break;
+					}
 				}
 
 				if ($load) {
@@ -73,16 +79,11 @@
 			}
 		}
 
-		
-		function delete_all($type, $id) {
-			global $db;
-			$this->loaded[$type.":".$id] = $db->query("DELETE FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
-		}
 
 		function load_fields($type, $id) {
 			if (! isset($this->loaded[$type.":".$id])) {
 				$metas = new Meta();
-				$rs = $metas->query("SELECT * FROM post_meta WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
+				$rs = $metas->query("SELECT * FROM {$metas->table} WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
 				$rs = rekey_array("meta_key", $rs);
 				$this->loaded[$type.":".$id] = $rs;
 			}

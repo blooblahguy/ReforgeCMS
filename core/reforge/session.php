@@ -1,7 +1,6 @@
 <?
 
 class Session extends Prefab {
-	private $sid;
 	function __construct() {
 		session_start();
 	}

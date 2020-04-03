@@ -24,7 +24,7 @@ class reforge_field_IMAGE extends reforge_field {
 		// debug($value);
 		// $image = "";
 		// if (isset($value) && $value) {
-			// $file = new RF_File();
+			// $file = new File();
 			// $file->load("id = $value");
 			// $image = $file->original;
 		// }
@@ -38,7 +38,7 @@ class reforge_field_IMAGE extends reforge_field {
 				<div class="os">
 					<? 
 					$id = (int) $data['meta_value'];
-					$file = new RF_File();
+					$file = new File();
 					if ($id > 0) {
 						$file->load("id = $id");
 					}
@@ -55,7 +55,7 @@ class reforge_field_IMAGE extends reforge_field {
 						<img class="image_preview preview_<?= $key; ?> <?= $class; ?>" <?= $src; ?> <?= $datasrc; ?> alt="<?= $field['label']; ?>">
 						<a href="#0" data-key="<?= $key; ?>" class="rf_media_remove" <?= $rm_btn; ?>><i>close</i></a>
 					</div>
-					<?= RF_Media::instance()->select_button($key);?>
+					<?= Media::instance()->select_button($key);?>
 					<input type="hidden" name="<?= $key; ?>" value="<?= $id; ?>">
 				</div>
 			</div>

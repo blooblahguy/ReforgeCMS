@@ -1,18 +1,34 @@
 <?
 
 class admin_page_POSTS extends RF_Admin_Page {
+
 	function __construct($info) {
-		$this->category = "Content";
-		$this->name = $info["name"];
+		$slug = $info['name'];
+		$this->name = $slug;
 		$this->label = $info["label"];
 		$this->label_plural = $info["label_plural"];
 		$this->admin_menu = $info["admin_menu"];
 		$this->icon = $info["icon"];
-		$this->base_permission = $info["base_permission"];
 		$this->link = $info["link"];
-		$this->is_post = true;
+		$this->permissions = array(
+			"view" => array("create_".$slug, "update_any_".$slug, "update_own_".$slug),
+			"create" => "create_".$slug,
+			"update" => array("update_any_".$slug),
+			"update_own" => array("update_any_".$slug, "update_own_".$slug),
+			"delete" => "delete_any_".$slug,
+			"delete_own" => array("delete_any_".$slug, "delete_own_".$slug),
+		);
 
 		parent::__construct();
+	}
+
+	function query_object($args) {
+		if ($args['id'] > 0) {
+			$post = new Post();
+			$post->load(array("id = :id", ":id" => $args['id']));
+
+			$this->object = $post;
+		}
 	}
 
 	function index($args) {
@@ -330,7 +346,6 @@ function build_post_pages() {
 			"name" => $post["slug"],
 			"label" => $post["label"],
 			"label_plural" => $post["label_plural"],
-			"base_permission" => array("update_any_{$post['slug']}", "update_own_{$post['slug']}"),
 			"route" => "/admin/posts/@slug",
 			"link" => "/admin/posts/{$post['slug']}",
 		);

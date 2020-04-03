@@ -33,7 +33,7 @@
 				)
 			);
 
-			parent::__construct("roles", $schema);
+			parent::__construct("rf_roles", $schema);
 		}
 	}
 

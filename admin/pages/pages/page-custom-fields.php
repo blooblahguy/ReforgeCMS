@@ -2,15 +2,15 @@
 
 class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function __construct() {
-		$this->name = "Settings";
 		$this->name = "custom_fields";
 		$this->label = "Custom Field";
 		$this->label_plural = "Custom Fields";
 		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 75;
 		$this->icon = "filter_list";
-		$this->base_permission = "manage_post_types";
-		$this->link = "/admin/{$this->name}";
+		$this->permissions = array(
+			"all" => "manage_post_types"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();
@@ -19,7 +19,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function index($args) {
 
 		$cf = new CustomField();
-		$fieldsets = $cf->find(); 
+		$fieldsets = $cf->find("virtual = 0"); 
 
 		echo '<div class="section">';
 		display_results_table($fieldsets, array(
@@ -162,11 +162,19 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$cf->inactive = $_POST['inactive'];
 		$cf->fieldset = serialize($fieldset);
 		$cf->load_rules = serialize($rules);
-		// exit();
+		if ($args['virtual']) {
+			$cf->virtual = 1;
+		}
 		$cf->save();
+
+		if ($args['noredir']) {
+			return $cf;
+		}
+
 
 		\Alerts::instance()->success("Custom Field $title $changed");
 		redirect("/admin/custom_fields/edit/{$cf->id}");
+		
 	}
 
 	function delete($args) {
@@ -199,5 +207,5 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	*/
 }
 
-new admin_page_CUSTOMFIELDS();
+$custom_fields_page = new admin_page_CUSTOMFIELDS();
 

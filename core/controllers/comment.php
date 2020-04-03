@@ -8,6 +8,6 @@
 				)
 			);
 
-			parent::__construct("comments", $schema);
+			parent::__construct("rf_comments", $schema);
 		}
 	}

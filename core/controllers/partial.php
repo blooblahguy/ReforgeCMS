@@ -1,7 +1,7 @@
 <?
 	class Partial extends \RF\Mapper {
 		function __construct() {
-			parent::__construct("posts");
+			parent::__construct("rf_posts");
 		}
 
 		function html() {

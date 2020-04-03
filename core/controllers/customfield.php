@@ -10,8 +10,7 @@
 				),
 				"priority" => array(
 					"type" => "INT(1)",
-					"nullable" => false,
-					"default" => 0
+					"attrs" => "NOT NULL DEFAULT 0",
 				),
 				"load_rules" => array(
 					"type" => "LONGTEXT",
@@ -19,12 +18,17 @@
 				"fieldset" => array(
 					"type" => "LONGTEXT",
 				),
+				"virtual" => array( // virtual fields aren't editable in the normal UI and are attached directly to specific objects, i.e forms
+					"type" => "INT(1)",
+					"attrs" => "NOT NULL DEFAULT 0",
+				),
 				"inactive" => array(
 					"type" => "INT(1)",
+					"attrs" => "NOT NULL DEFAULT 0",
 				),
 			);
 
-			parent::__construct("custom_fields", $schema);
+			parent::__construct("rf_custom_fields", $schema);
 		}
 
 		function get_fields() {

@@ -5,7 +5,7 @@
 
 		<?
 		global $db;
-		//debug($db);
+		debug($db);
 
 		$menu = get_menu('footer-menu');
 		// debug($menu);

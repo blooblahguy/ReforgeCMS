@@ -12,7 +12,9 @@ class admin_page_THEMES extends RF_Admin_Page {
 		$this->admin_menu_parent = "settings";
 		$this->admin_menu = 95;
 		$this->icon = "web";
-		$this->base_permission = "manage_settings";
+		$this->permissions = array(
+			"all" => "manage_settings"
+		);
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 

@@ -1,6 +1,16 @@
 <?
 
 /**
+ * Clear global caches
+ */
+function resetCaches() {
+	global $rf_caches;
+	foreach ($rf_caches as $c) {
+		$c->reset();
+	}
+}
+
+/**
  * Load currently active plugins
  * @return null
  */
@@ -9,8 +19,10 @@ function load_plugins() {
 	if (!$plugins) {
 		$plugins = array();
 	}
-	foreach ($plugins as $path) {
-		require $path;
+	foreach ($plugins as $key => $path) {
+		if (file_exists($path)) {
+			require $path;
+		}
 	}
 }
 	
@@ -147,7 +159,6 @@ function get_post_types() {
 			"slug" => $options["slug"],
 			"label" => $options["label"],
 			"label_plural" => $options["label_plural"],
-			"base_permission" => array("update_any_{$options['slug']}", "update_own_{$options['slug']}"),
 			"route" => "/admin/posts/@slug",
 			"link" => "/admin/posts/{$slug}",
 		);

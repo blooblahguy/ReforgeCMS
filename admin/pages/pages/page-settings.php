@@ -2,13 +2,14 @@
 
 class admin_page_SETTINGS extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Settings";
 		$this->name = "settings";
 		$this->label = "Settings";
 		$this->label_plural = "Settings";
 		$this->admin_menu = 85;
 		$this->icon = "settings";
-		$this->base_permission = "manage_settings";
+		$this->permissions = array(
+			"all" => "manage_settings"
+		);
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 		$this->routes = array(

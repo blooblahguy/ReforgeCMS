@@ -4,11 +4,10 @@
 
 
 	class User extends \RF\Mapper {
-		public $logged_in = false;
-		public $role;
-		private
-			$uid = 0,
-			$permissions = array();
+		private 
+			$token,
+			$logged_in = false,
+			$permissions;
 
 		function __construct() {
 			$schema = array(
@@ -37,152 +36,154 @@
 				"modified" => false
 			);
 
-			parent::__construct("users", $schema);
+			parent::__construct("rf_users", $schema);
+		}
+
+		function get_user(int $id = 0) {
+			if ($id === 0) {
+				if ($this->remembered()) {
+					$this->load(array("id = :id", ":id" => $this->id));
+					$this->reup_login();
+					$this->check_avatar();
+				}
+			} else {
+				$this->load(array("id = :id", ":id" => $id));
+			}
 		}
 
 		function render_avatar() {
 			echo "<div class='user_avatar'><img src='{$this->avatar}' class='preview_{$this->username}' alt='{$this->username}'></div>";
 		}
 
-		function get_user(int $id = 0) {
-			if ($id === 0) {
-				if ($this->remembered()) {
-					$user_id = session()->get("user_id");
-					$this->load("id = $user_id");
-					$this->logged_in = true;
-					$this->check_avatar();
-				}
-			} else {
-				$this->load("id = $id");
-				$this->check_avatar();
-			}
-		}
+		
 
 		function check_avatar() {
 			global $root;
+			if (! $this->id) { return; }
+
 			if ($this->avatar == "" || ! file_exists($root.$this->avatar)) {
 				$img = rand(1, 7);
 				$img = "/core/img/avatar_$img.png";
-				// $img = new RF_File();
-				// $avatar = $img->create_id_img($this->username);
 				$this->avatar = $img;
 				$this->update();
 			}
 		}
 
 
-		static function logout($core, $args) {
-			global $db;
-
+		function logout() {
+			// clear session
 			session()->clear("user_id");
-			var_dump(session()->get("user_id"));
-
-			$cookie = isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] : false;
-
-			if (! ! $cookie) {
-				list ($user_id, $token) = explode(':', $cookie);
-				$db->exec("DELETE FROM login_cookies WHERE token = :token AND user_id = :user_id", array(
-					":token" => $token,
-					":user_id" => $user_id,
-				));
-			}
+			session()->clear("token");
 			
+			// clear cookie
+			setcookie('logincookie', "", -1, "/");
+
+			// clear database
+			$lc = new LoginCookie();
+			$lc->load(array("token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id));
+			if ($lc->id > 0) {
+				$lc->erase();
+			}
+
 			\Alerts::instance()->success("Logged out");
 			redirect("/");
 		}
 
-		static function login($core, $args) {
-			global $db;
-
-			$crypt = \Bcrypt::instance();
+		function login() {
 			$email = $_POST['email'];
 			$password = $_POST['password'];
-			$redirect = $_POST["redirect"];
 
-			$user = $db->exec("SELECT id, email, password FROM users WHERE email = :email", array(
-				":email" => $email
-			));
+			$user = $this->load(array("email = :email", ":email" => $email));
+			if ($user && password_verify($password, $user->password)) {
+				// store this login
+				$token = password_hash(random_bytes(32).time(), PASSWORD_DEFAULT);
+				$this->token = $token;
+				$this->reup_login();
 
+				// now log them in
+				$user->last_login = "NOW()";
+				$user->save();
 
-			if (count($user) > 0) {
-				$user = $user[0];
-				if ($crypt->verify($password, $user['password'])) {
-					// store this login
-					$token = random_bytes(32);
-					$cookie = $token . time();
-					$token = crypt($cookie, $core->get("salt")); 
-					$cookie = $user['id'] . ":" . $token; // sets the cookie string
-					setcookie('rememberme', $cookie, time() + 60 * 60 * 24 * 30, "/"); // 30 days
-					
-					$count = $db->exec("UPDATE login_cookies SET token = :token, created = NOW() WHERE user_id = :user_id", array(
-						":token" => $token,
-						":user_id" => $user['id'],
-					));
-
-					if ($count == 0) {
-						$db->exec("INSERT INTO login_cookies (token, user_id, created) VALUES (:token, :user_id, NOW())", array(
-							":token" => $token,
-							":user_id" => $user['id'],
-						));
-					}
-					
-					// destroy any cookies that are older than 30 days
-					$db->exec("DELETE FROM login_cookies WHERE created < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY)) "); 
-
-					// save in session now
-					session()->set("user_id", $user["id"]);
-
-					// now log them in
-					$db->exec("UPDATE users SET last_login = NOW() WHERE email = :email", array(
-						":email" => $email
-					));
-
-					\Alerts::instance()->success("Successfully logged in, welcome back {$user['name']}");
-					redirect($redirect);
-				}
-			}
-
-			\Alerts::instance()->error("Invalid username or password");
-			redirect($redirect);
-		}
-
-		private function remembered() {
-			global $core;
-			global $db;
-
-			// using session to see if they're logged in
-			$session = session()->get('user_id');
-			if ($session !== null) { 
-				$this->uid = $session;
+				// delete old cookies
+				$lc = new LoginCookie();
+				$lc->query("DELETE FROM {$lc->table} WHERE modified < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))");
 				return true;
 			}
 
-			$cookie = isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] : false;
-			list ($user_id, $token) = explode(':', $cookie);
+			return false;
+		}
 
-			if (! $cookie) {
-				return false;
+		/**
+		 * Reups user's login cookie/session
+		 */
+		private function reup_login() {
+			if (! $this->id || ! $this->token) { return false; }
+
+			// up session
+			session()->set('user_id', $this->id);
+			session()->set('token', $this->token);
+
+			// up cookie
+			setcookie('logincookie', $this->id.":".$this->token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
+
+			// up database
+			$lc = new LoginCookie();
+			$lc->load(array("token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id));
+			if (Date("Y-m-d") != Date("Y-m-d", strtotime($lc->modified))) {
+				$lc->user_id = $this->id;
+				$lc->token = $this->token;
+				$lc->save();
 			}
 
-			// We don't have a session but we do have a cookie, lets reup this session if we can
-			$cookies = $db->exec("SELECT * FROM login_cookies WHERE token = :token AND user_id = :user_id", array(
-				":token" => $token,
-				":user_id" => $user_id,
+			// Only allow 3 devices
+			$stored = $lc->find(array("user_id = :user_id", ":user_id" => $this->id), array(
+				"order by" => "modified ASC"
 			));
+			$stored = array_slice($stored, 3);
+			if ($stored && count($stored) > 0) {
+				foreach ($stored as $key => $val) {
+					$lc->query("DELETE FROM $lc->table WHERE id = {$val['id']}");
+				}
+			}
+		}
 
-			foreach ($cookies as $saved) {
-				if ($token == $saved["token"]) {
-					session()->set('user_id', $saved['user_id']);
-					setcookie('rememberme', $user_id.":".$token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
-					$rs = $db->exec("UPDATE login_cookies SET created = NOW() WHERE token = :token AND user_id = :user_id", array(
-						":token" => $token,
-						":user_id" => $user_id	
-					)); // reup the database save date
+		/**
+		 * Securely detect if user should be automatically logged back in
+		 */
+		private function remembered() {
+			$lc = new LoginCookie();
 
-					$this->uid = $user_id;
+			// shortcut the code if we're good to go
+			if ($this->logged_in) { 
+				return true;
+			}
 
+			// if we have a cookie, log us in if possible
+			if (isset($_COOKIE['logincookie'])) {
+				list($user_id, $token) = explode(':', $_COOKIE['logincookie']);
+				// debug($user_id, $token);
+				$lc->load(array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
+				
+				// we didn't have a correct cookie, get out of here
+				if ($lc->id) {
+					$this->id = $user_id;
+					$this->token = $token;
+					$this->logged_in = true;
 					return true;
 				}
+			}
+			
+			// we can also use session
+			$user_id = session()->get('user_id');
+			$token = session()->get('token');
+			$lc->load(array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
+
+			// we didn't have a correct session, get out of here
+			if ($lc->id) {
+				$this->id = $user_id;
+				$this->token = $token;
+				$this->logged_in = true;
+				return true;
 			}
 
 			return false;
@@ -190,11 +191,10 @@
 
 		// PERMISSIONS, YAY
 		function can($request = null) {
-			if (! count($this->permissions)) {
+			if (! $this->permissions) {
 				$role = new Role();
 				$role->load("id = {$this->role_id}");
-				
-				// // $rs = $db->exec("SELECT permissions FROM roles WHERE id = {$this->role_id}");
+
 				$this->permissions = unserialize($role->permissions);
 				$this->role = $role->label;
 			}
@@ -236,21 +236,20 @@
 		}
 
 		function logged_in() {
-			return $this->logged_in;
+			// var_dump($this->remembered());
+			return $this->remembered();
 		}
 	}
 
 	// Check if current user is logged in
 	function logged_in() {
-		$user = current_user();
-		
-		return $user->logged_in;
+		return current_user()->logged_in();
 	}
 
 	function get_user($id = 0) {
 		// current user
 		$current = current_user();
-		if ($id == 0 || $id == $current->id) { return current_user(); }
+		if ($id == 0 || $id == $current->id) { return $current; }
 
 		$user = new User();
 		$user->get_user($id);		
@@ -266,7 +265,7 @@
 	}
 
 	// Login Cookies
-	class LoginCookies extends \RF\Mapper {
+	class LoginCookie extends \RF\Mapper {
 		function __construct() {
 			$schema = array(
 				"token" => array(
@@ -274,9 +273,10 @@
 				), 
 				"user_id" => array(
 					"type" => "INT(7)"
-				), 
+				),
+				"created" => false
 			);
 
-			parent::__construct("login_cookies", $schema);
+			parent::__construct("rf_login_cookies", $schema);
 		}
 	}

@@ -66,8 +66,9 @@ class Content extends Prefab {
 		global $core;
 
 		$post = new Post();
-		$pages = $post->query("SELECT posts.* FROM posts 
-			LEFT JOIN post_types ON posts.post_type = post_types.slug
+		$posttype = new PostType();
+		$pages = $post->query("SELECT posts.* FROM {$post->table} AS posts 
+			LEFT JOIN {$posttype->table} AS post_types ON posts.post_type = post_types.slug
 			WHERE post_types.public = 1 
 		");
 		$pages = apply_filters("pages", $pages);

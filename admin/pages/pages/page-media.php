@@ -7,16 +7,16 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		$this->label_plural = "Media";
 		$this->admin_menu = 1;
 		$this->icon = "image";
-		$this->base_permission = "upload_files";
-		$this->link = "/admin/{$this->name}";
-		$this->disable_header = true;
+		$this->permissions = array(
+			"all" => "upload_files"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
 	function index($args) {
-		$media = RF_Media::instance();
+		$media = Media::instance();
 
 		$media->display();
 
@@ -33,7 +33,7 @@ class admin_page_MEDIA extends RF_Admin_Page {
 
 	function delete($args) {
 		$id = $args['id'];
-		$file = new RF_File();
+		$file = new File();
 		$file->load("id = $id");
 		$file->erase();
 

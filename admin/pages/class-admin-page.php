@@ -98,46 +98,74 @@ class RF_Admin_Page {
 		}
 	}
 
+	function check_permission($ask) {
+		return current_user()->can($ask);
+	}
+
 	/**
 	 * Checks if user can view index of page
 	 */
 	function can_view() {
-		if (! current_user()->can($this->base_permission)) {
-			return false;
+		if ($this->permissions['all']) {
+			return $this->check_permission($this->permissions['all']);
+		} elseif ($this->permissions['view']) {
+			return $this->check_permission($this->permissions['view']);
 		}
-		return true;
+
+		return false;
 	}
 
 	/**
 	 * Checks if user can view index of page
 	 */
 	function can_edit() {
-		if (! current_user()->can($this->base_permission)) {
-			return false;
+		if ($this->permissions['all']) {
+			return $this->check_permission($this->permissions['all']);
+		} elseif ($this->permissions['update']) {
+			return $this->check_permission($this->permissions['update']);
+		} elseif ($this->object && $this->permissions['update_own']) {
+			if (current_user()->id == $this->object->author) {
+				return $this->check_permission($this->permissions['update_own']);
+			}
 		}
-		return true;
+
+		return false;
 	}
 
 	/**
 	 * Checks if user can view index of page
 	 */
 	function can_save() {
-		if (! current_user()->can($this->base_permission)) {
-			return false;
+		if ($this->permissions['all']) {
+			return $this->check_permission($this->permissions['all']);
+		} elseif ($this->permissions['update']) {
+			return $this->check_permission($this->permissions['update']);
 		}
-		return true;
+
+		return false;
 	}
 
 	/**
 	 * Checks if user can view index of page
 	 */
 	function can_delete() {
-		if (! current_user()->can($this->base_permission)) {
-			return false;
+		if ($this->permissions['all']) {
+			return $this->check_permission($this->permissions['all']);
+		} elseif ($this->permissions['delete']) {
+			return $this->check_permission($this->permissions['delete']);
+		} elseif ($this->object && $this->permissions['delete_own']) {
+			if (current_user()->id == $this->object->author) {
+				return $this->check_permission($this->permissions['delete_own']);
+			}
 		}
-		return true;
+
+		return false;
 	}
 
+
+	/**
+	 * Probably we move this at some point, renders page title + edit button if relevant
+	 */
 	function render_title($edit = true) {
 		// display template header
 		if (! $this->disable_header) {
@@ -151,6 +179,9 @@ class RF_Admin_Page {
 		}
 	}
 
+	/**
+	 * Probably redundant, stored message and redirects on its own
+	 */
 	function save_success($title, $changed, $id) {
 		\Alerts::instance()->success("{$this->label} $title $changed");
 		redirect("{$this->link}/edit/{$id}");

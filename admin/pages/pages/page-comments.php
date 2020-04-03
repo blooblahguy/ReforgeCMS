@@ -2,17 +2,14 @@
 
 class admin_page_COMMENTS extends RF_Admin_Page {
 	function __construct() {
-		$this->category = "Content";
 		$this->name = "comments";
 		$this->label = "Comment";
 		$this->label_plural = "Comments";
 		$this->admin_menu = 40;
 		$this->icon = "forums";
-		$this->base_permission = "manage_comments";
-		$this->link = "/admin/{$this->name}";
-		$this->disable_header = true;
-
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		$this->permissions = array(
+			"all" => "manage_comments"
+		);
 
 		// Be sure to set up the parent
 		parent::__construct();

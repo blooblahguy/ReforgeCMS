@@ -95,10 +95,10 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 					));
 					render_admin_field(array(), array(
 						"type" => "select",
-						"label" => "Post File",
-						"name" => "post_file",
+						"label" => "Permissions",
+						"name" => "permissions",
+						"choices" => array(),
 						"class" => "post_file padt1 inline",
-						"instructions" => "If this file exists in your theme, then it will be used to render the partials HTML. Otherwise the content field is used.",
 						"multiple" => true,
 					));
 					render_admin_field($partial, array(
@@ -139,6 +139,9 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$partial->post_type = "partial";
 		$partial->author = current_user()->id;
 		$partial->save();
+		
+		// $partial->update_cache = $_POST['update_cache'];
+
 
 		RCF()->save_fields("partial", $partial->id);
 		$uid = "partial_{$partial->id}";

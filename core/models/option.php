@@ -18,27 +18,34 @@
 			$options = $this->find();
 			$options = array_extract($options, "key", "value");
 
-
 			return $options;
 		}
 	}
 
 	function get_option($key) {
 		global $options;
+		if (is_serial($options[$key])) {
+			return unserialize($options[$key]);
+		}
 		return $options[$key];
 	}
 	function set_option($key, $value = "") {
 		global $options;
-		var_dump($key, $options[$key]);
-		var_dump(isset($options[$key]));
-		$option = new Option();
-		if (isset($options[$key])) {
-		debug($key, $value);
-			$option->load("`key` = '{$key}'");
-			// debug()
+
+		if (is_array($value)) {
+			$value = serialize($value);
 		}
 
-
+		$option = new Option();
+		if (isset($options[$key])) {
+			// don't bother updating if the values are the same
+			if ($options[$key] == $value) {
+				return;
+			}
+			$option->load("`key` = '{$key}'");
+		}
+		
+		
 		$option->key = $key;
 		$option->value = $value;
 		$option->save();

@@ -3,7 +3,7 @@
 // OS Overrides
 //===========================================
 body {background: $black; color: $white; }
-
+.container {max-width: 1400px;}
 .fill-primary {fill: $primary; }
 
 //===========================================
@@ -109,6 +109,16 @@ body {background: $black; color: $white; }
 
 		thead {background: $dark; }
 	}
+
+// Widgets
+.widget {
+	background: $black; margin-bottom: $pad1; border-radius: 3px 3px 0 0; border-top: 3px solid $primary;
+	.title {font-size:16px; font-weight:700; color: $white; background: $dark; padding: $pad1 $pad2; border-radius: 3px 3px 0 0;}
+	.content {padding: $pad1;}
+}
+.widget_categories > .content {padding:0;}
+.widget:nth-child(2n) {border-color: $secondary;}
+// .widget:nth-child(3n) {border-color: $silver;}
 
 //===========================================
 // PAGES

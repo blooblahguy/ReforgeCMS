@@ -71,70 +71,7 @@ function login_form($options = array()) {
 add_shortcode("login_form", "login_form");
 
 
-/**
- * Display a profile form for the current user
- */
-function profile_form($options) {
-	$user = current_user();
-	if (! $user->logged_in()) {
-		return false;
-	}
 
-	$rank = new Role();
-	$rank->load(array("id = :id", ":id" => $user->role_id));
-
-	?>
-	<form enctype="multipart/form-data" action="/profile_submit" method="POST">
-		<div class="row g1 padb2">
-			<div class="os-2 avatar text-center">
-				<div class="avatar preview">
-					<? $user->render_avatar(); ?>
-				</div>
-				<div class="rank"><?= $rank->label; ?></div>
-			</div>
-			<div class="os profilemain">
-				<? 
-				render_admin_field($user, array(
-					"type" => "text",
-					"label" => "Username",
-					"name" => "username",
-				));
-				render_admin_field($user, array(
-					"type" => "text",
-					"label" => "Email",
-					"name" => "email",
-					"autocomplete" => "email",
-				));
-				?>
-				<? do_action("admin/custom_fields", "user"); ?>
-			</div>
-		</div>
-		<div class="row g1 padb2">
-			<div class="os">
-				<?
-				render_admin_field("", array(
-					"type" => "password",
-					"name" => "password_reset",
-					"label" => "New Password",
-				));
-				?>
-			</div>
-			<div class="os">
-				<?
-				render_admin_field("", array(
-					"type" => "password",
-					"name" => "password_reset_confirm",
-					"label" => "Confirm New Password"
-				));
-				?>
-			</div>
-		</div>
-		<input type="submit" value="Save">
-	</form>
-	<?
-}
-
-add_shortcode("profile_form", "profile_form");
 
 /**
  * Display a registration form for the current user

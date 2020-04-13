@@ -160,7 +160,7 @@ function locate_template($templates, $include = true, $required = false) {
 			} else {
 				return $path.$t;
 			}
-			return;
+			return false;
 		}
 	}
 	$looked = rtrim($looked, ", ");

@@ -65,9 +65,9 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		$plugins = $this->scan_plugins();
 		$active_plugins = get_option("active_plugins");
 		if (! $active_plugins) {
-			$active_plugins = serialize(array());
+			$active_plugins = array();
 		}
-		$active_plugins = unserialize($active_plugins);
+		$active_plugins = $active_plugins;
 
 		?>
 		<div class="row content-middle padb2">
@@ -129,13 +129,13 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 		$active_plugins = get_option("active_plugins");
 		if (! $active_plugins) {
-			$active_plugins = serialize(array());
+			$active_plugins = array();
 		}
-		$active_plugins = unserialize($active_plugins);
+		$active_plugins = $active_plugins;
 
 		$active_plugins[$slug] = plugins_dir()."/$slug/$slug.php";
 
-		set_option("active_plugins", serialize($active_plugins));
+		set_option("active_plugins", $active_plugins);
 		\Alerts::instance()->success("Plugin '{$slug}' activated");
 		redirect("/admin/plugins");
 	}
@@ -145,13 +145,13 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 		$active_plugins = get_option("active_plugins");
 		if (! $active_plugins) {
-			$active_plugins = serialize(array());
+			$active_plugins = array();
 		}
-		$active_plugins = unserialize($active_plugins);
+		$active_plugins = $active_plugins;
 
 		unset($active_plugins[$slug]);
 
-		set_option("active_plugins", serialize($active_plugins));
+		set_option("active_plugins", $active_plugins);
 		\Alerts::instance()->warning("Plugin '{$slug}' deactivated");
 		redirect("/admin/plugins");
 	}

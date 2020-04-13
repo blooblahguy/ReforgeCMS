@@ -1,6 +1,30 @@
 <?
 
 /**
+ * Check if string is a serialized array
+ */
+function is_serial($string) {
+    return (@unserialize($string) !== false);
+}
+
+/**
+ * Cron remote request
+ */
+function get_data($url) {
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	$str = curl_exec($curl);
+	curl_close($curl);
+	
+	return $str;
+}
+
+/**
  * Pages add
  */
 function add_page($info) {
@@ -240,8 +264,8 @@ function resetCaches() {
  * @return null
  */
 function load_plugins() {	
-	$plugins = unserialize(get_option('active_plugins'));
-	if (!$plugins) {
+	$plugins = get_option('active_plugins');
+	if (! $plugins) {
 		$plugins = array();
 	}
 	foreach ($plugins as $key => $path) {
@@ -459,8 +483,12 @@ function get_post_types() {
 					}
 				}
 
+				if ($atts == "") {
+					$atts = [];
+				}
+
 				ob_start();
-				$callback($atts);
+				call_user_func_array($callback, array($atts));
 				$content = ob_get_contents();
 				ob_get_clean();
 
@@ -570,6 +598,12 @@ function get_post_types() {
 
 	// function get_field()
 
+	function deslugify_title($input) {
+		return ucwords(str_replace(array("-","_"), array(" "," "), $input));
+	}
+	function desanitize_title($input) {
+		return ucwords(str_replace(array("-","_"), array(" "," "), $input));
+	}
 	function slugify($string){
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $string), '_'));
     }

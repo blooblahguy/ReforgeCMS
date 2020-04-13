@@ -158,8 +158,8 @@ option.break {display:block; height: 0; padding: 0; min-height: 1px; clear:both;
 
 	// Custom Fields
 	.field_label label {min-width: 100px; }
-	.custom_field.os-min {
-		.preview img {max-width: 150px; }
+	.rcf_group {
+		.preview img, .preview svg {max-width: 150px; }
 	}
 	.field_group_outer {border-bottom: none;}
 	// .repeater_footer {border: 1px solid $input-border;}

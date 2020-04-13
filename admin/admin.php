@@ -54,6 +54,8 @@ queue_script("/core/assets/js/admin.js", 15);
 // allow for global cache clear
 if (current_user()->can("administrator")) {
 	$core->route("GET /admin/clear-cache", function ($core, $args) {
+		// debug("WTF");
+		// exit();
 		resetCaches();
 		$ref = $_SERVER['HTTP_REFERER'];
 		redirect($ref);

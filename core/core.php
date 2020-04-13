@@ -4,10 +4,11 @@
 $core = require $root."/core/vendor/fatfree-core/base.php";
 $core->set("DEBUG", 1);
 $core->set("salt", $configuration["salt"]);
+require $root."/core/reforge/session.php";
+Session::instance();
 
 // Reforge Core
 $reforge = require $root."/core/reforge/reforge.php";
-require $root."/core/reforge/session.php";
 require $root."/core/database.php";
 require $root."/core/globals.php";
 require $root."/core/functions.php";
@@ -16,6 +17,8 @@ require $root."/core/models/user.php";
 require $root."/core/models/form.php";
 require $root."/core/reforge/media.php";
 require $root."/core/controllers/custom_fields/rcf.php";
+require $root."/core/controllers/forms-controller.php";
+require $root."/core/controllers/partials-controller.php";
 
 $option = new Option();
 $options = $option->load_all();
@@ -36,9 +39,6 @@ queue_script("/core/assets/js/custom_fields.js", 18);
 
 // add plugin load to init
 add_action("load_plugins", "load_plugins", 12);
-
-// global logout endpoint
-$core->route("GET|POST /logout", "User->logout");
 
 // Admin Area
 if ("/" . $CONTROLLER == "/admin") {

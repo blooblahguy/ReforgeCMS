@@ -42,7 +42,8 @@
 					"type" => "VARCHAR(200)"
 				),
 				"allow_parents" => array(
-					"type" => "INT(1)"
+					"type" => "INT(1)",
+					"attrs" => "NOT NULL DEFAULT 0",
 				),
 			);
 
@@ -66,6 +67,4 @@
 				return $pt;
 			}
 		}
-
-		// debug($rf_custom_posts);
 	}

@@ -66,7 +66,6 @@ class admin_page_ROLES extends RF_Admin_Page {
 	}
 
 	function edit($args) {
-
 		$id = $this->id;
 		$role = new Role();
 		if ($id > 0) {
@@ -78,78 +77,10 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 		$permissions = unserialize($role->permissions);
 		if (! is_array($permissions)) {
-			debug("create");
 			$permissions = array();
 		}
 
-		$defaults = array();
-		$defaults[] = array(
-			"slug" => "administrator",
-			"label" => "Administrator",
-			"description" => "Roles with this permissions are granted all permissions, and supercede any other permission rules.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_settings",
-			"label" => "Manage Settings",
-			"description" => "Users can edit website settings in the admin area.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_users",
-			"label" => "Manage Users",
-			"description" => "Role can promote or demote users to ranks under their own, as well as create or delete users.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_roles",
-			"label" => "Manage Roles",
-			"description" => "Role can create addition roles beneath their own and add or remove permissions.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_post_types",
-			"label" => "Manage Post Types",
-			"description" => "Role can add, delete, or update Custom Post Types. Including their defaults or statuses.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_custom_fields",
-			"label" => "Manage Custom Fields",
-			"description" => "Role can create, delete, or update custom field layouts.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_forms",
-			"label" => "Manage Forms",
-			"description" => "Role can create, delete, or update forms. They can also view and manage form entries.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_menus",
-			"label" => "Manage Menus",
-			"description" => "Role can create, delete, or update menus.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_comments",
-			"label" => "Manage Comments",
-			"description" => "Role can create, delete, or update comments submitted by users with a lesser role.",
-		);
-
-		$defaults[] = array(
-			"slug" => "manage_partials",
-			"label" => "Manage Partials",
-			"description" => "Role can create, delete, or update partials and their logic and caching.",
-		);
-
-		$defaults[] = array(
-			"slug" => "upload_files",
-			"label" => "Upload Files",
-			"description" => "Role can upload files to the website, front end or backend.",
-		);
-
-		// $roles = apply_filters()
+		$defaults = get_permissions();
 	?>
 
 	<div class="row">

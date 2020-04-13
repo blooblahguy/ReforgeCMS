@@ -1,79 +1,28 @@
 <?
 
-class Page extends Magic {
-	private $schema;
-	protected $fields = array();
-	protected $data;
-
-	function exists($key) {
-		return array_key_exists($key,$this->data);
-	}
-
-	function set($key, $val) {
-		$this->data[$key] = $val;
-	}
-
-	function &get($key) {
-		return $this->data[$key];
-	}
-
-	function clear($key) {
-		unset($this->data[$key]);
-	}
-
-	function __construct() {
-		$post = new Post();
-		$this->schema = $post->schema;
-	}
-
-	function factory($object) {
-		foreach ($this->schema as $key => $info) {
-			$this->$key = $object[$key];
-		}
-
-		if (isset($object['id'])) {
-			$this->id = $object['id'];
-		}
-		if (isset($object['created'])) {
-			$this->created = $object['created'];
-		}
-		if (isset($object['modified'])) {
-			$this->modified = $object['modified'];
-		}
-	}
-}
-
 class Content extends Prefab {
-	private $pages = array();
+	public $pages = array();
 	public $page;
 
 	// automatic header
 	function beforeroute($core, $args) {
-		
-		$this->page = $this->pages[$args[0]];
+		$this->page = isset($this->page) ? $this->page : $this->pages[$args[0]];
 
 		locate_template(array("functions.php"), true, false);
 		locate_template(array("header.php"), true, true);
 	}
 	// automatic footer
 	function afterroute($core, $args) {
-		$this->page = $this->pages[$args[0]];
+		$this->page = isset($this->page) ? $this->page : $this->pages[$args[0]];
 		locate_template(array("footer.php"), true, true);
 	}
 
 	// create content class
 	function __construct() {
 		global $core;
-		$posts = new Post();
-		$posttypes = new PostType();
-
-		$pages = $posts->query("SELECT posts.* FROM {$posts->table} AS posts 
-			LEFT JOIN {$posttypes->table} AS post_types ON posts.post_type = post_types.slug
-			WHERE post_types.public = 1 
-		");
-		$pages = apply_filters("pages", $pages);
-
+		$pages = get_pages();
 		$home = get_option("site_homepage");
+
 		foreach ($pages as $post) {
 			$page = $this->add_page($post);
 			
@@ -81,17 +30,21 @@ class Content extends Prefab {
 				$this->pages["/"] = $page;
 				$core->route("GET /", "Content->home");
 			} else {
-				$this->pages["/".$post['permalink']] = $page;
-				$core->route("GET /{$post['permalink']}", "Content->page");
+				$permalink = $page->get_permalink();
+				$this->pages[$permalink] = $page;
+				$core->route("GET {$permalink}", "Content->page");
 			}
 		}
 	}
 
 	function add_page($info) {
-		$page = new Page();
+		$page = new Post();
 		$page->factory($info);
+		$permalink = $page->get_permalink();
 
-		$this->pages["/".$page['permalink']] = $page;
+		// debug($info);
+
+		$this->pages[$permalink] = $page;
 
 		return $page;
 	}
@@ -188,17 +141,7 @@ function rf_require($path) {
 
 	$request['user_id'] = $user->id;
 	$request['page_id'] = $page->id;
-
-	// populate out basic fields
-	if ($request['page_id'] > 0) {
-		$request['page'] = array();
-		$request['page']["id"] = $request['page_id'];
-		$p = new Post();
-		$p->load("id = {$request['page_id']}");
-		foreach ($p->schema as $k => $f) {
-			$request['page'][$k] = $p->{$k};
-		}
-	}
+	$request['page'] = $page;
 
 	add_body_class(slugify($page->title));
 	

@@ -1,6 +1,98 @@
 <?
 
 /**
+ * Pages add
+ */
+function add_page($info) {
+	global $rf_pages;
+
+	$rf_pages[] = $info;
+}
+function get_pages() {
+	global $rf_pages;
+
+	$posts = new Post();
+	$posttypes = new PostType();
+	$rf_pages = array_merge($rf_pages, $posts->query("SELECT posts.* FROM {$posts->table} AS posts 
+		LEFT JOIN {$posttypes->table} AS post_types ON posts.post_type = post_types.slug
+		WHERE post_types.public = 1 
+	"));
+
+	$rf_pages = apply_filters("pages", $rf_pages);
+	return $rf_pages;
+}
+
+/**
+ * Permission add
+ */
+$rf_permissions[] = array(
+	"slug" => "administrator",
+	"label" => "Administrator",
+	"description" => "Roles with this permissions are granted all permissions, and supercede any other permission rules.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_settings",
+	"label" => "Manage Settings",
+	"description" => "Users can edit website settings in the admin area.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_users",
+	"label" => "Manage Users",
+	"description" => "Role can promote or demote users to ranks under their own, as well as create or delete users.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_roles",
+	"label" => "Manage Roles",
+	"description" => "Role can create addition roles beneath their own and add or remove permissions.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_post_types",
+	"label" => "Manage Post Types",
+	"description" => "Role can add, delete, or update Custom Post Types. Including their defaults or statuses.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_custom_fields",
+	"label" => "Manage Custom Fields",
+	"description" => "Role can create, delete, or update custom field layouts.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_forms",
+	"label" => "Manage Forms",
+	"description" => "Role can create, delete, or update forms. They can also view and manage form entries.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_menus",
+	"label" => "Manage Menus",
+	"description" => "Role can create, delete, or update menus.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_comments",
+	"label" => "Manage Comments",
+	"description" => "Role can create, delete, or update comments submitted by users with a lesser role.",
+);
+$rf_permissions[] = array(
+	"slug" => "manage_partials",
+	"label" => "Manage Partials",
+	"description" => "Role can create, delete, or update partials and their logic and caching.",
+);
+$rf_permissions[] = array(
+	"slug" => "upload_files",
+	"label" => "Upload Files",
+	"description" => "Role can upload files to the website, front end or backend.",
+);
+function add_permission($info) {
+	global $rf_permissions;
+
+	$rf_permissions[] = $info;
+}
+function get_permissions() {
+	global $rf_permissions;
+	$rf_permissions = apply_filters("permissions", $rf_permissions);
+	return $rf_permissions;
+}
+
+
+/**
  * ==============================================================
  * HTML Functions
  * ==============================================================

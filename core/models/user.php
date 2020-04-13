@@ -74,6 +74,7 @@
 			// clear session
 			session()->clear("user_id");
 			session()->clear("token");
+			session()->clear("reup_date");
 			
 			// clear cookie
 			setcookie('logincookie', "", -1, "/");
@@ -118,15 +119,22 @@
 		 */
 		private function reup_login() {
 			if (! $this->id || ! $this->token) { return false; }
+			$today = Date("ymd");
+			$last = session()->get('reup_date');
 
 			// up session
 			session()->set('user_id', $this->id);
 			session()->set('token', $this->token);
+			session()->set('reup_date', Date("ymd"));
 
 			// up cookie
 			setcookie('logincookie', $this->id.":".$this->token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
 
 			// up database
+			// don't reup more than once a day
+			if ($last && $last == $today) {
+				return;
+			}
 			$lc = new LoginCookie();
 			$lc->load(array("token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id));
 			if (Date("Y-m-d") != Date("Y-m-d", strtotime($lc->modified))) {
@@ -163,7 +171,7 @@
 				list($user_id, $token) = explode(':', $_COOKIE['logincookie']);
 				// debug($user_id, $token);
 				$lc->load(array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
-				
+
 				// we didn't have a correct cookie, get out of here
 				if ($lc->id) {
 					$this->id = $user_id;
@@ -252,7 +260,7 @@
 		if ($id == 0 || $id == $current->id) { return $current; }
 
 		$user = new User();
-		$user->get_user($id);		
+		$user->get_user($id);
 	}
 
 	function current_user() {

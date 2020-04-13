@@ -1,15 +1,5 @@
+				</div>
 			</div>
-		</div>
-
-		<div class="container">
-
-		<?
-		global $db;
-		debug($db);
-
-		$menu = get_menu('footer-menu');
-		// debug($menu);
-		?>
 		</div>
 
 		<div class="footer_outer bg-dark">
@@ -21,7 +11,9 @@
 					</a>
 					<div class="os footer_menu">
 						<div class="row g1">
-							<? foreach ($menu as $header) { ?>
+							<? 
+							$menu = get_menu('footer-menu');
+							foreach ($menu as $header) { ?>
 								<div class="os menu_sec">
 									<div class="header">
 										<?= $header['html']; ?>
@@ -37,6 +29,10 @@
 					</div>
 				</div>
 				<div class="adspace footer"></div>
+				<?
+				global $db;
+				debug($db);
+				?>
 			</div>
 		</div>
 		<div class="subfooter">
@@ -48,7 +44,5 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- <script src="/content/themes/bigdumbgg/js/scripts.js"></script> -->
 </body>
 </html>

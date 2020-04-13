@@ -1,6 +1,6 @@
 <?
 
-class Session extends Prefab {
+class Session extends \Prefab {
 	function __construct() {
 		session_start();
 	}
@@ -31,4 +31,3 @@ class Session extends Prefab {
 function session() {
 	return Session::instance();
 }
-

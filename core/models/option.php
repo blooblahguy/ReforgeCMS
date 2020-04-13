@@ -5,12 +5,9 @@
 			$schema = array(
 				"key" => array(
 					"type" => "VARCHAR(190)",
-					"unique" => true
 				),
 				"value" => array(
 					"type" => "LONGTEXT",
-					"default" => 0,
-					"nullable" => false,
 				)
 			);
 

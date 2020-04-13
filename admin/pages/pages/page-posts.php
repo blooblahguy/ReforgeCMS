@@ -44,6 +44,20 @@ class admin_page_POSTS extends RF_Admin_Page {
 				"class" => "tablelabel",
 				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
 			),
+			'post_parent' => array(
+				"label" => "Parent",
+				"calculate" => function($value, $id) {
+					if ($value == 0) {
+						echo "-";
+					} else {
+						$parent = new Post();
+						$parent->load(array("id = :id", ":id" => $value));
+						echo $parent->title;
+					}
+					// $user = get_user($value);
+					// return $user->username;
+				}
+			),
 			'author' => array(
 				"label" => "Author",
 				"calculate" => function($value, $id) {
@@ -102,8 +116,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 			$post->load("id = $id");
 		}
 
-		$pt = get_post_type($post_type);
-
 		?>
 
 		<div class="row g1">
@@ -128,20 +140,10 @@ class admin_page_POSTS extends RF_Admin_Page {
 						));
 						?>
 					</div>
-					<div class="post_content">
-
-						<? 
-						render_admin_field($post, array(
-							"type" => "wysiwyg",
-							"label" => "Content",
-							"name" => "content",
-							"required" => false,
-							"style" => "height: 250px",
-						));
-						// Custom Fields 
-						do_action("admin/custom_fields", "post");
-						?>
-					</div>
+					<?
+					// Custom Fields 
+					do_action("admin/custom_fields", "post");
+					?>
 					<div class="section">
 						<h3>SEO Settings</h3>
 						<div class="row g1">
@@ -200,6 +202,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 				<div class="sidebar autosticky">
 					<div class="section">
 						<input type="submit" class="marg0" value="Save">
+						<? if ($post->id > 0) { ?>
+							<a href="<?= $post->get_permalink(); ?>" target="_blank" class="btn display-block margt1 w100">View Page</a>
+						<? } ?>
 						<hr>
 						<?
 						render_admin_field($post, array(
@@ -235,7 +240,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						));
 						?>
 						<?
-						$default = "";
+						// $default = "";
 						// $statuses = array();
 						// // debug($pt['statuses']);
 						// foreach (unserialize($pt['statuses']) as $s) {
@@ -254,13 +259,18 @@ class admin_page_POSTS extends RF_Admin_Page {
 						// 	"required" => true,
 						// ));
 						?>
-						<input type="hidden" name="post_type_statuses" value="<?= $pt->statuses; ?>">
+						<!-- <input type="hidden" name="post_type_statuses" value=""> -->
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<?
+	}
+
+	function hierchal_permalink($parent_id) {
+		$post = new Post();
+		$post->load(array("id = :id", ":id" => $parent_id));
 	}
 
 	function save($args) {
@@ -274,10 +284,17 @@ class admin_page_POSTS extends RF_Admin_Page {
 			$post->load("id = $id");
 		}
 
+		// calculate permalink
+		$permalink = array();
+		if ($_POST["post_parent"] > 0) {
+
+		}
+		$permalink[] = $_POST['permalink'];
+
+		// update normal fields
 		$post->title = $_POST["title"];
 		$post->subtitle = $_POST["subtitle"];
 		$post->slug = $_POST["permalink"];
-		$post->permalink = $_POST["permalink"];
 		$post->created = $_POST["created"];
 		if (isset($_POST['content'])) {
 			$post->content = $_POST["content"];
@@ -313,7 +330,14 @@ class admin_page_POSTS extends RF_Admin_Page {
 	}
 
 	function delete($args) {
+		if ($this->can_delete()) {
+			$post = new Post();
+			$post->load(array("id = :id", ":id" => $args['id']));
+			$post->erase();
 
+			\Alerts::instance()->success("Deleted post");
+			redirect($this->link);
+		}
 	}
 
 	/**

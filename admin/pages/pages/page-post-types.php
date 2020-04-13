@@ -67,9 +67,10 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 	}
 
 	function edit($args) {
+		$this->render_title();
+
 		$id = $this->id;
 		$post = new \PostType();
-
 		if ($id > 0) {
 			$post->load("id = $id");
 		}
@@ -113,28 +114,44 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$icons[] = "view_compact";
 		$icons[] = "category";
 		$icons[] = "poll";
-		?>
+		?>	
 
-		<div class="row">
+		<div class="row g1">
 			<div class="os">
-				<div class="content pad2 padl0">
-					<label for="">Slug <span>*</span></label>
-					<input type="text" name="slug" value="<?= $post["slug"]; ?>" required placeholder="Slug">
-
+				<div class="section">
+					<?
+					render_admin_field($post, array(
+						"type" => "text",
+						"name" => "slug",
+						"label" => "Slug",
+						"required" => true,
+					));
+					?>
 					<div class="row g2">
-						<div class="os">
-							<label for="">Label <span>*</span></label>
-							<input type="text" name="label" value="<?= $post["label"]; ?>" required placeholder="Label">
-						</div>
-						<div class="os">
-							<label for="">Plural Label <span>*</span></label>
-							<input type="text" name="label_plural" value="<?= $post["label_plural"]; ?>" required placeholder="Plural Label">
-						</div>
-						
+						<?
+						render_admin_field($post, array(
+							"type" => "text",
+							"name" => "label",
+							"label" => "Label",
+							"required" => true,
+						));
+						render_admin_field($post, array(
+							"type" => "text",
+							"name" => "label_plural",
+							"label" => "Plural Label",
+							"required" => true,
+						));
+						?>
 					</div>
-					<label for="">Description</label>
-					<textarea name="description"><?= $post["description"]; ?></textarea>
-
+					<?
+					render_admin_field($post, array(
+						"type" => "textarea",
+						"name" => "description",
+						"label" => "Description",
+					));
+					?>
+				</div>
+				<div class="section">
 					<h3>Access</h3>
 					<div class="row g2">
 						<div class="os">
@@ -199,37 +216,46 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 				</div>
 			</div>
 
-			<div class="os-2 sidebar pad3">
-				<input type="submit" class="marg0" value="Save">
-				<hr>
-				<div class="pady2 padt0">
-					<label for="">Icon</label>
-					<select name="icon" class="border" multiple>
-						<? foreach ($icons as $k => $i) { 
-							if ($k % 6 == 0) {?> 
-								<option value="" class="break"></option>
+			<div class="os-2 sidebar">
+				<div class="section">
+					<input type="submit" class="marg0" value="Save">
+					<div class="pady2 padt0">
+						<label for="">Icon</label>
+						<select name="icon" class="border" multiple>
+							<? foreach ($icons as $k => $i) { 
+								if ($k % 6 == 0) {?> 
+									<option value="" class="break"></option>
+								<? } ?>
+								<option class="material-icons" value="<?= $i; ?>" <? if ($post->icon == $i) {echo "selected"; } ?>><?= $i; ?></option>
 							<? } ?>
-							<option class="material-icons" value="<?= $i; ?>" <? if ($post->icon == $i) {echo "selected"; } ?>><?= $i; ?></option>
-						<? } ?>
-					</select>
-				</div>
-				<div class="formsec">
-					<label for="">Admin Menu</label>
-					<input type="checkbox" name="admin_menu" value="1" <? if ($post->admin_menu) { echo "checked"; }?>> Display in Admin Menu
-				</div>
-				<div class="formsec">
-					<label for="">Menu Position</label>
-					<input type="text" name="order" value="<?= $post->order; ?>">
-				</div>
-				<div class="formsec">
-					<label for="">URL Prefix</label>
-					<? 
+						</select>
+					</div>
+
+					<?
+					render_admin_field($post, array(
+						"type" => "checkbox",
+						"name" => "admin_menu",
+						"label" => "Admin Menu",
+					));
+
+					render_admin_field($post, array(
+						"type" => "text",
+						"name" => "order",
+						"label" => "Admin Menu Position",
+					));
+
+					render_admin_field($post, array(
+						"type" => "checkbox",
+						"name" => "allow_parents",
+						"label" => "Allow Post Parenting",
+					));
 					render_admin_field($post, array(
 						"type" => "text",
 						"name" => "url_prefix",
-						"class" => "url_prefix",
+						"label" => "URL Prefix",
 					));
 					?>
+				
 				</div>
 			</div>
 		</div>
@@ -245,17 +271,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 			$type->load("id = $id");
 		}
 
-		$slug = $_POST["slug"];
-		$label = $_POST["label"];
-		$label_plural = $_POST["label_plural"];
-		$description = $_POST["description"];
-		$icon = $_POST["icon"];
-		$admin_menu = $_POST["admin_menu"];
-		$order = $_POST["order"];
-		$public = $_POST["public"];
-		$searchable = $_POST["searchable"];
 		$default_status = $_POST["default_status"];
-
 		$statuses = repeater_existing("statuses");
 		$new_statuses = repeater_new("new_status", "name", "status");
 		$statuses = array_merge($statuses, $new_statuses);
@@ -263,23 +279,20 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 			$statuses[$default_status]["default_status"] = 1;
 		}
 
-		// debug($default_status);
-		// debug($statuses);
-
-		$type->slug = $slug;
-		$type->label = $label;
-		$type->label_plural = $label_plural;
-		$type->description = $description;
-		$type->admin_menu = $admin_menu;
-		$type->public = $public;
-		$type->searchable = $searchable;
-		$type->order = $order;
-		$type->icon = $icon;
+		$type->slug = $_POST['slug'];
+		$type->label = $_POST['label'];
+		$type->label_plural = $_POST['label_plural'];
+		$type->url_prefix = slugify($_POST['url_prefix']);
+		$type->description = $_POST['description'];
+		$type->admin_menu = $_POST['admin_menu'];
+		$type->public = $_POST['public'];
+		$type->searchable = $_POST['searchable'];
+		$type->order = $_POST['order'];
+		$type->icon = $_POST['icon'];
 		$type->statuses = serialize($statuses);
+		$type->save();
 
-		$rs = $type->save();
-
-		\Alerts::instance()->success("Post type $slug $changed");
+		\Alerts::instance()->success("Post type {$type->slug} $changed");
 		redirect("/admin/post_types/edit/{$type->id}");
 	}
 

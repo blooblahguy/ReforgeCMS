@@ -8,6 +8,11 @@
 [] Sidebar
 [] Partials
 [] Post Categories
+[] Admin page types deleting
+[] Dashboard widgets
+[] Convert static model functionality to controllers
+[] Option to hide content on editor
+[] True / False Custom Field
 
 [] Front end
 	[] News Page

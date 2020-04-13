@@ -203,6 +203,15 @@ class Mapper extends \Magic {
 	}
 
 	function erase() {
+		if (! $this->id) {
+			return false;
+		}
+
+		$this->query("DELETE FROM `{$this->table}` WHERE id = :id", array(
+			":id" => $this->id
+		));
+
+		return true;
 		// unset($this->data[$key]);
 
 

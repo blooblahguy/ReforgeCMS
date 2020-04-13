@@ -15,6 +15,6 @@
 //===================================
 ## Misc Variables
 //===================================
-	$config["salt"] = "bdg_lightweight";
+	$config["salt"] = "reforge";
 
 	return $config;

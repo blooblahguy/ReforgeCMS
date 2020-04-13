@@ -6,6 +6,7 @@ $admin_menu = array();
 $custom_fields_page;
 
 $rf_permissions = array();
+$rf_pages = array();
 $rf_custom_posts = array();
 $rf_filters = array();
 

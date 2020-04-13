@@ -16,6 +16,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 	}
 
 	function index($args) { 
+		$this->render_title();
 		?>
 		<div class="section">
 		<?
@@ -35,6 +36,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 	}
 
 	function edit($args) {
+		$this->render_title();
 		$id = $this->id;
 		$partial = new Partial();
 		if ($id > 0) {
@@ -90,6 +92,14 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 							(60 * 60 * 6) => "6 hours",
 							(60 * 60 * 12) => "12 hours",
 						),
+					));
+					render_admin_field(array(), array(
+						"type" => "select",
+						"label" => "Post File",
+						"name" => "post_file",
+						"class" => "post_file padt1 inline",
+						"instructions" => "If this file exists in your theme, then it will be used to render the partials HTML. Otherwise the content field is used.",
+						"multiple" => true,
 					));
 					render_admin_field($partial, array(
 						"type" => "text",

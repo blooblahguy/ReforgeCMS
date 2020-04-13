@@ -94,7 +94,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		<?
 	}
 
-	function save_page($core, $args) {
+	function save($args) {
 		// debug("here");
 		set_option("seo_title", $_POST['seo_title']);
 		set_option("site_homepage", $_POST['site_homepage']);
@@ -108,7 +108,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		redirect($this->link);
 	}
 
-	function delete_page($core, $args) {
+	function delete($args) {
 
 	}
 

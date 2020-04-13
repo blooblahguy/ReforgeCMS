@@ -11,12 +11,6 @@ class Form extends \RF\Mapper {
 		$cf = new CustomField();
 		$field = reset($cf->find(array("id = :id", ":id" => $this->post_parent)));
 
-		// debug($field);
-
-		// debug($this);
-		// debug($cf);
-		// debug($this->post_parent);
-
 		?>
 		<div class="rf_form">
 			<form method="POST" action="/rf_form/process/<?= $this->id; ?>">

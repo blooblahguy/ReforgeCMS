@@ -1,7 +1,8 @@
 <?
 	
 	class Post extends \RF\Mapper {
-		function __construct() {
+		public $meta;
+		function __construct($id = false) {
 			$schema = array(
 				"post_type" => array(
 					"type" => "VARCHAR(100)"
@@ -46,6 +47,10 @@
 			);
 
 			parent::__construct("rf_posts", $schema);
+
+			if ($id !== false) {
+				$this->load(array("id = :id", ":id" => $id));
+			}
 		}
 
 		function hierchal_permalink($parent_id) {
@@ -97,5 +102,10 @@
 			$permalinks[] = $this->slug;
 
 			return "/".implode("/", $permalinks); 
+		}
+
+		function load_meta() {
+			$meta = get_meta($this->id);
+			$this->meta = $meta;
 		}
 	}

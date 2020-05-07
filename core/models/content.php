@@ -70,6 +70,15 @@ class Content extends Prefab {
 
 		locate_template($templates, true);
 	}
+
+	function query($post_type, $args = array()) {
+		$posts = new Post();
+		$posts = $posts->find("post_type = '$post_type'", array(
+			"order by" => "created DESC"
+		));
+
+		return $posts;
+	}
 }
 
 function rf_head() {

@@ -2,6 +2,7 @@
 class Form extends \RF\Mapper {
 	function __construct() {
 		parent::__construct("rf_posts", false);
+		$this->post_type = "form";
 	}
 
 	function render() {

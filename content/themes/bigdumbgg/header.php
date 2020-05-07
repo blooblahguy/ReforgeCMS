@@ -71,9 +71,6 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 								<?= $link['html']; ?>
 							</li>
 						<? } ?>
-						<li class="link">
-							<a href="/apply" class="apply btn">Apply</a>
-						</li>
 					</ul>
 				</div>
 			</div>

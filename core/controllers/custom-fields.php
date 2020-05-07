@@ -10,7 +10,7 @@
 		private $field_data = array();
 
 		function __construct() {
-			$this->directory = dirname(__FILE__);
+			$this->directory = dirname(__FILE__)."/custom_fields";
 
 			// only load when on specific pages
 			// add_action("admin/before_header", array($this, "load"));

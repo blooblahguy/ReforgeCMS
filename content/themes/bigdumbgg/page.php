@@ -11,7 +11,7 @@
 			do_action("page/{$page['id']}/content_low", $page);
 			?>		
 		</div>
-		<div class="os-3 sidebar">
+		<div class="os-3 sidebar padt2">
 			<? get_template_part("sidebar"); ?>
 		</div>
 	</div>

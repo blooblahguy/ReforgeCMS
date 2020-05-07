@@ -249,29 +249,6 @@
 		}
 	}
 
-	// Check if current user is logged in
-	function logged_in() {
-		return current_user()->logged_in();
-	}
-
-	function get_user($id = 0) {
-		// current user
-		$current = current_user();
-		if ($id == 0 || $id == $current->id) { return $current; }
-
-		$user = new User();
-		$user->get_user($id);
-	}
-
-	function current_user() {
-		if (! Registry::exists("current_user")) {
-			$user = new User();
-			$user->get_user();
-			Registry::set("current_user", $user);
-		}
-		return Registry::get("current_user");
-	}
-
 	// Login Cookies
 	class LoginCookie extends \RF\Mapper {
 		function __construct() {

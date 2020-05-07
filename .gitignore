@@ -2,8 +2,4 @@ reforge-config.php
 info.php
 .vscode/
 tmp/
-content/plugins/*
-content/themes/*
 content/uploads/*
-
-!content/themes/reforge2020/

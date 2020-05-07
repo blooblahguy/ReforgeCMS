@@ -1,21 +1,23 @@
 
-// $padding: 12px;
-// $padding-multipler: 1.2;
+$padding: 12px;
+// $padding-multipler: 1.4;
 // $border-radius: 0; 
 
 //============================================
 // Theme
 //============================================
-	$primary: #a02c2f;
-	$secondary: #3b914e;
+	// $primary: #a02c2f;
+	$primary: #e0b15a;
+	$secondary: #a02c2f;
 
-	$black: #252830;
+	// $black: #252830;
+	$black: #2C333B;
 	$white: #f0f4ff;
 
 	$grey: rgba(mix($white, $black, 50%), 0.3);
 
-	$background: $black;
+	$background: #232A35;
 	$text: $white;
-	$dark: darken($black, $hover-difference);
+	$dark: #181A1F;
 	$light-grey: lighten($background, 5%);
 	$dark-grey: darken($background, 2%);

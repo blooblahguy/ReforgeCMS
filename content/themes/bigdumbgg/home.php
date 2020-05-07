@@ -8,8 +8,77 @@
 	</div>
 </div> -->
 
-<div class="container pady2">
-	Homepage
+
+	<?
+	$posts = Content::instance()->query("news");
+	$latest = array_shift($posts);
+
+	$latest = new Post($latest['id']);
+	$latest->load_meta();
+	$latest_featured = new File();
+	$latest_featured->load(array("id = :id", ":id" => $latest->meta['featured_image']));
+	$latest_featured = $latest_featured->get_size(1200);
+
+	?>
+
+<div class="page_header bg-dark">
+
+	<a href="<?= $latest->get_permalink(); ?>" class="card latest news_card">
+		<img src="<?= $latest_featured; ?>" alt="" class="bg">
+		<div class="container">
+			<div class="row g1 content-middle content-justify">
+				<div class="os-md-8">
+					<h1><?= $latest['title']; ?></h1>
+					<h3><?= $latest['subtitle']; ?></h3>
+				</div>
+				<div class="os-min">
+					<div class="btn-primary">Read More &raquo;</div>
+				</div>
+			</div>
+			
+			
+		</div>
+	</a>
+</div>
+<div class="partners bg-dark pad2 padb0">
+	<div class="container">
+
+		<div class="row g2 content-middle content-justify">
+			<div class="os home_partner"><img src="/content/themes/bigdumbgg/img/goldenguardians.svg" alt=""></div>
+			<div class="os home_partner"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></div>
+			<div class="os home_partner"><img src="/content/themes/bigdumbgg/img/zenni-logo.webp" alt=""></div>
+		</div>
+	</div>
+</div>
+<div class="container padb2 margt2">
+	<div class="row g1">
+		<div class="os">
+			<div class="row g1">
+
+			<? foreach ($posts as $news_array) {
+				$news = new Post($news_array['id']);
+				$news->load_meta();
+
+				$featured = new File();
+				$featured->load(array("id = :id", ":id" => $news->meta['featured_image']));
+				$featured = $featured->get_size(600);
+
+				?>
+				<div class="os-6">
+					<div class="card news_card">
+						<img src="<?= $featured; ?>" alt="" class="bg">
+						<h2><?= $news['title']; ?></h2>
+						<p><?= $news['subtitle']; ?></p>
+					</div>
+				</div>
+			<? } ?>
+
+			</div>
+		</div>
+		<div class="os-3 sidebar">
+			<? get_template_part("sidebar"); ?>
+		</div>
+	</div>
 </div>
 
 <? 

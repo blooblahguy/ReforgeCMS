@@ -1,7 +1,7 @@
 <?php
 
 // F3 Core
-$core = require $root."/core/vendor/fatfree-core/base.php";
+$core = require $root."/core/fatfree/base.php";
 $core->set("DEBUG", 1);
 $core->set("salt", $configuration["salt"]);
 require $root."/core/reforge/session.php";
@@ -13,12 +13,11 @@ require $root."/core/database.php";
 require $root."/core/globals.php";
 require $root."/core/functions.php";
 require $root."/core/hook.php";
-require $root."/core/models/user.php";
-require $root."/core/models/form.php";
 require $root."/core/reforge/media.php";
-require $root."/core/controllers/custom_fields/rcf.php";
-require $root."/core/controllers/forms-controller.php";
-require $root."/core/controllers/partials-controller.php";
+// controllers
+require $root."/core/controllers/custom-fields.php";
+require $root."/core/controllers/forms.php";
+require $root."/core/controllers/partials.php";
 
 $option = new Option();
 $options = $option->load_all();

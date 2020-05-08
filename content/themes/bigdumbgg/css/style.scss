@@ -21,7 +21,7 @@ body {background: $background; color: $white; }
 	&:hover {opacity: 0.8; color: $white; }
 }
 .top_outer {
-	position: relative; z-index: 301; 
+	background: lighten($dark, 1%); border-bottom: 1px solid $grey;
 	.links a {font-size:13px; opacity:0.3; color: #ddd; padding: 4px 4px 6px; display:inline-block; }
 	.links a:hover { opacity: 1;}
 }
@@ -78,7 +78,7 @@ body {background: $background; color: $white; }
 .footer_menu {
 	.head_link {padding: $pad1 0; text-transform: uppercase; color: $white; font-weight: 500; border-bottom: 2px solid $primary; display:inline-block; font-size: 1.1rem; }
 	a {opacity: 0.7; padding: 4px 0; padding-right: $pad2; display: inline-block; }
-	a.active {opacity: 1; color: $white; }
+	a.active {opacity: 1; color: $white; font-weight: 500; }
 	a:hover {opacity: 1; color: $white; }
 }
 

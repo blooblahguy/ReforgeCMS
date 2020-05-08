@@ -37,7 +37,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 </head>
 <body <?= body_classes(); ?>>
 	<div class="wrapper">
-		<div class="top_outer bg-dark">
+		<div class="top_outer">
 			<div class="top container row content-middle">
 				<div class="os-md-min">
 					<? render_socials(); ?>

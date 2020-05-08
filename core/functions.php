@@ -130,6 +130,11 @@ $rf_permissions[] = array(
 	"label" => "Upload Files",
 	"description" => "Role can upload files to the website, front end or backend.",
 );
+$rf_permissions[] = array(
+	"slug" => "display_stream",
+	"label" => "Display Stream",
+	"description" => "Users with this role will have their stream shown on the site, when live.",
+);
 function add_permission($info) {
 	global $rf_permissions;
 

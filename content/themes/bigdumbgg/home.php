@@ -51,6 +51,17 @@
 	</div>
 </div>
 <div class="container padb2 margt2">
+	<!-- Streams -->
+	<?
+
+	require_once("lib/bdg_twitch.php");
+	$api = new \BDG\Twitch("so3d8hae0pmk8nz6kuwel6fhdbpofw3");
+
+	$team = $api->checkTeam("bdg");
+	debug($team);
+
+	?>
+	<h2 class="text-center">More News</h2>
 	<div class="row g1">
 		<div class="os">
 			<div class="row g1">

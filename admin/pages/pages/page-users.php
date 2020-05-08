@@ -20,6 +20,8 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user = new User();
 		$role = new Role();
 
+		$this->render_title();
+
 		$users = $user->query("SELECT users.*, roles.label AS role FROM {$user->table} as users
 			LEFT JOIN {$role->table} as roles ON roles.id = users.role_id
 			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC

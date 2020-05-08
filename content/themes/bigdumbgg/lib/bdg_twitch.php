@@ -57,6 +57,10 @@
 			return $streams;
 		}
 
+		function checkTeam($team) {
+			return $this->request("team");
+		}
+
 		function request( $url ) {
 			$url = "https://api.twitch.tv/helix/{$url}";
 

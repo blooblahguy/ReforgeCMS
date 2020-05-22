@@ -13,6 +13,16 @@ class Forms extends \Prefab {
 			$core->route("POST /register_submit", "Forms->register_submit");
 			$core->route("POST /login", "Forms->login_submit");
 		}
+
+		$core->route("POST /rf_form/process/@id", function($core, $args) {
+			$id = $args['id'];
+			$form = new Form();
+			$form->load(array("id = :id", ":id" => $id));
+
+			$form->submit();
+		
+			exit();
+		});
 	}
 
 	function login_submit($core, $args) {
@@ -37,6 +47,8 @@ class Forms extends \Prefab {
 
 	}
 }
+
+new Forms();
 
 /**
  * Display a login form to the current user
@@ -70,9 +82,6 @@ function login_form($options = array()) {
 
 add_shortcode("login_form", "login_form");
 
-
-
-
 /**
  * Display a registration form for the current user
  */
@@ -86,3 +95,45 @@ function registration_form($options) {
 }
 
 add_shortcode("registration_form", "registration_form");
+
+function render_entry_results($entry_id, $args = array()) {
+	$entry = new Post();
+	$entry->load(array("id = :id", ":id" => $entry_id));
+
+	$form = new Form();
+	$form = $form->load(array("id = :id", ":id" => $entry->post_parent));
+
+	$cf = new CustomField();
+	$field = reset($cf->find(array("id = :id", ":id" => $form->post_parent)));
+
+	RCF()->render_results($field['id'], $entry_id, "application", $field);
+}
+
+function render_entry($entry_id, $args = array()) {
+	$entry = new Post();
+	$entry->load(array("id = :id", ":id" => $entry_id));
+
+	$form = new Form();
+	$form = $form->load(array("id = :id", ":id" => $entry->post_parent));
+
+	$cf = new CustomField();
+	$field = reset($cf->find(array("id = :id", ":id" => $form->post_parent)));
+
+	RCF()->render_fields($field['id'], $entry_id, "application", $field);
+}
+
+function render_form($uid, $args = array()) {
+	$form = new Form();
+
+	if (is_numeric($uid)) {
+		$form->load(array("id = :id AND post_type = 'forms' ", ":id" => $uid));
+	} else {
+		$form->load(array("slug = :slug AND post_type = 'forms' ", ":slug" => $uid));
+	}
+
+	$form->render($args);
+}
+
+function render_results($entry_id) {
+	
+}

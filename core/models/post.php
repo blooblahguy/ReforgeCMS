@@ -28,6 +28,9 @@
 				"seo_description" => array(
 					"type" => "VARCHAR(256)"
 				),
+				"seo_noindex" => array(
+					"type" => "INT(1)"
+				),
 				"slug" => array(
 					"type" => "VARCHAR(190)",
 				),
@@ -41,8 +44,11 @@
 				"post_status" => array(
 					"type" => "VARCHAR(250)",
 				),
-				"permissions" => array(
-					"type" => "LONGTEXT",
+				"permission" => array(
+					"type" => "VARCHAR(156)",
+				),
+				"permission_exp" => array(
+					"type" => "VARCHAR(10)",
 				),
 			);
 

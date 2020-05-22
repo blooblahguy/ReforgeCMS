@@ -66,7 +66,7 @@ $progression = array(
 	, "num_killed" => $num_killed
 );
 
-set_option("bdg_progression", $progression);
+set_option("bdg_progression", serialize($progression));
 
 //============================================
 // DISPLAY DATA

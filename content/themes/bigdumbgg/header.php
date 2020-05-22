@@ -64,11 +64,22 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 					</h1>
 					<?
 					$menu = get_menu("main-menu");
+					$path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");	
 					?>
 					<ul class="os menu text-right">
 						<? foreach ($menu as $link) { ?>
 							<li class="link">
 								<?= $link['html']; ?>
+							</li>
+						<? } ?>
+						<? if ($user->can("view_applications")) { ?>
+							<li class="link">
+								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/applications") !== false) {echo "active"; } ?>">Applications</a>
+								<!-- todo: show updated applications # -->
+							</li>
+						<? } elseif ($user->rank == "public") { ?>
+							<li class="link">
+								<a href="/recruitment/apply" class="<? if (strpos($path, "recruitment/apply") !== false) {echo "active"; } ?>">Apply</a>
 							</li>
 						<? } ?>
 					</ul>
@@ -78,6 +89,5 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 
 		<div class="content_outer">
 			<div class="content">
-				<? display_alerts(); ?>
-			
+				<? display_alerts(); ?>		
 			

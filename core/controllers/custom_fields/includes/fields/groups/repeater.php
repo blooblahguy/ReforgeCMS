@@ -11,6 +11,57 @@ class reforge_field_REPEATER extends reforge_field {
 		parent::__construct();
 	}
 
+	function result($data, $field, $context) {
+		$index = 0;
+		// collect children first, to make developing visually easier
+		$children = $field['children'];
+		unset($field['children']);
+
+		// field is not ready for any layout
+		if (! isset($children)) { return; }
+
+		$field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
+		$friendly = str_replace("[]", "", $data['name']);
+		$friendly = str_replace("[", "_", $friendly);
+		$friendly = str_replace("]", "", $friendly);
+
+		?>
+
+		<div class="repeater_outer">
+			<label for=""><?= $field['label']; ?></label>
+			<div class="repeater_body repeater_<?= $friendly; ?>">
+				<?
+				// loop through data to populate children layouts
+				// debug($children);
+				for ($i = 0; $i < $data['meta_value']; $i++) {
+					rcf_get_template('group-results', array(
+						'fields' => $children,
+						"context" => $context,
+						"index" => $i
+					));
+					$index++;
+				}
+				?>
+			</div>
+
+			
+			<template class="template_<?= $friendly; ?>">
+				<? 
+				$template = array( 
+					'fields' => $children,
+					"context" => $context,
+					"index" => "\${$field['key']}index",
+					"template" => true,
+				);
+
+				rcf_get_template('group-results', $template); 
+				?>
+			</template>
+		</div>
+
+		<?
+	}
+
 	// FIELD ADMIN HTML
 	function html($data, $field, $context) {
 		$index = 0;
@@ -29,6 +80,7 @@ class reforge_field_REPEATER extends reforge_field {
 		?>
 
 		<div class="repeater_outer">
+			<label for=""><?= $field['label']; ?></label>
 			<div class="repeater_body repeater_<?= $friendly; ?>">
 				<?
 				// loop through data to populate children layouts

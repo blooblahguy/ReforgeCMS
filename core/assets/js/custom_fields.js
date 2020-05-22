@@ -1,6 +1,7 @@
 // Row removal
-$("body").on("click", ".group_remove", function() {
+$("body").on("click", ".group_remove a", function() {
 	$(this).parents(".field_group_outer").first().remove()
+	return false;
 })
 
 // specifically for custom fields
@@ -87,6 +88,21 @@ $("body").on("click", "[data-remove]", function() {
 !function($, e) {
 	var rf = {}
 	window.rf = rf
+
+
+	// =========================================================================================
+	// Auto Slug
+	// =========================================================================================
+	$("body").on("blur", ".field-label", function() {
+		var title_slug = slugify($(this).val())
+
+		var parent = $(this).parents(".row").first()
+		var slug = parent.find("input.field-slug")
+
+		if (slug.val() == "") {
+			slug.val(title_slug)
+		}
+	});
 
 	// =========================================================================================
 	// Rules

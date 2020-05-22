@@ -11,6 +11,7 @@
 			RCF()->register_field_type($this);
 
 			$this->add_field_filter('rcf/prepare_value', array($this, 'prepare_value'), 9);
+			$this->add_field_action('rcf/result', array($this, 'result'), 9);
 			$this->add_field_action('rcf/html', array($this, 'html'), 9);
 			$this->add_field_action('rcf/options_html', array($this, 'options_html'), 9);
 
@@ -72,6 +73,16 @@
 			$value = parse_shortcodes($value);
 			$value = $this->prepare_value($value);
 			return $value;
+		}
+
+		function result($data, $field, $context) {
+			// debug($field);
+			?>
+			<div class="formsec field_<?= $field['type']; ?>">
+				<label for=""><?= $field['label']; ?></label>
+				<p class="value"><?= $data['meta_value']; ?> </p>
+			</div>
+			<?
 		}
 
 		function prepare_value($value) {

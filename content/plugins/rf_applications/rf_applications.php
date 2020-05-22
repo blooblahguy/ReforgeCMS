@@ -4,12 +4,19 @@
 
 class RFApplications extends \Prefab {
 	function __construct() {
-		// include model
-		require "includes/rfa_model.php";
+		global $core; 
+		$this->applications = get_option("rfa_apply_index");
+		$this->apply = get_option("rfa_apply_page");
+		$this->form = get_option("rfa_apply_form");
+		$this->path = dirname(__FILE__);
 
 		// actions to load only necessary controllers
-		add_action("admin/init", array($this, "admin"));
-		add_action("front/init", array($this, "front"));
+		add_action("admin/init", function() {
+			require "includes/rfa_admin.php";
+		});
+		add_action("front/init", function() {
+			require "includes/rfa_front.php";
+		});
 
 		// add permissions for managing and viewing applications
 		add_permission(array(
@@ -22,41 +29,50 @@ class RFApplications extends \Prefab {
 			"label" => "View Applications",
 			"description" => "Allow users to view all guild applications"
 		));
+
+		// save our form as an application post type
+		add_filter("form/submit", array($this, "save_status"));
+		add_filter("form/submit/type", array($this, "save_as_application"));
 	}
 
-	function admin() {
-		require "includes/rfa_admin.php";
+	function apply_button($text = "Apply Now") {
+		$apply = new Post();
+		$apply->load(array("id = :id", ":id" => $this->apply));
+		?>
+			<a class="btn-primary" href="<?= $apply->get_permalink(); ?>"><?= $text; ?></a>
+		<?
 	}
-	function front() {
-		require "includes/rfa_front.php";
-	}
+	function app_link($id) {
+		$apps = new Post();
+		$apps->load(array("id = :id", ":id" => $this->applications));
 
-	/**
-	 * To be run when plugin is first installed
-	 */
-	function install() {
-
-	}
-
-	/**
-	 * To be run when plugin is first uninstalled
-	 */
-	function uninstall() {
-
+		return $apps->get_permalink()."/".$id;
 	}
 
-	/**
-	 * To be run when plugin is activated
-	 */
-	function activate() {
+	function save_status($entry, $id) {
+		if ($id == 0) {
+			$user = get_user($entry->author);
+			$entry->title = "Open - Application: ".$user->username;
+			$entry->post_status = "open";
+		}
+		return $entry;
+	}
+	function save_as_application($type, $form_id) {
+		debug($form_id, $type);
+		if ($form_id == $this->form) {
+			return "application";
+		}
 
+		return $type;
 	}
 
-	/**
-	 * To be run when plugin is deactivated
-	 */
-	function deactivate() {
+	function front_view($core, $args) {
+		
+		// $content->page = $content->pages["/recruitment/applications"];
+		// $content->page($core, $args);
 
+		// debug($content);
+		// debug($args);
 	}
 }
 

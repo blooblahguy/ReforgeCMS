@@ -16,11 +16,12 @@ class Session extends \Prefab {
 		unset($_SESSION[$key]);	
 		session_write_close();
 	}
-
+	
 	function get($key) {
 		session_start();
-		return $_SESSION[$key];
+		$val = $_SESSION[$key];
 		session_write_close();
+		return $val;
 	}
 
 	function destroy() {

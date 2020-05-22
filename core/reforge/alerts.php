@@ -32,9 +32,14 @@
 
 		function display($level = "all") {
 			global $core;
+			if ($core->ERROR) { return; }
+			$session = session();
 
 			if ($level == "all") {
-				$stored = session()->get("alerts");
+				if (! method_exists($session, "get")) {
+					return;
+				}
+				$stored = $session->get("alerts");
 				if (! $stored) {return;}
 				echo '<div class="message_outer container pady2">';
 				foreach ($stored as $level => $messages) {
@@ -46,10 +51,13 @@
 				}
 				
 				$stored = array();
-				session()->set("alerts", $stored);
+				$session->set("alerts", $stored);
 				echo '</div>';
 			} else {
-				$stored = session()->get("alerts");
+				if (! method_exists($session, "get")) {
+					return;
+				}
+				$stored = $session->get("alerts");
 				if (! $stored) {return;}
 				echo '<div class="message_outer container pady2">';
 				foreach ($stored[$level] as $level => $messages) {
@@ -60,7 +68,7 @@
 					$this->print($level, $message);
 				}
 				unset($stored[$level]);
-				session()->set("alerts", $stored);
+				$session->set("alerts", $stored);
 				echo '</div>';
 			}
 

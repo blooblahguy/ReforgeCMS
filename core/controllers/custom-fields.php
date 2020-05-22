@@ -97,19 +97,30 @@
 
 		// recursively format and sanitize data for front end
 		function prepare_values($data) {
-			foreach ($data as $key => &$d) {
-				$type = $d['type'];
-				unset($d['type']);
+			// debug($data);
 
-				// repeater have sub rows without types
-				if ($type) {
-					$d = $this->types[$type]->prepare_field_values($d['value']);
+			foreach ($data as $key => &$d) {
+
+				// debug($d);
+				$type = $d['type'];
+				if ($type) {	
+					unset($d['type']);
 				}
 
+				// repeater have sub rows without types
+				if ($type == "meta") {
+					$d = $d['value'];
+					continue;
+				} elseif ($type) {
+					$d = $this->types[$type]->prepare_field_values($d['value']);
+				} 
+				
 				if (gettype($d) == "array") {
 					$d = $this->prepare_values($d);
 				}
 			}
+
+			// debug($data);
 
 			return $data;
 		}
@@ -117,6 +128,7 @@
 		function get_fields($type, $id) {
 			// debug("loading fields");
 			$this->load_all_fields();
+
 
 			$fields = $this->load_fields($type, $id);
 			if (! $fields) {
@@ -132,8 +144,13 @@
 				preg_match_all('/_[0-9]_/', $key, $matches);
 				$matches = reset($matches);
 				$field = $this->field_data[$meta['meta_info']];
+// 
+				// debug($field);
 				
 				if (count($more) == 0) {
+					if (! $field['type']) {
+						$field['type'] = "meta";
+					}
 					$data[$key]  = array(
 						"type" => $field['type'],
 						"value" => $meta['meta_value'], 
@@ -208,6 +225,30 @@
 				$meta = new Meta();
 				$meta->query("DELETE FROM {$meta->table} WHERE meta_key = '{$key}' AND meta_type = '{$type}' AND meta_parent = $id ");
 			}
+		}
+
+		function render_results($cf_id, $page_id, $type, $fields) {
+			$cf = new CustomField();
+			if ($cf_id > 0) {
+				$cf->factory($fields);
+			}
+
+			$this->current_data = $this->load_fields($type, $page_id);
+
+			$view = array(
+				"fields" => $cf->get_fields(),
+				"context" => "",
+			);
+
+			// debug($view);
+
+			$this->meta_type = $type;
+			$this->page_id = $page_id;
+
+			// load view
+			echo '<div class="field_results">';
+			rcf_get_template('group-results', $view);
+			echo '</div>';
 		}
 
 		function render_fields($cf_id, $page_id, $type, $fields) {

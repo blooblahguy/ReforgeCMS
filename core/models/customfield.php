@@ -5,6 +5,9 @@
 
 		function __construct() {
 			$schema = array(
+				"parent_id" => array(
+					"type" => "INT(7)",
+				),
 				"title" => array(
 					"type" => "VARCHAR(255)",
 				),

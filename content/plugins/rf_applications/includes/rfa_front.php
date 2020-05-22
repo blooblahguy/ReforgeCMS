@@ -3,87 +3,75 @@
 class RFA_Applications_Front extends \Prefab {
 	public $applications, $apply, $form;
 
-	// hook into content
-	// function beforeroute($core, $args) {
-	// 	$page = array(
-	// 		"title" => "Applications",
-	// 		"subtitle" => "",
-	// 		"slug" => "applications",
-	// 		"id" => 0,
-	// 	);
-
-	// 	if ($core->get("PATTERN") == "/recruitment/applications") {
-	// 		$page['title'] = "Applications";
-	// 	}
-	// 	if ($core->get("PATTERN") == "/recruitment/applications/@id") {
-	// 		$page['title'] = "View Application";
-	// 	}
-	// 	if ($core->get("PATTERN") == "/recruitment/apply") {
-	// 		$page['title'] = "Submit Application";
-	// 	}
-
-	// 	Content::instance()->page = $page;
-	// 	Content::instance()->beforeroute($core, $args);
-	// 	Content::instance()->page($core, $args);
-	// }
-	// function afterroute($core, $args) {
-	// 	Content::instance()->afterroute($core, $args);
-	// }
-
 	function __construct() {
 		global $core;
+		$this->rfa = RFApps();
 
-		// get endpoints
-		$this->applications = get_option("rfa_apply_index");
-		$this->apply = get_option("rfa_apply_page");
-		$this->form = get_option("rfa_apply_form");
+		// ROUTES
+		if (logged_in()) {
+			$core->route("GET /recruitment/applications/@id", "Content->page");
+			$core->route("GET /recruitment/apply/@id", "Content->page");
+		}
 
-		// $page = new Post();
-		// $page->load(array("id = :id", ":id" => ));
-		// $this->applications = $page->slug;
+		// filters
+		add_filter("page/title", array($this, "application_page"));
+		add_filter("form/redirect", array($this, "submit_redirect"));	
+	}
 
-		// $page->load(array("id = :id", ":id" => ));
-		// $this->apply = $page->slug;
+	function submit_redirect($redirect, $form_id, $entry_id) {
+		if ($form_id == $this->rfa->form) {
+			return $this->rfa->app_link($entry_id);
+		}
 
-		// $page->load(array("id = :id", ":id" => $this->applications));
-		// $this->form = $page->slug;
+		return $redirect;
+	}
 
-		// debug($page);
+	/**
+	 * Render a list of apps you can see
+	 */
+	function render_index() {
+		$user = current_user();
+		$apps = array();
+		$app = new Post();
 
-		// debug($this->apply);
-		// debug($this->form);
-		// debug($this->applications);
+		// load all applications
+		if ($user->can("view_applications")) {
+			$open = $app->find("post_type = 'application' AND post_status = 'open' ");
+			$other = $app->find("post_type = 'application' AND post_status != 'open' ");
+		// load my applications
+		} else {
+			$open = $app->find("post_type = 'application' AND post_status = 'open' AND post_author = {$user->id} ");
+			$other = $app->find("post_type = 'application' AND post_status != 'open' AND post_author = {$user->id} ");
+		}
 
-		
+		$apps = $open + $other;
 
-		add_action("page/{$this->applications}/content", array($this, "view"));
-		add_action("page/{$this->apply}/content", array($this, "apply"));
 
-		// $core->route("POST {$this->apply}", "RFA_Applications_Front->submit_application");
-		// $core->route("GET /{$this->apply}", "RFA_Applications_Front->index_all");
+		if (count($open) == 0 && logged_in()) { ?>
+			<p>You don't have any applications submitted to BDG</p>
+			<?= $this->rfa->apply_button(); ?>
+		<? } else {
+			foreach ($apps as $app) {
+				include $this->rfa->path."/views/index_app.php";
+			}
+		}
+	}
 
-		// if user is logged in, let them view the index
-		// if (current_user()->logged_in()) {
-			
-			// Non members can submit new applications
-			// if (! current_user()->can("view_applications")) {
-			// 	$core->route("GET {$this->apply}", "RFA_Applications_Front->new_application");
-			// 	$core->route("POST {$this->apply}", "RFA_Applications_Front->submit_application");
-			// }
-			
-			// // those with permissions can view anything
-			// if (current_user()->can("manage_applications") || current_user()->can("view_applications")) {
-			// 	$core->route("GET {$this->applications}", "RFA_Applications_Front->index_all");
-			// 	$core->route("GET {$this->applications}/@id", "RFA_Applications_Front->view");
-			// } else {
-			// 	// allow user to view any of their own apps
-			// 	$core->route("GET {$this->applications}", "RFA_Applications_Front->index_mine");
-			// 	$apps = $this->get_apps();
-			// 	foreach ($apps as $app) {
-			// 		$core->route("GET {$this->applications}/{$app['id']}", "RFA_Applications_Front->view");
-			// 	}
-			// }
-		// }
+	function view_application($id) {
+		$app = new Post();
+		$app->load(array("id = :id", ":id" => $id));
+
+		include $this->rfa->path."/views/view_app.php";
+	}
+
+	function application_page($title, $request, $args) {
+		if ($request['page_id'] == $this->rfa->applications && $args['id']) {
+			$app = new Post();
+			$app->load(array("id = :id", ":id" => $args['id']));
+			$title = $app->title;
+
+		}
+		return $title;
 	}
 
 	/**

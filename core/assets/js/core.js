@@ -12,6 +12,18 @@ function preventDefaults(e) {
 	e.stopPropagation();
 }
 
+function slugify(text) {
+	if (! text) { return text; }
+	return text.replace(/\s+/g, '-') // Replace spaces with -
+		.replace(/&/g, '-and-') // Replace & with 'and'
+		.replace(/[^\w\-]+/g, '') // Remove all non-word characters
+		.replace(/\-\-+/g, '-') // Replace multiple - with single -
+		.replace(/^-+/, '') // Trim - from start of text
+		.replace(/-+$/, '') // Trim - from end of text
+		.toLowerCase()
+		.substring(0, 100)
+}
+
 
 function update_binded_values(e) {
 	var variable = $(e).attr("name")
@@ -160,6 +172,45 @@ $(".tab_nav [data-tab]").on("click", function() {
 
 	return false	
 })
+
+
+function hook_editors() {
+	$(".wysiwyg").not(".hooked").each(function(i, e) {
+		var quill_div = $(this)
+		quill_div.addClass("hooked")
+		var input = $(this).siblings(".wysiwyg_input").first();
+		var form = input.parents("form").first();
+
+		// Text Editor
+		var quill = new Quill(this, {
+			modules: {
+				toolbar: [
+					['bold', 'italic', 'underline', 'strike'], // toggled buttons
+					['blockquote', 'code-block'],
+					['link'],
+					['image'],
+
+					[{ 'header': 1 }, { 'header': 2 }], // custom button values
+					[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+					[{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
+
+					[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+					[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
+
+					['clean'] // remove formatting button
+				]
+			},
+			theme: 'snow',
+		});
+
+		form.on("submit", function() {
+			var value = quill_div.find(".ql-editor").first().html();
+			input.val(value)
+		})
+	})
+}
+hook_editors()
 
 // $(".sortable").each(function(i, e) {
 	// var group = $(this).data("sort-group")

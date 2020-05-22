@@ -21,6 +21,7 @@ class reforge_field_TEXT extends reforge_field {
 			"label" => $field['label'],
 			"name" => $data["name"],
 			"required" => $field['required'],
+			"instructions" => $field['instructions'],
 			"placeholder" => $field['placeholder'],
 		));
 	}

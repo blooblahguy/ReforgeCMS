@@ -14,13 +14,15 @@ require $root."/core/globals.php";
 require $root."/core/functions.php";
 require $root."/core/hook.php";
 require $root."/core/reforge/media.php";
+
+$option = new Option();
+$options = $option->load_all();
+
 // controllers
 require $root."/core/controllers/custom-fields.php";
 require $root."/core/controllers/forms.php";
 require $root."/core/controllers/partials.php";
-
-$option = new Option();
-$options = $option->load_all();
+require $root."/core/controllers/content.php";
 
 // Require site setup
 if (count($options) == 0) {
@@ -31,6 +33,8 @@ if (count($options) == 0) {
 }
 
 // queue basic javascript
+queue_script("/core/assets/js/lazy.js");
+queue_script("/core/assets/js/quill.min.js", 5);
 queue_script("/core/assets/js/cash.js", 1);
 queue_script("/core/assets/js/ajax.min.js", 3);
 queue_script("/core/assets/js/core.js", 16);

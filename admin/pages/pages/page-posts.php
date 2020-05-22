@@ -149,6 +149,13 @@ class admin_page_POSTS extends RF_Admin_Page {
 						<div class="row g1">
 							<?
 							render_admin_field($post, array(
+								"type" => "checkbox",
+								"label" => "SEO NoIndex",
+								"name" => "seo_noindex",
+								"class" => "seo_noindex",
+								"layout" => "os-min text-center",
+							));
+							render_admin_field($post, array(
 								"type" => "text",
 								"label" => "Main Title",
 								"instructions" => "Less that 70 characters between these two fields, used to quickly describe the page with a keyword-centric approach.",
@@ -261,6 +268,44 @@ class admin_page_POSTS extends RF_Admin_Page {
 						?>
 						<!-- <input type="hidden" name="post_type_statuses" value=""> -->
 					</div>
+					<div class="section">
+						<strong>Permissions</strong>
+						<p>Page is visible to users who:</p>
+
+						<? 
+						$defaults = get_permissions();
+						$defaults = array_extract($defaults, "slug", 'label');
+						$defaults = array("" => "Disabled") + $defaults;
+
+						$exp = array(
+							"" => "Disabled",
+							"==" => "Can",
+							"!=" => "Cannot",
+						);
+						?>
+
+						<div class="row g1">
+							<div class="os">
+								<?
+								render_admin_field($post, array(
+									"type" => "select",
+									"name" => "permission_exp",
+									"choices" => $exp,
+								));
+								?>
+							</div>
+							<div class="os">
+								<? 
+								render_admin_field($post, array(
+									"type" => "select",
+									"name" => "permission",
+									"choices" => $defaults,
+								));
+								?>
+							</div>
+						</div>
+						
+					</div>
 				</div>
 			</div>
 		</div>
@@ -302,6 +347,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->post_parent = $_POST["post_parent"];
 		$post->post_type = $this->name;
 		$post->author = $user->id;
+		$post->permission = $_POST['permission'];
+		$post->permission_exp = $_POST['permission_exp'];
 		$post->seo_title = $_POST['seo_title'];
 		$post->seo_category = $_POST['seo_category'];
 		if ($_POST['seo_description'] == "") {

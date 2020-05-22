@@ -9,7 +9,9 @@ function split_uid($uid) {
 		$uid = "settings_0";
 	}
 
-	list($type, $id) = explode("_", $uid);
+	// split by last underscore, beginning is post type, end is post id
+	$type = substr($uid, 0, strrpos($uid,'_'));
+	$id = substr($uid, (strrpos($uid,'_') + 1));
 	if ($id === null) {
 		$id = $type;
 		$type = null;

@@ -11,6 +11,42 @@ class reforge_field_GROUP extends reforge_field {
 		parent::__construct();
 	}
 
+	function result($data, $field, $context) {
+		// collect children first, to make developing visually easier
+		$children = $field['children'];
+		unset($field['children']);
+		// field is not ready for any layout
+		if (! isset($children)) { return; }
+
+		$source = RCF()->current_data;
+		$field['button_label'] = $field['button_label'] != "" ? $field['button_label'] : "Add Row";
+		$friendly = str_replace("[]", "", $data['name']);
+		$friendly = str_replace("[", "_", $friendly);
+		$friendly = str_replace("]", "", $friendly);
+
+		?>
+		<div class="rcf_group">
+			<label for=""><?= $field['label']; ?></label>
+			<div class="row g1">
+				<?			
+				foreach ($children as $field) {
+					$key = $context;
+					$key .= "_0_".$field["slug"];
+
+					$data = $source[$key];
+					
+					rcf_get_template('group-result', array(
+						'field' => $field,
+						'context' => $key,
+						"data" => $data,
+					));
+				}
+				?>
+			</div>
+		</div>
+		<?
+	}
+
 	// FIELD ADMIN HTML
 	function html($data, $field, $context) {
 		// collect children first, to make developing visually easier

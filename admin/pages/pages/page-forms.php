@@ -2,6 +2,8 @@
 
 class admin_page_FORMS extends RF_Admin_Page {
 	function __construct() {
+		global $core;
+
 		$this->name = "forms";
 		$this->label = "Form";
 		$this->label_plural = "Forms";
@@ -11,10 +13,41 @@ class admin_page_FORMS extends RF_Admin_Page {
 			"all" => "manage_forms"
 		);
 
-		// CUSTOM Routes (index, edit, and save are automatically created)
+		if ($this->can_view()) {
+			$this->routes = array(
+				"entries" => array("GET", "/entries/@id", "view_entries"),
+				"entry" => array("GET", "/entries/@id/@entry", "view_entry"),
+			);
+		}
 
 		// Be sure to set up the parent
 		parent::__construct();
+	}
+
+	function view_entries($args) {
+		$id = $args['id'];
+
+		$entries = new Post();
+		$entries = $entries->find(array("post_parent = :id AND post_type = :pt", ":id" => $id, ":pt" => "form_entry"));
+
+		$columns = array(
+			'title' => array(
+				"label" => "Title",
+				"class" => "tablelabel",
+				"html" => '<a href="'.$this->link.'/entries/'.$id.'/%2$d">%1$s</a>',
+			),
+		);
+
+		?>
+		<div class="section">
+			<? display_results_table($entries, $columns);	?>
+		</div>
+
+		<?
+	}
+
+	function view_entry($args) {
+		debug($args);
 	}
 
 	function index($args) {
@@ -28,6 +61,18 @@ class admin_page_FORMS extends RF_Admin_Page {
 				"label" => "Title",
 				"class" => "tablelabel",
 				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
+			),
+			'entries' => array(
+				"label" => "Entries",
+				"calculate" => function($value, $id) {
+					$entries = new Post();
+					$entries = $entries->find(array(
+						"post_parent = $id", 
+						"post_type = 'form_entry'"
+					));
+
+					return "<a href='{$this->link}/entries/{$id}'>View Entries (".count($entries).")</a>";
+				}
 			),
 			'author' => array(
 				"label" => "Author",
@@ -132,8 +177,8 @@ class admin_page_FORMS extends RF_Admin_Page {
 
 		// save custom fieldset
 		$cf = new CustomField();
-		if ($id > 0) {
-			$cf->load("id = $id");
+		if ($form->post_parent > 0) {
+			$cf->load("id = $form->post_parent");
 		}
 		$_POST['virtual_fieldset'] = true;
 		$cf = $cf->save_fieldset();

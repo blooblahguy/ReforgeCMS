@@ -44,5 +44,7 @@
 			</div>
 		</div>
 	</div>
+
+	<? rf_footer(); ?>
 </body>
 </html>

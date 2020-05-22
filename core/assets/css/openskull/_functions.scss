@@ -6,7 +6,7 @@
 	$-local-red: red(rgba($c, 1.0));
 	$-local-green: green(rgba($c, 1.0));
 	$-local-blue: blue(rgba($c, 1.0));
-	@return (0.2126 * $-local-red +
+	@return (0.4126 * $-local-red +
 	0.7152 * $-local-green +
 	0.0422 * $-local-blue) / 255;
 }

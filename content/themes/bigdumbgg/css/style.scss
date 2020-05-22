@@ -1,3 +1,9 @@
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url("/admin/css/materialicons.woff2") format('woff2');
+}
 
 //===========================================
 // OS Overrides
@@ -35,7 +41,7 @@ body {background: $background; color: $white; }
 	.header {position: relative; z-index: 2; }
 }
 .header .menu {
-	margin:0; padding:0; list-style: none; padding-right: $pad2; 
+	margin:0; padding:0; list-style: none;
 	li {display: inline-block; }
 	a {display:block; color: $white; padding: $pad1 $pad2; opacity: 1; text-transform: uppercase; font-weight:500; }
 	a:hover {opacity: 1; color: $white;  }
@@ -217,6 +223,13 @@ body {background: $background; color: $white; }
 }
 // .widget:nth-child(3n) {border-color: $silver;}
 
+
+
+//===========================================
+// APPLICATIONS
+//===========================================
+.avatar_icon {width: 40px; height: 40px; overflow: hidden; border-radius: 50%; }
+.unread_status {min-width: 60px;}
 //===========================================
 // PAGES
 //===========================================

@@ -103,10 +103,10 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 	function index() { 
 		render_admin_header("Applications");
 
-		$app = new RF_Applications\Model();
-		$open = $app->find("post_type = 'application' AND post_status='open' ");
-		$declined = $app->find("post_type = 'application' AND post_status='declined' ");
-		$closed = $app->find("post_type = 'application' AND post_status='closed' ");
+		$app = new Post();
+		$open = $app->find("post_type = 'application' AND post_status = 'open' ");
+		$declined = $app->find("post_type = 'application' AND post_status = 'declined' ");
+		$closed = $app->find("post_type = 'application' AND post_status = 'closed' ");
 		?>
 
 		<div class="section tabs">
@@ -154,11 +154,60 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 	}
 
 	function edit($args) {
-		
+		render_admin_header("View Application");
+		$rfa = RFApps();
+		$id = $args['id'];
+
+
+		?>
+		<div class="row g1">
+			<div class="os">
+				<div class="section">
+					<? render_form($rfa->form, array(
+						"type" => "application",
+						"entry" => $args['id']
+					));
+					?>
+				</div>
+			</div>
+			<div class="os-2">
+				<div class="sidebar autosticky">
+					<div class="section">
+						<a href="<?= $rfa->app_link($id); ?>" class="btn w100 margb1" target="_blank">View Application</a>
+						<input type="submit" value="Save">
+					</div>
+					<div class="section">
+						<div class="message_action">
+							<label for="">Message & Action</label>
+							<textarea name="message">
+
+							</textarea>
+							<div class="row g1 padt2">
+								<div class="os"><input type="submit" class="btn-success" name="action" value="Accept"></div>
+								<div class="os"><input type="submit" class="btn-error" name="action" value="Decline"></div>
+								<div class="os"><input type="submit" class="btn-warning" name="action" value="Close"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?
 	}
 
 	function save($args) {
+		$id = $args['id'];
 
+		$app = new Post();
+		if ($id > 0) {
+			$app->load("id = $id");
+		}
+
+		$app->save();
+
+		RCF()->save_fields("application", $app->id);
+
+		redirect("/admin/applications/edit/".$app->id);
 	}
 
 	function delete_page() {

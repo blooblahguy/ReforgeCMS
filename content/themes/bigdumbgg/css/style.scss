@@ -5,6 +5,30 @@
 	src: url("/admin/css/materialicons.woff2") format('woff2');
 }
 
+// Colors
+$wow-colors: (
+	deathknight: #c41f3b,
+	demonhunter: #a330c9,
+	druid: #ff7d0a,
+	hunter: #abd473,
+	mage: #40c7eb,
+	monk: #00ff96,
+	paladin: #f58cba,
+	priest: #ddd,
+	rogue: #fff569,
+	shaman: #0070de,
+	warlock: #8787ed,
+	warrior: #c79c6e,
+	artifact: #e6cc80,
+	legendary: #ff8000,
+	epic: #a335ee,
+	rare: #0070dd,
+);
+
+@each $name, $color in $wow-colors {
+	.#{$name} {color: $color; }
+} 
+
 //===========================================
 // OS Overrides
 //===========================================

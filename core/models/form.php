@@ -73,10 +73,3 @@ class Form extends \RF\Mapper {
 		redirect($redirect);
 	}
 }
-
-// Load form shortocdes
-$posts = new Post();
-$forms = $posts->find("post_type = 'forms'");
-add_shortcode("form", function($attrs) {
-	render_form($attrs['slug']);
-});

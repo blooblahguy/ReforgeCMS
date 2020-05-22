@@ -141,6 +141,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 						"type" => "text",
 						"label" => "Label",
 						"name" => "title",
+						"class" => "post_title"
 					));
 					render_admin_field($form, array(
 						"type" => "textarea",
@@ -160,6 +161,15 @@ class admin_page_FORMS extends RF_Admin_Page {
 			<div class="os-2 sidebar">
 				<div class="section">
 					<input type="submit">
+					<?
+
+					render_admin_field($form, array(
+						"type" => "text",
+						"label" => "Slug",
+						"name" => "slug",
+						"class" => "post_permalink"
+					));
+					?>
 				</div>
 			</div>
 		</div>
@@ -186,7 +196,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		// store form values
 		$form->title = $_POST['title'];
 		$form->subtitle = $_POST['subtitle'];
-		$form->slug = slugify($_POST['title']);
+		$form->slug = $_POST['slug'];
 		$form->post_type = 'forms';
 		$form->post_parent = $cf->id;
 		$form->author = current_user()->id;

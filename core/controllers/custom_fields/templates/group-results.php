@@ -5,7 +5,7 @@ $source = RCF()->current_data;
 ?>
 
 <div class="field_group_outer row<? if ($context != "") { echo " border"; } ?>">
-	<div class="field_group os row g1 pady1">
+	<div class="field_group os row g1">
 		<?
 		// loop through field layout
 		foreach ($fields as $field_id => $field) {

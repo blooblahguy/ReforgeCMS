@@ -4,6 +4,7 @@
 		"order by" => "created DESC",
 		"limit" => 1
 	));
+	
 
 	if (! $comment) {
 		$comment = array(
@@ -11,6 +12,8 @@
 			"author" => $app['author'],
 			"created" => $app['created'],
 		);
+	} else {
+		$comment = reset($comment);
 	}
 	
 	$link = $this->rfa->app_link($app['id']);

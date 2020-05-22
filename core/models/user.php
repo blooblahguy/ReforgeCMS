@@ -24,6 +24,9 @@
 				"role_id" => array(
 					"type" => "INT(7)"
 				),
+				"class" => array(
+					"type" => "VARCHAR(256)"
+				),
 				"avatar" => array(
 					"type" => "VARCHAR(256)"
 				),

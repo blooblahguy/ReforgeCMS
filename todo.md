@@ -13,6 +13,8 @@
 [] Convert static model functionality to controllers
 [] Option to hide content on editor
 [] True / False Custom Field
+[] Custom field (forms) saving bug
+[] First field add click action deletes immediately
 
 [] Front end
 	[] News Page

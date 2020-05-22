@@ -134,6 +134,6 @@ function render_form($uid, $args = array()) {
 	$form->render($args);
 }
 
-function render_results($entry_id) {
-	
-}
+add_shortcode("form", function($attrs) {
+	render_form($attrs['slug']);
+});

@@ -121,6 +121,60 @@ function locate_template($templates, $include = true, $required = false) {
 }
 
 
+function the_title($id = false) {
+	echo get_title($id);
+}
+function get_title($id = false) {
+	global $request;
+
+	if (! $id) {
+		$title = $request['page']['title'];
+	} else {
+		$post = new Post();
+		$post->load(array("id = :id", ":id" => $id));
+		$title = $post->title;
+	}
+
+	return $title;
+}
+
+function the_author($id = false) {
+	echo get_author($id);
+}
+function get_author($id = false) {
+	global $request;
+
+	if (! $id) {
+		$author_id = $request['page']['author'];
+	} else {
+		$post = new Post();
+		$post->load(array("id = :id", ":id" => $id));
+		$author_id = $post->author;
+	}
+
+	$author = new User();
+	$author->load(array("id = :id", ":id" => $author_id));
+
+	return "<span class='strong {$author->class}'>{$author->username}</span>";
+}
+
+function the_date($id = false) {
+	echo get_date($id);
+}
+function get_date($id = false) {
+	global $request;
+
+	if (! $id) {
+		$date = $request['page']['created'];
+	} else {
+		$post = new Post();
+		$post->load(array("id = :id", ":id" => $id));
+		$date = $post->created;
+	}
+
+	return Date("F jS, g:ia", strtotime($date));
+}
+
 function get_menu($slug) {
 	$menu = new Menu;
 	$menu->load(array("slug = :slug", ":slug" => $slug));

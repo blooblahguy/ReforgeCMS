@@ -185,16 +185,13 @@ $("body").on("click", "[data-remove]", function() {
 			var key = owner.data("key")
 			var parent = owner.data("parent")
 			var order = owner.siblings().length
-
 			var url = '/admin/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order+'&post_id='+post_id;
-
-			console.log(url)
 
 			nanoajax.ajax({
 					url: url,
 				},
 				function (code, response) {
-					owner.find(".field_settings").first().html(response)
+					owner.find(".rcf_field_settings > .field_details > .field_settings").html(response)
 
 					$("[data-bind]").each(function(i, e) {
 						update_binded_values(e)
@@ -224,8 +221,10 @@ $("body").on("click", "[data-remove]", function() {
 
 		target.append(html)
 
-		var inserted = target.children().last().find("[data-accordion]").first()
-		inserted.trigger("click")
+		var inserted = target.children().last()
+		var accordion = inserted.find("[data-accordion]").first()
+		accordion.trigger("click")
+		inserted.find(".rcf_dropdown.loaded").first().removeClass("loaded")
 
 		rf.fetch_cfield();
 	})

@@ -158,19 +158,55 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$rfa = RFApps();
 		$id = $args['id'];
 
+		$app = new Post();
+		if ($id) {
+			$app->load(array("id = :id", ":id" => $id));
+		}
+
+
 
 		?>
 		<div class="row g1">
 			<div class="os">
 				<div class="section">
-					<? render_form($rfa->form, array(
-						"type" => "application",
-						"entry" => $args['id']
-					));
-					?>
+					<div class="row g1">
+						<div class="os">
+						<?
+							render_admin_field($app, array(
+								"type" => "text",
+								"name" => "title",
+								"label" => "Title",
+								"required" => true,
+							))
+						?>
+						</div>
+						<div class="os">
+							<?
+							render_admin_field($app, array(
+								"type" => "select",
+								"choices" => array(
+									"open" => "Open",
+									"closed" => "Closed",
+									"accepted" => "Accepted",
+									"declined" => "Declined",
+								),
+								"name" => "post_status",
+								"label" => "Status",
+								"required" => true,
+							))
+							?>
+						</div>
+					</div>
+					
 				</div>
+				<? render_form($rfa->form, array(
+					"type" => "application",
+					"entry" => $args['id'],
+					"hide_title" => true,
+				));
+				?>
 			</div>
-			<div class="os-2">
+			<div class="os-3">
 				<div class="sidebar autosticky">
 					<div class="section">
 						<a href="<?= $rfa->app_link($id); ?>" class="btn w100 margb1" target="_blank">View Application</a>
@@ -179,13 +215,12 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 					<div class="section">
 						<div class="message_action">
 							<label for="">Message & Action</label>
-							<textarea name="message">
-
-							</textarea>
+							<textarea name="message"></textarea>
 							<div class="row g1 padt2">
 								<div class="os"><input type="submit" class="btn-success" name="action" value="Accept"></div>
 								<div class="os"><input type="submit" class="btn-error" name="action" value="Decline"></div>
 								<div class="os"><input type="submit" class="btn-warning" name="action" value="Close"></div>
+								<div class="os"><input type="submit" class="btn-info" name="action" value="Open"></div>
 							</div>
 						</div>
 					</div>
@@ -201,6 +236,37 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$app = new Post();
 		if ($id > 0) {
 			$app->load("id = $id");
+		}
+
+		$app->post_status = $_POST['post_status'];
+		$title = $app->title;
+		$title = preg_replace("/.*[-] /", "", $title);
+		$title = ucfirst($app->post_status)." - ".$title;
+		$app->title = $title;
+
+
+		// run quick actions if set
+		if (isset($_POST['action'])) {
+			$action = $_POST['action'];
+			$message = $_POST['message'];
+			$statuses = array();
+			$statuses['Accept'] = "accepted";
+			$statuses['Close'] = "closed";
+			$statuses['Decline'] = "declined";
+			$statuses['Open'] = "open";
+
+			$app->post_status = $statuses[$action];
+
+			$title = $app->title;
+			$title = preg_replace("/.*[-] /", "", $title);
+			$title = ucfirst($app->post_status)." - ".$title;
+			$app->title = $title;
+
+			$comment = new Comment();
+			$comment->post_id = $id;
+			$comment->message = $message;
+			$comment->author = current_user()->id;
+			$comment->save();
 		}
 
 		$app->save();

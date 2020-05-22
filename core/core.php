@@ -23,6 +23,7 @@ require $root."/core/controllers/custom-fields.php";
 require $root."/core/controllers/forms.php";
 require $root."/core/controllers/partials.php";
 require $root."/core/controllers/content.php";
+require $root."/core/controllers/comments.php";
 
 // Require site setup
 if (count($options) == 0) {

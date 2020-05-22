@@ -25,7 +25,7 @@
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
 	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
-		<div class="section">
+		<div class="section field_base">
 			<div class="row g1 content-middle">
 				<?
 					// label
@@ -55,18 +55,20 @@
 						'type' => 'select',
 						'data-bind' => true,
 						'default' => "text",
-						'class' => 'field-type rcf_dropdown',
+						'class' => 'field-type rcf_dropdown loaded',
 						"grid" => "os",
 						'choices' => rcf_get_field_types(),
 					));
-					// Required
-					rcf_render_field_setting($field, array(
-						'label' => 'Required',
-						'name' => 'required',
-						'type' => 'checkbox',
-						'class' => 'field-required text-center',
-						"grid" => "os-min",
-					));
+					if (! $field['children']) {
+						// Required
+						rcf_render_field_setting($field, array(
+							'label' => 'Required',
+							'name' => 'required',
+							'type' => 'checkbox',
+							'class' => 'field-required text-center',
+							"grid" => "os-min",
+						));
+					}
 				?>
 			</div>
 			<div class="row g1 content-middle">
@@ -82,7 +84,7 @@
 			</div>
 		</div>
 
-		<div class="section">
+		<div class="section field_details">
 			<div class="row g1 content-middle field_settings">
 				<? 
 				// Render the field

@@ -1,5 +1,6 @@
 <?php
 
+return;
 /*
 
 	Copyright (c) 2009-2019 F3::Factory/Bong Cosca, All rights reserved.

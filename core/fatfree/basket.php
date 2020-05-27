@@ -108,7 +108,7 @@ class Basket extends Magic {
 	*	@param $val mixed
 	**/
 	function findone($key,$val) {
-		return ($data=$this->find($key,$val))?$data[0]:false;
+		return ($data=$this->find("*", $key,$val))?$data[0]:false;
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Basket extends Magic {
 	*	@param $val mixed
 	**/
 	function load($key,$val) {
-		if ($found=$this->find($key,$val)) {
+		if ($found=$this->find("*", $key,$val)) {
 			$this->id=$found[0]->id;
 			return $this->item=$found[0]->item;
 		}
@@ -160,7 +160,7 @@ class Basket extends Magic {
 	*	@param $val mixed
 	**/
 	function erase($key,$val) {
-		$found=$this->find($key,$val);
+		$found=$this->find("*", $key,$val);
 		if ($found && $id=$found[0]->id) {
 			unset($_SESSION[$this->key][$id]);
 			if ($id==$this->id)

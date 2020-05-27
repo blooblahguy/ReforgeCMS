@@ -1,14 +1,34 @@
 <?
-// echo "<pre>";
-// print_r(unserialize('a:1:{i:0;a:2:{i:0;a:3:{s:3:"key";s:9:"post_type";s:10:"expression";s:2:"==";s:5:"value";s:5:"pages";}i:1;a:3:{s:3:"key";s:5:"pages";s:10:"expression";s:2:"==";s:5:"value";s:1:"4";}}}'));
-// echo "</pre>";
+// exit();
+
+// Call this at each point of interest, passing a descriptive string
+// function prof_flag($str) {
+//     global $prof_timing, $prof_names;
+//     $prof_timing[] = microtime(true);
+//     $prof_names[] = $str;
+// }
+
+// // Call this when you're done and want to see the results
+// function prof_print() {
+//     global $prof_timing, $prof_names;
+//     $size = count($prof_timing);
+//     for($i=0;$i<$size - 1; $i++)
+//     {
+//         echo "<b>{$prof_names[$i]}</b><br>";
+//         echo sprintf("&nbsp;&nbsp;&nbsp;%f<br>", $prof_timing[$i+1]-$prof_timing[$i]);
+//     }
+//     echo "<b>{$prof_names[$size-1]}</b><br>";
+// }
+
+
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
+// ini_set("display_errors", 1);
 
 $PATH = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");	
 list($CONTROLLER) = explode("/", $PATH);
 $root = rtrim($_SERVER['DOCUMENT_ROOT'], "/");
 
 $configuration = require "reforge-config.php";
+require $root."/core/init.php";
 require $root."/core/core.php";
 

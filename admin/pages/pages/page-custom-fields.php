@@ -19,7 +19,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	function index($args) {
 
 		$cf = new CustomField();
-		$fieldsets = $cf->find("virtual = 0"); 
+		$fieldsets = $cf->find("*", "virtual = 0"); 
 
 		echo '<div class="section">';
 		display_results_table($fieldsets, array(
@@ -40,7 +40,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$fields = array();
 		$load_rules = array();
 		if ($id > 0) {
-			$cf->load("id = $id", null, 1);
+			$cf->load("*", "id = $id", null, 1);
 			$action = "Edit";
 			$subject = ucfirst($cf->title);
 			$fields = unserialize($cf->fieldset);
@@ -109,7 +109,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$cf->load("id = $id");
+			$cf->load("*", "id = $id");
 		}
 
 		$title = $_POST["title"];

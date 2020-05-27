@@ -130,7 +130,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 			$options=[];
 		// Override limit
 		$options['limit']=1;
-		return ($data=$this->find($filter,$options,$ttl))?$data[0]:false;
+		return ($data=$this->find("*", $filter,$options,$ttl))?$data[0]:false;
 	}
 
 	/**
@@ -152,7 +152,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 		if ($bounce)
 			$pos=max(0,min($pos,$count-1));
 		return [
-			'subset'=>($bounce || $pos<$count)?$this->find($filter,
+			'subset'=>($bounce || $pos<$count)?$this->find("*", $filter,
 				array_merge(
 					$options?:[],
 					['limit'=>$size,'offset'=>$pos*$size]
@@ -175,7 +175,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	**/
 	function load($filter=null,array $options=null,$ttl=0) {
 		$this->reset();
-		return ($this->query=$this->find($filter,$options,$ttl)) &&
+		return ($this->query=$this->find("*", $filter,$options,$ttl)) &&
 			$this->skip(0)?$this->query[$this->ptr]:false;
 	}
 

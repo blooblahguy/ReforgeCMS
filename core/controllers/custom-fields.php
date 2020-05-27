@@ -209,7 +209,7 @@
 
 				foreach ($metas as $key => $values) {
 					$meta = new Meta();
-					$meta->load("meta_key = '{$key}' AND meta_parent = {$id} AND meta_type = '{$type}'");
+					$meta->load("*", "meta_key = '{$key}' AND meta_parent = {$id} AND meta_type = '{$type}'");
 					$meta->meta_parent = $id;
 					$meta->meta_type = $type;
 					$meta->meta_key = $key;
@@ -276,7 +276,7 @@
 		function render_settings($id) {
 			$cf = new CustomField();
 			if ($id > 0) {
-				$cf->load("id = $id", null, 1);
+				$cf->load("*", "id = $id", null, 1);
 			}
 
 			$view = array(
@@ -292,7 +292,7 @@
 		function render_rules($id) {
 			$cf = new CustomField();
 			if ($id > 0) {
-				$cf->load("id = $id", null, 1);
+				$cf->load("*", "id = $id", null, 1);
 			}
 
 			$rules = array("all_rules" => $cf->get_rules());

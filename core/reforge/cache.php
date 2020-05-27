@@ -1,312 +1,298 @@
 <?php
-// TODO: Convert to Magic Class to increase speed
+
 namespace RF;
+
 class Cache {
+	protected
+		//! Cache engine
+		$engine,
+		//! name for cache entries
+		$name,
+		//! MemCache or Redis object
+		$ref;
 
 	/**
-	 * The path to the cache file folder
-	 */
-	private $_cachepath = 'tmp/';
-
-	/**
-	 * The name of the default cache file
-	 */
-	private $_cachename = 'default';
-
-	/**
-	 * The cache file extension
-	 */
-	private $_extension = '.cache';
-
-	/**
-	 * Default constructor
-	 *
-	 * @param string|array [optional] $config
-	 * @return void
-	 */
-	public function __construct($config = null) {
-		global $rf_caches;
-
-		if (true === isset($config)) {
-			if (is_string($config)) {
-				$this->setCache($config);
-				$rf_caches[$config] = $this;
-			} else if (is_array($config)) {
-				$this->setCache($config['name']);
-				$rf_caches[$config['name']] = $this;
-				$this->setCachePath($config['path']);
-				$this->setExtension($config['extension']);
-			}
-		}
+	 *	Class constructor
+	 *	@param $engine bool|string
+	 **/
+	function __construct($name, $engine = true) {
+		$this->load($name, $engine);
 	}
 
 	/**
-	 * Check whether data accociated with a key
-	 *
-	 * @param string $key
-	 * @return boolean
-	 */
-	public function exists($key) {
-		if (false != $this->_loadCache()) {
-			$cachedData = $this->_loadCache();
-			return isset($cachedData[$key]['data']);
+	 *	Return timestamp and TTL of cache entry or false if not found
+	 *	@return array|false
+	 *	@param $key string
+	 *	@param $val mixed
+	 **/
+	function exists($key, &$val = null) {
+		if ( ! $this->engine) { return false; }
+		$fw = \Base::instance();
+
+		$ndx = $this->name . '.' . $key;
+		$parts = explode('=', $this->engine, 2);
+		switch ($parts[0]) {
+			case 'apc':
+			case 'apcu':
+				$raw = call_user_func($parts[0] . '_fetch', $ndx);
+				break;
+			case 'redis':
+				$raw = $this->ref->get($ndx);
+				break;
+			case 'memcache':
+				$raw = memcache_get($this->ref, $ndx);
+				break;
+			case 'memcached':
+				$raw = $this->ref->get($ndx);
+				break;
+			case 'wincache':
+				$raw = wincache_ucache_get($ndx);
+				break;
+			case 'xcache':
+				$raw = xcache_get($ndx);
+				break;
+			case 'folder':
+				$raw = $fw->read($parts[1] . $ndx);
+				break;
 		}
+		if (! empty($raw)) {
+			list($val, $time, $ttl) = (array) unserialize($raw);
+			if ($ttl === 0 || $time + $ttl > microtime(true))
+				return [$time, $ttl];
+			$val = null;
+			$this->clear($key);
+		}
+		return false;
 	}
 
 	/**
-	 * Store data in the cache
-	 *
-	 * @param string $key
-	 * @param mixed $data
-	 * @param integer [optional] $expiration
-	 * @return object
-	 */
-	public function set($key, $data, $expiration = 0) {
-		$storeData = array(
-			'time'	 => time(),
-			'expire' => $expiration,
-			'data'	 => serialize($data)
-		);
-		$dataArray = $this->_loadCache();
-		if (true === is_array($dataArray)) {
-			$dataArray[$key] = $storeData;
-		} else {
-			$dataArray = array($key => $storeData);
+	 *	Store value in cache
+	 *	@return mixed|false
+	 *	@param $key string
+	 *	@param $val mixed
+	 *	@param $ttl int
+	 **/
+	function set($key, $val, $ttl = 0) {
+		$fw = \Base::instance();
+		if (!$this->engine)
+			return true;
+		$ndx = $this->name . '.' . $key;
+		if ($cached = $this->exists($key))
+			$ttl = $cached[1];
+		$data = $fw->serialize([$val, microtime(true), $ttl]);
+		$parts = explode('=', $this->engine, 2);
+		switch ($parts[0]) {
+			case 'apc':
+			case 'apcu':
+				return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
+			case 'redis':
+				return $this->ref->set($ndx, $data, $ttl ? ['ex' => $ttl] : []);
+			case 'memcache':
+				return memcache_set($this->ref, $ndx, $data, 0, $ttl);
+			case 'memcached':
+				return $this->ref->set($ndx, $data, $ttl);
+			case 'wincache':
+				return wincache_ucache_set($ndx, $data, $ttl);
+			case 'xcache':
+				return xcache_set($ndx, $data, $ttl);
+			case 'folder':
+				return $fw->write($parts[1] .
+					str_replace(['/', '\\'], '', $ndx), $data);
 		}
-		$cacheData = json_encode($dataArray);
-		file_put_contents($this->getCacheDir(), $cacheData);
-		return $this;
+		return false;
 	}
 
 	/**
-	 * Get cached data by its key
-	 * 
-	 * @param string $key
-	 * @param boolean [optional] $timestamp
-	 * @return string
-	 */
-	public function get($key, $timestamp = false) {
-		$cachedData = $this->_loadCache();
-		(false === $timestamp) ? $type = 'data' : $type = 'time';
-		if (! isset($cachedData[$key][$type])) return null; 
-		$entry = $cachedData[$key];
-		if (true === $this->_checkExpired($entry['time'], $entry['expire'])) {
-			unset($cachedData[$key]);
-			return false;
-		}
-
-		return unserialize($cachedData[$key][$type]);
+	 *	Retrieve value of cache entry
+	 *	@return mixed|false
+	 *	@param $key string
+	 **/
+	function get($key) {
+		return $this->engine && $this->exists($key, $data) ? $data : false;
 	}
 
 	/**
-	 * Get all cached data
-	 * 
-	 * @param boolean [optional] $meta
-	 * @return array
-	 */
-	public function getAll($meta = false) {
-		if ($meta === false) {
-			$results = array();
-			$cachedData = $this->_loadCache();
-			if ($cachedData) {
-				foreach ($cachedData as $k => $v) {
-					$results[$k] = unserialize($v['data']);
+	 *	Delete cache entry
+	 *	@return bool
+	 *	@param $key string
+	 **/
+	function clear($key) {
+		if ( ! $this->engine) { return; }
+		$ndx = $this->name . '.' . $key;
+		$parts = explode('=', $this->engine, 2);
+		switch ($parts[0]) {
+			case 'apc':
+			case 'apcu':
+				return call_user_func($parts[0] . '_delete', $ndx);
+			case 'redis':
+				return $this->ref->del($ndx);
+			case 'memcache':
+				return memcache_delete($this->ref, $ndx);
+			case 'memcached':
+				return $this->ref->delete($ndx);
+			case 'wincache':
+				return wincache_ucache_delete($ndx);
+			case 'xcache':
+				return xcache_unset($ndx);
+			case 'folder':
+				return @unlink($parts[1] . $ndx);
+		}
+		return false;
+	}
+
+	/**
+	 *	Clear contents of cache backend
+	 *	@return bool
+	 *	@param $suffix string
+	 **/
+	function reset($suffix = null) {
+		if ( ! $this->engine) { return true; }
+
+		$regex = '/' . preg_quote($this->name . '.', '/') . '.*' .
+			preg_quote($suffix, '/') . '/';
+
+		$parts = explode('=', $this->engine, 2);
+		switch ($parts[0]) {
+			case 'apc':
+			case 'apcu':
+				$info = call_user_func(
+					$parts[0] . '_cache_info',
+					$parts[0] == 'apcu' ? false : 'user'
+				);
+				if (!empty($info['cache_list'])) {
+					$key = array_key_exists(
+						'info',
+						$info['cache_list'][0]
+					) ? 'info' : 'key';
+					foreach ($info['cache_list'] as $item)
+						if (preg_match($regex, $item[$key]))
+							call_user_func($parts[0] . '_delete', $item[$key]);
+				}
+				return true;
+			case 'redis':
+				$keys = $this->ref->keys($this->name . '.*' . $suffix);
+				foreach ($keys as $key)
+					$this->ref->del($key);
+				return true;
+			case 'memcache':
+				foreach (memcache_get_extended_stats(
+					$this->ref,
+					'slabs'
+				) as $slabs)
+					foreach (array_filter(array_keys($slabs), 'is_numeric')
+						as $id)
+						foreach (memcache_get_extended_stats(
+							$this->ref,
+							'cachedump',
+							$id
+						) as $data)
+							if (is_array($data))
+								foreach (array_keys($data) as $key)
+									if (preg_match($regex, $key))
+										memcache_delete($this->ref, $key);
+				return true;
+			case 'memcached':
+				foreach ($this->ref->getallkeys() ?: [] as $key)
+					if (preg_match($regex, $key))
+						$this->ref->delete($key);
+				return true;
+			case 'wincache':
+				$info = wincache_ucache_info();
+				foreach ($info['ucache_entries'] as $item)
+					if (preg_match($regex, $item['key_name']))
+						wincache_ucache_delete($item['key_name']);
+				return true;
+			case 'xcache':
+				if ($suffix && !ini_get('xcache.admin.enable_auth')) {
+					$cnt = xcache_count(XC_TYPE_VAR);
+					for ($i = 0; $i < $cnt; $i++) {
+						$list = xcache_list(XC_TYPE_VAR, $i);
+						foreach ($list['cache_list'] as $item)
+							if (preg_match($regex, $item['name']))
+								xcache_unset($item['name']);
+					}
+				} else
+					xcache_unset_by_name($this->name . '.');
+				return true;
+			case 'folder':
+				if ($glob = @glob($parts[1] . '*'))
+					foreach ($glob as $file)
+						if (preg_match($regex, basename($file)))
+							@unlink($file);
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Load/auto-detect cache backend
+	 *	@return string
+	 *	@param $engine bool|string
+	 *	@param $name bool|string
+	 **/
+	function load($name, $engine) {
+		if (! $engine) { return false; }
+		$fw = \Base::instance();
+
+		if ($engine = trim($engine)) {
+			if (extension_loaded('apcu') || extension_loaded('apc')) {
+				$engine = "apcu";
+				$this->ref = array("found");
+			} elseif (
+				preg_match('/^redis=(.+)/', $engine, $parts) &&
+				extension_loaded('redis')
+			) {
+				list($host, $port, $db, $password) = explode(':', $parts[1]) + [1 => 6379, 2 => null, 3 => null];
+				$this->ref = new Redis;
+				if (!$this->ref->connect($host, $port, 2))
+					$this->ref = null;
+				if (!empty($password))
+					$this->ref->auth($password);
+				if (isset($db))
+					$this->ref->select($db);
+			} elseif (
+				preg_match('/^memcache=(.+)/', $engine, $parts) &&
+				extension_loaded('memcache')
+			) {
+				foreach ($fw->split($parts[1]) as $server) {
+					list($host, $port) = explode(':', $server) + [1 => 11211];
+					if (empty($this->ref))
+						$this->ref = @memcache_connect($host, $port) ?: null;
+					else
+						memcache_add_server($this->ref, $host, $port);
+				}
+			} elseif (
+				preg_match('/^memcached=(.+)/', $engine, $parts) &&
+				extension_loaded('memcached')
+			) {
+				foreach ($fw->split($parts[1]) as $server) {
+					list($host, $port) = explode(':', $server) + [1 => 11211];
+					if (empty($this->ref))
+						$this->ref = new Memcached();
+					$this->ref->addServer($host, $port);
 				}
 			}
-			return $results;
-		} else {
-			return $this->_loadCache();
-		}
-	}
+			if (empty($this->ref) && !preg_match('/^folder\h*=/', $engine)) {
+				$engine = ($grep = preg_grep(
+					'/^(apc|wincache|xcache)/',
+					array_map('strtolower', get_loaded_extensions())
+				)) ?
+					// Auto-detect
+					current($grep) :
+					// Use filesystem as fallback
+					('folder=' . $fw->TEMP . 'cache/');
+			}
 
-	/**
-	 * Clear cached entry by its key
-	 * 
-	 * @param string $key
-	 * @return object
-	 */
-	public function clear($key) {
-		$cacheData = $this->_loadCache();
-		if (true === is_array($cacheData)) {
-			if (true === isset($cacheData[$key])) {
-				unset($cacheData[$key]);
-				$cacheData = json_encode($cacheData);
-				file_put_contents($this->getCacheDir(), $cacheData);
-			} else {
-				throw new Exception("Error: erase() - Key '{$key}' not found.");
+			// make sure folder is created
+			if ( preg_match('/^folder\h*=\h*(.+)/', $engine, $parts) && ! is_dir($parts[1]) ) {
+				mkdir($parts[1], \Base::MODE, true);
 			}
 		}
-		return $this;
+
+		// set prefix name
+		$this->name = $name ? $name : $fw->SEED;
+		// debug($name);
+		// debug($this->name);
+		return $this->engine = $engine;
 	}
-
-	/**
-	 * Clear all expired entries
-	 * 
-	 * @return integer
-	 */
-	public function clearExpired() {
-		$cacheData = $this->_loadCache();
-		if (true === is_array($cacheData)) {
-			$counter = 0;
-			foreach ($cacheData as $key => $entry) {
-				if (true === $this->_checkExpired($entry['time'], $entry['expire'])) {
-					unset($cacheData[$key]);
-					$counter++;
-				}
-			}
-			if ($counter > 0) {
-				$cacheData = json_encode($cacheData);
-				file_put_contents($this->getCacheDir(), $cacheData);
-			}
-			return $counter;
-		}
-	}
-
-	/**
-	 * Erase all cached entries
-	 * 
-	 * @return object
-	 */
-	public function reset() {
-		$cacheDir = $this->getCacheDir();
-		if (true === file_exists($cacheDir)) {
-			$cacheFile = fopen($cacheDir, 'w');
-			fclose($cacheFile);
-		}
-		return $this;
-	}
-
-	/**
-	 * Load appointed cache
-	 * 
-	 * @return mixed
-	 */
-	private function _loadCache() {
-		if (true === file_exists($this->getCacheDir())) {
-			$file = file_get_contents($this->getCacheDir());
-			return json_decode($file, true);
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the cache directory path
-	 * 
-	 * @return string
-	 */
-	public function getCacheDir() {
-		if (true === $this->_checkCacheDir()) {
-			$filename = $this->getCache();
-			$filename = preg_replace('/[^0-9a-z\.\_\-]/i', '', strtolower($filename));
-			return $this->getCachePath() . $this->_getHash($filename) . $this->getExtension();
-		}
-	}
-
-	/**
-	 * Get the filename hash
-	 * 
-	 * @return string
-	 */
-	private function _getHash($filename) {
-		return sha1($filename);
-	}
-
-	/**
-	 * Check whether a timestamp is still in the duration 
-	 * 
-	 * @param integer $timestamp
-	 * @param integer $expiration
-	 * @return boolean
-	 */
-	private function _checkExpired($timestamp, $expiration) {
-		$result = false;
-		if ($expiration !== 0) {
-			$timeDiff = time() - $timestamp;
-			($timeDiff > $expiration) ? $result = true : $result = false;
-		}
-		return $result;
-	}
-
-	/**
-	 * Check if a writable cache directory exists and if not create a new one
-	 * 
-	 * @return boolean
-	 */
-	private function _checkCacheDir() {
-		if (!is_dir($this->getCachePath()) && !mkdir($this->getCachePath(), 0775, true)) {
-			throw new Exception('Unable to create cache directory ' . $this->getCachePath());
-		} elseif (!is_readable($this->getCachePath()) || !is_writable($this->getCachePath())) {
-			if (!chmod($this->getCachePath(), 0775)) {
-				throw new Exception($this->getCachePath() . ' must be readable and writeable');
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Cache path Setter
-	 * 
-	 * @param string $path
-	 * @return object
-	 */
-	public function setCachePath($path) {
-		$this->_cachepath = $path;
-		return $this;
-	}
-
-	/**
-	 * Cache path Getter
-	 * 
-	 * @return string
-	 */
-	public function getCachePath() {
-		return $this->_cachepath;
-	}
-
-	/**
-	 * Cache name Setter
-	 * 
-	 * @param string $name
-	 * @return object
-	 */
-	public function setCache($name) {
-		$this->_cachename = $name;
-		return $this;
-	}
-
-	/**
-	 * Cache name Getter
-	 * 
-	 * @return void
-	 */
-	public function getCache() {
-		return $this->_cachename;
-	}
-
-	/**
-	 * Cache file extension Setter
-	 * 
-	 * @param string $ext
-	 * @return object
-	 */
-	public function setExtension($ext) {
-		$this->_extension = $ext;
-		return $this;
-	}
-
-	/**
-	 * Cache file extension Getter
-	 * 
-	 * @return string
-	 */
-	public function getExtension() {
-		return $this->_extension;
-	}
-
-}
-
-function get_cache($name) {
-	global $rf_caches;
-	return $rf_caches[$name];
 }

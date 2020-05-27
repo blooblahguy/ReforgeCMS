@@ -69,7 +69,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$id = $this->id;
 
 		$user = new User();
-		$user->load(array("id = :id", ":id" => $id));
+		$user->load("*", array("id = :id", ":id" => $id));
 		$action = "Create";
 		$subject = "User";
 		if ($id > 0) {
@@ -78,7 +78,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		}
 
 		$roles = new Role();
-		$roles = $roles->find(null, array("order by" => "priority ASC"));
+		$roles = $roles->find("*", null, array("order by" => "priority ASC"));
 		$roles = array_extract($roles, "id", "label");
 	?>
 		<div class="row g1">
@@ -146,7 +146,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$user->load(array("id = :id", ":id" => $id));
+			$user->load("*", array("id = :id", ":id" => $id));
 		}
 
 

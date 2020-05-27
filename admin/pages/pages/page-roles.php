@@ -18,7 +18,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 	function index($args) {
 		$roles = new Role();
-		$roles = $roles->find(null, array(
+		$roles = $roles->find("*", null, array(
 			"order by" => "priority ASC"
 		));
 
@@ -38,7 +38,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 				"calculate" => function($s, $id) {
 					// global $db;
 					$rs = new User();
-					$rs = $rs->find("role_id = $id");
+					$rs = $rs->find("*", "role_id = $id");
 					// var_dump($rs->cache);
 					return (count($rs));
 				},
@@ -69,7 +69,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		$id = $this->id;
 		$role = new Role();
 		if ($id > 0) {
-			$role->load("id = $id");
+			$role->load("*", "id = $id");
 		}
 
 		if (! $role->color) {$role->color = "#b83336"; }
@@ -175,7 +175,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$role->load("id = $id");
+			$role->load("*", "id = $id");
 		}
 
 		$default = isset($_POST['default']) ? 1 : 0;
@@ -200,7 +200,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 	function delete($args) {
 		$id = $args['id'];
 		$role = new Role();
-		$role->load("id = $id");
+		$role->load("*", "id = $id");
 		$role->erase();
 
 		\Alerts::instance()->success("Role deleted");

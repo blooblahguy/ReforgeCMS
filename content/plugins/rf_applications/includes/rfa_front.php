@@ -36,12 +36,12 @@ class RFA_Applications_Front extends \Prefab {
 
 		// load all applications
 		if ($user->can("view_applications")) {
-			$open = $app->find("post_type = 'application' AND post_status = 'open' ");
-			$other = $app->find("post_type = 'application' AND post_status != 'open' ");
+			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' ");
+			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' ");
 		// load my applications
 		} else {
-			$open = $app->find("post_type = 'application' AND post_status = 'open' AND post_author = {$user->id} ");
-			$other = $app->find("post_type = 'application' AND post_status != 'open' AND post_author = {$user->id} ");
+			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' AND post_author = {$user->id} ");
+			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND post_author = {$user->id} ");
 		}
 
 		$apps = $open + $other;
@@ -59,7 +59,7 @@ class RFA_Applications_Front extends \Prefab {
 
 	function view_application($id) {
 		$app = new Post();
-		$app->load(array("id = :id", ":id" => $id));
+		$app->load("*", array("id = :id", ":id" => $id));
 
 		include $this->rfa->path."/views/view_app.php";
 	}
@@ -67,7 +67,7 @@ class RFA_Applications_Front extends \Prefab {
 	function application_page($title, $request, $args) {
 		if ($request['page_id'] == $this->rfa->applications && $args['id']) {
 			$app = new Post();
-			$app->load(array("id = :id", ":id" => $args['id']));
+			$app->load("*", array("id = :id", ":id" => $args['id']));
 			$title = $app->title;
 
 		}
@@ -84,7 +84,7 @@ class RFA_Applications_Front extends \Prefab {
 		}
 
 		$apps = new Post();
-		$apps->find(array("post_type = :post_type AND author = :author", ":post_type" => "applications", ":author" => $user->id), array(
+		$apps->find("*", array("post_type = :post_type AND author = :author", ":post_type" => "applications", ":author" => $user->id), array(
 			"order by" => "post_status ASC"
 		));
 	}

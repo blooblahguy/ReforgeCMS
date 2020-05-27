@@ -37,14 +37,14 @@ class RFApplications extends \Prefab {
 
 	function apply_button($text = "Apply Now") {
 		$apply = new Post();
-		$apply->load(array("id = :id", ":id" => $this->apply));
+		$apply->load("*", array("id = :id", ":id" => $this->apply));
 		?>
 			<a class="btn-primary" href="<?= $apply->get_permalink(); ?>"><?= $text; ?></a>
 		<?
 	}
 	function app_link($id) {
 		$apps = new Post();
-		$apps->load(array("id = :id", ":id" => $this->applications));
+		$apps->load("*", array("id = :id", ":id" => $this->applications));
 
 		return $apps->get_permalink()."/".$id;
 	}

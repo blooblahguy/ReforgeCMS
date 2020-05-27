@@ -13,7 +13,7 @@ class Comments extends \Prefab {
 
 function post_comments($post_id) {
 	$comments = new Comment();
-	$comments = $comments->find(array("post_id = :pid", ":pid" => $post_id));
+	$comments = $comments->find("*", array("post_id = :pid", ":pid" => $post_id));
 
 	debug($comments);
 

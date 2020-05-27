@@ -21,7 +21,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		<div class="section">
 		<?
 		$partials = new Partial();
-		$partials = $partials->find("post_type = 'partial' "); 
+		$partials = $partials->find("*", "post_type = 'partial' "); 
 		// display table
 		display_results_table($partials, array(
 			'title' => array(
@@ -40,7 +40,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$id = $this->id;
 		$partial = new Partial();
 		if ($id > 0) {
-			$partial->load("id = $id");
+			$partial->load("*", "id = $id");
 		}
 
 		$cache = get_meta("partial_$id", 'cache');
@@ -130,7 +130,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$partial->load("id = $id");
+			$partial->load("*", "id = $id");
 		}
 
 		$partial->title = $_POST['title'];

@@ -6,7 +6,7 @@ function register_partial($slug, $title, $content) {
 
 function get_partial($slug) {
 	$partial = new Partial();
-	$partial->load(array("post_type = :pt AND slug = :slug", ":slug" => $slug, ":pt" => "partial"));
+	$partial->load("*", array("post_type = :pt AND slug = :slug", ":slug" => $slug, ":pt" => "partial"));
 	$uid = $partial->id;
 	$cache = (int) get_meta($uid, 'cache');
 	$html = $partial->cache['queries']->get($slug . "_html");

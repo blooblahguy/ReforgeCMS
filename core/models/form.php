@@ -1,5 +1,6 @@
 <?php
-global $core; 
+
+
 class Form extends \RF\Mapper {
 	function __construct() {
 		parent::__construct("rf_posts", false);
@@ -11,7 +12,7 @@ class Form extends \RF\Mapper {
 		if (! $this->id) { return; }
 
 		$cf = new CustomField();
-		$field = reset($cf->find(array("id = :id", ":id" => $this->post_parent)));
+		$field = reset($cf->find("*", array("id = :id", ":id" => $this->post_parent)));
 		$entry = $request['page_id'];
 		$type = "form";
 		if ($args['entry']) {
@@ -52,7 +53,7 @@ class Form extends \RF\Mapper {
 
 		$entry = new Post();
 		if ($entry_id != 0) {
-			$entry->load(array("id = :id", ":id" => $entry_id));
+			$entry->load("*", array("id = :id", ":id" => $entry_id));
 		}
 		$entry->post_type = $type;
 		$entry->post_parent = $this->id;

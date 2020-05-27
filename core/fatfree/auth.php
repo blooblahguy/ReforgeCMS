@@ -78,7 +78,7 @@ class Auth {
 	**/
 	protected function _mongo($id,$pw,$realm) {
 		$success = (bool)
-			$this->mapper->load(
+			$this->mapper->load("*", 
 				[$this->args['id']=>$id]+
 				($this->func?[]:[$this->args['pw']=>$pw])+
 				(isset($this->args['realm'])?

@@ -5,7 +5,7 @@ $rfa = RFApps();
 $application = false;
 if ($id) {
 	$application = new Post();
-	$application->load(array("id = :id", ":id" => $id));
+	$application->load("*", array("id = :id", ":id" => $id));
 }
 
 get_template_part("parts", "page-header");

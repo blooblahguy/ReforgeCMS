@@ -38,11 +38,11 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$apply_form = get_option("rfa_apply_form");
 		
 		$pages = new Post();
-		$pages = $pages->find("post_type = 'pages' ");
+		$pages = $pages->find("*", "post_type = 'pages' ");
 		$pages = array_extract($pages, "id", "title");
 
 		$forms = new Post();
-		$forms = $forms->find("post_type = 'forms' ");
+		$forms = $forms->find("*", "post_type = 'forms' ");
 		$forms = array_extract($forms, "id", "title");
 
 		?>
@@ -104,48 +104,58 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		render_admin_header("Applications");
 
 		$app = new Post();
-		$open = $app->find("post_type = 'application' AND post_status = 'open' ");
-		$declined = $app->find("post_type = 'application' AND post_status = 'declined' ");
-		$closed = $app->find("post_type = 'application' AND post_status = 'closed' ");
+		$open = $app->find("*", "post_type = 'application' AND post_status = 'open' ");
+		$declined = $app->find("*", "post_type = 'application' AND post_status = 'declined' ");
+		$closed = $app->find("*", "post_type = 'application' AND post_status = 'closed' ");
+		$accepted = $app->find("*", "post_type = 'application' AND post_status = 'accepted' ");
+
+		$columns = array(
+			'title' => array(
+				"label" => "Title",
+				"class" => "tablelabel",
+				"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
+			),
+			'author' => array(
+				"label" => "User",
+				"calculate" => function($value, $id) {
+					the_author($id);
+				}
+			),
+			'submitted' => array(
+				"label" => "Submitted",
+				"calculate" => function($value, $id) {
+					the_date($id);	
+				},
+			),
+		);
+
 		?>
 
 		<div class="section tabs">
 			<div class="tab_nav">
 				<a href="#0" data-tab="open">Open</a>
+				<a href="#0" data-tab="accepted">Accepted</a>
 				<a href="#0" data-tab="declined">Declined</a>
 				<a href="#0" data-tab="closed">Closed</a>
 			</div>
 			<div class="tab_content" data-tab="open">
 				<? 
-				display_results_table($open, array(
-					'title' => array(
-						"label" => "Title",
-						"class" => "tablelabel",
-						"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
-					),
-				)); 
+				display_results_table($open, $columns); 
+				?>
+			</div>
+			<div class="tab_content" data-tab="accepted">
+				<? 
+				display_results_table($accepted, $columns); 
 				?>
 			</div>
 			<div class="tab_content" data-tab="declined">
 				<? 
-				display_results_table($declined, array(
-					'title' => array(
-						"label" => "Title",
-						"class" => "tablelabel",
-						"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
-					),
-				)); 
+				display_results_table($declined, $columns); 
 				?>
 			</div>
 			<div class="tab_content" data-tab="closed">
 				<? 
-				display_results_table($closed, array(
-					'title' => array(
-						"label" => "Title",
-						"class" => "tablelabel",
-						"html" => '<a href="'.$this->link.'/edit/%2$d">%1$s</a>',
-					),
-				)); 
+				display_results_table($closed, $columns); 
 				?>
 			</div>
 		</div>
@@ -160,7 +170,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 
 		$app = new Post();
 		if ($id) {
-			$app->load(array("id = :id", ":id" => $id));
+			$app->load("*", array("id = :id", ":id" => $id));
 		}
 
 
@@ -235,7 +245,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 
 		$app = new Post();
 		if ($id > 0) {
-			$app->load("id = $id");
+			$app->load("*", "id = $id");
 		}
 
 		$app->post_status = $_POST['post_status'];

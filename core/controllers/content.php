@@ -102,7 +102,7 @@ function locate_template($templates, $include = true, $required = false) {
 
 	foreach ($templates as $t) {
 		$looked .= $t.", ";
-		if (file_exists($path.$t)) {
+		if (is_file($path.$t)) {
 			if ($include) {
 				rf_require($path.$t);
 			} else {
@@ -131,7 +131,7 @@ function get_title($id = false) {
 		$title = $request['page']['title'];
 	} else {
 		$post = new Post();
-		$post->load(array("id = :id", ":id" => $id));
+		$post->load("*", array("id = :id", ":id" => $id));
 		$title = $post->title;
 	}
 
@@ -148,12 +148,12 @@ function get_author($id = false) {
 		$author_id = $request['page']['author'];
 	} else {
 		$post = new Post();
-		$post->load(array("id = :id", ":id" => $id));
+		$post->load("*", array("id = :id", ":id" => $id));
 		$author_id = $post->author;
 	}
 
 	$author = new User();
-	$author->load(array("id = :id", ":id" => $author_id));
+	$author->load("*", array("id = :id", ":id" => $author_id));
 
 	return "<span class='strong {$author->class}'>{$author->username}</span>";
 }
@@ -168,7 +168,7 @@ function get_date($id = false) {
 		$date = $request['page']['created'];
 	} else {
 		$post = new Post();
-		$post->load(array("id = :id", ":id" => $id));
+		$post->load("*", array("id = :id", ":id" => $id));
 		$date = $post->created;
 	}
 
@@ -177,7 +177,7 @@ function get_date($id = false) {
 
 function get_menu($slug) {
 	$menu = new Menu;
-	$menu->load(array("slug = :slug", ":slug" => $slug));
+	$menu->load("*", array("slug = :slug", ":slug" => $slug));
 
 	return $menu->get_menu_array();
 }
@@ -244,8 +244,6 @@ class Content extends \Prefab {
 		$this->pages['error'] = new Post();
 		$this->pages['error']->title = "Error";
 
-		// $core->set('ONERROR', "Content->error");
-
 		foreach ($pages as $post) {
 			$page = $this->add_page($post);
 			// debug($page);
@@ -285,9 +283,11 @@ class Content extends \Prefab {
 	}
 
 	function add_page($info) {
-		$page = new \Post();
+		$page = new Post();
+
 		$page->factory($info);
 		$permalink = $page->get_permalink();
+		// return $page;
 
 		// debug($info);
 
@@ -320,7 +320,7 @@ class Content extends \Prefab {
 
 	function query($post_type, $args = array()) {
 		$posts = new Post();
-		$posts = $posts->find("post_type = '$post_type'", array(
+		$posts = $posts->find("*", "post_type = '$post_type'", array(
 			"order by" => "created DESC"
 		));
 

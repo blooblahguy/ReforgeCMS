@@ -1,14 +1,3 @@
-<!-- <div class="home_parallax" id="scene">
-	<img data-depth="0.1" src="/content/themes/bigdumbgg/img/parallax.jpg" alt="" class="bg">
-	<div class="container">
-		<img data-depth="0.2" src="/content/themes/bigdumbgg/img/troll.png" alt="" class="troll">
-		<img data-depth="0.4" src="/content/themes/bigdumbgg/img/orc.png" alt="" class="orc">
-		<img data-depth="0.6" src="/content/themes/bigdumbgg/img/belf.png" alt="" class="belf">
-		<img data-depth="0.8" src="/content/themes/bigdumbgg/img/tauren.png" alt="" class="tauren">
-	</div>
-</div> -->
-
-
 	<?
 	$posts = Content::instance()->query("news");
 	$latest = array_shift($posts);
@@ -16,7 +5,7 @@
 	$latest = new Post($latest['id']);
 	$latest->load_meta();
 	$latest_featured = new File();
-	$latest_featured->load(array("id = :id", ":id" => $latest->meta['featured_image']));
+	$latest_featured->load("*", array("id = :id", ":id" => $latest->meta['featured_image']));
 	$latest_featured = $latest_featured->get_size(1200);
 
 	?>
@@ -54,11 +43,13 @@
 	<!-- Streams -->
 	<?
 
-	require_once("lib/bdg_twitch.php");
-	$api = new \BDG\Twitch("so3d8hae0pmk8nz6kuwel6fhdbpofw3");
+	
 
-	$team = $api->checkTeam("bdg");
-	debug($team);
+// 
+	// require_once("lib/bdg_twitch.php");
+	// $api = new \BDG\Twitch("so3d8hae0pmk8nz6kuwel6fhdbpofw3");
+
+	// $team = $api->checkTeam("bdg");
 
 	?>
 	<h2 class="text-center">More News</h2>
@@ -71,7 +62,7 @@
 				$news->load_meta();
 
 				$featured = new File();
-				$featured->load(array("id = :id", ":id" => $news->meta['featured_image']));
+				$featured->load("*", array("id = :id", ":id" => $news->meta['featured_image']));
 				$featured = $featured->get_size(600);
 
 				?>

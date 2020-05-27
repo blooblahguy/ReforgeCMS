@@ -386,7 +386,7 @@ final class Base extends Prefab implements ArrayAccess {
 		}
 		else switch ($key) {
 		case 'CACHE':
-			$val=Cache::instance()->load($val);
+			$val=Cache::instance()->load("*", $val);
 			break;
 		case 'ENCODING':
 			ini_set('default_charset',$val);
@@ -1163,12 +1163,12 @@ final class Base extends Prefab implements ArrayAccess {
 	*	@param $arg mixed
 	**/
 	function unserialize($arg) {
-		switch (strtolower($this->hive['SERIALIZER'])) {
-			case 'igbinary':
-				return igbinary_unserialize($arg);
-			default:
+		// switch (strtolower($this->hive['SERIALIZER'])) {
+		// 	case 'igbinary':
+		// 		return igbinary_unserialize($arg);
+		// 	default:
 				return unserialize($arg);
-		}
+		// }
 	}
 
 	/**
@@ -2740,6 +2740,7 @@ class Cache extends Prefab {
 	**/
 	function load($dsn,$seed=null) {
 		$fw=Base::instance();
+
 		if ($dsn=trim($dsn)) {
 			if (preg_match('/^redis=(.+)/',$dsn,$parts) &&
 				extension_loaded('redis')) {
@@ -2790,7 +2791,7 @@ class Cache extends Prefab {
 	**/
 	function __construct($dsn=false) {
 		if ($dsn)
-			$this->load($dsn);
+			$this->load("*", $dsn);
 	}
 
 }

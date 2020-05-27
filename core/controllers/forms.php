@@ -17,7 +17,7 @@ class Forms extends \Prefab {
 		$core->route("POST /rf_form/process/@id", function($core, $args) {
 			$id = $args['id'];
 			$form = new Form();
-			$form->load(array("id = :id", ":id" => $id));
+			$form->load("*", array("id = :id", ":id" => $id));
 
 			$form->submit();
 		
@@ -25,19 +25,19 @@ class Forms extends \Prefab {
 		});
 	}
 
-	function login_submit($core, $args) {
-		$user = new User();
-		$redirect = $_POST["redirect"];
+	// function login_submit($core, $args) {
+	// 	$user = new User();
+	// 	$redirect = $_POST["redirect"];
 
-		if ( $user->login() ) {
-			// we're in here, redirect
-			\Alerts::instance()->success("Successfully logged in, welcome back {$user->name}");
-			redirect($redirect);
-		}
+	// 	if ( $user->login() ) {
+	// 		// we're in here, redirect
+	// 		\Alerts::instance()->success("Successfully logged in, welcome back {$user->name}");
+	// 		redirect($redirect);
+	// 	}
 
-		\Alerts::instance()->error("Invalid username or password");
-		redirect($redirect);
-	}
+	// 	\Alerts::instance()->error("Invalid username or password");
+	// 	redirect($redirect);
+	// }
 
 	function profile_submit($core, $args) {
 
@@ -98,26 +98,26 @@ add_shortcode("registration_form", "registration_form");
 
 function render_entry_results($entry_id, $args = array()) {
 	$entry = new Post();
-	$entry->load(array("id = :id", ":id" => $entry_id));
+	$entry->load("*", array("id = :id", ":id" => $entry_id));
 
 	$form = new Form();
-	$form = $form->load(array("id = :id", ":id" => $entry->post_parent));
+	$form = $form->load("*", array("id = :id", ":id" => $entry->post_parent));
 
 	$cf = new CustomField();
-	$field = reset($cf->find(array("id = :id", ":id" => $form->post_parent)));
+	$field = reset($cf->find("*", array("id = :id", ":id" => $form->post_parent)));
 
 	RCF()->render_results($field['id'], $entry_id, "application", $field);
 }
 
 function render_entry($entry_id, $args = array()) {
 	$entry = new Post();
-	$entry->load(array("id = :id", ":id" => $entry_id));
+	$entry->load("*", array("id = :id", ":id" => $entry_id));
 
 	$form = new Form();
-	$form = $form->load(array("id = :id", ":id" => $entry->post_parent));
+	$form = $form->load("*", array("id = :id", ":id" => $entry->post_parent));
 
 	$cf = new CustomField();
-	$field = reset($cf->find(array("id = :id", ":id" => $form->post_parent)));
+	$field = reset($cf->find("*", array("id = :id", ":id" => $form->post_parent)));
 
 	RCF()->render_fields($field['id'], $entry_id, "application", $field);
 }
@@ -126,9 +126,9 @@ function render_form($uid, $args = array()) {
 	$form = new Form();
 
 	if (is_numeric($uid)) {
-		$form->load(array("id = :id AND post_type = 'forms' ", ":id" => $uid));
+		$form->load("*", array("id = :id AND post_type = 'forms' ", ":id" => $uid));
 	} else {
-		$form->load(array("slug = :slug AND post_type = 'forms' ", ":slug" => $uid));
+		$form->load("*", array("slug = :slug AND post_type = 'forms' ", ":slug" => $uid));
 	}
 
 	$form->render($args);

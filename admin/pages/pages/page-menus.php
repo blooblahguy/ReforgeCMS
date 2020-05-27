@@ -17,7 +17,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 
 	function index($args) {
 		$menu = new Menu();
-		$menu = $menu->find(null, array(
+		$menu = $menu->find("*", null, array(
 			"order by" => "`order` ASC"
 		));
 
@@ -99,7 +99,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 
 		$menu = new Menu();
 		if ($id > 0) {
-			$menu->load("id = $id");
+			$menu->load("*", "id = $id");
 		}
 
 		?>
@@ -282,7 +282,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$menu->load("id = $id");
+			$menu->load("*", "id = $id");
 		}
 
 		$links = $this->build_menu();

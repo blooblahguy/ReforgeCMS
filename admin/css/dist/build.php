@@ -1,16 +1,14 @@
 <?php
 	header('Content-Type: text/css');
 
-	ini_set("display_errors", 1);
-	error_reporting(E_ALL);
-
 	// cached updating
 	$update = false;
 	$cache_mod = filemtime($out_file);
+	$this_mod = filemtime(__FILE__);
 	if (! $cache_mod) {
 		$fh = fopen($out_file, 'w');
 	}
-	$this_mod = filemtime(__FILE__);
+	
 	foreach ($sheets as $sheet) {
 		if (filemtime($sheet) > $cache_mod || $this_mod > $cache_mod) {
 			$update = true;

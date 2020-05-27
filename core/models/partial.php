@@ -1,4 +1,6 @@
 <?
+
+
 class Partial extends \RF\Mapper {
 	function __construct() {
 		parent::__construct("rf_posts");

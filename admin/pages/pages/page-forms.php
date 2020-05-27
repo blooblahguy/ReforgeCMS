@@ -28,7 +28,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		$id = $args['id'];
 
 		$entries = new Post();
-		$entries = $entries->find(array("post_parent = :id AND post_type = :pt", ":id" => $id, ":pt" => "form_entry"));
+		$entries = $entries->find("*", array("post_parent = :id AND post_type = :pt", ":id" => $id, ":pt" => "form_entry"));
 
 		$columns = array(
 			'title' => array(
@@ -54,7 +54,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		$this->render_title();
 
 		$forms = new Post();
-		$forms = $forms->find("post_type = 'forms'");
+		$forms = $forms->find("*", "post_type = 'forms'");
 
 		$columns = array(
 			'title' => array(
@@ -66,7 +66,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 				"label" => "Entries",
 				"calculate" => function($value, $id) {
 					$entries = new Post();
-					$entries = $entries->find(array(
+					$entries = $entries->find("*", array(
 						"post_parent = $id", 
 						"post_type = 'form_entry'"
 					));
@@ -126,7 +126,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		$id = $args['id'];
 		$form = new Post();
 		if ($id > 0) {
-			$form->load("id = $id");
+			$form->load("*", "id = $id");
 		}
 		$rca_id = $form->post_parent;
 
@@ -182,13 +182,13 @@ class admin_page_FORMS extends RF_Admin_Page {
 
 		$form = new Post();
 		if ($id > 0) {
-			$form->load(array("id = :id", ":id" => $id));
+			$form->load("*", array("id = :id", ":id" => $id));
 		}
 
 		// save custom fieldset
 		$cf = new CustomField();
 		if ($form->post_parent > 0) {
-			$cf->load("id = $form->post_parent");
+			$cf->load("*", "id = $form->post_parent");
 		}
 		$_POST['virtual_fieldset'] = true;
 		$cf = $cf->save_fieldset();

@@ -25,7 +25,7 @@ class reforge_field_IMAGE extends reforge_field {
 		// $image = "";
 		// if (isset($value) && $value) {
 			// $file = new File();
-			// $file->load("id = $value");
+			// $file->load("*", "id = $value");
 			// $image = $file->original;
 		// }
 
@@ -40,7 +40,7 @@ class reforge_field_IMAGE extends reforge_field {
 					$id = (int) $data['meta_value'];
 					$file = new File();
 					if ($id > 0) {
-						$file->load("id = $id");
+						$file->load("*", "id = $id");
 					}
 					$src = "style='display:none'";
 					$rm_btn = "style='display:none'";

@@ -5,8 +5,8 @@ class Reforge extends \Prefab {
 
 	function __construct() {
 		$this->root = $_SERVER['DOCUMENT_ROOT'];
-
-		spl_autoload_register([$this,'autoload']);
+		spl_autoload_register([$this, 'autoload']);
+		Session::instance();
 	}
 
 	/**
@@ -29,10 +29,10 @@ class Reforge extends \Prefab {
 		if (! $class) {
 			$class = $namespace;
 		}
-
-		$model = $this->root."/core/models/$class.php";
-		$controller = $this->root."/core/controllers/$class.php";
-		$reforge = $this->root."/core/reforge/$class.php";
+		
+		$model = $this->root."/core/models/".$class.".php";
+		$controller = $this->root."/core/controllers/".$class.".php";
+		$reforge = $this->root."/core/reforge/".$class.".php";
 
 		if (is_file($model)) {
 			require $model;
@@ -43,5 +43,7 @@ class Reforge extends \Prefab {
 		}
 	}
 }
+
+
 
 return Reforge::instance();

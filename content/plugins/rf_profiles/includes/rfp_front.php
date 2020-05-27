@@ -18,7 +18,7 @@ class RFP_Front extends \Prefab {
 		}
 
 		$rank = new Role();
-		$rank->load(array("id = :id", ":id" => $user->role_id));
+		$rank->load("*", array("id = :id", ":id" => $user->role_id));
 
 		?>
 		<form enctype="multipart/form-data" action="/profile_submit" method="POST">

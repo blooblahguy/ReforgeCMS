@@ -482,7 +482,7 @@ class Mapper extends \DB\Cursor {
 				$this->_id=$this->db->lastinsertid();
 			// Reload to obtain default and auto-increment field values
 			if ($reload=(($inc && $this->_id) || $filter))
-				$this->load($inc?
+				$this->load("*", $inc?
 					[$inc.'=?',$this->db->value(
 						$this->fields[$inc]['pdo_type'],$this->_id)]:
 					[$filter,$nkeys]);
@@ -591,7 +591,7 @@ class Mapper extends \DB\Cursor {
 		if (isset($filter)) {
 			if (!$quick) {
 				$out=0;
-				foreach ($this->find($filter) as $mapper)
+				foreach ($this->find("*", $filter) as $mapper)
 					$out+=$mapper->erase();
 				return $out;
 			}

@@ -23,7 +23,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 	function index($args) {
 
 		$post_types = new PostType();
-		$post_types = $post_types->find(null, array("order by" => "`order` ASC"));
+		$post_types = $post_types->find("*", null, array("order by" => "`order` ASC"));
 		echo '<div class="section">';
 		display_results_table($post_types, array(
 			'icon' => array(
@@ -72,7 +72,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$id = $this->id;
 		$post = new \PostType();
 		if ($id > 0) {
-			$post->load("id = $id");
+			$post->load("*", "id = $id");
 		}
 		if (! $post["statuses"]) {
 			$post["statuses"] = serialize(array());
@@ -268,7 +268,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$type->load("id = $id");
+			$type->load("*", "id = $id");
 		}
 
 		$default_status = $_POST["default_status"];

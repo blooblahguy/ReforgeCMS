@@ -1,6 +1,6 @@
 <?
 	$comments = new Comment();
-	$comment = $comments->find("post_id = {$app['id']}", array(
+	$comment = $comments->find("*", "post_id = {$app['id']}", array(
 		"order by" => "created DESC",
 		"limit" => 1
 	));

@@ -1,114 +1,13 @@
 <?php
-
 namespace RF;
-
-class Schema extends \Prefab {
-	function __construct() {}
-
-	function update($table, $fields) {
-		global $db;
-
-		// ensure the table exists
-		$db->exec("CREATE TABLE IF NOT EXISTS `$table` (id INT(7) PRIMARY KEY NOT NULL AUTO_INCREMENT)");
-
-		// track indexes
-		$indexes = $db->exec("SHOW INDEXES FROM `$table`");
-		$indexes = rekey_array("Key_name", $indexes);
-		$maintain_indexes = array("PRIMARY" => "INDEX");
-
-		// track columns
-		$columns = $db->exec("SHOW COLUMNS FROM `$table`");
-		$columns = rekey_array("Field", $columns);
-
-		// ignore changes to id field
-		unset($columns['id']);
-		// ignore changes to created field
-		if (! isset($fields["created"])) {
-			$fields["created"] = array(
-				"type" => "DATETIME",
-				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP",
-			);
-		}
-		if (! isset($fields["modified"])) {
-			$fields["modified"] = array(
-				"type" => "DATETIME",
-				"attrs" => "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-			);
-		}
-
-		// Now loop through the fields and do properties
-		$last = "id";
-		foreach ($fields as $key => $props) {
-			if (! $props) { continue; }
-			// track indexes/uniques
-			if ($props['index'] == true) {
-				$maintain_indexes[$key] = "INDEX";
-			} elseif ($props['unique'] == true) {
-				$maintain_indexes[$key] = "UNIQUE";
-			}
-
-			// build query by array
-			$qry = array();
-			$qry[] = "ALTER TABLE `{$table}`";
-			
-			// check if we need to add or modify
-			if (! isset($columns[$key])) {
-				$qry[] = "ADD COLUMN";
-			} else {
-				$qry[] = "MODIFY COLUMN";
-			}
-
-			// now add in key and properties
-			$qry[] = "`{$key}`";
-			$qry[] = $props['type'];
-			$qry[] = $props['attrs'];
-			$qry[] = "AFTER `$last`";
-
-			// now join the query string
-			$qry = implode(' ', array_filter($qry));
-			// debug($qry);
-			$db->exec($qry);
-
-			// track last, unset insured column
-			$last = $key;
-			unset($columns[$key]);
-		}
-
-		// for any fields that weren't found again in the update, drop them
-		foreach ($columns as $key => $props) {
-			$qry = "ALTER TABLE `{$table}` DROP COLUMN `{$key}` ";
-			$db->exec($qry);
-		}
-
-		// Do the same for indexes
-		foreach ($maintain_indexes as $key => $type) {
-			if (isset($indexes[$key])) {
-				unset($indexes[$key]);
-			} else {
-				$qry = "ALTER TABLE `{$table}` ADD {$type} (`{$key}`)";
-				$db->exec($qry);
-			}
-		}
-
-		// Removed uninsured indexes
-		foreach ($indexes as $key => $index) {
-			$db->exec("ALTER TABLE `$table` DROP INDEX $key");
-		}
-
-		\Alerts::instance()->success($table." updated");
-	}
-}
-
-// $rf_mapper_cache = array();
-
 class Mapper extends \Magic {
 	// variables
 	protected 
-		$data,
+		$data = array(),
 		$changed = array();
 	public 
 		$cache = array(),
-		$schema = array(),
+		// $schema = array(),
 		$table;
 
 	// construct mapper with provided information
@@ -133,15 +32,15 @@ class Mapper extends \Magic {
 		$cache = $this->cache['schema'];
 
 		// first, store schema information in our object
-		foreach ($schema as $col => $props) {
-			$this->schema[$col] = $props['type'];
-		}
-		if ($this->schema["created"] !== false) {
-			$this->schema["created"] = "DATETIME";
-		}
-		if ($this->schema["modified"] !== false) {
-			$this->schema["modified"] = "DATETIME";
-		}
+		// foreach ($schema as $col => $props) {
+		// 	$this->schema[$col] = $props['type'];
+		// }
+		// if ($this->schema["created"] !== false) {
+		// 	$this->schema["created"] = "DATETIME";
+		// }
+		// if ($this->schema["modified"] !== false) {
+		// 	$this->schema["modified"] = "DATETIME";
+		// }
 
 		// Now, determine if this needs to be updated
 		$field_hash = md5(serialize($schema));
@@ -161,23 +60,21 @@ class Mapper extends \Magic {
 	 */
 	function factory($object) {
 		if (! $object) { return; }
+
 		foreach ($object as $key => $info) {
-			$this[$key] = $object[$key];
-			if (! $this->schema[$key]) {
-				$this->schema[$key] = "inherited";
-			}
+			$this->{$key} = $object[$key];
+			// if (! $this->schema[$key]) {
+			// 	$this->schema[$key] = "inherited";
+			// }
 		}
 
-		if (isset($object['id'])) {
-			$this->id = $object['id'];
-		}
 		if (isset($object['created'])) {
 			$this->created = $object['created'];
-			$this->schema["created"] = "DATETIME";
+			// $this->schema["created"] = "DATETIME";
 		}
 		if (isset($object['modified'])) {
 			$this->modified = $object['modified'];
-			$this->schema["modified"] = "DATETIME";
+			// $this->schema["modified"] = "DATETIME";
 		}
 	}
 
@@ -187,10 +84,10 @@ class Mapper extends \Magic {
 	}
 
 	function set($key, $val) {
-		if ($key != "id" && $val !== $this->{$key}) {
+		if ($key != "id" && $val !== $this->data[$key]) {
 			$this->changed[$key] = true;
 		}
-		$this->data[$key] = $val;	
+		$this->data[$key] = $val;
 	}
 
 	function &get($key) {
@@ -212,43 +109,6 @@ class Mapper extends \Magic {
 		));
 
 		return true;
-		// unset($this->data[$key]);
-
-
-		// $args=[];
-		// $ctr=0;
-		// $filter='';
-		// $pkeys=[];
-		// foreach ($this->fields as $key=>&$field) {
-		// 	if ($field['pkey']) {
-		// 		$filter.=($filter?' AND ':'').$this->db->quotekey($key).'=?';
-		// 		$args[$ctr+1]=[$field['previous'],$field['pdo_type']];
-		// 		$pkeys[$key]=$field['previous'];
-		// 		$ctr++;
-		// 	}
-		// 	$field['value']=null;
-		// 	$field['changed']=(bool)$field['default'];
-		// 	if ($field['pkey'])
-		// 		$field['previous']=null;
-		// 	unset($field);
-		// }
-		// if (!$filter)
-		// 	user_error(sprintf(self::E_PKey,$this->source),E_USER_ERROR);
-		// foreach ($this->adhoc as &$field) {
-		// 	$field['value']=null;
-		// 	unset($field);
-		// }
-		// parent::erase();
-		// if (isset($this->trigger['beforeerase']) &&
-		// 	\Base::instance()->call($this->trigger['beforeerase'],
-		// 		[$this,$pkeys])===false)
-		// 	return 0;
-		// $out=$this->db->
-		// 	exec('DELETE FROM '.$this->table.' WHERE '.$filter.';',$args);
-		// if (isset($this->trigger['aftererase']))
-		// 	\Base::instance()->call($this->trigger['aftererase'],
-		// 		[$this,$pkeys]);
-		// return $out;
 	}
 
 	private function wipe_query_cache() {
@@ -275,7 +135,6 @@ class Mapper extends \Magic {
 		$qry = "UPDATE `{$this->table}` SET ".$qry;
 		$qry .= " WHERE id = {$this->id}";
 
-		$this->wipe_query_cache();
 		return $this->query($qry, $params);
 	}
 
@@ -299,8 +158,6 @@ class Mapper extends \Magic {
 
 		$qry = "INSERT INTO `{$this->table}` ($cols) VALUES ($vals)";
 
-
-		$this->wipe_query_cache();
 		$this->query($qry, $params);
 		$this->id = $db->lastinsertid();
 		return $this->id;
@@ -310,7 +167,6 @@ class Mapper extends \Magic {
 	 * Automatically maps to update or insert depending on if we've loaded any data
 	 */
 	function save() {
-		$this->wipe_query_cache();
 		if ($this->id && $this->id > 0) {
 			return $this->update();
 		} else {
@@ -329,12 +185,13 @@ class Mapper extends \Magic {
 		$sql_key = md5(serialize(array(
 			$cmds, $args
 		)));
+		$value = null;
 
 		// if we're making changes to our table, then wipe our query cache
 		if ($op == "INSERT" || $op == "DELETE" || $op == "UPDATE") {
 			$this->wipe_query_cache();
-		} elseif ($cache->exists($sql_key)) {
-			return $cache->get($sql_key);
+		} elseif ($cache->exists($sql_key, $value)) {
+			return $value; //$cache->get($sql_key);
 		}
 
 
@@ -349,7 +206,7 @@ class Mapper extends \Magic {
 	/**
 	 * Builds a select query out of provided paramters
 	 */
-	function find($filter = null, array $options = null) {
+	function find($fields, $filter = null, array $options = null) {
 		$options = $options ? $options : [];
 		$options += [
 			'group by' => null,
@@ -360,7 +217,7 @@ class Mapper extends \Magic {
 
 		$qry = array();
 		$params = array();
-		$qry[] = "SELECT * FROM `{$this->table}`";
+		$qry[] = "SELECT ".$fields." FROM `{$this->table}`";
 		if ($filter !== null) {
 			if (gettype($filter) == "array") {
 				$params = $filter;
@@ -376,6 +233,8 @@ class Mapper extends \Magic {
 		}
 
 		$qry = implode(" ", array_filter($qry));
+
+		// debug($qry, $params);
 		$rs = $this->query($qry, $params);
 
 		return $rs;
@@ -384,17 +243,18 @@ class Mapper extends \Magic {
 	/**
 	 * Load data about this object, then attach it to $this
 	 */
-	function load($filter = null, array $options = null, $ttl = 0) {
+	function load($fields, $filter = null, array $options = null, $ttl = 0) {
+		$value = null;
 		$cache = $this->cache['queries'];
 		$sql_key = md5(serialize(array(
 			$filter, $options
 		)));
-		if ($cache->exists($sql_key)) {
-			$rs = $cache->get($sql_key);
+		if ($cache->exists($sql_key, $value)) {
+			$rs = $value; //$cache->get($sql_key);
 		}
 
 		if (! $rs) {
-			$rs = $this->find($filter, $options);
+			$rs = $this->find($fields, $filter, $options);
 			if (count($rs) > 1) {
 				echo "error";
 				return;
@@ -403,7 +263,6 @@ class Mapper extends \Magic {
 			$rs = reset($rs);
 			$cache->set($sql_key, $rs);
 		}
-
 
 		// attach data to this object
 		$this->factory($rs);

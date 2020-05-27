@@ -34,7 +34,7 @@ class admin_page_MEDIA extends RF_Admin_Page {
 	function delete($args) {
 		$id = $args['id'];
 		$file = new File();
-		$file->load("id = $id");
+		$file->load("*", "id = $id");
 		$file->erase();
 
 		\Alerts::instance()->warning("Media File $file->name removed");

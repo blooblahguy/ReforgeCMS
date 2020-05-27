@@ -475,7 +475,7 @@ CHANGELOG
 *	Apply URL encoding on BASE to emulate v2 behavior (#123)
 *	Improve Base->map performance (#595)
 *	Add simple backtrace for fatal errors
-*	Count Cursor->load() results (#581)
+*	Count Cursor->load("*", ) results (#581)
 *	Add form field name to Web->receive() callback arguments
 *	Fix missing newlines after template expansion
 *	Fix overwrite of ENCODING variable
@@ -514,7 +514,7 @@ CHANGELOG
 *	NEW: Image overlay with transparency and alignment control
 *	NEW: Allow redirection of specified route patterns to a URL
 *	Bug fix: Missing AND operator in SQL Server schema query (Issue #576)
-*	Count Cursor->load() results (Feature request #581)
+*	Count Cursor->load("*", ) results (Feature request #581)
 *	Mapper copyfrom() method doesn't allow class/object callbacks (Issue #590)
 *	Bug fix: exists() creates elements/properties (Issue #591)
 *	Bug fix: Wildcard in routing pattern consumes entire query string
@@ -585,7 +585,7 @@ CHANGELOG
 *	Allow empty strings in config()
 *	Add support for turning off php://input buffering via RAW
 	(false by default)
-*	Add Cursor->load() and Cursor->find() TTL support
+*	Add Cursor->load("*", ) and Cursor->find("*", ) TTL support
 *	Support Web->receive() large file downloads via PUT
 *	ONERROR safety check
 *	Fix session CSRF cookie detection
@@ -671,7 +671,7 @@ CHANGELOG
 	properly
 *	Bug fix: identicon() colors on same keys are randomized
 *	Bug fix: quotekey() fails on aliased keys
-*	Bug fix: Missing _id in Jig->find() return value
+*	Bug fix: Missing _id in Jig->find("*", ) return value
 *	Bug fix: LANGUAGE/LOCALES handling
 *	Bug fix: Loose comparison in stringify()
 
@@ -688,7 +688,7 @@ CHANGELOG
 	uploaded
 *	Pass-thru page limit in return value of Cursor->paginate()
 *	Optimize code: Implement single-pass escaping
-*	Short circuit Jig->find() if source file is empty
+*	Short circuit Jig->find("*", ) if source file is empty
 *	Bug fix: PHP globals passed by reference in hive() result (Issue #424)
 *	Bug fix: ZIP mime type incorrect behavior
 *	Bug fix: Jig->erase() filter malfunction
@@ -716,7 +716,7 @@ CHANGELOG
 *	Bug fix: Jig mapper triggers error when loading from CACHE (Issue #403)
 *	Bug fix: Array index check
 *	Bug fix: OpenID verified() return value
-*	Bug fix: Basket->find() should return a set of results (Issue #407);
+*	Bug fix: Basket->find("*", ) should return a set of results (Issue #407);
 	Also implemented findone() for consistency with mappers
 *	Bug fix: PostgreSQL last insert ID (Issue #410)
 *	Bug fix: $port component URL overwritten by _socket()
@@ -767,7 +767,7 @@ CHANGELOG
 *	Bug fix: MongoId object not preserved
 *	Bug fix: Double-quotes included in lexicon() string (Issue #341)
 *	Bug fix: UTF-8 formatting mangled on Windows (Issue #342)
-*	Bug fix: Cache->load() error when CACHE is false (Issue #344)
+*	Bug fix: Cache->load("*", ) error when CACHE is false (Issue #344)
 *	Bug fix: send() ternary expression
 *	Bug fix: Country code constants
 

@@ -131,7 +131,7 @@ class Media extends Prefab {
 		
 		// try and load existing file from database
 		$file = new File();
-		$file->load("hash = '{$hash}'");
+		$file->load("*", "hash = '{$hash}'");
 		$file->name = $name;
 		$file->extension = $ext;
 		$file->hash = $hash;
@@ -166,7 +166,7 @@ class Media extends Prefab {
 	function edit($core, $args) {
 		$id = $args['id'];
 		$file = new File();
-		$file->load("id = $id");
+		$file->load("*", "id = $id");
 		?>
 			<div class="padx2 rf_media_edit">
 				<div class="image text-center">
@@ -217,7 +217,7 @@ class Media extends Prefab {
 	function get_uploads() {
 		global $db;
 		$file = new File();
-		$media = $file->find(null, array("ORDER BY created DESC, modified DESC"));
+		$media = $file->find("*", null, array("ORDER BY created DESC, modified DESC"));
 
 		return $media;
 	}

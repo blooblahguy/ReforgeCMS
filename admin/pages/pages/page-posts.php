@@ -25,7 +25,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 	function query_object($args) {
 		if ($args['id'] > 0) {
 			$post = new Post();
-			$post->load(array("id = :id", ":id" => $args['id']));
+			$post->load("*", array("id = :id", ":id" => $args['id']));
 
 			$this->object = $post;
 		}
@@ -34,7 +34,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 	function index($args) {
 		$this->post_type = $this->name;
 		$posts = new Post();
-		$posts = $posts->find("post_type = '{$this->post_type}' ");
+		$posts = $posts->find("*", "post_type = '{$this->post_type}' ");
 
 		$this->render_title();
 
@@ -51,7 +51,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						echo "-";
 					} else {
 						$parent = new Post();
-						$parent->load(array("id = :id", ":id" => $value));
+						$parent->load("*", array("id = :id", ":id" => $value));
 						echo $parent->title;
 					}
 					// $user = get_user($value);
@@ -110,10 +110,11 @@ class admin_page_POSTS extends RF_Admin_Page {
 		
 		$post_type = $this->name;
 		$id = $this->id;
-
+		
 		$post = new Post();
 		if ($id > 0) {
-			$post->load("id = $id");
+			debug($id);
+			$post->load("*", "id = $id");
 		}
 
 		?>
@@ -236,7 +237,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						));
 
 						$pages = new Post();
-						$pages = $pages->find("post_type = 'pages' ");
+						$pages = $pages->find("*", "post_type = 'pages' ");
 						$pages = array_extract($pages, "id", "title");
 
 						render_admin_field($post, array(
@@ -315,7 +316,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 	function hierchal_permalink($parent_id) {
 		$post = new Post();
-		$post->load(array("id = :id", ":id" => $parent_id));
+		$post->load("*", array("id = :id", ":id" => $parent_id));
 	}
 
 	function save($args) {
@@ -326,7 +327,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$post->load("id = $id");
+			$post->load("*", "id = $id");
 		}
 
 		// calculate permalink
@@ -379,7 +380,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 	function delete($args) {
 		if ($this->can_delete()) {
 			$post = new Post();
-			$post->load(array("id = :id", ":id" => $args['id']));
+			$post->load("*", array("id = :id", ":id" => $args['id']));
 			$post->erase();
 
 			\Alerts::instance()->success("Deleted post");

@@ -21,7 +21,7 @@
 				// attempt to load existing layout if it exists
 				if ($_GET['post_id'] > 0) {
 					$cf = new CustomField();
-					$cf->load("id = {$_GET['post_id']}", null, 1);
+					$cf->load("*", "id = {$_GET['post_id']}", null, 1);
 					$fields = $cf->get_fields();
 
 					$field = $this->find_field_table($_GET['field_key'], $fields);

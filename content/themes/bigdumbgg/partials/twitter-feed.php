@@ -17,6 +17,11 @@ $recent_tweets = array();
 $recent_tweets['tweets'] = $TweetPHP->get_tweet_list();
 $recent_tweets['array'] = $TweetPHP->get_tweet_array();
 $recent_tweets['array'] = array_slice($recent_tweets['array'], 0, 1);
+
+// if (strpos($recent_tweets['array'][0], "Error fetching") !== false) {
+// 	return;
+// }
+
 set_option("bdg_tweets", $recent_tweets);
 
 //==================================================================

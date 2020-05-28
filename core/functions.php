@@ -10,14 +10,28 @@ function logged_in() {
 
 function get_user($id = 0) {
 	// current user
+	if ($id == 0) {
+		return current_user();
+	}
 	$current = current_user();
-	if ($id == 0 || $id == $current->id) { return $current; }
-
+	if ($id == $current->id) { return $current; }
+	
 	$user = new User();
 	$user->get_user($id);
+
+	return $user;
 }
 
 function current_user() {
+	if (session()->get("user_mimic")) {
+		if (! Registry::exists("mimic_user")) {
+			$user = new User();
+			$user->get_user(session()->get("user_mimic"));
+			$user->mimic();
+			Registry::set("mimic_user", $user);
+		}
+		return Registry::get("mimic_user");
+	}
 	if (! Registry::exists("current_user")) {
 		$user = new User();
 		$user->get_user();
@@ -666,8 +680,11 @@ function debug(...$params) {
 	echo "</pre>";
 }
 
-function redirect($path) {
-	header("Location: ".$path);
+function redirect($path = false, $hash = "") {
+	if (! $path) { 
+		$path = $_SERVER['HTTP_REFERER'];
+	}
+	header("Location: ".$path.$hash);
 	exit();
 }
 

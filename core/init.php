@@ -17,14 +17,7 @@ include $root."/core/functions.php";
 include $root."/core/hook.php";
 include $root."/core/reforge/media.php";
 
-// controllers
-// include $root."/core/controllers/comments.php";
-// include $root."/core/controllers/content.php";
-// include $root."/core/controllers/custom-fields.php";
-// include $root."/core/controllers/forms.php";
-// include $root."/core/controllers/options.php";
-// include $root."/core/controllers/partials.php";
-
+// Controllers
 foreach (glob("core/controllers/*.php") as $filename) {
 	include $filename;
 }

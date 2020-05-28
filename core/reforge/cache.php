@@ -108,6 +108,7 @@ class Cache {
 	 *	@param $key string
 	 **/
 	function get($key) {
+		// return false;
 		return $this->engine && $this->exists($key, $data) ? $data : false;
 	}
 

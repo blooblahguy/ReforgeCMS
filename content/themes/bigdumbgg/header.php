@@ -1,5 +1,5 @@
 <?
-// $b64image = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT'].theme_url()."/img/favicon.png"));
+// $b64image = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT'].theme_url()."/img/bdgg.svg"));
 // debug($b64image);
 
 $favicon = "data:image/png;base64,";
@@ -45,7 +45,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 				
 				<div class="os-12 os-md links hidden md-display-block text-right">
 					<? if (logged_in()) { ?>
-						<a href="/profile">Profile</a>
+						<a href="/profile"><?= $user->username; ?></a>
 						<? if ($user->can("access_admin")) { ?>
 							<a href="/admin">Admin</a>
 						<? } ?>
@@ -60,7 +60,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 			<div class="header container">
 				<div class="row content-middle">
 					<h1 class="os-min marg0">
-						<a href="/" class="logo"><?= get_file_contents_url(theme_url()."/img/emblem.svg"); ?>BIG<span>DUMB</span>GAMING</a>
+						<a href="/" class="logo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?>BIG<span>DUMB</span>GAMING</a>
 					</h1>
 					<?
 					$menu = get_menu("main-menu");
@@ -72,14 +72,15 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 								<?= $link['html']; ?>
 							</li>
 						<? } ?>
-						<? if ($user->can("view_applications")) { ?>
+						<?
+						if ($user->can("view_applications")) { ?>
 							<li class="link">
 								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/applications") !== false) {echo "active"; } ?>">Applications</a>
 								<!-- todo: show updated applications # -->
 							</li>
-						<? } elseif ($user->rank == "public") { ?>
+						<? } else { ?>
 							<li class="link">
-								<a href="/recruitment/apply" class="<? if (strpos($path, "recruitment/apply") !== false) {echo "active"; } ?>">Apply</a>
+								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/apply") !== false) {echo "active"; } ?>">Apply</a>
 							</li>
 						<? } ?>
 					</ul>

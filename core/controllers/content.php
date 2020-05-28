@@ -1,5 +1,28 @@
 <?
 
+/**
+ * Render breadcrumb array
+ */
+function render_breadcrumbs($crumbs, $sep = "&raquo;") {
+	$crumbs = array_reverse($crumbs);
+	$last = end($crumbs);
+	reset($crumbs);
+
+	?>
+	<div class="breadcrumbs">
+		<? foreach ($crumbs as $link) {
+			list($name, $href) = $link;
+		
+			echo '<a class="crumb" href="'.$href.'">'.$name.'</a>';
+			if ($link != $last) {
+				echo '<span>'.$sep.'</span>';
+			}
+		}
+		?>
+	</div>
+	<?
+}
+
 function rf_head() {
 	global $request, $options, $core;
 
@@ -43,6 +66,7 @@ function rf_head() {
 }
 
 function rf_footer() {
+	do_action("rf_footer");
 	rf_scripts();
 }
 
@@ -246,17 +270,8 @@ class Content extends \Prefab {
 
 		foreach ($pages as $post) {
 			$page = $this->add_page($post);
-			// debug($page);
-			if ($page->permission) {
-				if ($page->permission_exp == "==") {
-					if (! $user->can($page->permission)) {
-						continue;
-					}
-				} elseif ($page->permission_exp == "!=") {
-					if ($user->can($page->permission)) {
-						continue;
-					}
-				}
+			if (! $page->is_visible()) {
+				continue;
 			}
 			
 			if ($post['id'] == $home) {

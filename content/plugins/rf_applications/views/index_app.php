@@ -18,7 +18,7 @@
 	
 	$link = $this->rfa->app_link($app['id']);
 
-
+	$author = get_user($app['author']);
 ?>
 
 <div class="row g1 content-middle">
@@ -29,18 +29,18 @@
 	</div>
 	<div class="os">
 		<a href="<?= $link; ?>" class="display-block"><?= $app['title']; ?></a>
-		<span class="small">Author: <?= get_user($app['author'])->username; ?></span>
+		<span class="small">Author: <?= $author->username; ?></span>
 	</div>
 	<div class="os-min">
 		<div class="row content-middle">
 			<div class="os-min padx1">
 				<div class="avatar_icon">
-					<img src="<?= get_user($comment['author'])->avatar; ?>" alt="">
+					<img src="<?= $author->avatar; ?>" alt="">
 				</div>
 			</div>
 			<div class="os">
 				<a href="<?= $link; ?>#<? $comment['id']; ?>" class="display-block date"><?= smart_date($comment['created']); ?></a>
-				<span class="small"><?= get_user($comment['author'])->username; ?></span>
+				<span class="small"><?= $author->username; ?></span>
 			</div>
 		</div>
 	</div>

@@ -31,6 +31,9 @@ class Post extends \RF\Mapper {
 			"seo_noindex" => array(
 				"type" => "INT(1)"
 			),
+			"disable_comments" => array(
+				"type" => "INT(1)"
+			),
 			"slug" => array(
 				"type" => "VARCHAR(190)",
 			),
@@ -59,6 +62,29 @@ class Post extends \RF\Mapper {
 		}
 	}
 
+	function is_visible() {
+		$user = current_user();
+		$visible = false;
+
+		if ($this->author = $user->id) {
+			return true;
+		}
+		
+		if ($this->permission) {
+			if ($this->permission_exp == "==") {
+				if (! $user->can($this->permission)) {
+					return false;
+				}
+			} elseif ($this->permission_exp == "!=") {
+				if ($user->can($this->permission)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	function hierchal_permalink($parent_id) {
 		$permalinks = array();
 		$post = new Post();
@@ -71,10 +97,43 @@ class Post extends \RF\Mapper {
 		return $permalinks;
 	}
 
+	function get_breadcrumbs_recursive($id) {
+		$crumbs = array();
+		$post = new Post();
+		$post->load("id, post_parent, title, slug", array("id = :id", ":id" => $id));
+
+		$crumbs[] = array($post->title, $post->get_permalink());
+
+		if ($post->post_parent) {
+			$crumbs = array_merge($crumbs, $this->get_breadcrumbs_recursive($post->post_parent));
+		}
+
+		return $crumbs;
+	}
+
+	function get_breadcrumbs() {
+		$crumbs = array();
+		$crumbs[] = array($this->title, $this->get_permalink());
+
+		// debug($this->post_parent);
+
+		if ($this->post_parent) {
+			$crumbs = array_merge($crumbs, $this->get_breadcrumbs_recursive($this->post_parent));
+		}
+
+		$home = get_option("site_homepage");
+		$crumbs[] = array("Home", "/");
+
+		// debug($crumbs);
+		
+		return $crumbs;
+	}
+
 	function get_permalink() {
 		if ($this->permalink) {
 			return $this->permalink;
 		} 
+
 		// if ($id == 0 && ! $this->id) { 
 		// 	return false;
 		// }
@@ -101,6 +160,7 @@ class Post extends \RF\Mapper {
 		// if we don't have a post parent, then just return our slug link
 		if (! $this->post_parent) {
 			$permalinks[] = $this->slug;
+
 			return "/".implode("/", $permalinks);
 		}
 

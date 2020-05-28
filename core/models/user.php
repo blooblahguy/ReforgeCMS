@@ -39,12 +39,15 @@ class User extends \RF\Mapper {
 		parent::__construct("rf_users", $schema);
 	}
 
+	function afterinsert() {
+		$this->check_avatar();
+	}
+
 	function get_user(int $id = 0) {
 		if ($id === 0) {
 			if ($this->remembered()) {
 				$this->load("*", array("id = :id", ":id" => $this->id));
 				$this->reup_login();
-				$this->check_avatar();
 			}
 		} else {
 			$this->load("*", array("id = :id", ":id" => $id));
@@ -55,12 +58,20 @@ class User extends \RF\Mapper {
 		echo "<div class='user_avatar'><img src='{$this->avatar}' class='preview_{$this->username}' alt='{$this->username}'></div>";
 	}
 
-	
+	// function generate_avatar() {
+	// 	$img = new \Image();
+
+	// 	$this->avatar = $img->identicon( $this->username, 64, $blocks = 8);
+	// 	$this->save();
+	// }
+
+	function mimic() {
+		$this->logged_in = true;
+	}
 
 	function check_avatar() {
 		global $root;
 		if (! $this->id) { return; }
-
 		if ($this->avatar == "" || ! file_exists($root.$this->avatar)) {
 			$img = rand(1, 7);
 			$img = "/core/assets/img/avatar_$img.png";
@@ -164,6 +175,10 @@ class User extends \RF\Mapper {
 	private function remembered() {
 		$lc = new LoginCookie();
 
+		if (session()->get("user_mimic")) {
+			return true;
+		}
+
 		// shortcut the code if we're good to go
 		if ($this->logged_in) { 
 			return true;
@@ -174,6 +189,7 @@ class User extends \RF\Mapper {
 			list($user_id, $token) = explode(':', $_COOKIE['logincookie']);
 			// debug($user_id, $token);
 			$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
+
 
 			// we didn't have a correct cookie, get out of here
 			if ($lc->id) {

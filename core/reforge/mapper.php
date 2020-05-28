@@ -4,7 +4,8 @@ class Mapper extends \Magic {
 	// variables
 	protected 
 		$data = array(),
-		$changed = array();
+		$changed = array(),
+		$in_factory = false;
 	public 
 		$cache = array(),
 		// $schema = array(),
@@ -61,13 +62,15 @@ class Mapper extends \Magic {
 	function factory($object) {
 		if (! $object) { return; }
 
+		$this->in_factory = true;
+		
 		foreach ($object as $key => $info) {
-			$this->{$key} = $object[$key];
-			// if (! $this->schema[$key]) {
+		$this->{$key} = $object[$key];
+		// if (! $this->schema[$key]) {
 			// 	$this->schema[$key] = "inherited";
 			// }
 		}
-
+		
 		if (isset($object['created'])) {
 			$this->created = $object['created'];
 			// $this->schema["created"] = "DATETIME";
@@ -76,6 +79,8 @@ class Mapper extends \Magic {
 			$this->modified = $object['modified'];
 			// $this->schema["modified"] = "DATETIME";
 		}
+
+		$this->in_factory = false;
 	}
 
 	// Magic Functions
@@ -84,7 +89,8 @@ class Mapper extends \Magic {
 	}
 
 	function set($key, $val) {
-		if ($key != "id" && $val !== $this->data[$key]) {
+		// debug($key, $val, $this->data[$key]);
+		if (! $this->in_factory && $key != "id" && $val !== $this->data[$key]) {
 			$this->changed[$key] = true;
 		}
 		$this->data[$key] = $val;
@@ -107,6 +113,8 @@ class Mapper extends \Magic {
 		$this->query("DELETE FROM `{$this->table}` WHERE id = :id", array(
 			":id" => $this->id
 		));
+
+		$this->afterdelete();
 
 		return true;
 	}
@@ -135,7 +143,10 @@ class Mapper extends \Magic {
 		$qry = "UPDATE `{$this->table}` SET ".$qry;
 		$qry .= " WHERE id = {$this->id}";
 
-		return $this->query($qry, $params);
+		$rs = $this->query($qry, $params);
+		$this->afterupdate();
+
+		return $rs;
 	}
 
 	/**
@@ -160,6 +171,9 @@ class Mapper extends \Magic {
 
 		$this->query($qry, $params);
 		$this->id = $db->lastinsertid();
+
+		$this->afterinsert();
+
 		return $this->id;
 	}
 
@@ -246,14 +260,16 @@ class Mapper extends \Magic {
 	function load($fields, $filter = null, array $options = null, $ttl = 0) {
 		$value = null;
 		$cache = $this->cache['queries'];
-		$sql_key = md5(serialize(array(
-			$filter, $options
-		)));
-		if ($cache->exists($sql_key, $value)) {
-			$rs = $value; //$cache->get($sql_key);
-		}
 
-		if (! $rs) {
+		// $sql_key = md5(serialize(array(
+		// 	$fields, $filter, $options
+		// )));
+
+		// if ($cache->exists($sql_key, $value)) {
+		// 	$rs = $value; //$cache->get($sql_key);
+		// }
+
+		// if (! $rs) {
 			$rs = $this->find($fields, $filter, $options);
 			if (count($rs) > 1) {
 				echo "error";
@@ -261,13 +277,18 @@ class Mapper extends \Magic {
 			}
 
 			$rs = reset($rs);
-			$cache->set($sql_key, $rs);
-		}
+			// $cache->set($sql_key, $rs);
+		// }
 
 		// attach data to this object
+		// debug($rs);
 		$this->factory($rs);
 
 		return $this;
 	}
+
+	function afterinsert() {}
+	function afterupdate() {}
+	function afterdelete() {}
 }
 

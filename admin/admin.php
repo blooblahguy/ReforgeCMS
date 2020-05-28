@@ -58,6 +58,12 @@ if (current_user()->can("administrator")) {
 		$ref = $_SERVER['HTTP_REFERER'];
 		redirect($ref);
 	});
+
+	$core->route("GET /admin/mimic-user/@id", function($core, $args) {
+		$id = $args['id'];
+		session()->set("user_mimic", $id);
+		redirect("/");
+	});
 };
 
 

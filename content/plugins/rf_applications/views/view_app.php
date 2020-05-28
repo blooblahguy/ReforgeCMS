@@ -30,5 +30,6 @@
 	</div>
 </div>
 
-
-post_comments($app['id']);
+<?
+	post_comments($app['id']);
+?>

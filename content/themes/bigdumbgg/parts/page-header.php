@@ -1,4 +1,6 @@
 <?
+$breadcrumbs = $page->get_breadcrumbs();
+
 $bg = get_file(get_field("page_hero"));
 $sub = $page['subtitle'];
 if ($bg) {
@@ -15,6 +17,11 @@ if ($bg) {
 		<h1><?= $page['title']; ?></h1>
 		<? if ($sub) { ?>
 			<h3><?= $sub; ?></h3>
-		<? } ?>
+		<? } else {
+			$breadcrumbs = $page->get_breadcrumbs();
+			if ($breadcrumbs) {
+				render_breadcrumbs($breadcrumbs);
+			}
+		} ?>
 	</div>
 </div>

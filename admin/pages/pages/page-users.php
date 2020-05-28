@@ -29,7 +29,7 @@ class admin_page_USERS extends RF_Admin_Page {
 
 		echo '<div class="section">';
 		// display table
-		display_results_table($users, array(
+		$columns = array(
 			'username' => array(
 				"label" => "Username",
 				"class" => "tablelabel",
@@ -61,7 +61,14 @@ class admin_page_USERS extends RF_Admin_Page {
 					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
-		));
+		);
+		if (current_user()->can("administrator")) {
+			$columns['mimic'] = array(
+				"label" => "Mimic",
+				"html" => '<a href="/admin/mimic-user/%2$d">Mimic User</a>',
+			);
+		}
+		display_results_table($users, $columns);
 		echo '</div>';
 	}
 
@@ -92,6 +99,9 @@ class admin_page_USERS extends RF_Admin_Page {
 					<?= Media::instance()->select_button("avatar");?>
 					<input type="hidden" name="avatar" value="<?= $user->avatar; ?>">
 					<input type="hidden" name="avatar_path" value="<?= $user->avatar; ?>">
+					<? if (current_user()->can("administrator")) { ?>
+						<a href="/admin/users/reset_avatar/<?= $user->id; ?>">Reset Avatar</a>
+					<? } ?>
 				</div>
 			</div>
 			<div class="os">
@@ -158,17 +168,23 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->admin_theme = $_POST['admin_theme'];
 		$user->save();
 
-		if ($id == 0) {
-			$id = $user->get('_id');
-		}
-		RCF()->save_fields("user", $id);
+		// if ($id == 0) {
+		// 	$id = $user->get('_id');
+		// }
+		RCF()->save_fields("user", $user->id);
 
 		\Alerts::instance()->success("User $user->username $changed");
 		redirect("/admin/users/edit/{$user->id}");
 	}
 
 	function delete($args) {
+		$user = new User();
+		$user->id = $args['id'];
 
+		$user->erase();
+
+		\Alerts::instance()->success("User $user->username deleted");
+		redirect("/admin/users");
 	}
 
 	/**

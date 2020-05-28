@@ -113,7 +113,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 		
 		$post = new Post();
 		if ($id > 0) {
-			debug($id);
 			$post->load("*", "id = $id");
 		}
 

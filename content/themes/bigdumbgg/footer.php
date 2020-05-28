@@ -6,7 +6,7 @@
 			<div class="footer container pady2">
 				<div class="row g2 content-middle">
 					<a href="/" class="os-md-min padx4 os-12 text-center md-text-left footerlogo fill-primary text-center">
-						<span class="svglogo"><?= get_file_contents_url(theme_url()."/img/emblem.svg"); ?></span>
+						<span class="svglogo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?></span>
 						<h2 class="margb0">BIG<span>DUMB</span>GAMING</h2>
 					</a>
 					<div class="os footer_menu">

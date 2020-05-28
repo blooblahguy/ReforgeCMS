@@ -54,6 +54,8 @@ class RFApplications extends \Prefab {
 			$user = get_user($entry->author);
 			$entry->title = "Open - Application: ".$user->username;
 			$entry->post_status = "open";
+			$entry->permission = "view_applications";
+			$entry->permission_exp = "==";
 		}
 		return $entry;
 	}

@@ -1,5 +1,7 @@
 <?php
 
+// return;
+
 //=====================================================================
 // Update DATA
 //=====================================================================
@@ -7,6 +9,8 @@ $guild = get_data("https://raider.io/api/guilds/us/illidan/Big%20Dumb%20Guild");
 $guild = json_decode($guild, true);
 
 // tier
+if (! $guild) { return; }
+
 $tiers = $guild['guildDetails']['raidProgress'];
 $tier = false;
 $lastdate = false;

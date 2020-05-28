@@ -31,8 +31,11 @@ class RFA_Applications_Front extends \Prefab {
 	 */
 	function render_index() {
 		$user = current_user();
-		$apps = array();
 		$app = new Post();
+
+		if (! logged_in()) {
+			redirect("/");
+		}
 
 		// load all applications
 		if ($user->can("view_applications")) {
@@ -40,20 +43,29 @@ class RFA_Applications_Front extends \Prefab {
 			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' ");
 		// load my applications
 		} else {
-			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' AND post_author = {$user->id} ");
-			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND post_author = {$user->id} ");
+			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' AND author = {$user->id} ");
+			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND author = {$user->id} ");
 		}
 
-		$apps = $open + $other;
-
-
 		if (count($open) == 0 && logged_in()) { ?>
-			<p>You don't have any applications submitted to BDG</p>
-			<?= $this->rfa->apply_button(); ?>
-		<? } else {
-			foreach ($apps as $app) {
-				include $this->rfa->path."/views/index_app.php";
-			}
+			<div class="row g1 content-middle">
+				<div class="os">
+					<div class="message-info">
+						You don't have any open applications with BDG
+					</div>
+				</div>
+				<div class="os-min">
+					<?= $this->rfa->apply_button(); ?>
+				</div>
+			</div>
+			
+			<hr>
+		<? }
+		foreach ($open as $app) {
+			include $this->rfa->path."/views/index_app.php";
+		}
+		foreach ($other as $app) {
+			include $this->rfa->path."/views/index_app.php";
 		}
 	}
 

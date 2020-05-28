@@ -1,4 +1,6 @@
 <?
+
+// phpinfo();
 // exit();
 
 // Call this at each point of interest, passing a descriptive string

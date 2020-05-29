@@ -62,6 +62,10 @@ class Post extends \RF\Mapper {
 		}
 	}
 
+	function afterinsert() {
+		do_action("post/insert", $this);
+	}
+
 	function is_visible() {
 		$user = current_user();
 		$visible = false;

@@ -31,13 +31,10 @@ class Reforge extends \Prefab {
 		}
 		
 		$model = $this->root."/core/models/".$class.".php";
-		$controller = $this->root."/core/controllers/".$class.".php";
 		$reforge = $this->root."/core/reforge/".$class.".php";
 
 		if (is_file($model)) {
 			require $model;
-		} elseif (is_file($controller)) {
-			require $controller;
 		} elseif (is_file($reforge)) {
 			require $reforge;
 		}

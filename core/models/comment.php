@@ -19,4 +19,9 @@ class Comment extends \RF\Mapper {
 
 		parent::__construct("rf_comments", $schema);
 	}
+
+
+	function afterinsert() {
+		do_action("post/comment", $this->post_id, $this);
+	}
 }

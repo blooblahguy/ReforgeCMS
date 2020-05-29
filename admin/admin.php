@@ -47,6 +47,7 @@ $request["user_id"] = current_user()->id;
 $request["user_role"] = current_user()->role_id;
 
 // Header scripts
+queue_script("/core/assets/js/quill.min.js", 5);
 queue_script("/core/assets/js/admin.js", 25);
 
 // allow for global cache clear

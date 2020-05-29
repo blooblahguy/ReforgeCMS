@@ -15,12 +15,13 @@ class Comments extends \Prefab {
 			$comment->message = $_POST['message'];
 			$comment->author = current_user()->id;
 			$comment->save();
+
+			redirect();
 		} else {
 			\Alerts::instance()->error("You don't have permission to do that.");
 			redirect();
 		}
 		
-		redirect();
 	}
 
 	function delete($core, $args) {
@@ -65,7 +66,7 @@ function post_comments($post_id) {
 	if (! user_can_comment($post_id)) { return; }
 
 	?>
-	<div id="#comments" class="comments pady2">
+	<div id="comments" class="comments pady2">
 		<h3>Comments</h3>
 		<?
 
@@ -73,6 +74,10 @@ function post_comments($post_id) {
 		$comments = $comments->find("*", array("post_id = :pid", ":pid" => $post_id));
 
 		foreach ($comments as $comment) {
+			$author = new User();
+			$author = $author->load("username, class", array("id = :id", ":id" => $comment['author']));
+
+			// debug($author);
 			?>
 			<div class="post_comment" id="comment<?= $comment['id']; ?>">
 				<div class="row g1">
@@ -80,7 +85,7 @@ function post_comments($post_id) {
 						<span class="date muted"><?= smart_date($comment['created']); ?></span>
 					</div>
 					<div class="os-min">
-						<span class="user"><?= the_author($comment['id']); ?></span>
+						<span class="user"><strong class="<?= $author['class']; ?>"><?= $author['username']; ?></strong></span>
 					</div>
 					<div class="os message">
 						<?= $comment['message'] ?>

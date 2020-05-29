@@ -1,5 +1,5 @@
 <?php
-
+$configuration = require $root."/reforge-config.php";
 
 // F3 Core
 $core = require $root."/core/fatfree/base.php";
@@ -18,7 +18,7 @@ include $root."/core/hook.php";
 include $root."/core/reforge/media.php";
 
 // Controllers
-foreach (glob("core/controllers/*.php") as $filename) {
+foreach (glob($root."/core/controllers/*.php") as $filename) {
 	include $filename;
 }
 

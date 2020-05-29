@@ -78,7 +78,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/applications") !== false) {echo "active"; } ?>">Applications</a>
 								<!-- todo: show updated applications # -->
 							</li>
-						<? } else { ?>
+						<? } elseif (logged_in()) { ?>
 							<li class="link">
 								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/apply") !== false) {echo "active"; } ?>">Apply</a>
 							</li>

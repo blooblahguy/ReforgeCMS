@@ -33,6 +33,26 @@ class RFApplications extends \Prefab {
 		// save our form as an application post type
 		add_filter("form/submit", array($this, "save_status"));
 		add_filter("form/submit/type", array($this, "save_as_application"));
+		add_action("post/comment", array($this, "alert_comment"));
+		add_action("post/insert", array($this, "alert_discord"));
+	}
+
+	function alert_discord($post) {
+		send_discord_app($post);
+	}
+
+	function alert_comment($post_id, $comment) {
+		global $root;
+		$user = current_user();
+
+		$post = new Post();
+		$post->load("post_type, author", array("id = :id", ":id" => $post_id));
+		if ($post->post_type == "application" && $post->author == $user->id) {
+			ob_start();
+			include("views/email_update.php");
+			$template = ob_get_clean();
+			rf_mail($user->email, "Application Update", $template);
+		}
 	}
 
 	function apply_button($text = "Apply Now") {
@@ -60,7 +80,6 @@ class RFApplications extends \Prefab {
 		return $entry;
 	}
 	function save_as_application($type, $form_id) {
-		debug($form_id, $type);
 		if ($form_id == $this->form) {
 			return "application";
 		}

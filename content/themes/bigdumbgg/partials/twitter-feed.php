@@ -1,75 +1,37 @@
 <?php
 
-require_once(theme_dir()."/lib/tweet-php/TweetPHP.php");
-
-$TweetPHP = new TweetPHP(array(
-	'consumer_key' => 'iBYFUvcap4mwCscLSwD2uKMcQ',
-	'consumer_secret' => 'FYKI1i2LaR9cnrbROd5XT9YYeBteeubchkVB0wyqgRtAV8PRdW',
-	'access_token' => '829782641067032576-moAwrbTvBO0bgNS8GCj4HVearawhmNM',
-	'access_token_secret' => 'YhsCuheQL21Fu9b6lmhWZtJLARJDzkmqgIrPpUJafvcdK',
-	'tweets_to_display' => '3',
-	'twitter_template' => '{tweets}',
-	'tweet_template' => '<div class="tweet"><span class="status">{tweet}</span><span class="meta"><a href="{link}">{date}</a></span></div>',
-	'api_params' => array('screen_name' => 'bigdumbgaming')
-));
-
-$recent_tweets = array();
-$recent_tweets['tweets'] = $TweetPHP->get_tweet_list();
-$recent_tweets['array'] = $TweetPHP->get_tweet_array();
-$recent_tweets['array'] = array_slice($recent_tweets['array'], 0, 1);
-
-// if (strpos($recent_tweets['array'][0], "Error fetching") !== false) {
-// 	return;
-// }
-
-set_option("bdg_tweets", $recent_tweets);
-
 //==================================================================
 // DISPLAY
 //==================================================================
 $tweets = get_option('bdg_tweets');
-$tuser = $tweets['array'][0]['user'];
+$user = $tweets['user'];
+$tweets = $tweets['tweets'];
+// $tuser = $tweets['array'][0]['user'];
+// $tweets = $tweets['array'];
 
-// debug($tuser);
+// echo $tweets['tweets'];
+// debug ($tweets);
+// debug ($user);
+
 ?>
-<div class="widget tweets">
-	<div class="title">
-		Twitter
-		<a href="https://twitter.com/bigdumbgaming" target="_blank" class="pull-right trans-opacity">@<? echo $tuser['screen_name']; ?><img src="<? echo $tuser['profile_image_url_https']; ?>" alt="<? echo $tuser['name']; ?>"></a>
-	</div>
-	<div class="content">
-		<? echo $tweets['tweets']; ?>
-		<? /*foreach ($tweets as $tweet) {
-			<div class="user">
-				<img src="<? echo $tweet['user']['profile_image_url_https']; ?>" alt=""> <strong><a href="<? echo $tweet['user']['url']; ?>">@<? echo $tweet['user']['screen_name']; ?></a></strong>
-			</div><?
-
-			// debug($tweet['user']);
-			echo $tweet['parsed'];
-			// $created = $tweet['created'];
-			
-			// // replace links with anchors
-			// $content = $tweet['text'];
-			// foreach ($tweet['entities']['urls'] as $link) {
-			// 	$content = substr_replace($content, '<a href="'.$link['expanded_url'].'" target="_blank">'.$link['display_url'].'</a>', $link['indices'][0], ($link['indices'][1] - $link['indices'][0]));
-			// }
-			// if ($tweet['entities']['media']) {
-			// 	foreach ($tweet['entities']['media'] as $media) {
-			// 		$content = substr_replace($content, '<img src="'.$media['media_url_https'].'" target="_blank" />', $media['indices'][0], ($media['indices'][1] - $media['indices'][0]));
-			// 	}
-			// } 
-
-			// replace media with images
-			
-			
-			<div class="tweet">
-				<? //echo nl2br($content); ?>
-				<div class="media">
-					
-				</div>
+<div class="widget twitter">
+	<a href="<?= $user['url']; ?>" target="_blank" class="title rettiwt">
+		<div class="row content-middle">
+			<div class="os-min padr1 svg fill-white">
+				<? echo get_file_contents_url("/core/assets/img/twitter.svg"); ?>
 			</div>
-			} */ ?>
+			<div class="os">
+				@<?= $user['screen_name']; ?>
+			</div>
+		</div>
+	</a>
+	<div class="content">
+		<? foreach ($tweets as $t) { ?>
+			<div class="tweet">
+				<a href="<?= $t['link']; ?>" target="_blank" class="title"><?= $user['screen_name']; ?> &bull; <?= Date("Y-m-d", strtotime($t['posted_at'])); ?></a>
+				<div class="message"><?= $t['message']; ?></div>
+			</div>
+		<? } ?>
 	</div>
 </div>
-<? 
-// debug($tweets);
+<?

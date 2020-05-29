@@ -47,7 +47,7 @@ class RFA_Applications_Front extends \Prefab {
 			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND author = {$user->id} ");
 		}
 
-		if (count($open) == 0 && logged_in()) { ?>
+		if (! $user->can("view_applications") && count($open) == 0 && logged_in()) { ?>
 			<div class="row g1 content-middle">
 				<div class="os">
 					<div class="message-info">

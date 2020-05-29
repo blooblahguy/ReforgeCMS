@@ -87,6 +87,20 @@ class admin_page_USERS extends RF_Admin_Page {
 		$roles = new Role();
 		$roles = $roles->find("*", null, array("order by" => "priority ASC"));
 		$roles = array_extract($roles, "id", "label");
+		$classes = array(	
+			"deathknight" => "Death Knight",
+			"demonhunter" => "Demon Hunter",
+			"druid" => "Druid",
+			"hunter" => "Hunter",
+			"mage" => "Mage",
+			"monk" => "Monk",
+			"paladin" => "Paladin",
+			"priest" => "Priest",
+			"rogue" => "Rogue",
+			"shaman" => "Shaman",
+			"warlock" => "Warlock",
+			"warrior" => "Warrior",
+		);
 	?>
 		<div class="row g1">
 			<div class="os-2">
@@ -138,6 +152,14 @@ class admin_page_USERS extends RF_Admin_Page {
 						"required" => true,
 						"choices" => $roles
 					)); 
+
+					render_admin_field($user, array(
+						"type" => "select",
+						"name" => "class",
+						"label" => "Class",
+						"required" => true,
+						"choices" => $classes
+					)); 
 					?>
 				</div>
 				<? do_action("admin/custom_fields", "user"); ?>
@@ -159,18 +181,15 @@ class admin_page_USERS extends RF_Admin_Page {
 			$user->load("*", array("id = :id", ":id" => $id));
 		}
 
-
 		// $avatar = get_file_size($_POST["avatar"], 200);
 		$user->username = $_POST['username'];
 		// $user->avatar = $avatar;
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
 		$user->admin_theme = $_POST['admin_theme'];
+		$user->class = $_POST['class'];
 		$user->save();
 
-		// if ($id == 0) {
-		// 	$id = $user->get('_id');
-		// }
 		RCF()->save_fields("user", $user->id);
 
 		\Alerts::instance()->success("User $user->username $changed");

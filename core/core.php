@@ -10,9 +10,8 @@ if (count($options) == 0) {
 
 // queue basic javascript
 queue_script("/core/assets/js/lazy.js");
-queue_script("/core/assets/js/quill.min.js", 5);
 queue_script("/core/assets/js/cash.js", 1);
-queue_script("/core/assets/js/ajax.min.js", 3);
+// queue_script("/core/assets/js/ajax.min.js", 3);
 queue_script("/core/assets/js/core.js", 16);
 queue_script("/core/assets/js/custom_fields.js", 18);
 
@@ -32,3 +31,7 @@ if ("/" . $CONTROLLER == "/admin") {
 }
 
 $core->run();
+
+// $app = new Post();
+// $app->load("*", array("id = :id", ":id" => 49));
+// send_discord_app($app);

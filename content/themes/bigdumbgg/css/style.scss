@@ -5,6 +5,17 @@
 	src: url("/admin/css/materialicons.woff2") format('woff2');
 }
 
+// BG
+.background-svg1 {
+	background-color: #000000;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Cdefs%3E%3Ccircle stroke='%23e0b15a' vector-effect='non-scaling-stroke' id='a' fill='none' stroke-width='5' r='315'/%3E%3Cuse id='f' href='%23a' stroke-dasharray='100 100 100 9999'/%3E%3Cuse id='b' href='%23a' stroke-dasharray='250 250 250 250 250 9999'/%3E%3Cuse id='e' href='%23a' stroke-dasharray='1000 500 1000 500 9999'/%3E%3Cuse id='g' href='%23a' stroke-dasharray='1500 9999'/%3E%3Cuse id='h' href='%23a' stroke-dasharray='2000 500 500 9999'/%3E%3Cuse id='j' href='%23a' stroke-dasharray='800 800 800 800 800 9999'/%3E%3Cuse id='k' href='%23a' stroke-dasharray='1200 1200 1200 1200 1200 9999'/%3E%3Cuse id='l' href='%23a' stroke-dasharray='1600 1600 1600 1600 1600 9999'/%3E%3C/defs%3E%3Cg transform='translate(1000 750)' %3E%3Cg transform='rotate(0 0 0)' %3E%3Ccircle fill='%23e0b15a' r='10'/%3E%3Cg transform='rotate(0 0 0)'%3E%3Cuse href='%23f' transform='scale(.1) rotate(50 0 0)' /%3E%3Cuse href='%23f' transform='scale(.2) rotate(100 0 0)' /%3E%3Cuse href='%23f' transform='scale(.3) rotate(150 0 0)' /%3E%3C/g%3E%3Cg transform='rotate(0 0 0)'%3E%3Cuse href='%23b' transform='scale(.4) rotate(200 0 0)' /%3E%3Cuse href='%23z' transform='scale(.5) rotate(250 0 0)' /%3E%3C/g%3E%3Cg id='z' transform='rotate(0 0 0)'%3E%3Cg transform='rotate(0 0 0)'%3E%3Cuse href='%23b'/%3E%3Cuse href='%23b' transform='scale(1.2) rotate(90 0 0)' /%3E%3Cuse href='%23b' transform='scale(1.4) rotate(60 0 0)' /%3E%3Cuse href='%23e' transform='scale(1.6) rotate(120 0 0)' /%3E%3Cuse href='%23e' transform='scale(1.8) rotate(30 0 0)' /%3E%3C/g%3E%3C/g%3E%3Cg id='y' transform='rotate(0 0 0)'%3E%3Cg transform='rotate(0 0 0)'%3E%3Cuse href='%23e' transform='scale(1.1) rotate(20 0 0)' /%3E%3Cuse href='%23g' transform='scale(1.3) rotate(-40 0 0)' /%3E%3Cuse href='%23g' transform='scale(1.5) rotate(60 0 0)' /%3E%3Cuse href='%23h' transform='scale(1.7) rotate(-80 0 0)' /%3E%3Cuse href='%23j' transform='scale(1.9) rotate(100 0 0)' /%3E%3C/g%3E%3C/g%3E%3Cg transform='rotate(0 0 0)'%3E%3Cg transform='rotate(0 0 0)'%3E%3Cg transform='rotate(0 0 0)'%3E%3Cuse href='%23h' transform='scale(2) rotate(60 0 0)'/%3E%3Cuse href='%23j' transform='scale(2.1) rotate(120 0 0)'/%3E%3Cuse href='%23j' transform='scale(2.3) rotate(180 0 0)'/%3E%3Cuse href='%23h' transform='scale(2.4) rotate(240 0 0)'/%3E%3Cuse href='%23j' transform='scale(2.5) rotate(300 0 0)'/%3E%3C/g%3E%3Cuse href='%23y' transform='scale(2) rotate(180 0 0)' /%3E%3Cuse href='%23j' transform='scale(2.7)'/%3E%3Cuse href='%23j' transform='scale(2.8) rotate(45 0 0)'/%3E%3Cuse href='%23j' transform='scale(2.9) rotate(90 0 0)'/%3E%3Cuse href='%23k' transform='scale(3.1) rotate(135 0 0)'/%3E%3Cuse href='%23k' transform='scale(3.2) rotate(180 0 0)'/%3E%3C/g%3E%3Cuse href='%23k' transform='scale(3.3) rotate(225 0 0)'/%3E%3Cuse href='%23k' transform='scale(3.5) rotate(270 0 0)'/%3E%3Cuse href='%23k' transform='scale(3.6) rotate(315 0 0)'/%3E%3Cuse href='%23k' transform='scale(3.7)'/%3E%3Cuse href='%23k' transform='scale(3.9) rotate(75 0 0)'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 100% 100%;
+	opacity: 0.5;
+}
+
 // Colors
 $wow-colors: (
 	deathknight: #c41f3b,
@@ -40,6 +51,8 @@ body {background: $background; color: $white; }
 // TYPEOGRAPHY
 //===========================================
 .ql-align-center {text-align: center; }
+.fill-white {fill: $white; }
+.fill-primary {fill: $primary; }
 
 //===========================================
 // HEADER
@@ -72,21 +85,22 @@ body {background: $background; color: $white; }
 	a.active {opacity: 1; color: $primary; }
 }
 // Header
-.socials {
+.bdg {
 	font-size:0.01rem;
 	a {display: inline-block; opacity: 0.8; margin: 0 2px; padding: 5px; width: 24px; height:24px;}
 	span {display:block; position:relative; height:100%;}
 	svg {fill:$white; display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); width:100%; height: auto !important; }
-	a:hover {
-		opacity: 1;
-		&.emblem svg {fill: $primary}
-		&.facebook svg {fill: #3b5998}
-		&.youtube svg {fill: #FF0000}
-		&.instagram svg {fill: #405de6}
-		&.twitch svg {fill: #6441a5}
-		&.twitter svg {fill: #1da1f2}
-		&.discord svg {fill: #7289da}
-	}
+}
+
+a:hover {
+	opacity: 1;
+	&.emblem svg {fill: $primary}
+	&.koobecaf svg {fill: #3b5998}
+	&.ebutuoy svg {fill: #FF0000}
+	&.margatsni svg {fill: #405de6}
+	&.hctiwt svg {fill: #6441a5}
+	&.rettiwt svg {fill: #1da1f2}
+	&.drocsid svg {fill: #7289da}
 }
 
 //===========================================
@@ -102,7 +116,7 @@ body {background: $background; color: $white; }
 .footerlogo {
 	h2 {color: $white; display: block; font-weight: bold; font-size: 20px; }
 	span {color: $primary; }
-	svg {width: 100px; margin: auto; }
+	svg {width: 130px; margin: auto; }
 }
 .subfooter {background: darken($dark, 2%); border-top: 1px solid $grey }
 .footer_menu {
@@ -146,15 +160,10 @@ body {background: $background; color: $white; }
 		}
 	}
 
-	.hero_header {
-
-	}
 	.page_header_outer {
 		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0; padding-top: 120px; 
 
-		
 		.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
-
 		img {z-index: -1; min-width: 100%; max-width: none; display:block; }
 		.text_overlay {width: 100%; max-width: none; position: absolute; top: 50%; left: 0; @include prefix(transform, translateY(-50%)); }
 		
@@ -162,10 +171,14 @@ body {background: $background; color: $white; }
 
 	.page_header {
 		position: relative; z-index: 5; 
-		h1 {margin: 0; padding: $pad1 0 0; font-size: 2.5rem; text-shadow: 1px 1px 4px black; }
-		h3 {margin: 0; font-size: 1.1rem; font-weight: normal; padding: $pad1 0; text-shadow: 1px 1px 2px black; }
+		h1 {margin: 0; padding: 0 $pad1; font-size: 2.5rem; text-shadow: 1px 1px 4px black; background: black; display:inline-block; clear: both; }
+		h3 {margin: 0; font-size: 1.1rem; font-weight: normal; padding: $pad1; text-shadow: 1px 1px 2px black; background: black; display:inline-block; clear: both; }
+		.breadcrumbs {background: black; display:inline-block; clear: both; padding: $pad1; }
 	}
-
+	.breadcrumbs {
+		font-size: 0.9rem;
+		& > * {padding: 2px 6px;}
+	}
 
 
 	.table_lead {background: $dark; border-radius: 3px 3px 0 0; color: white; font-size: 16px; font-weight: 600; margin: 20px 0 0; padding: $pad1;}
@@ -214,8 +227,8 @@ body {background: $background; color: $white; }
 // Widgets
 .widget {
 	background: $black; margin-bottom: $pad1; border-radius: 3px 3px 0 0; border-top: 3px solid $primary;
-	.title {font-size:16px; font-weight:700; color: $white; background: $dark; padding: $pad1 $pad2; border-radius: 3px 3px 0 0;}
-	.content {padding: $pad1;}
+	& > .title {font-size:16px; font-weight:700; color: $white; background: $dark; padding: $pad1 $pad2; border-radius: 3px 3px 0 0;}
+	& > .content {padding: $pad1;}
 }
 .widget_categories > .content {padding:0;}
 .widget:nth-child(2n) {border-color: $secondary;}
@@ -234,15 +247,16 @@ body {background: $background; color: $white; }
 	.hours {font-style:italic; color:#aaa; margin-top: $pad1; font-size: 14px; text-align:center;}
 }
 
-.widget.tweets {
+.widget.twitter {
 	.title {
-		a {font-size: 14px; color: $white; opacity: 0.7;}
-		a:hover {opacity: 1;}
-		img {border-radius: 50%; max-width: 30px; margin: -10px 0; margin-left: 6px;}
+		display:block;
+		span {display: inline-block; }
 	}
 	.tweet {
-		background: rgba($dark, .25); padding: $pad1; margin-bottom: $pad1; font-size: 14px;
-		&:last-child {margin: 0;}
+		display:block; background: rgba($dark, .2); margin-bottom: $pad1; font-size: 14px;
+		.title {color: $white; opacity: 0.6; padding: $pad1;}
+		.title:hover {color: $white; opacity: 1; }
+		.message {padding: 0 $pad1 $pad1;}
 	}
 }
 // .widget:nth-child(3n) {border-color: $silver;}
@@ -271,7 +285,7 @@ body {background: $background; color: $white; }
 .post_comment {
 	position: relative;
 	&:hover {
-		background: rgba(0, 0, 0, .1);
+		.row {background: rgba(0, 0, 0, .1);}
 		.comment_manage {display: block; }
 	}
 }

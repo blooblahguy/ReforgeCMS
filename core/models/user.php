@@ -24,6 +24,9 @@ class User extends \RF\Mapper {
 			"class" => array(
 				"type" => "VARCHAR(256)"
 			),
+			"twitch" => array(
+				"type" => "VARCHAR(256)"
+			),
 			"avatar" => array(
 				"type" => "VARCHAR(256)"
 			),
@@ -57,13 +60,6 @@ class User extends \RF\Mapper {
 	function render_avatar() {
 		echo "<div class='user_avatar'><img src='{$this->avatar}' class='preview_{$this->username}' alt='{$this->username}'></div>";
 	}
-
-	// function generate_avatar() {
-	// 	$img = new \Image();
-
-	// 	$this->avatar = $img->identicon( $this->username, 64, $blocks = 8);
-	// 	$this->save();
-	// }
 
 	function mimic() {
 		$this->logged_in = true;
@@ -219,6 +215,7 @@ class User extends \RF\Mapper {
 	// PERMISSIONS, YAY
 	function can($request = null) {
 		if (! $this->logged_in) { return false; }
+		if (! $this->role_id) { return false; }
 		if (! $this->permissions) {
 			$role = new Role();
 			$role->load("*", "id = {$this->role_id}");

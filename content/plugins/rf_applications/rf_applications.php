@@ -35,6 +35,22 @@ class RFApplications extends \Prefab {
 		add_filter("form/submit/type", array($this, "save_as_application"));
 		add_action("post/comment", array($this, "alert_comment"));
 		add_action("post/insert", array($this, "alert_discord"));
+
+		// shortcode for front end apply
+		add_shortcode("apply_button", array($this, "apply_shortcode"));
+	}
+
+	function apply_shortcode() {
+		if (current_user()->can("view_applications")) {
+			return "";
+		}
+
+		if (! logged_in()) {
+			echo '<a class="btn-secondary" href="/register">Register to Apply</a>';
+			return;
+		}
+
+		echo $this->apply_button("Apply Now", false);
 	}
 
 	function alert_discord($post) {
@@ -59,7 +75,7 @@ class RFApplications extends \Prefab {
 		$apply = new Post();
 		$apply->load("*", array("id = :id", ":id" => $this->apply));
 		?>
-			<a class="btn-primary" href="<?= $apply->get_permalink(); ?>"><?= $text; ?></a>
+		<a class="btn-primary" href="<?= $apply->get_permalink(); ?>"><?= $text; ?></a>
 		<?
 	}
 	function app_link($id) {

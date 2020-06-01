@@ -52,6 +52,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 						<a href="/logout">Logout</a>
 					<? } else { ?>
 						<a href="/login">Login</a>
+						<a href="/register">Register</a>
 					<? } ?>
 				</div>
 			</div>
@@ -81,6 +82,10 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 						<? } elseif (logged_in()) { ?>
 							<li class="link">
 								<a href="/recruitment/applications" class="<? if (strpos($path, "recruitment/apply") !== false) {echo "active"; } ?>">Apply</a>
+							</li>
+						<? } else { ?>
+							<li class="link">
+								<a href="/recruitment" class="<? if (strpos($path, "recruitment") !== false) {echo "active"; } ?>">Apply</a>
 							</li>
 						<? } ?>
 					</ul>

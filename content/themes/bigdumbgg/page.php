@@ -2,7 +2,7 @@
 
 <div class="container">
 	<div class="row g1">
-		<div class="os padt0">
+		<div class="os pady0">
 			<?
 			
 			do_action("page/{$page['id']}/content_high", $page);

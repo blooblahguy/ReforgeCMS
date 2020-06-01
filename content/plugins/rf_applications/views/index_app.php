@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div class="os">
-				<a href="<?= $link; ?>#<? $comment['id']; ?>" class="display-block date"><?= smart_date($comment['created']); ?></a>
+				<a href="<?= $link; ?>#comment<?= $comment['id']; ?>" class="display-block date"><?= smart_date($comment['created']); ?></a>
 				<span class="small"><?= $author->username; ?></span>
 			</div>
 		</div>

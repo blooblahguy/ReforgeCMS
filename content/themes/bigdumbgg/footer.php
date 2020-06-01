@@ -30,8 +30,8 @@
 				</div>
 				<div class="adspace footer"></div>
 				<?
-				global $db;
-				debug($db);
+				//global $db;
+				//debug($db);
 				?>
 			</div>
 		</div>

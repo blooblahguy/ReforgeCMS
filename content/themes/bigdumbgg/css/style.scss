@@ -154,9 +154,10 @@ a:hover {
 
 	.section {
 		padding: $pad4 0; position: relative;
-		&.bg-dark {
-			&:before {content:''; position: absolute; background: $dark; right: 100%; width: 200%; z-index: -1; top: 0; bottom: 0; }
-			&:after {content:''; position: absolute; background: $dark; left: 100%; width: 200%; z-index: -1; top: 0; bottom: 0; }
+		&.dark {
+			background: rgba(23, 28, 35, .5);
+			&:before {content:''; position: absolute; background: rgba(23, 28, 35, .5); right: 100%; width: 200%; z-index: -1; top: 0; bottom: 0; }
+			&:after {content:''; position: absolute; background: rgba(23, 28, 35, .5); left: 100%; width: 200%; z-index: -1; top: 0; bottom: 0; }
 		}
 	}
 
@@ -233,7 +234,7 @@ a:hover {
 .widget_categories > .content {padding:0;}
 .widget:nth-child(2n) {border-color: $secondary;}
 
-.progression {
+.widget.progression {
 	.instance {color: $white;}
 
 	// .boss {}
@@ -258,6 +259,11 @@ a:hover {
 		.title:hover {color: $white; opacity: 1; }
 		.message {padding: 0 $pad1 $pad1;}
 	}
+}
+
+.widget.applications {
+	a {color: $white; }
+	a:hover {color: $primary; }
 }
 // .widget:nth-child(3n) {border-color: $silver;}
 

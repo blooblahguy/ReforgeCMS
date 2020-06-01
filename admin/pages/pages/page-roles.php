@@ -180,7 +180,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 
 		$default = isset($_POST['default']) ? 1 : 0;
 		if ($default) {
-			$db->exec("UPDATE roles SET `default` = 0 WHERE `default` = 1");
+			$db->exec("UPDATE $role->table SET `default` = 0 WHERE `default` = 1");
 		}
 
 		$role->slug = $_POST["slug"];

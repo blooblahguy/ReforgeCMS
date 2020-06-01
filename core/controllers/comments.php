@@ -67,7 +67,7 @@ function post_comments($post_id) {
 
 	?>
 	<div id="comments" class="comments pady2">
-		<h3>Comments</h3>
+		<h4 class="bg-dark pad1 marg0">Comments</h4>
 		<?
 
 		$comments = new Comment();
@@ -77,9 +77,8 @@ function post_comments($post_id) {
 			$author = new User();
 			$author = $author->load("username, class", array("id = :id", ":id" => $comment['author']));
 
-			// debug($author);
 			?>
-			<div class="post_comment" id="comment<?= $comment['id']; ?>">
+			<div class="post_comment padx1" id="comment<?= $comment['id']; ?>">
 				<div class="row g1">
 					<div class="os-min">
 						<span class="date muted"><?= smart_date($comment['created']); ?></span>

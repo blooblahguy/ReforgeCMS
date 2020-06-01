@@ -36,6 +36,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		$seo_seperator = get_option("seo_seperator");
 		$seo_keywords = get_option("seo_keywords");
 		$sitename = get_option("sitename");
+		$default_role = get_option("default_role");
 
 		?>
 		<div class="row content-middle padb2">
@@ -45,7 +46,9 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		</div>
 
 		<div class="section">
-			<? 
+			<div class="row g1">
+
+				<? 
 			$choices = array_extract($pages, "id", "title");
 			render_admin_field($home_page, array(
 				"type" => "select",
@@ -54,7 +57,18 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 				"choices" => $choices,
 			));
 			
+			$roles = new Role();
+			$roles = $roles->find("*");
+			$roles = array_extract($roles, "id", "label");
+			render_admin_field($default_role, array(
+				"type" => "select",
+				"label" => "Default Role",
+				"name" => "default_role",
+				"choices" => $roles,
+			));
+			
 			?>
+			</div>
 		</div>
 
 		<div class="section">
@@ -101,6 +115,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		set_option("disable_seo", $_POST['disable_seo']);
 		set_option("seo_seperator", $_POST['seo_seperator']);
 		set_option("seo_keywords", $_POST['seo_keywords']);
+		set_option("default_role", $_POST['default_role']);
 
 		RCF()->save_fields("settings", "0");
 

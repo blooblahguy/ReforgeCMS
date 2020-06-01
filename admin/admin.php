@@ -18,26 +18,26 @@ class Admin extends \Prefab {
 	/**
 	 * Process login form
 	*/
-	function login() {
-		$user = new User();
-		$redirect = $_POST["redirect"];
+	// function login() {
+	// 	$user = new User();
+	// 	$redirect = $_POST["redirect"];
 
-		if ( $user->login() ) {
-			// we're in here, redirect
-			\Alerts::instance()->success("Successfully logged in, welcome back {$user->name}");
-			redirect($redirect);
-		}
+	// 	if ( $user->login() ) {
+	// 		// we're in here, redirect
+	// 		\Alerts::instance()->success("Successfully logged in, welcome back {$user->name}");
+	// 		redirect($redirect);
+	// 	}
 
-		\Alerts::instance()->error("Invalid username or password");
-		redirect($redirect);
-	}
+	// 	\Alerts::instance()->error("Invalid username or password");
+	// 	redirect($redirect);
+	// }
 }
 
 // Force logins
 if (! logged_in()) {
 	$core->route("GET /admin", "Admin->login_form");
 	$core->route("GET /admin/*", "Admin->login_form");
-	$core->route("POST /admin/login", "Admin->login");
+	$core->route("POST /admin/login", "Forms->login_submit", 0, 64);
 	$core->run();
 	exit();
 }

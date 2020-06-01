@@ -80,12 +80,12 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		</div>
 		
 
-		<div class="row g2 themlist">
+		<div class="row g2 themelist">
 			<? foreach ($plugins as $slug => $info) {
 				$current = false;
 				if ($active_plugins[$slug]) { $current = true; }
 				?>
-				<div class="os-3">
+				<div class="os-2">
 					<div class="section padb1 theme_card<? if ($current) {echo " active"; } ?>">
 						<img src="<?= $info['thumbnail']; ?>" class="bg" alt="<?= $info['name']; ?>">
 						<div class="footer pad1 row content-middle">
@@ -103,8 +103,8 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 								<div class="line">
 									<?= $info['description']; ?>
 								</div>
-								<div class="line row content-space">
-									<div class="os">Version <?= $info['version']; ?></div>
+								<div class="line row content-space small padt1">
+									<div class="os">V <?= $info['version']; ?></div>
 									<!-- <div class="os-min">|</div> -->
 									<div class="os text-center">By <a href="<?= $info['authorURL']; ?>" target="_blank"><?= $info['author']; ?></a></div>
 									<!-- <div class="os-min">|</div> -->

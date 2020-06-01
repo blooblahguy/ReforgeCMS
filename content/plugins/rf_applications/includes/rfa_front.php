@@ -60,12 +60,19 @@ class RFA_Applications_Front extends \Prefab {
 			</div>
 			
 			<hr>
-		<? }
-		foreach ($open as $app) {
-			include $this->rfa->path."/views/index_app.php";
+		<? } ?>
+		<? if (count($open)) { ?>
+			<div class="bg-dark pad1">Open Applications</div>
+			<?
+			foreach ($open as $app) {
+				include $this->rfa->path."/views/index_app.php";
+			}
 		}
-		foreach ($other as $app) {
-			include $this->rfa->path."/views/index_app.php";
+		if (count($other)) { ?>
+			<div class="bg-dark pad1">Closed Applications</div>
+			<? foreach ($other as $app) {
+				include $this->rfa->path."/views/index_app.php";
+			}
 		}
 	}
 

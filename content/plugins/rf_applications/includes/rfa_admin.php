@@ -272,14 +272,22 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 			$title = ucfirst($app->post_status)." - ".$title;
 			$app->title = $title;
 
-			$comment = new Comment();
-			$comment->post_id = $id;
-			$comment->message = $message;
-			$comment->author = current_user()->id;
-			$comment->save();
-		}
+			if ($message != "") {
+				$comment = new Comment();
+				$comment->post_id = $id;
+				$comment->message = $message;
+				$comment->author = current_user()->id;
+				$comment->save();
+			}
 
+		}
+		
 		$app->save();
+
+		// dispatch action if we altered status of the application
+		if ($action) {
+			do_action("application/".$action, $app);
+		}
 
 		RCF()->save_fields("application", $app->id);
 

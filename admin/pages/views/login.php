@@ -12,7 +12,7 @@
 		<? 
 		display_alerts();
 		?>
-		<form action="/admin/login" method="POST" class="os-12 os-md-6 os-lg-3">
+		<form action="/admin/login" id="recaptcha-form" method="POST" class="os-12 os-md-6 os-lg-3">
 		<h1>Login</h1>
 			<? do_action("admin/login/before_form"); ?>
 			<div class="row g1">

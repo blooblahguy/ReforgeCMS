@@ -141,20 +141,14 @@ class admin_page_POSTS extends RF_Admin_Page {
 						?>
 					</div>
 					<?
-					// Custom Fields 
+					// Custom Fields assssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssw
 					do_action("admin/custom_fields", "post");
 					?>
 					<div class="section">
 						<h3>SEO Settings</h3>
 						<div class="row g1">
 							<?
-							render_admin_field($post, array(
-								"type" => "checkbox",
-								"label" => "SEO NoIndex",
-								"name" => "seo_noindex",
-								"class" => "seo_noindex",
-								"layout" => "os-min text-center",
-							));
+							
 							render_admin_field($post, array(
 								"type" => "text",
 								"label" => "Main Title",
@@ -174,6 +168,13 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"data-bind" => true,
 								"maxlength" => "70",
 							));
+							render_admin_field($post, array(
+								"type" => "checkbox",
+								"label" => "SEO NoIndex",
+								"name" => "seo_noindex",
+								"class" => "seo_noindex",
+								"layout" => "os-min text-center",
+							));
 							echo '<div class="clear"></div>';
 							render_admin_field($post, array(
 								"type" => "textarea",
@@ -185,21 +186,24 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"required" => false,
 							));
 							?>
-						</div>
-						<h3>SEO Preview</h3>
-						<div class="seo_preview pad1 border">
-							<? global $options; ?>
-							<div class="sitetitle"><?= $_SERVER['SERVER_NAME']; ?> > <span data-value="title"></span></div>
-							<div class="link">
-								<span data-value="seo_title"></span>
-								<span data-hide-on-empty="seo_category" class="sep"><?= $options['seo_seperator']; ?></span>
-								<span data-value="seo_category"></span>
-								<span class="sep"><?= $options['seo_seperator']; ?></span>
-								<span data-value="seo_brand"><?= $options['sitename']; ?></span>
+							<div class="os">
+							<h3>SEO Preview</h3>
+							<div class="seo_preview pad1 border">
+								<? global $options; ?>
+								<div class="sitetitle"><?= $_SERVER['SERVER_NAME']; ?> > <span data-value="title"></span></div>
+								<div class="link">
+									<span data-value="seo_title"></span>
+									<span data-hide-on-empty="seo_category" class="sep"><?= $options['seo_seperator']; ?></span>
+									<span data-value="seo_category"></span>
+									<span class="sep"><?= $options['seo_seperator']; ?></span>
+									<span data-value="seo_brand"><?= $options['sitename']; ?></span>
+								</div>
+								<div id="default_seo" class="description" data-value="seo_description"></div>
+								<input type="hidden" id="default_seo_description" name="default_seo_description">
 							</div>
-							<div id="default_seo" class="description" data-value="seo_description"></div>
-							<input type="hidden" id="default_seo_description" name="default_seo_description">
+							</div>
 						</div>
+						
 
 					</div>
 				</div>
@@ -281,6 +285,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"" => "Disabled",
 							"==" => "Can",
 							"!=" => "Cannot",
+							"logged_in" => "Logged In",
+							"logged_out" => "Logged Out",
 						);
 						?>
 

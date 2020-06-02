@@ -87,13 +87,13 @@ class admin_page_ROLES extends RF_Admin_Page {
 		<div class="os">
 			<div class="section">
 				<?
-				render_admin_field($role, array(
+				render_html_field($role, array(
 					"type" => "text",
 					"label" => "Label",
 					"name" => "label",
 					"required" => true,
 				));
-				render_admin_field($role, array(
+				render_html_field($role, array(
 					"type" => "text",
 					"label" => "Slug",
 					"name" => "slug",

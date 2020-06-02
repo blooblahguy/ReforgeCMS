@@ -52,7 +52,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 					<?
 					
 
-					render_admin_field($partial, array(
+					render_html_field($partial, array(
 						"type" => "text",
 						"label" => "Title",
 						"name" => "title",
@@ -60,7 +60,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 						"required" => true,
 					));
 					
-					render_admin_field($partial, array(
+					render_html_field($partial, array(
 						"type" => "wysiwyg",
 						"label" => "Content",
 						"name" => "content",
@@ -77,7 +77,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 					<input type="submit" value="save">
 
 					<? 
-					render_admin_field($cache, array(
+					render_html_field($cache, array(
 						"type" => "select",
 						"label" => "Cache HTML For:",
 						"name" => "cache",
@@ -93,7 +93,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 							(60 * 60 * 12) => "12 hours",
 						),
 					));
-					render_admin_field(array(), array(
+					render_html_field(array(), array(
 						"type" => "select",
 						"label" => "Permissions",
 						"name" => "permissions",
@@ -101,14 +101,14 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 						"class" => "post_file padt1 inline",
 						"multiple" => true,
 					));
-					render_admin_field($partial, array(
+					render_html_field($partial, array(
 						"type" => "text",
 						"label" => "Slug",
 						"name" => "slug",
 						"class" => "post_permalink padt1",
 						"required" => false,
 					));
-					render_admin_field(array(), array(
+					render_html_field(array(), array(
 						"type" => "text",
 						"label" => "Post File",
 						"name" => "post_file",

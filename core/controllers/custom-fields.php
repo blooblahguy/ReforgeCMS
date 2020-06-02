@@ -83,6 +83,7 @@
 		function load_fields($type, $id) {
 			if (! isset($this->loaded[$type.":".$id])) {
 				$metas = new Meta();
+				// debug("SELECT * FROM {$metas->table} WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
 				$rs = $metas->query("SELECT * FROM {$metas->table} WHERE meta_type = '{$type}' AND meta_parent = {$id} ");
 				$rs = rekey_array("meta_key", $rs);
 				$this->loaded[$type.":".$id] = $rs;

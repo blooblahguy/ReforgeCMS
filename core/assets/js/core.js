@@ -35,7 +35,6 @@ function update_binded_values(e) {
 		var value = $(e).html()
 	}
 
-
 	$("[data-hide-on-empty='"+variable+"']").each(function(i, obj) {
 		if (value == "") {
 			$(obj).hide()

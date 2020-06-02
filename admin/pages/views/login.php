@@ -26,11 +26,12 @@
 				</div>
 				<input type="hidden" name="redirect" value="/admin">
 				<div class="os-12">
-					<input type="submit">
+					<? add_recaptcha($label = "Submit"); ?>
 				</div>
 			</div>
 			<? do_action("admin/login/after_form"); ?>
 		</form>
 	</div>
+	<? rf_scripts(); ?>
 </body>
 </html>

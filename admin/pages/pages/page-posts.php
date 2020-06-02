@@ -123,7 +123,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 				<div class="content">
 					<div class="padb2 section">
 						<?
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "text",
 							"label" => "Title",
 							"name" => "title",
@@ -131,7 +131,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 							"data-bind" => true,
 							"required" => true,
 						));
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "text",
 							"label" => "Sub Title",
 							"name" => "subtitle",
@@ -149,7 +149,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						<div class="row g1">
 							<?
 							
-							render_admin_field($post, array(
+							render_html_field($post, array(
 								"type" => "text",
 								"label" => "Main Title",
 								"instructions" => "Less that 70 characters between these two fields, used to quickly describe the page with a keyword-centric approach.",
@@ -159,7 +159,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"maxlength" => "70",
 								"required" => true,
 							));
-							render_admin_field($post, array(
+							render_html_field($post, array(
 								"type" => "text",
 								"label" => "Secondary Title / Category",
 								"instructions" => "Less that 70 characters between these two fields, used to quickly describe the page with a keyword-centric approach.",
@@ -168,7 +168,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"data-bind" => true,
 								"maxlength" => "70",
 							));
-							render_admin_field($post, array(
+							render_html_field($post, array(
 								"type" => "checkbox",
 								"label" => "SEO NoIndex",
 								"name" => "seo_noindex",
@@ -176,7 +176,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"layout" => "os-min text-center",
 							));
 							echo '<div class="clear"></div>';
-							render_admin_field($post, array(
+							render_html_field($post, array(
 								"type" => "textarea",
 								"label" => "SEO Description",
 								"instructions" => "Something descriptive about the pages content from a user's perspective. Something click-worthy, not click-bait.",
@@ -218,7 +218,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						<? } ?>
 						<hr>
 						<?
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "text",
 							"name" => "permalink",
 							"label" => "Permalink",
@@ -231,7 +231,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 							$created = Date("Y-m-d", strtotime($post['created']));
 						}
 
-						render_admin_field($created, array(
+						render_html_field($created, array(
 							"type" => "date",
 							"name" => "created",
 							"label" => "Post Date",
@@ -243,7 +243,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						$pages = $pages->find("*", "post_type = 'pages' ");
 						$pages = array_extract($pages, "id", "title");
 
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "select",
 							"name" => "post_parent",
 							"label" => "Post Parent",
@@ -260,7 +260,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						// 	}
 						// 	$statuses[$s['name']] = $s['name'];
 						// }
-						// render_admin_field($post, array(
+						// render_html_field($post, array(
 						// 	"choices" => $statuses,
 						// 	"type" => "select",
 						// 	"name" => "post_status",
@@ -293,7 +293,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						<div class="row g1">
 							<div class="os">
 								<?
-								render_admin_field($post, array(
+								render_html_field($post, array(
 									"type" => "select",
 									"name" => "permission_exp",
 									"choices" => $exp,
@@ -302,7 +302,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 							</div>
 							<div class="os">
 								<? 
-								render_admin_field($post, array(
+								render_html_field($post, array(
 									"type" => "select",
 									"name" => "permission",
 									"choices" => $defaults,

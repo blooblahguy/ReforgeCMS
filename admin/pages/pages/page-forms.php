@@ -137,13 +137,13 @@ class admin_page_FORMS extends RF_Admin_Page {
 			<div class="os">
 				<div class="section g1">
 					<?
-					render_admin_field($form, array(
+					render_html_field($form, array(
 						"type" => "text",
 						"label" => "Label",
 						"name" => "title",
 						"class" => "post_title"
 					));
-					render_admin_field($form, array(
+					render_html_field($form, array(
 						"type" => "textarea",
 						"label" => "Instructions",
 						"name" => "subtitle",
@@ -163,7 +163,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 					<input type="submit">
 					<?
 
-					render_admin_field($form, array(
+					render_html_field($form, array(
 						"type" => "text",
 						"label" => "Slug",
 						"name" => "slug",

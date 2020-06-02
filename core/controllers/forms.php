@@ -46,7 +46,13 @@ class Forms extends \Prefab {
 	}
 
 	function profile_submit($core, $args) {
+		$user = current_user();
 
+		$user->email = $_POST['email'];
+		$user->username = $_POST['username'];
+		$user->twitch = $_POST['twitch'];
+
+		exit();
 	}
 
 	function register_submit($core, $args) {
@@ -55,10 +61,10 @@ class Forms extends \Prefab {
 		$captcha = new \Web\Google\Recaptcha();
 
 		// verify captcha
-		// if (! $captcha->verify("6LdLF_8UAAAAAMFZM_8K_7x1KAIVwo1VGvJ7acXO")) {
-		// 	Alerts::instance()->error("Invalid recaptcha");
-		// 	redirect();
-		// }
+		if (! $captcha->verify("6LdLF_8UAAAAAMFZM_8K_7x1KAIVwo1VGvJ7acXO")) {
+			Alerts::instance()->error("Invalid recaptcha");
+			redirect();
+		}
 
 		// verify email
 		if (! filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -147,10 +153,12 @@ add_shortcode("login_form", "login_form");
  * Display a registration form for the current user
  */
 function registration_form($options) {
+	global $wow_classes;
 	if (logged_in()) {
 		redirect("/");
 		return false;
 	}
+	$user = array();
 
 	?>
 
@@ -158,45 +166,56 @@ function registration_form($options) {
 		<h2>Register</h2>
 		<p>Already have an account? <a href="/login">Login</a></p>
 		<div class="row g1">
-			<div class="formsec os-12">
-				<label for="email">Email</label>
-				<input required type="email" name="email" id="email">
-			</div>
-			<div class="formsec os-12">
-				<label for="username">Username</label>
-				<input required type="text" name="username" id="username">
-			</div>
-			<div class="formsec os">
-				<label for="password">Password</label>
-				<input required type="password" name="password" id="password">
-			</div>
-			<div class="formsec os">
-				<label for="confirm_password">Confirm Password</label>
-				<input required type="password" name="confirm_password" id="confirm_password">
-			</div>
-			<div class="clear"></div>
-			<div class="formsec os">
-				<label for="twitch">Twitch Username</label>
-				<input type="text" name="twitch" id="twitch">
-			</div>
-			<div class="formsec os">
-				<label for="class">Class</label>
-				<select required name="class" id="class">
-					<option value="" selected disabled>--Select</option>
-					<option value="deathknight">Death Knight</option>
-					<option value="demonhunter">Demon Hunter</option>
-					<option value="druid">Druid</option>
-					<option value="hunter">Hunter</option>
-					<option value="mage">Mage</option>
-					<option value="monk">Monk</option>
-					<option value="paladin">Paladin</option>
-					<option value="priest">Priest</option>
-					<option value="rogue">Rogue</option>
-					<option value="shaman">Shaman</option>
-					<option value="warlock">Warlock</option>
-					<option value="warrior">Warrior</option>
-				</select>
-			</div>
+			<?
+			render_html_field($user, array(
+				"label" => "Email",
+				"type" => "text",
+				"name" => "email",
+				"required" => true,
+				"layout" => "os-12",
+			));
+
+			render_html_field($user, array(
+				"label" => "Username",
+				"type" => "text",
+				"name" => "username",
+				"required" => true,
+				"layout" => "os-12",
+			));
+
+			render_html_field($user, array(
+				"label" => "Password",
+				"type" => "text",
+				"name" => "password",
+				"layout" => "os-6",
+				"required" => true,
+			));
+
+			render_html_field($user, array(
+				"label" => "Confirm Password",
+				"type" => "text",
+				"name" => "confirm_password",
+				"layout" => "os-6",
+				"required" => true,
+			));
+
+			render_html_field($user, array(
+				"label" => "Twitch Username",
+				"type" => "text",
+				"name" => "twitch",
+				"layout" => "os-6",
+			));
+
+			render_html_field($user, array(
+				"label" => "Class",
+				"type" => "select",
+				"choices" => $wow_classes,
+				"name" => "class",
+				"layout" => "os-6",
+				"required" => true,
+			));
+
+			?>
 		</div>
 		<br>
 
@@ -210,12 +229,75 @@ function registration_form($options) {
 add_shortcode("registration_form", "registration_form");
 
 function profile_form($attrs) {
+	global $wow_classes;
 	if (! logged_in()) {
 		redirect("/login");
 		return false;
 	}
 
-	echo "hello";
+	$user = current_user();
+
+	?>
+
+	<form method="POST" action="/profile">
+		<h2>Profile</h2>
+		<div class="row g1">
+			<div class="os-2 text-center">
+				<label for="">Avatar</label>
+				<div class="avatar">
+					<img src="<?= current_user()->avatar; ?>" alt="">
+				</div>
+				<input type="file" name="avatar">
+			</div>
+			<div class="os padt0">
+				<div class="row g1">
+					<? 
+					render_html_field($user, array(
+						"label" => "Email",
+						"type" => "text",
+						"name" => "email",
+						"required" => true,
+						"layout" => "os-12",
+					));
+
+					render_html_field($user, array(
+						"label" => "Username",
+						"type" => "text",
+						"name" => "username",
+						"required" => true,
+						"layout" => "os-12",
+					));
+
+					render_html_field($user, array(
+						"label" => "Twitch",
+						"type" => "text",
+						"name" => "twitch",
+						"layout" => "os-6",
+					));
+
+					render_html_field($user, array(
+						"label" => "Class",
+						"type" => "select",
+						"choices" => $wow_classes,
+						"name" => "class",
+						"layout" => "os-6",
+					));
+
+					do_action("admin/custom_fields", "user");
+					// $fields = RCF()->load_fields("user", $user->id);
+					// debug($fields);
+					// $cf = new CustomField();
+					// $field = reset($cf->find("*", array("id = :id", ":id" => $user->id)));
+
+					// RCF()->render_fields($field['id'], $user->id, "user", $field);
+					?>
+				</div>
+				<input type="submit" value="Save">
+			</div>
+		</div>
+	</form>
+
+	<?
 }
 
 add_shortcode("profile_form", "profile_form");

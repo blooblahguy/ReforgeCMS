@@ -1,5 +1,15 @@
 <?
 
+function render_rcf_field($field, $options) {
+	// debug($options);
+	$value = $field[$options["name"]];
+	$options['name'] = "rcf_fields[{$field['key']}][{$options['name']}]";
+
+	// debug($settings['name']);
+
+	render_html_field($value, $options);
+}
+
 function split_uid($uid) {
 	global $request;
 	if (! $uid) {
@@ -47,15 +57,6 @@ function get_fields($uid = false) {
 
 function rcf_get_field_types() {
 	return RCF::instance()->get_field_types();
-}
-
-function rcf_render_field_setting($field, $settings) {
-	$type = $settings["type"]; 
-	$value = $field[$settings["name"]];
-	$settings['name'] = "rcf_fields[{$field['key']}][{$settings['name']}]"; // field_key1231[name]
-	$settings['layout'] = $settings['grid'];
-
-	render_admin_field($value, $settings);	
 }
 
 // include file with arguements

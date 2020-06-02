@@ -18,8 +18,11 @@ class rcf_rule_USER extends rcf_rule {
 	function rule_choices() {
 		global $db;
 
-		$post_types = $db->query("SELECT * FROM users ORDER BY `username` ASC");
-		foreach ($post_types as $pt) {
+		$users = new User();
+		$users = $users->find("id, username");		
+
+		// $post_types = $db->query("SELECT * FROM users ORDER BY `username` ASC");
+		foreach ($users as $pt) {
 			$choices[$pt["id"]] = $pt['username'];
 		}
 

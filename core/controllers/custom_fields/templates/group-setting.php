@@ -29,44 +29,41 @@
 			<div class="row g1 content-middle">
 				<?
 					// label
-					rcf_render_field_setting($field, array(
+					render_rcf_field($field, array(
 						'label' => 'Field Label',
 						'name' => 'label',
 						'type' => 'text',
 						'data-bind' => true,
 						'class' => 'field-label',
-						"grid" => "os",
 					));
 
 					// Slug
-					rcf_render_field_setting($field, array(
+					render_rcf_field($field, array(
 						'label' => 'Slug',
 						'name' => 'slug',
 						'type' => 'text',
 						'data-bind' => true,
 						'class' => 'field-slug',
-						"grid" => "os",
 					));
 
 					// Types
-					rcf_render_field_setting($field, array(
+					render_rcf_field($field, array(
 						'label' => 'Type',
 						'name' => 'type',
 						'type' => 'select',
 						'data-bind' => true,
 						'default' => "text",
 						'class' => 'field-type rcf_dropdown loaded',
-						"grid" => "os",
 						'choices' => rcf_get_field_types(),
 					));
 					if (! $field['children']) {
 						// Required
-						rcf_render_field_setting($field, array(
+						render_rcf_field($field, array(
 							'label' => 'Required',
 							'name' => 'required',
 							'type' => 'checkbox',
 							'class' => 'field-required text-center',
-							"grid" => "os-min",
+							"layout" => "os-min",
 						));
 					}
 				?>
@@ -74,7 +71,7 @@
 			<div class="row g1 content-middle">
 				<?
 					// Instructions
-					rcf_render_field_setting($field, array(
+					render_rcf_field($field, array(
 						'label' => 'Instructions',
 						'name' => 'instructions',
 						'type' => 'text',

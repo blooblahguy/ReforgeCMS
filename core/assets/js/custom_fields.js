@@ -149,17 +149,11 @@ $("body").on("click", "[data-remove]", function() {
 			var parent = $(e).parents(".condition_row").first()
 			var rule = parent.find(".load_key").first().val()
 
-			console.log(rule)
-
-			nanoajax.ajax({
-					url:'/admin/custom_fields/rules/'+rule,
-				},
-				function (code, response) {
-					$(e).html(response)
-					console.log(response)
-					// owner.find(".field_settings").first().html(response)
-				}
-			)
+			$.get('/admin/custom_fields/rules/'+rule, {}, function (response) {
+				console.log(response)
+				$(e).html(response)
+				// owner.find(".field_settings").first().html(response)
+			})
 		})
 	}
 	$("body").on("change", ".load_key", function() {
@@ -187,17 +181,14 @@ $("body").on("click", "[data-remove]", function() {
 			var order = owner.siblings().length
 			var url = '/admin/custom_fields/settings/'+type+'?field_key='+key+'&parent_key='+parent+'&menu_order='+order+'&post_id='+post_id;
 
-			nanoajax.ajax({
-					url: url,
-				},
-				function (code, response) {
-					owner.find(".rcf_field_settings > .field_details > .field_settings").html(response)
+			$.get(url, {}, function (response) {
+				console.log(response)
+				owner.find(".rcf_field_settings > .field_details > .field_settings").html(response)
 
-					$("[data-bind]").each(function(i, e) {
-						update_binded_values(e)
-					})
-				}
-			)
+				$("[data-bind]").each(function(i, e) {
+					update_binded_values(e)
+				})
+			})
 		})
 	}
 

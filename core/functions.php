@@ -167,7 +167,7 @@ function get_permissions() {
  * HTML Functions
  * ==============================================================
  */
-function render_admin_field($field, $settings) {
+function render_html_field($field, $settings) {
 	// $field = (object) $field;
 
 	// debug($field);
@@ -721,4 +721,21 @@ function smart_date($date) {
 		$numberOfUnits = floor($time / $unit);
 		return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'').' ago';
 	}
+}
+
+
+function add_recaptcha($label = "Submit") {
+	queue_script('https://www.google.com/recaptcha/api.js');
+
+	?>
+	<script>
+		function onSubmit(token) {
+			document.getElementById("recaptcha-form").submit();
+		}
+	</script>
+	<button class="btn-secondary g-recaptcha" 
+        data-sitekey="6LdLF_8UAAAAALGVy69oBTwtqNRhn3--dgon9_DT" 
+        data-theme="dark" 
+        data-callback='onSubmit'><?= $label; ?></button>
+	<?
 }

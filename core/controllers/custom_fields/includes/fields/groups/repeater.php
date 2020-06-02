@@ -124,7 +124,7 @@ class reforge_field_REPEATER extends reforge_field {
 	function options_html($field) {
 
 		// Minimum Rows
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"type" => "number",
 			"label" => "Minimum Rows",
 			"name" => "min",
@@ -132,7 +132,7 @@ class reforge_field_REPEATER extends reforge_field {
 		));
 
 		// Maximum Rows
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"type" => "number",
 			"label" => "Maximum Rows",
 			"name" => "max",
@@ -140,7 +140,7 @@ class reforge_field_REPEATER extends reforge_field {
 		));
 
 		// Button Label
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"type" => "text",
 			"label" => "Button Label",
 			"name" => "button_label",

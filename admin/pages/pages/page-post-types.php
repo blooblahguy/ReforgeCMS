@@ -120,7 +120,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 			<div class="os">
 				<div class="section">
 					<?
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "text",
 						"name" => "slug",
 						"label" => "Slug",
@@ -129,13 +129,13 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 					?>
 					<div class="row g2">
 						<?
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "text",
 							"name" => "label",
 							"label" => "Label",
 							"required" => true,
 						));
-						render_admin_field($post, array(
+						render_html_field($post, array(
 							"type" => "text",
 							"name" => "label_plural",
 							"label" => "Plural Label",
@@ -144,7 +144,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 						?>
 					</div>
 					<?
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "textarea",
 						"name" => "description",
 						"label" => "Description",
@@ -232,24 +232,24 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 					</div>
 
 					<?
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "checkbox",
 						"name" => "admin_menu",
 						"label" => "Admin Menu",
 					));
 
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "text",
 						"name" => "order",
 						"label" => "Admin Menu Position",
 					));
 
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "checkbox",
 						"name" => "allow_parents",
 						"label" => "Allow Post Parenting",
 					));
-					render_admin_field($post, array(
+					render_html_field($post, array(
 						"type" => "text",
 						"name" => "url_prefix",
 						"label" => "URL Prefix",

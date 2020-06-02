@@ -50,7 +50,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 
 				<? 
 			$choices = array_extract($pages, "id", "title");
-			render_admin_field($home_page, array(
+			render_html_field($home_page, array(
 				"type" => "select",
 				"label" => "Site Homepage",
 				"name" => "site_homepage",
@@ -60,7 +60,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 			$roles = new Role();
 			$roles = $roles->find("*");
 			$roles = array_extract($roles, "id", "label");
-			render_admin_field($default_role, array(
+			render_html_field($default_role, array(
 				"type" => "select",
 				"label" => "Default Role",
 				"name" => "default_role",
@@ -74,7 +74,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		<div class="section">
 			<h2>SEO Settings</h2>
 			<?
-			render_admin_field($disable_seo, array(
+			render_html_field($disable_seo, array(
 				"type" => "checkbox",
 				"label" => "Discourage Search Engines",
 				"name" => "disable_seo",
@@ -82,18 +82,18 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 			?>
 			<div class="row g1">
 				<?
-				render_admin_field($sitename, array(
+				render_html_field($sitename, array(
 					"type" => "text",
 					"label" => "Site Title",
 					"name" => "sitename",
 				));
-				render_admin_field($seo_seperator, array(
+				render_html_field($seo_seperator, array(
 					"type" => "text",
 					"label" => "Title Tag Seperator",
 					"default" => "|",
 					"name" => "seo_seperator",
 				));
-				render_admin_field($seo_keywords, array(
+				render_html_field($seo_keywords, array(
 					"type" => "text",
 					"label" => "Keywords (comma seperated)",
 					"name" => "seo_keywords",

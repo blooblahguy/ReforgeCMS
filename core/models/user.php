@@ -27,6 +27,10 @@ class User extends \RF\Mapper {
 			"twitch" => array(
 				"type" => "VARCHAR(256)"
 			),
+			"verified" => array(
+				"type" => "INT(1)",
+				"attrs" => "DEFAULT 0",
+			),
 			"avatar" => array(
 				"type" => "VARCHAR(256)"
 			),

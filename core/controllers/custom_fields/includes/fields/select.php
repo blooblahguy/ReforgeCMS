@@ -31,7 +31,7 @@ class reforge_field_SELECT extends reforge_field {
 			$value = $data[$data["name"]];
 			$data[$data["name"]."[]"] = unserialize($value);
 
-			render_admin_field($data, array(
+			render_html_field($data, array(
 				"type" => "select",
 				"label" => $field['label'],
 				"name" => $data["name"]."[]",
@@ -41,7 +41,7 @@ class reforge_field_SELECT extends reforge_field {
 				"instructions" => "Hold ctrl to select multiple values",
 			));
 		} else {
-			render_admin_field($data, array(
+			render_html_field($data, array(
 				"type" => "select",
 				"label" => $field['label'],
 				"name" => $data["name"],
@@ -56,7 +56,7 @@ class reforge_field_SELECT extends reforge_field {
 	//========================================================
 	function options_html($field) {
 		
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Choices",
 			"type" => "textarea",
 			"name" => "choices",
@@ -67,7 +67,7 @@ class reforge_field_SELECT extends reforge_field {
 		<div class="os">
 			<?
 			// Layout
-			rcf_render_field_setting($field, array(
+			render_rcf_field($field, array(
 				"label" => "Layout",
 				"type" => "select",
 				"name" => "layout",
@@ -83,13 +83,13 @@ class reforge_field_SELECT extends reforge_field {
 				)
 			));
 			// Default
-			rcf_render_field_setting($field, array(
+			render_rcf_field($field, array(
 				"label" => "Select multible",
 				"type" => "checkbox",
 				"name" => "select_multiple",
 			));
 			// Default
-			rcf_render_field_setting($field, array(
+			render_rcf_field($field, array(
 				"label" => "Default Value",
 				"type" => "text",
 				"name" => "default_value",

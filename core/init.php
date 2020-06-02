@@ -17,21 +17,6 @@ include $root."/core/functions.php";
 include $root."/core/hook.php";
 include $root."/core/reforge/media.php";
 
-function add_recaptcha($label = "Submit") {
-	queue_script('https://www.google.com/recaptcha/api.js');
-
-	?>
-	<script>
-		function onSubmit(token) {
-			document.getElementById("recaptcha-form").submit();
-		}
-	</script>
-	<button class="btn-secondary g-recaptcha" 
-        data-sitekey="6LdLF_8UAAAAALGVy69oBTwtqNRhn3--dgon9_DT" 
-        data-callback='onSubmit'><?= $label; ?></button>
-	<?
-}
-
 // Controllers
 foreach (glob($root."/core/controllers/*.php") as $filename) {
 	include $filename;

@@ -51,7 +51,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 				<div class="os">
 					<div class="section">
 						<?
-						render_admin_field($apply_index, array(
+						render_html_field($apply_index, array(
 							"label" => "Applications Page",
 							"default" => "/recruitment/applications",
 							"type" => "select",
@@ -59,7 +59,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 							"name" => "rfa_apply_index",
 							"instructions" => "Page for viewing, commenting, and editing applications"
 						));
-						render_admin_field($apply_page, array(
+						render_html_field($apply_page, array(
 							"label" => "Apply Page",
 							"default" => "/recruitment/apply",
 							"type" => "select",
@@ -67,7 +67,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 							"name" => "rfa_apply_page",
 							"instructions" => "Page for filling out and submitting a new application"
 						));
-						render_admin_field($apply_form, array(
+						render_html_field($apply_form, array(
 							"label" => "Apply Form",
 							"type" => "select",
 							"choices" => $forms,
@@ -182,7 +182,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 					<div class="row g1">
 						<div class="os">
 						<?
-							render_admin_field($app, array(
+							render_html_field($app, array(
 								"type" => "text",
 								"name" => "title",
 								"label" => "Title",
@@ -192,7 +192,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 						</div>
 						<div class="os">
 							<?
-							render_admin_field($app, array(
+							render_html_field($app, array(
 								"type" => "select",
 								"choices" => array(
 									"open" => "Open",

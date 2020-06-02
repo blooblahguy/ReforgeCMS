@@ -72,7 +72,7 @@ class reforge_field_IMAGE extends reforge_field {
 	function options_html($field) {
 
 		// Layout
-		rcf_render_field_setting($field, array(
+		render_html_field($field, array(
 			"label" => "Layout",
 			"type" => "select",
 			"name" => "layout",

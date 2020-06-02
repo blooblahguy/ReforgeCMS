@@ -143,7 +143,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 			<div class="os">
 				<div class="rf_menu section">
 					<?
-					render_admin_field($menu, array(
+					render_html_field($menu, array(
 						"type" => "text",
 						"label" => "Label",
 						"name" => "label",
@@ -168,7 +168,7 @@ class admin_page_MENUS extends RF_Admin_Page {
 					<input type="submit">
 
 					<?
-					render_admin_field($menu, array(
+					render_html_field($menu, array(
 						"type" => "text",
 						"name" => "slug",
 						"label" => "Slug",

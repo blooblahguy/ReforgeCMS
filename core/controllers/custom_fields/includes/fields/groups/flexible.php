@@ -89,7 +89,7 @@ class reforge_field_FLEXIBLE extends reforge_field {
 	function options_html($field) {
 
 		// Button Label
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"type" => "text",
 			"label" => "Button Label",
 			"name" => "button_label",

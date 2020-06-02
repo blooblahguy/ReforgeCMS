@@ -15,7 +15,7 @@ class reforge_field_WYSIWYG extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-		render_admin_field($data, array(
+		render_html_field($data, array(
 			"type" => "wysiwyg",
 			"label" => $field['label'],
 			"name" => $data["name"],
@@ -32,7 +32,7 @@ class reforge_field_WYSIWYG extends reforge_field {
 	//========================================================
 	function options_html($field) {
 		// Layout
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Height",
 			"type" => "number",
 			"name" => "height",
@@ -40,7 +40,7 @@ class reforge_field_WYSIWYG extends reforge_field {
 			// "placeholder" => "Placeholder",
 		));
 		// Layout
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Layout",
 			"type" => "select",
 			"name" => "layout",

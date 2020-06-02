@@ -122,14 +122,14 @@ class admin_page_USERS extends RF_Admin_Page {
 				<div class="section">
 					<? 
 
-					render_admin_field($user, array(
+					render_html_field($user, array(
 						"type" => "text",
 						"name" => "username",
 						"label" => "Username",
 						"required" => true
 					)); 
 
-					render_admin_field($user, array(
+					render_html_field($user, array(
 						"type" => "text",
 						"name" => "email",
 						"label" => "Email",
@@ -137,7 +137,7 @@ class admin_page_USERS extends RF_Admin_Page {
 					)); 
 
 					$choices = array("dark" => "Dark", "default" => "Default");
-					render_admin_field($user, array(
+					render_html_field($user, array(
 						"type" => "select",
 						"label" => "Admin theme",
 						"name" => "admin_theme",
@@ -145,7 +145,7 @@ class admin_page_USERS extends RF_Admin_Page {
 						"choices" => $choices,
 					));
 
-					render_admin_field($user, array(
+					render_html_field($user, array(
 						"type" => "select",
 						"name" => "role_id",
 						"label" => "Role",
@@ -153,7 +153,7 @@ class admin_page_USERS extends RF_Admin_Page {
 						"choices" => $roles
 					)); 
 
-					render_admin_field($user, array(
+					render_html_field($user, array(
 						"type" => "select",
 						"name" => "class",
 						"label" => "Class",

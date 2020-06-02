@@ -16,7 +16,7 @@ class reforge_field_TEXTAREA extends reforge_field {
 	// EDIT
 	//========================================================
 	function html($data, $field) {
-		render_admin_field($data, array(
+		render_html_field($data, array(
 			"type" => $field['type'],
 			"label" => $field['label'],
 			"name" => $data["name"],
@@ -34,7 +34,7 @@ class reforge_field_TEXTAREA extends reforge_field {
 	function options_html($field) {
 
 		// Layout
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Layout",
 			"type" => "select",
 			"name" => "layout",
@@ -50,7 +50,7 @@ class reforge_field_TEXTAREA extends reforge_field {
 			)
 		));
 		// Default Value
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Default Value",
 			"type" => "text",
 			"name" => "default_value",
@@ -58,7 +58,7 @@ class reforge_field_TEXTAREA extends reforge_field {
 		));
 
 		// Placeholder
-		rcf_render_field_setting($field, array(
+		render_rcf_field($field, array(
 			"label" => "Placeholder",
 			"type" => "text",
 			"name" => "placeholder",

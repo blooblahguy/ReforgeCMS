@@ -78,13 +78,13 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 		<div class="section">
 			<h2>Options</h2>
 			<? 
-			render_admin_field($cf, array(
+			render_html_field($cf, array(
 				"type" => "checkbox",
 				"label" => "Active",
 				"name" => "inactive",
 				"value" => "1",
 			));
-			render_admin_field($cf, array(
+			render_html_field($cf, array(
 				"type" => "select",
 				"label" => "Display Priority",
 				"name" => "priority",

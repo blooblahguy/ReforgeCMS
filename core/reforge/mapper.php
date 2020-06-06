@@ -1,5 +1,7 @@
 <?php
+
 namespace RF;
+$schema_checked = array();
 class Mapper extends \Magic {
 	// variables
 	protected 
@@ -13,6 +15,8 @@ class Mapper extends \Magic {
 
 	// construct mapper with provided information
 	function __construct($table, $schema = false, $cache_key = false) {
+		global $schema_checked;
+
 		if (! $table) { echo "no table"; return false; }
 		$this->table = $table;
 		$cache_key = $cache_key ? $cache_key : $table;
@@ -21,7 +25,7 @@ class Mapper extends \Magic {
 		$this->cache['schema'] = new \RF\Cache("{$cache_key}.schema");
 
 		// Build schema out, and store for reference
-		if ($schema !== false && count($schema) > 0) {
+		if (! isset($schema_checked[$table]) && $schema !== false && count($schema) > 0) {
 			$this->ensure_schema($schema);
 		}
 	}
@@ -30,6 +34,8 @@ class Mapper extends \Magic {
 	 * Validates and sends the schema off to the schema class for building
 	 */
 	function ensure_schema($schema) {
+		global $schema_checked;
+
 		$cache = $this->cache['schema'];
 
 		// first, store schema information in our object
@@ -54,6 +60,8 @@ class Mapper extends \Magic {
 			// send to schema class for update
 			\RF\Schema::instance()->update($this->table, $schema);
 		}
+
+		$schema_checked[$this->table] = 1;
 	}
 
 	/**

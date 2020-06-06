@@ -9,6 +9,7 @@ class Forms extends \Prefab {
 		if ($user->logged_in()) {
 			$core->route("POST /profile_submit", "Forms->profile_submit");
 			$core->route("GET /logout", "User->logout");
+			$core->route("GET /change_password", "Forms->change_password");
 		} else {
 			$core->route("POST /register", "Forms->register_submit");
 			$core->route("POST /login", "Forms->login_submit", 0, 64);
@@ -51,6 +52,7 @@ class Forms extends \Prefab {
 		$user->email = $_POST['email'];
 		$user->username = $_POST['username'];
 		$user->twitch = $_POST['twitch'];
+		$user->class = $_POST['class'];
 
 		exit();
 	}
@@ -138,6 +140,7 @@ function login_form($options = array()) {
 				<input type="password" name="password" required>
 			</div>
 			<input type="hidden" name="redirect" value="/">
+			<a href="/forgot-password">Forgot Password</a>
 			<div class="formsec os-12">
 				<? add_recaptcha("Login"); ?>
 				<!-- <input type="submit" value="Login"> -->
@@ -283,13 +286,6 @@ function profile_form($attrs) {
 						"layout" => "os-6",
 					));
 
-					do_action("admin/custom_fields", "user");
-					// $fields = RCF()->load_fields("user", $user->id);
-					// debug($fields);
-					// $cf = new CustomField();
-					// $field = reset($cf->find("*", array("id = :id", ":id" => $user->id)));
-
-					// RCF()->render_fields($field['id'], $user->id, "user", $field);
 					?>
 				</div>
 				<input type="submit" value="Save">
@@ -301,6 +297,37 @@ function profile_form($attrs) {
 }
 
 add_shortcode("profile_form", "profile_form");
+
+function forgot_password() {
+	if (logged_in()) {
+		// redirect("/profile");
+	}
+
+	$code = $_GET['password_reset'];
+
+	if (isset($code)) {
+		$code = new VerifyCode();
+		$code = $code->find("*", array("code = :code", ":code" => $code));
+
+		if (count($code) == 0) {
+			\Alerts::instance()->error("Invalid reset code");
+			redirect("/login");
+		}
+		?>
+		<form method="POST" action="/change_password">
+		
+		</form>
+		<?
+	} else {
+		?>
+		<form action="POST">
+
+		</form>
+		<?
+	}
+}
+
+add_shortcode("forgot_password", "forgot_password");
 
 function render_entry_results($entry_id, $args = array()) {
 	$entry = new Post();

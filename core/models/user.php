@@ -286,3 +286,20 @@ class LoginCookie extends \RF\Mapper {
 		parent::__construct("rf_login_cookies", $schema);
 	}
 }
+
+// Login Cookies
+class VerifyCode extends \RF\Mapper {
+	function __construct() {
+		$schema = array(
+			"code" => array(
+				"type" => "VARCHAR(256)"
+			), 
+			"user_id" => array(
+				"type" => "INT(7)"
+			),
+			"modified" => false
+		);
+
+		parent::__construct("rf_verify_codes", $schema);
+	}
+}

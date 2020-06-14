@@ -245,7 +245,7 @@ function render_html_field($field, $settings) {
 			<? } elseif ($type == "textarea") { ?>
 				<textarea type="text" rows="5" <?= $attrs; ?>><?= $attrs_array['value']; ?></textarea>
 			<? } elseif ($type == "wysiwyg") { ?>
-				<input type="hidden" class="wysiwyg_input" name="<?= $name; ?>" value="<?= $attrs_array['value']; ?>">
+				<textarea name="<?= $name; ?>" class="wysiwyg_input"  style="display: none"><?= $attrs_array['value']; ?></textarea>
 				<div <?= $attrs; ?>><?= htmlspecialchars_decode($attrs_array['value']); ?></div>
 			<? } else { ?>
 				<input type="<?= $type; ?>" <?= $attrs; ?>>

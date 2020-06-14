@@ -28,7 +28,7 @@ foreach ($posts as $data) {
 	$post->post_type = "news";
 	$post->created = $created;
 	$post->title = $title;
-	$post->content = $content;
+	$post->content = htmlspecialchars($content);
 	$post->author = 1;
 
 	// debug($post);

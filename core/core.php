@@ -30,9 +30,9 @@ if ("/" . $CONTROLLER == "/admin") {
 	Content::instance();
 }
 
-// $core->route("GET /glade/import", function() {
-// 	include "import.php";
-// });
+$core->route("GET /glade/import", function() {
+	include "import.php";
+});
 
 $core->run();
 

@@ -28,8 +28,9 @@ class Post extends \RF\Mapper {
 			"seo_description" => array(
 				"type" => "VARCHAR(256)"
 			),
-			"seo_noindex" => array(
-				"type" => "INT(1)"
+			"seo_enable" => array(
+				"type" => "INT(1)",
+				"attrs" => "NOT NULL DEFAULT 1"
 			),
 			"disable_comments" => array(
 				"type" => "INT(1)"

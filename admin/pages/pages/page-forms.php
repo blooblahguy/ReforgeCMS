@@ -64,26 +64,26 @@ class admin_page_FORMS extends RF_Admin_Page {
 			),
 			'entries' => array(
 				"label" => "Entries",
-				"calculate" => function($value, $id) {
+				"calculate" => function($value, $r) {
 					$entries = new Post();
 					$entries = $entries->find("*", array(
-						"post_parent = $id", 
+						"post_parent = {$r['id']}", 
 						"post_type = 'form_entry'"
 					));
 
-					return "<a href='{$this->link}/entries/{$id}'>View Entries (".count($entries).")</a>";
+					return "<a href='{$this->link}/entries/{$r['id']}'>View Entries (".count($entries).")</a>";
 				}
 			),
 			'author' => array(
 				"label" => "Author",
-				"calculate" => function($value, $id) {
+				"calculate" => function($value, $r) {
 					$user = get_user($value);
 					return $user->username;
 				}
 			),
 			'modified' => array(
 				"label" => "Updated",
-				"calculate" => function($value, $id) {
+				"calculate" => function($value, $r) {
 					$year = Date("Y", strtotime($value));
 					if ($year != Date("Y")) {
 						return Date("M jS Y, g:ia", strtotime($value));
@@ -94,7 +94,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 			),
 			'created' => array(
 				"label" => "Created",
-				"calculate" => function($value, $id) {
+				"calculate" => function($value, $r) {
 					$year = Date("Y", strtotime($value));
 					if ($year != Date("Y")) {
 						return Date("M jS Y, g:ia", strtotime($value));
@@ -106,8 +106,8 @@ class admin_page_FORMS extends RF_Admin_Page {
 			'remove' => array (
 				"label" => "Remove",
 				"class" => "min",
-				"calculate" => function($s, $id) {
-					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				"calculate" => function($s, $r) {
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
 		);

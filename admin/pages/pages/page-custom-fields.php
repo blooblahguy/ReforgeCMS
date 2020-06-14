@@ -17,6 +17,7 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	}
 
 	function index($args) {
+		$this->render_title(); 
 
 		$cf = new CustomField();
 		$fieldsets = $cf->find("*", "virtual = 0"); 
@@ -28,11 +29,20 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 				"class" => "tablelabel",
 				"html" => '<a href="/admin/custom_fields/edit/%2$d">%1$s</a>',
 			),
+			'remove' => array (
+				"label" => "Remove",
+				"class" => "min",
+				"calculate" => function($s, $r) {
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				}
+			)
 		));
 		echo '</div>';
 	}
 
 	function edit($args) {
+		$this->render_title(); 
+		
 		$id = $this->id;
 		$cf = new CustomField();
 		$action = "Create";
@@ -121,7 +131,13 @@ class admin_page_CUSTOMFIELDS extends RF_Admin_Page {
 	}
 
 	function delete($args) {
+		$cf = new CustomField();
+		$cf->id = $args['id'];
 
+		$cf->erase();
+
+		\Alerts::instance()->success("Custom Field deleted");
+		redirect($this->link);
 	}
 
 	/**

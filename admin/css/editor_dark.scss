@@ -1,3 +1,6 @@
+$text: #eee;
+
+
 .ql-container {border: 1px solid $input-border;}
 .ql-clipboard { left: -100000px; height: 1px; overflow-y: hidden; position: absolute; top: 50%; }
 .ql-editor { 
@@ -288,7 +291,7 @@
   background-color: #008a00;
 }
 .ql-editor .ql-bg-blue {
-  background-color: #06c;
+  background-color: $primary;
 }
 .ql-editor .ql-bg-purple {
   background-color: #93f;
@@ -309,7 +312,7 @@
   color: #008a00;
 }
 .ql-editor .ql-color-blue {
-  color: #06c;
+  color: $primary;
 }
 .ql-editor .ql-color-purple {
   color: #93f;
@@ -395,7 +398,7 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-  color: #06c;
+  color: $primary;
 }
 .ql-snow.ql-toolbar button:hover .ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-fill,
@@ -425,7 +428,7 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
-  fill: #06c;
+  fill: $primary;
 }
 .ql-snow.ql-toolbar button:hover .ql-stroke,
 .ql-snow .ql-toolbar button:hover .ql-stroke,
@@ -455,24 +458,24 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
-  stroke: #06c;
+  stroke: $primary;
 }
 @media (pointer: coarse) {
   .ql-snow.ql-toolbar button:hover:not(.ql-active),
   .ql-snow .ql-toolbar button:hover:not(.ql-active) {
-    color: #444;
+    color: $text;
   }
   .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-fill,
   .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-fill,
   .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,
   .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {
-    fill: #444;
+    fill: $text;
   }
   .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke,
   .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke,
   .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,
   .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {
-    stroke: #444;
+    stroke: $text;
   }
 }
 .ql-snow {
@@ -510,20 +513,20 @@
 }
 .ql-snow .ql-stroke {
   fill: none;
-  stroke: #444;
+  stroke: $text;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
 }
 .ql-snow .ql-stroke-miter {
   fill: none;
-  stroke: #444;
+  stroke: $text;
   stroke-miterlimit: 10;
   stroke-width: 2;
 }
 .ql-snow .ql-fill,
 .ql-snow .ql-stroke.ql-fill {
-  fill: #444;
+  fill: $text;
 }
 .ql-snow .ql-empty {
   fill: none;
@@ -598,7 +601,7 @@
   max-width: 100%;
 }
 .ql-snow .ql-picker {
-  color: #444;
+  color: $text;
   display: inline-block;
   float: left;
   font-size: 14px;
@@ -828,7 +831,7 @@
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 5px #ddd;
-  color: #444;
+  color: $text;
   padding: 5px 12px;
   white-space: nowrap;
 }
@@ -888,5 +891,5 @@
   content: "Enter video:";
 }
 .ql-snow a {
-  color: #06c;
+  color: $primary;
 }

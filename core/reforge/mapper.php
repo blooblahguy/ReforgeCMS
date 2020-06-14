@@ -292,11 +292,14 @@ class Mapper extends \Magic {
 		// debug($rs);
 		$this->factory($rs);
 
+		$this->afterload();
+
 		return $this;
 	}
 
 	function afterinsert() {}
 	function afterupdate() {}
 	function afterdelete() {}
+	function afterload() {}
 }
 

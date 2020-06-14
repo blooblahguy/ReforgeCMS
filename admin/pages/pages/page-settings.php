@@ -49,23 +49,23 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 			<div class="row g1">
 
 				<? 
-			$choices = array_extract($pages, "id", "title");
-			render_html_field($home_page, array(
-				"type" => "select",
-				"label" => "Site Homepage",
-				"name" => "site_homepage",
-				"choices" => $choices,
-			));
-			
-			$roles = new Role();
-			$roles = $roles->find("*");
-			$roles = array_extract($roles, "id", "label");
-			render_html_field($default_role, array(
-				"type" => "select",
-				"label" => "Default Role",
-				"name" => "default_role",
-				"choices" => $roles,
-			));
+				$choices = array_extract($pages, "id", "title");
+				render_html_field($home_page, array(
+					"type" => "select",
+					"label" => "Site Homepage",
+					"name" => "site_homepage",
+					"choices" => $choices,
+				));
+				
+				$roles = new Role();
+				$roles = $roles->find("*");
+				$roles = array_extract($roles, "id", "label");
+				render_html_field($default_role, array(
+					"type" => "select",
+					"label" => "Default Role",
+					"name" => "default_role",
+					"choices" => $roles,
+				));
 			
 			?>
 			</div>
@@ -95,7 +95,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 				));
 				render_html_field($seo_keywords, array(
 					"type" => "text",
-					"label" => "Keywords (comma seperated)",
+					"label" => "Default Title Keywords",
 					"name" => "seo_keywords",
 				));
 				?>
@@ -113,6 +113,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 		set_option("seo_title", $_POST['seo_title']);
 		set_option("site_homepage", $_POST['site_homepage']);
 		set_option("disable_seo", $_POST['disable_seo']);
+		set_option("sitename", $_POST['sitename']);
 		set_option("seo_seperator", $_POST['seo_seperator']);
 		set_option("seo_keywords", $_POST['seo_keywords']);
 		set_option("default_role", $_POST['default_role']);

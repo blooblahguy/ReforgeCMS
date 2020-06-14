@@ -230,6 +230,7 @@ class User extends \RF\Mapper {
 
 		$permissions = $this->permissions;
 		if ($request == null) {return;}
+		if ($permissions == null) {return;}
 
 		if (is_array($request)) {
 			// return singular permission status

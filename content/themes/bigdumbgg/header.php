@@ -61,7 +61,7 @@ $favicon .= "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAA
 			<div class="header container">
 				<div class="row content-middle">
 					<h1 class="os-min marg0">
-						<a href="/" class="logo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?>BIG<span>DUMB</span>GAMING</a>
+						<a href="/" class="logo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?>BD<span>GG</span></a>
 					</h1>
 					<?
 					$menu = get_menu("main-menu");

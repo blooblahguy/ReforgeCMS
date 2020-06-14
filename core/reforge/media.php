@@ -100,6 +100,10 @@ class Media extends Prefab {
 		// Now resize image
 		$size = $this->sizes[$size_key];
 		$img = new Image($path, false, $root);
+
+		// debug($img);
+		// debug($img->height);
+		// debug($img->render);
 		$img_name = "{$name}.{$size_key}.{$ext}";
 		$img->resize($size['width'], $size['height'], $size['crop'], $size['enlarge']);
 

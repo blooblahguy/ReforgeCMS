@@ -8,6 +8,12 @@ class Activity extends \RF\Mapper {
 			"user_id" => array(
 				"type" => "INT(7)",
 			),
+			"type" => array(
+				"type" => "VARCHAR(100)",
+			),
+			"description" => array(
+				"type" => "VARCHAR(200)",
+			),
 		);
 
 		parent::__construct("rf_activity", $schema);

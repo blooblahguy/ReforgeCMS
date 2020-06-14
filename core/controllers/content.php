@@ -40,6 +40,7 @@ function rf_head() {
 
 	$parts = array();
 	$seperator = $options['seo_seperator'];
+	$title_keywords = $options['seo_keywords'];
 	$sitename = $options['sitename'];
 
 	$title = $request['page']['seo_title'];
@@ -48,11 +49,14 @@ function rf_head() {
 	$category = $request['page']['seo_category'];
 	$description = $request['page']['seo_description'];
 
-	$parts[] = $title;
+	if ($title) {
+		$parts[] = $title;
+	}
 	if ($category != '') {
 		$parts[] = $category;
 	}
 	$parts[] = $sitename;
+	$parts[] = $title_keywords;
 
 	$title = implode(" $seperator ", $parts);
 

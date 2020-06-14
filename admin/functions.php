@@ -150,7 +150,7 @@ function display_results_table($rs, $fields) {
 						?>
 						<td class="<?= $i." ".$f["class"]; ?>">
 							<? if ($f["calculate"]) {
-								echo $f["calculate"]($val, $r["id"]);
+								echo $f["calculate"]($val, $r);
 							} elseif ($f["html"]) {
 								echo sprintf($f["html"], $val, $r["id"]);
 							} else {

@@ -30,3 +30,18 @@ $wow_classes = array(
 	"warlock" => "Warlock",
 	"warrior" => "Warrior",
 );
+
+$wow_class_colors = array(
+	"deathknight" => "#c41f3b",
+	"demonhunter" => "#a330c9",
+	"druid" => "#ff7d0a",
+	"hunter" => "#abd473",
+	"mage" => "#40c7eb",
+	"monk" => "#00ff96",
+	"paladin" => "#f58cba",
+	"priest" => "#ddd",
+	"rogue" => "#fff569",
+	"shaman" => "#0070de",
+	"warlock" => "#8787ed",
+	"warrior" => "#c79c6e",
+);

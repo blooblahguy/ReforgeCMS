@@ -34,7 +34,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 	function index($args) {
 		$this->post_type = $this->name;
 		$posts = new Post();
-		$posts = $posts->find("*", "post_type = '{$this->post_type}' ");
+		$posts = $posts->find("*", "post_type = '{$this->post_type}'", array(
+			"order by" => "created DESC"
+		));
 
 		$this->render_title();
 
@@ -54,8 +56,6 @@ class admin_page_POSTS extends RF_Admin_Page {
 						$parent->load("*", array("id = :id", ":id" => $value));
 						echo $parent->title;
 					}
-					// $user = get_user($value);
-					// return $user->username;
 				}
 			),
 			'author' => array(
@@ -90,8 +90,8 @@ class admin_page_POSTS extends RF_Admin_Page {
 			'remove' => array (
 				"label" => "Remove",
 				"class" => "min",
-				"calculate" => function($s, $id) {
-					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				"calculate" => function($s, $r) {
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
 		);
@@ -141,11 +141,39 @@ class admin_page_POSTS extends RF_Admin_Page {
 						?>
 					</div>
 					<?
-					// Custom Fields assssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssw
+					// Custom Fields
 					do_action("admin/custom_fields", "post");
+
+					render_html_field($post, array(
+						"type" => "wysiwyg",
+						"label" => "Content",
+						"name" => "content",
+						"class" => "content",
+						"style" => "height: 400px",
+					));
 					?>
-					<div class="section">
-						<h3>SEO Settings</h3>
+					<div class="accordion_handle pad1 padx2 seo_settings toggled" data-accordion=".seo">
+						<div class="row content-middle">
+							<div class="os-min padr4">
+								<h4 class="marg0">SEO Settings</h4>
+							</div>
+							<div class="os-min padr1">
+								Enable SEO
+							</div>
+							<div class="os-min">
+								<?
+								render_html_field($post, array(
+									"type" => "checkbox",
+									"name" => "seo_enable",
+									"class" => "seo_enable",
+									"layout" => "os-min text-center marg0",
+								));
+								?>
+							</div>
+						</div>
+					</div>
+					<div class="accordion seo pad2">
+						
 						<div class="row g1">
 							<?
 							
@@ -157,7 +185,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"class" => "seo_title",
 								"data-bind" => true,
 								"maxlength" => "70",
-								"required" => true,
+								// "required" => true,
 							));
 							render_html_field($post, array(
 								"type" => "text",
@@ -168,13 +196,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 								"data-bind" => true,
 								"maxlength" => "70",
 							));
-							render_html_field($post, array(
-								"type" => "checkbox",
-								"label" => "SEO NoIndex",
-								"name" => "seo_noindex",
-								"class" => "seo_noindex",
-								"layout" => "os-min text-center",
-							));
+							
 							echo '<div class="clear"></div>';
 							render_html_field($post, array(
 								"type" => "textarea",
@@ -187,20 +209,22 @@ class admin_page_POSTS extends RF_Admin_Page {
 							));
 							?>
 							<div class="os">
-							<h3>SEO Preview</h3>
-							<div class="seo_preview pad1 border">
-								<? global $options; ?>
-								<div class="sitetitle"><?= $_SERVER['SERVER_NAME']; ?> > <span data-value="title"></span></div>
-								<div class="link">
-									<span data-value="seo_title"></span>
-									<span data-hide-on-empty="seo_category" class="sep"><?= $options['seo_seperator']; ?></span>
-									<span data-value="seo_category"></span>
-									<span class="sep"><?= $options['seo_seperator']; ?></span>
-									<span data-value="seo_brand"><?= $options['sitename']; ?></span>
+								<h3>SEO Preview</h3>
+								<div class="seo_preview pad1 border">
+									<? global $options; ?>
+									<div class="sitetitle"><?= $_SERVER['SERVER_NAME']; ?> > <span data-value="title"></span></div>
+									<div class="link">
+										<span data-value="seo_title"></span>
+										<span data-hide-on-empty="seo_category" class="sep"><?= $options['seo_seperator']; ?></span>
+										<span data-value="seo_category"></span>
+										<span class="sep"><?= $options['seo_seperator']; ?></span>
+										<span data-value="seo_brand"><?= $options['sitename']; ?></span>
+										<span class="sep"><?= $options['seo_seperator']; ?></span>
+										<span data-value="seo_keywords"><?= $options['seo_keywords']; ?></span>
+									</div>
+									<div id="default_seo" class="description" data-value="seo_description"></div>
+									<input type="hidden" id="default_seo_description" name="default_seo_description">
 								</div>
-								<div id="default_seo" class="description" data-value="seo_description"></div>
-								<input type="hidden" id="default_seo_description" name="default_seo_description">
-							</div>
 							</div>
 						</div>
 						
@@ -355,6 +379,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->author = $user->id;
 		$post->permission = $_POST['permission'];
 		$post->permission_exp = $_POST['permission_exp'];
+		$post->seo_enable = $_POST['seo_enable'];
 		$post->seo_title = $_POST['seo_title'];
 		$post->seo_category = $_POST['seo_category'];
 		if ($_POST['seo_description'] == "") {

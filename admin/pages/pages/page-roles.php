@@ -17,6 +17,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 	}
 
 	function index($args) {
+		$this->render_title();
 		$roles = new Role();
 		$roles = $roles->find("*", null, array(
 			"order by" => "priority ASC"
@@ -27,7 +28,9 @@ class admin_page_ROLES extends RF_Admin_Page {
 			'label' => array(
 				"label" => "Label",
 				"class" => "tablelabel",
-				"html" => '<a href="/admin/roles/edit/%2$d">%1$s</a>',
+				"calculate" => function($label, $role) { 
+					return '<a style="color: '.$role['color'].'" href="/admin/roles/edit/'.$role['id'].'">'.$role['label'].'</a>';
+				}
 			),
 			'slug' => array(
 				"label" => "Slug",
@@ -35,11 +38,10 @@ class admin_page_ROLES extends RF_Admin_Page {
 			),
 			'users' => array(
 				"label" => "Users",
-				"calculate" => function($s, $id) {
+				"calculate" => function($s, $r) {
 					// global $db;
 					$rs = new User();
-					$rs = $rs->find("*", "role_id = $id");
-					// var_dump($rs->cache);
+					$rs = $rs->find("*", "role_id = {$r['id']}");
 					return (count($rs));
 				},
 			),
@@ -66,6 +68,8 @@ class admin_page_ROLES extends RF_Admin_Page {
 	}
 
 	function edit($args) {
+		$this->render_title();
+
 		$id = $this->id;
 		$role = new Role();
 		if ($id > 0) {
@@ -80,90 +84,91 @@ class admin_page_ROLES extends RF_Admin_Page {
 			$permissions = array();
 		}
 
+
 		$defaults = get_permissions();
 	?>
 
-	<div class="row">
-		<div class="os">
-			<div class="section">
-				<?
-				render_html_field($role, array(
-					"type" => "text",
-					"label" => "Label",
-					"name" => "label",
-					"required" => true,
-				));
-				render_html_field($role, array(
-					"type" => "text",
-					"label" => "Slug",
-					"name" => "slug",
-					"class" => "padt1",
-					"required" => false,
-				));
-				?>
-			</div>
+		<div class="row">
+			<div class="os">
+				<div class="section">
+					<?
+					render_html_field($role, array(
+						"type" => "text",
+						"label" => "Label",
+						"name" => "label",
+						"required" => true,
+					));
+					render_html_field($role, array(
+						"type" => "text",
+						"label" => "Slug",
+						"name" => "slug",
+						"class" => "padt1",
+						"required" => false,
+					));
+					?>
+				</div>
 
-			<div class="row g1 margb2">
-				<? foreach ($defaults as $perm) { ?>
-					<div class="os-lg-3 os-md-4 os-6">
-						<div class="row pad2 section h100 role_wrapper <?= $perm["slug"]; ?>">
-							<div class="os strong">
-								<?= $perm["label"]; ?>
+				<div class="row g1 margb2">
+					<? foreach ($defaults as $perm) { ?>
+						<div class="os-lg-3 os-md-4 os-6">
+							<div class="row pad2 section h100 role_wrapper <?= $perm["slug"]; ?>">
+								<div class="os strong">
+									<?= $perm["label"]; ?>
+								</div>
+								<div class="os-min">
+									<input type="checkbox" class="toggle" name="permissions[]" value="<?= $perm["slug"]; ?>" <? if (in_array($perm['slug'], $permissions)) {echo "checked"; } ?>>
+								</div>
+								<div class="description padt1 os-12"><?= $perm["description"]; ?></div>
 							</div>
-							<div class="os-min">
-								<input type="checkbox" class="toggle" name="permissions[]" value="<?= $perm["slug"]; ?>" <? if (in_array($perm['slug'], $permissions)) {echo "checked"; } ?>>
-							</div>
-							<div class="description padt1 os-12"><?= $perm["description"]; ?></div>
 						</div>
-					</div>
-				<? } ?>
-			</div>
+					<? } ?>
+				</div>
 
-			<div class="section">
-				<h3>Post Type Permissions</h3>
-				<? 
-				$cpts = get_post_types();
-				$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own");
-				?>
-				<? foreach ($cpts as $type) { ?>
-					<div class="row g1">
-						<? foreach ($rights as $right) { ?>
-							<div class="os-4 os-md-3 os-lg">
-								<div class="row section pad1 role_wrapper <?= $type["slug"]; ?>">
-									<div class="os strong">
-										<?= ucfirst($right)." ".$type["label_plural"]; ?>
-									</div>
-									<div class="os-min">
-										<input type="checkbox" class="toggle" name="permissions[]" value="<?= slugify($right."_".$type["slug"]); ?>" <? if (in_array(slugify($right."_".$type["slug"]), $permissions)) {echo "checked"; } ?>>
+				<div class="section">
+					<h3>Post Type Permissions</h3>
+					<? 
+					$cpts = get_post_types();
+					$rights = array("Create", "Update Any", "Delete Any", "Update Own", "Delete Own");
+					?>
+					<? foreach ($cpts as $type) { ?>
+						<div class="row g1">
+							<? foreach ($rights as $right) { ?>
+								<div class="os-4 os-md-3 os-lg">
+									<div class="row section pad1 role_wrapper <?= $type["slug"]; ?>">
+										<div class="os strong">
+											<?= ucfirst($right)." ".$type["label_plural"]; ?>
+										</div>
+										<div class="os-min">
+											<input type="checkbox" class="toggle" name="permissions[]" value="<?= slugify($right."_".$type["slug"]); ?>" <? if (in_array(slugify($right."_".$type["slug"]), $permissions)) {echo "checked"; } ?>>
+										</div>
 									</div>
 								</div>
-							</div>
-						<? } ?>
-					</div>
-				<? } ?>
+							<? } ?>
+						</div>
+					<? } ?>
+				</div>
+			</div>
+
+			<div class="os-2 sidebar pad3">
+				<input type="submit" class="marg0" value="Save">
+				<hr>
+				<div class="padb2">
+					<label for="">Priority Order</label>
+					<input type="number" name="priority" value="<?= $role->priority; ?>">
+				</div>
+				<div class="padb2">
+					<input type="checkbox" name="use_color" class="toggle" value="1" <? if ($role->use_color) {echo "checked"; }?>> Use Role Color
+				</div>
+				<div class="padb2">
+					<input type="color" name="color" value="<?= $role->color; ?>">
+				</div>
+				<div class="padb2">
+					<input type="checkbox" value="1" name="default" <? if ($role->default) { echo "checked"; }?>> Default Role
+				</div>
 			</div>
 		</div>
 
-		<div class="os-2 sidebar pad3">
-			<input type="submit" class="marg0" value="Save">
-			<hr>
-			<div class="padb2">
-				<label for="">Priority Order</label>
-				<input type="number" name="priority" value="<?= $role->priority; ?>">
-			</div>
-			<div class="padb2">
-				<input type="checkbox" name="use_color" class="toggle" value="1" <? if ($role->use_color) {echo "checked"; }?>> Use Role Color
-			</div>
-			<div class="padb2">
-				<input type="color" name="color" value="<?= $role->color; ?>">
-			</div>
-			<div class="padb2">
-				<input type="checkbox" value="1" name="default" <? if ($role->default) { echo "checked"; }?>> Default Role
-			</div>
-		</div>
-	</div>
-
-	<?
+		<?
 	}
 
 	function save($args) {

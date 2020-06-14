@@ -36,6 +36,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$apply_index = get_option("rfa_apply_index");
 		$apply_page = get_option("rfa_apply_page");
 		$apply_form = get_option("rfa_apply_form");
+		$apply_role = get_option("rfa_apply_role");
 		
 		$pages = new Post();
 		$pages = $pages->find("*", "post_type = 'pages' ");
@@ -44,6 +45,10 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$forms = new Post();
 		$forms = $forms->find("*", "post_type = 'forms' ");
 		$forms = array_extract($forms, "id", "title");
+
+		$roles = new Role();
+		$roles = $roles->find("*");
+		$roles = array_extract($roles, "id", "label");
 
 		?>
 		<form method="POST" action="<?= $this->link; ?>/settings/save">
@@ -74,6 +79,13 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 							"name" => "rfa_apply_form",
 							"instructions" => "What form to use for new applications"
 						));
+						render_html_field($apply_role, array(
+							"label" => "Approved User Role",
+							"type" => "select",
+							"choices" => $roles,
+							"name" => "rfa_apply_role",
+							"instructions" => "What role to assign to users who's applications are approved."
+						));
 						?>
 					</div>
 				</div>
@@ -95,6 +107,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		set_option("rfa_apply_index", $_POST['rfa_apply_index']);
 		set_option("rfa_apply_page", $_POST['rfa_apply_page']);
 		set_option("rfa_apply_form", $_POST['rfa_apply_form']);
+		set_option("rfa_apply_role", $_POST['rfa_apply_role']);
 
 		\Alerts::instance()->success("Applications setttings updated");
 		redirect($this->link."/settings");
@@ -117,14 +130,14 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 			),
 			'author' => array(
 				"label" => "User",
-				"calculate" => function($value, $id) {
-					the_author($id);
+				"calculate" => function($value, $r) {
+					the_author($r['id']);
 				}
 			),
 			'submitted' => array(
 				"label" => "Submitted",
-				"calculate" => function($value, $id) {
-					the_date($id);	
+				"calculate" => function($value, $r) {
+					the_date($r['id']);	
 				},
 			),
 		);
@@ -267,6 +280,14 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 
 			$app->post_status = $statuses[$action];
 
+			// load user and change role if necessary
+			if ($app->post_status == "accepted") {
+				$user = new User();
+				$user->load("id, role_id", array("id = :id", ":id" => $app->author));
+				$user->role_id = RFApps()->role;
+				$user->save();
+			}
+
 			$title = $app->title;
 			$title = preg_replace("/.*[-] /", "", $title);
 			$title = ucfirst($app->post_status)." - ".$title;
@@ -279,9 +300,8 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 				$comment->author = current_user()->id;
 				$comment->save();
 			}
-
 		}
-		
+
 		$app->save();
 
 		// dispatch action if we altered status of the application

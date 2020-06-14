@@ -1,12 +1,19 @@
 	<?
 	$posts = Content::instance()->query("news");
+
+	// debug($posts);
 	$latest = array_shift($posts);
 
 	$latest = new Post($latest['id']);
 	$latest->load_meta();
-	$latest_featured = new File();
-	$latest_featured->load("*", array("id = :id", ":id" => $latest->meta['featured_image']));
-	$latest_featured = $latest_featured->get_size(1200);
+
+	// debug($latest->meta);
+
+	if ($latest->meta['featured_image']) {
+		$latest_featured = new File();
+		$latest_featured->load("*", array("id = :id", ":id" => $latest->meta['featured_image']));
+		$latest_featured = $latest_featured->get_size(1200);
+	}
 
 	?>
 
@@ -62,8 +69,10 @@
 				$news->load_meta();
 
 				$featured = new File();
-				$featured->load("*", array("id = :id", ":id" => $news->meta['featured_image']));
-				$featured = $featured->get_size(600);
+				if ($news->meta['featured_image']) {
+					$featured->load("*", array("id = :id", ":id" => $news->meta['featured_image']));
+					$featured = $featured->get_size(600);
+				}
 
 				?>
 				<div class="os-6">

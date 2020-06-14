@@ -8,6 +8,7 @@ class RFApplications extends \Prefab {
 		$this->applications = get_option("rfa_apply_index");
 		$this->apply = get_option("rfa_apply_page");
 		$this->form = get_option("rfa_apply_form");
+		$this->role = get_option("rfa_apply_role");
 		$this->path = dirname(__FILE__);
 
 		// actions to load only necessary controllers

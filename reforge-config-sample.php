@@ -15,6 +15,12 @@ function rf_config() {
 	$config["database_port"] = "3306";
 
 	//===================================
+	## Email Configuration
+	//===================================
+	$config['email_from'] = array("info@domain.com", "Web Info");
+	$config['email_replyto'] = array("info@domain.com", "Web Info");
+
+	//===================================
 	## SMTP Configuration
 	//===================================
 	$config["smtp_enable"] = false;
@@ -22,8 +28,7 @@ function rf_config() {
 	$config["smtp_port"] = 587;
 	$config["smtp_user"] = "";
 	$config["smtp_password"] = "";
-	$config['smtp_from'] = array("info@domain.com", "Web Info");
-	$config['smtp_replyto'] = array("info@domain.com", "Web Info");
+	
 
 	//===================================
 	## Misc Variables

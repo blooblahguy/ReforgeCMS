@@ -53,13 +53,17 @@
 			$cfs = new CustomField();
 			$cfs = $cfs->load_all();
 
+			$show_content = true;
+
 			foreach ($cfs as $id => $field) {
 				$load_rules = unserialize($field["load_rules"]);
 
 				$load = false;
 				foreach ($load_rules as $group => $rules) {
 					$passed = true;
+					
 					foreach ($rules as $rule) {
+						// debug($rule);
 						$rs = $this->get_rule($rule['key'])->rule_match($request, $rule);
 						if (! $rs) { 
 							$passed = false;
@@ -75,6 +79,9 @@
 
 				if ($load) {
 					$this->render_fields($field["id"], $request['page_id'], $type, $field);
+					if($field['disable_content']) {
+						$show_content = false;
+					}
 				}
 			}
 		}
@@ -269,7 +276,7 @@
 			$this->page_id = $page_id;
 
 			// load view
-			echo '<div class="field_section">';
+			echo '<div class="field_section '.slugify($cf->title).'">';
 			rcf_get_template('group-fields', $view);
 			echo '</div>';
 		}

@@ -22,18 +22,34 @@ class admin_page_USERS extends RF_Admin_Page {
 
 		$this->render_title();
 
-		$users = $user->query("SELECT users.*, roles.label AS role FROM {$user->table} as users
+		// query all users, sorted by role
+		$all_users = $user->query("SELECT users.*, roles.label as role FROM {$user->table} as users
 			LEFT JOIN {$role->table} as roles ON roles.id = users.role_id
 			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
 		");
+		$users = array();
+		$tabs = array();
 
-		echo '<div class="section">';
-		// display table
+		// sort into roles and tabs
+		foreach ($all_users as $user) {
+			$tabs[$user['role']] = $user['role'];
+			$users[$user['role']][] = $user;
+		}
+
+		//display columns
 		$columns = array(
 			'username' => array(
 				"label" => "Username",
 				"class" => "tablelabel",
 				"html" => '<a href="/admin/users/edit/%2$d">%1$s</a>',
+				"calculate" => function($label, $user) {
+					global $wow_class_colors;
+
+					// debug($user);
+
+					// return $label;
+					return '<a style="color: '.$wow_class_colors[$user['class']].'" href="/admin/users/edit/'.$user['id'].'">'.$user['username'].'</a>';
+				}
 			),
 			'email' => array(
 				"label" => "Email",
@@ -44,21 +60,21 @@ class admin_page_USERS extends RF_Admin_Page {
 			),
 			'last_login' => array(
 				"label" => "Last Login",
-				"calculate" => function($label, $id) {
+				"calculate" => function($label, $r) {
 					return Date("Y-m-d", strtotime($label));
 				}
 			),
 			'created' => array(
 				"label" => "Member Since",
-				"calculate" => function($label, $id) {
+				"calculate" => function($label, $r) {
 					return Date("Y-m", strtotime($label));
 				}
 			),
 			'remove' => array (
 				"label" => "Remove",
 				"class" => "min",
-				"calculate" => function($s, $id) {
-					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				"calculate" => function($s, $r) {
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
 		);
@@ -68,8 +84,35 @@ class admin_page_USERS extends RF_Admin_Page {
 				"html" => '<a href="/admin/mimic-user/%2$d">Mimic User</a>',
 			);
 		}
-		display_results_table($users, $columns);
-		echo '</div>';
+
+		?>
+		<div class="section tabs">
+			<div class="tab_nav">
+				<?
+				foreach ($tabs as $tab) {
+					?>
+					<a href="#0" data-tab="<?= slugify($tab); ?>"><?= $tab; ?></a>
+					<?
+				}
+				?>
+			</div>
+			<? foreach ($tabs as $tab) { 
+				$group = $users[$tab]; ?>
+				<div class="tab_content" data-tab="<?= slugify($tab); ?>">
+					<? display_results_table($group, $columns); ?>
+				</div>
+			<? } ?>
+		</div>
+		<?
+
+		// debug($users);
+		
+
+		// echo '<div class="section">';
+		// // display table
+		
+		
+		// echo '</div>';
 	}
 
 	function edit($args) {
@@ -157,8 +200,13 @@ class admin_page_USERS extends RF_Admin_Page {
 						"type" => "select",
 						"name" => "class",
 						"label" => "Class",
-						"required" => true,
 						"choices" => $classes
+					)); 
+
+					render_html_field($user, array(
+						"type" => "text",
+						"name" => "twitch",
+						"label" => "Twitch Username",
 					)); 
 					?>
 				</div>
@@ -183,7 +231,7 @@ class admin_page_USERS extends RF_Admin_Page {
 
 		// $avatar = get_file_size($_POST["avatar"], 200);
 		$user->username = $_POST['username'];
-		// $user->avatar = $avatar;
+		$user->twitch = $_POST['twitch'];
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
 		$user->admin_theme = $_POST['admin_theme'];

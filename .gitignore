@@ -3,5 +3,6 @@ info.php
 .vscode/
 tmp/
 content/uploads/*
+core/imports
 webgrind
 content/themes/bigdumbgg/lib/tweet-php/cache/twitter-array.txt

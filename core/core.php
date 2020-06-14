@@ -30,6 +30,10 @@ if ("/" . $CONTROLLER == "/admin") {
 	Content::instance();
 }
 
+// $core->route("GET /glade/import", function() {
+// 	include "import.php";
+// });
+
 $core->run();
 
 // $app = new Post();

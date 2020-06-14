@@ -24,6 +24,6 @@
 	$sheets[] = $root."/core/assets/css/openskull/_ui.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_grid.scss";
 	$sheets[] = "../style.scss";
-	$sheets[] = "../editor.scss";
+	$sheets[] = "../editor_{$theme}.scss";
 
 	require "build.php";

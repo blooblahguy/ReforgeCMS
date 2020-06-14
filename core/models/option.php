@@ -15,7 +15,7 @@ class Option extends \RF\Mapper {
 	}
 
 	function load_all() {
-		$options = $this->find("*", );
+		$options = $this->find("*");
 		$options = array_extract($options, "key", "value");
 
 		return $options;

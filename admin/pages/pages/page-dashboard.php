@@ -33,7 +33,8 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 				<div class="os">
 
 					<div class="os widget activity section">
-						<h2>Last Two Weeks</h2>
+						Stuff will go here eventually
+						<!-- <h2>Last Two Weeks</h2>
 						<div class="row dashboard_calendar g1">
 						<? // loop through last 2 weeks
 						for ($i = -13; $i <= 0; $i++) {
@@ -55,7 +56,7 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 								</div>
 							</div>
 						<? } ?>
-						</div>
+						</div> -->
 					</div>
 				</div>
 

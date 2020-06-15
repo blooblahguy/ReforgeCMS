@@ -94,6 +94,6 @@ class Schema extends \Prefab {
 			$db->exec("ALTER TABLE `$table` DROP INDEX $key");
 		}
 
-		\Alerts::instance()->success($table." updated");
+		// \Alerts::instance()->success($table." updated");
 	}
 }

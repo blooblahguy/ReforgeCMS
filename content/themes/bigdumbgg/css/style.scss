@@ -56,6 +56,9 @@ body {background: $background; color: $white; }
 
 h1 {font-family: "Prohibition"; font-weight:normal;  }
 
+.content {position: relative; }
+.message_outer {position: absolute; top: $pad2; left: 0; right: 0;  }
+
 //===========================================
 // TYPEOGRAPHY
 //===========================================

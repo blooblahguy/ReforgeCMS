@@ -47,7 +47,7 @@ class Forms extends \Prefab {
 			redirect($redirect);
 		}
 
-		\Alerts::instance()->error("Invalid username or password");
+		\Alerts::instance()->error("Invalid username, password, or the account is not verified");
 		redirect();
 	}
 

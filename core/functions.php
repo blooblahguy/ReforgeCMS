@@ -194,7 +194,8 @@ function render_html_field($field, $settings) {
 	if ($type == "wysiwyg") {
 		$attrs['class'] .= " wysiwyg";
 	} elseif ($type == "checkbox") {
-		$attrs['checked'] = isset($attrs['value']) ? true : false;
+		$attrs['checked'] = isset($attrs['value']) && $attrs['value'] == 1 ? true : false;
+		$attrs['value'] = "1";
 	}
 
 	// now build input attribute string

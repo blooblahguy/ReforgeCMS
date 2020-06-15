@@ -1,25 +1,28 @@
-[] Shop
-[] Team Page
 [] Streams Plugin
 [] Homepage
 [] Front-end profile
-[] Registration page
 [] Post Categories
 [] Dashboard widgets
-[] Convert static model functionality to controllers
 [] Option to hide content on editor
 [] True / False Custom Field
 
-[] Front end
-	[] News Page
-	[] About Us Page
+Front end
+[] News Page
 
-[] Optimizations
-	[] Image Crop
-	[] Javascript Rewrite
-	[] Media Library Rewrite
+Optimizations
+[] Image Crop
+[] Javascript Rewrite
+[] Media Library Rewrite
+
+Later
+[] Shop
+[] Guides
 
 done
+[x] Team Page
+[x] About Us Page
+[x] Registration page
+[x] Convert static model functionality to controllers
 [x] Applications plugin
 [x] Permalinks including parents
 [x] Sidebar

@@ -95,7 +95,7 @@ $bg = get_file($bg);
 	<div class="text_overlay">
 		<div class="container row text-left">
 			<div class="os-lg-6 os">
-				<h2><?= $fields['hero_text']['main']; ?></h2>
+				<h1><?= $fields['hero_text']['main']; ?></h1>
 				<h3 class="margb4"><?= $fields['hero_text']['sub_text']; ?></h3>
 				<a class="btn-primary" href="/recruitment">I Can Handle That</a>
 			</div>

@@ -154,7 +154,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						"style" => "height: 400px",
 					));
 					?>
-					<div class="accordion_handle pad1 padx2 seo_settings toggled" data-accordion=".seo">
+					<div class="accordion_handle pad1 padx2 seo_settings <?if ($post->seo_enable) {echo 'toggled'; }?>" data-accordion=".seo">
 						<div class="row content-middle">
 							<div class="os-min padr4">
 								<h4 class="marg0">SEO Settings</h4>
@@ -174,7 +174,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 							</div>
 						</div>
 					</div>
-					<div class="accordion seo pad2">
+					<div class="accordion seo pad2<?if (! $post->seo_enable) {echo ' collapsed'; }?>">
 						
 						<div class="row g1">
 							<?
@@ -381,7 +381,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$post->author = $user->id;
 		$post->permission = $_POST['permission'];
 		$post->permission_exp = $_POST['permission_exp'];
-		$post->seo_enable = $_POST['seo_enable'];
+		$post->seo_enable = isset($_POST['seo_enable']) ? 1 : 0;
 		$post->seo_title = $_POST['seo_title'];
 		$post->seo_category = $_POST['seo_category'];
 		if ($_POST['seo_description'] == "") {
@@ -389,6 +389,9 @@ class admin_page_POSTS extends RF_Admin_Page {
 		} else {
 			$post->seo_description = $_POST['seo_description'];
 		}
+
+		// debug($post);
+		// exit();
 
 		// echo "title";
 		// debug($post->seo_title);

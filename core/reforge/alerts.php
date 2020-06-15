@@ -60,16 +60,18 @@ class Alerts extends Prefab {
 			}
 			$stored = $session->get("alerts");
 			if (! $stored) {return;}
-			echo '<div class="message_outer container pady2">';
-			foreach ($stored[$level] as $level => $messages) {
-				$message = "";
-				foreach ($messages as $key => $string) {
-					$message .= "<div>$string</div>";
+			echo '<div class="message_outer pady2">';
+				echo '<div class="container">';
+				foreach ($stored[$level] as $level => $messages) {
+					$message = "";
+					foreach ($messages as $key => $string) {
+						$message .= "<div>$string</div>";
+					}
+					$this->print($level, $message);
 				}
-				$this->print($level, $message);
-			}
-			unset($stored[$level]);
-			$session->set("alerts", $stored);
+				unset($stored[$level]);
+				$session->set("alerts", $stored);
+				echo '</div>';
 			echo '</div>';
 		}
 

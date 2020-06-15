@@ -109,7 +109,7 @@ class User extends \RF\Mapper {
 		$password = $_POST['password'];
 
 		$user = $this->load("*", array("email = :email", ":email" => $email));
-		if ($user && password_verify($password, $user->password)) {
+		if ($user->id && $user->verified && password_verify($password, $user->password)) {
 			// store this login
 			$token = password_hash(random_bytes(32).time(), PASSWORD_DEFAULT);
 			$this->token = $token;
@@ -300,6 +300,9 @@ class VerifyCode extends \RF\Mapper {
 			), 
 			"user_id" => array(
 				"type" => "INT(7)"
+			),
+			"code_type" => array(
+				"type" => "VARCHAR(71)"
 			),
 			"modified" => false
 		);

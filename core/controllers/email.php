@@ -54,7 +54,17 @@ function rf_mail($to, $subject, $body, $attachments = false) {
 	try {
 		$mail->addAddress($to);
 		$mail->Subject = $subject;
+
+		// wrap message in header and footer
+		ob_start();
+		include "email/header.php";
+		echo $body;
+		include "email/footer.php";
+		$body = ob_get_contents();
+		ob_end_clean();
+
 		$mail->Body = $body;
+
 		$mail->AltBody = htmlToPlainText($body);
 		$mail->send();
 

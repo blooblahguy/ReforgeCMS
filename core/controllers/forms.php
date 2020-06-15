@@ -13,6 +13,11 @@ class Forms extends \Prefab {
 		} else {
 			$core->route("POST /register", "Forms->register_submit");
 			$core->route("POST /login", "Forms->login_submit", 0, 64);
+			$core->route("GET /verify", "Forms->verify");
+
+			// request and reset password
+			$core->route("POST /reset_password_request", "Forms->reset_password_request");
+			$core->route("POST /change_password", "Forms->change_password");
 		}
 
 		$core->route("POST /rf_form/process/@id", function($core, $args) {
@@ -95,22 +100,100 @@ class Forms extends \Prefab {
 		
 		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-		$default_role = new Role();
-		$default_role = $default_role->load("id", "default = 1");
+		// $default_role = new Role();
+		// $default_role = $default_role->load("id", "default = 1");
+		$default_role = get_option("default_role");
 
 		$user->password = $password;
 		$user->username = $_POST['username'];
 		$user->email = $_POST['email'];
 		$user->twitch = $_POST['twitch'];
 		$user->class = $_POST['class'];
-		$user->role_id = $default_role->id;
+		$user->role_id = $default_role;
 		$user->save();
 
-		Alerts::instance()->success("Account created");
-		$user->login();
-		redirect($redirect);
+		$code = new VerifyCode();
+		$code->code = uniqid();
+		$code->user_id = $user->id; 
+		$code->save();
 
-		// exit();
+		rf_mail($user->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://localhost/verify?code=".$code->code."'>Verify Email</a>");
+
+		Alerts::instance()->success("Account created, please check your email to verify your account");
+		redirect($redirect);
+	}
+
+	function change_password() {
+		$code = $_POST['code'];
+		$password = $_POST['code'];
+		$password_confirm = $_POST['code'];
+
+		$verify = new VerifyCode();
+		$verify->load("*", array("code = :code", ":code" => $code));
+
+		if ($verify->id) {
+			// make sure our passwords match
+			if ($password != $password_confirm) {
+				Alerts::instance()->error("Passwords do not match");
+				redirect();
+			}
+
+			$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+			$user = new User();
+			$user->load("*", array("id = :id", ":id" => $verify->user_id));
+			$user->password = $password;
+			$user->save();
+
+			$verify->erase();
+
+			Alerts::instance()->success("Password successfuly changed");
+			redirect("/login");
+		} else {
+			Alerts::instance()->error("Invalid verification code");
+			redirect("/");
+		}
+	}
+
+	function reset_password_request() {
+		$email = $_POST['email'];
+
+		$user = new User();
+		$user->load("id, email", array("email = :email", ":email" => $email));
+
+		if ($user->id) {
+			$code = new VerifyCode();
+			$code->code = uniqid();
+			$code->code_type = "reset";
+			$code->user_id = $user->id;
+			$code->save();
+
+			rf_mail($user->email, "Reset Password Request", "Click the link below to reset your account password. <br> <a href='https://localhost/forgot-password?code=".$code->code."'>Reset Password</a>");
+		}
+		Alerts::instance()->success("If that email exists, a reset password has been sent to them");
+		redirect("/");
+	}
+
+	function verify() {
+		$code = $_GET['code'];
+
+		$verify = new VerifyCode();
+		$verify->load("*", array("code = :code", ":code" => $code));
+
+		if ($verify->id) {
+			$user = new User();
+			$user->load("*", array("id = :id", ":id" => $verify->user_id));
+			$user->verified = 1;
+			$user->save();
+
+			$verify->erase();
+
+			Alerts::instance()->success("Email successfuly verified, you can log in now.");
+			redirect("/login");
+		} else {
+			Alerts::instance()->error("Invalid verification code");
+			redirect("/");
+		}
 	}
 }
 
@@ -188,7 +271,7 @@ function registration_form($options) {
 
 			render_html_field($user, array(
 				"label" => "Password",
-				"type" => "text",
+				"type" => "password",
 				"name" => "password",
 				"layout" => "os-6",
 				"required" => true,
@@ -196,7 +279,7 @@ function registration_form($options) {
 
 			render_html_field($user, array(
 				"label" => "Confirm Password",
-				"type" => "text",
+				"type" => "password",
 				"name" => "confirm_password",
 				"layout" => "os-6",
 				"required" => true,
@@ -206,9 +289,15 @@ function registration_form($options) {
 				"label" => "Twitch Username",
 				"type" => "text",
 				"name" => "twitch",
-				"layout" => "os-6",
+				"layout" => "os-12",
 			));
 
+			render_html_field($user, array(
+				"label" => "Character Name",
+				"type" => "text",
+				"name" => "character_name",
+				"layout" => "os-6",
+			));
 			render_html_field($user, array(
 				"label" => "Class",
 				"type" => "select",
@@ -303,25 +392,59 @@ function forgot_password() {
 		// redirect("/profile");
 	}
 
-	$code = $_GET['password_reset'];
+	$code = $_GET['code'];
 
 	if (isset($code)) {
-		$code = new VerifyCode();
-		$code = $code->find("*", array("code = :code", ":code" => $code));
+		$verify = new VerifyCode();
+		$verify = $verify->load("*", array("code = :code", ":code" => $code));
 
-		if (count($code) == 0) {
-			\Alerts::instance()->error("Invalid reset code");
+		if (! $verify->id) {
+			\Alerts::instance()->error("Invalid reset code.");
 			redirect("/login");
 		}
+
 		?>
 		<form method="POST" action="/change_password">
-		
+			<h2>Set New Password</h2>
+			<?
+			render_html_field(array(), array(
+				"label" => "Password",
+				"type" => "password",
+				"name" => "password",
+				"required" => true,
+				"layout" => "os-12",
+			));
+			render_html_field(array(), array(
+				"label" => "Confirm Password",
+				"type" => "password",
+				"name" => "password_confirm",
+				"required" => true,
+				"layout" => "os-12",
+			));
+			?>
+
+			<input type="hidden" name="code" value="<?= $code; ?>">
+			<br>
+			<input type="submit">
 		</form>
 		<?
 	} else {
 		?>
-		<form action="POST">
+		<form method="POST" action="/reset_password_request">
+			<h2>Reset Password</h2>
+			<?
 
+			render_html_field(array(), array(
+				"label" => "Email",
+				"type" => "text",
+				"name" => "email",
+				"required" => true,
+				"layout" => "os-12",
+			));
+
+			?>
+			<br>
+			<input type="submit">
 		</form>
 		<?
 	}

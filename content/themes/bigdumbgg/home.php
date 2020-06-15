@@ -20,17 +20,17 @@
 
 	?>
 
-<div class="page_header bg-dark">
+<div class="featured_news bg-dark">
 
-	<a href="<?= $latest->get_permalink(); ?>" class="card latest news_card">
+	<a href="<?= $latest->get_permalink(); ?>" class="feat">
 		<img src="<?= $latest_featured; ?>" alt="" class="bg">
 		<div class="container">
 			<div class="row g1 content-middle content-justify">
 				<div class="os-md-8">
 					<h1><?= $latest['title']; ?></h1>
 					<h3><?= $latest['subtitle']; ?></h3>
-				</div>
-				<div class="os-min">
+					<br>
+					<br>
 					<div class="btn-primary">Read More &raquo;</div>
 				</div>
 			</div>

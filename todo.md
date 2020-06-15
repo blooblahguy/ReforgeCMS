@@ -1,10 +1,8 @@
 [] Streams Plugin
 [] Homepage
 [] Front-end profile
-[] Post Categories
-[] Dashboard widgets
-[] Option to hide content on editor
-[] True / False Custom Field
+[] Mobile
+[] SEO
 
 Front end
 [] News Page
@@ -15,6 +13,10 @@ Optimizations
 [] Media Library Rewrite
 
 Later
+[] Post Categories
+[] Dashboard widgets
+[] True / False Custom Field
+[] Option to hide content on editor
 [] Shop
 [] Guides
 

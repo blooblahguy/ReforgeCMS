@@ -25,16 +25,20 @@ foreach ($posts as $data) {
 	$post = new Post();
 	$post->load("*", array("title = :title", ":title" => $title));
 
-	$post->post_type = "news";
-	$post->created = $created;
-	$post->title = $title;
-	$post->content = htmlspecialchars($content);
-	$post->author = 1;
+	if ($post->id) {
+		$post->post_type = "news";
+		$post->created = $created;
+		$post->title = htmlspecialchars($title);
+		$post->content = htmlspecialchars($content);
+		$post->author = 1;
 
-	// debug($post);
-
-	// break;
-	$post->save();
+		debug($title);
+		
+		// debug($post);
+		
+		// break;
+		$post->save();
+	}
 }
 
 return;

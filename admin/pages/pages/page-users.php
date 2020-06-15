@@ -197,6 +197,12 @@ class admin_page_USERS extends RF_Admin_Page {
 					)); 
 
 					render_html_field($user, array(
+						"type" => "text",
+						"name" => "character_name",
+						"label" => "Character Name",
+					)); 
+
+					render_html_field($user, array(
 						"type" => "select",
 						"name" => "class",
 						"label" => "Class",
@@ -235,6 +241,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->email = $_POST['email'];
 		$user->role_id = $_POST['role_id'];
 		$user->admin_theme = $_POST['admin_theme'];
+		$user->character_name = $_POST['character_name'];
 		$user->class = $_POST['class'];
 		$user->save();
 

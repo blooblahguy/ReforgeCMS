@@ -39,7 +39,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		$apply_role = get_option("rfa_apply_role");
 		
 		$pages = new Post();
-		$pages = $pages->find("*", "post_type = 'pages' ");
+		$pages = $pages->find("*", "post_type = 'page' ");
 		$pages = array_extract($pages, "id", "title");
 
 		$forms = new Post();

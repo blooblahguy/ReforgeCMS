@@ -21,6 +21,9 @@ class User extends \RF\Mapper {
 			"role_id" => array(
 				"type" => "INT(7)"
 			),
+			"character_name" => array(
+				"type" => "VARCHAR(256)"
+			),
 			"class" => array(
 				"type" => "VARCHAR(256)"
 			),

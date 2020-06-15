@@ -45,7 +45,7 @@
 
 			// post types
 			$page = new PostType();
-			$page->slug = "pages";
+			$page->slug = "page";
 			$page->label = "Page";
 			$page->label_plural = "Pages";
 			$page->public = 1;

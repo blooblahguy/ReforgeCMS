@@ -217,6 +217,7 @@ class Mapper extends \Magic {
 		}
 
 		// query and cache
+		// debug($cmds, $args);
 		$rs = $db->exec($cmds, $args, 0, $log, $stamp);
 		$cache->set($sql_key, $rs);
 

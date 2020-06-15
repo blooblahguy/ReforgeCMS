@@ -29,7 +29,7 @@ class admin_page_SETTINGS extends RF_Admin_Page {
 	function edit($args) {
 		global $options;
 		$pages = new Post();
-		$pages = $pages->find("*", "post_type = 'pages'");
+		$pages = $pages->find("*", "post_type = 'page'");
 
 		$home_page = get_option("site_homepage");
 		$disable_seo = get_option("disable_seo");

@@ -107,6 +107,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 
 	function edit($args) {
 		$this->render_title();
+
 		
 		$post_type = $this->name;
 		$id = $this->id;
@@ -115,6 +116,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		if ($id > 0) {
 			$post->load("*", "id = $id");
 		}
+		// debug($post);
 
 		?>
 
@@ -264,7 +266,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						));
 
 						$pages = new Post();
-						$pages = $pages->find("*", "post_type = 'pages' ");
+						$pages = $pages->find("*", "post_type = 'page' ");
 						$pages = array_extract($pages, "id", "title");
 
 						render_html_field($post, array(

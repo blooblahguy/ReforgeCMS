@@ -11,7 +11,7 @@ require "$local/rule.php";
 $fields = array();
 // $fields["checkbox"] = "checkbox.php";
 // $fields["color"] = "color.php";
-// $fields["date"] = "date.php";
+$fields["date"] = "date.php";
 // $fields["file"] = "file.php";
 // $fields["form"] = "form.php";
 $fields["image"] = "image.php";

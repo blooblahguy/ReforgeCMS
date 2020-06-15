@@ -61,7 +61,7 @@
 				$load = false;
 				foreach ($load_rules as $group => $rules) {
 					$passed = true;
-					
+
 					foreach ($rules as $rule) {
 						// debug($rule);
 						$rs = $this->get_rule($rule['key'])->rule_match($request, $rule);

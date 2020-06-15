@@ -327,10 +327,12 @@ class Content extends \Prefab {
 
 	function page($core, $args) {
 		$templates = array();
-		$templates[] = "page-{$this->page->slug}.php";
-		$templates[] = "page-{$this->page->id}.php";
-		$templates[] = "page.php";
+		$templates[] = "{$this->page->post_type}-{$this->page->slug}.php";
+		$templates[] = "{$this->page->post_type}-{$this->page->id}.php";
+		$templates[] = "{$this->page->post_type}.php";
 		$templates[] = "single.php";
+
+		// debug($this->page);
 
 		add_body_class("page");
 
@@ -339,9 +341,7 @@ class Content extends \Prefab {
 
 	function query($post_type, $args = array()) {
 		$posts = new Post();
-		$posts = $posts->find("*", "post_type = '$post_type'", array(
-			"order by" => "created DESC"
-		));
+		$posts = $posts->find("*", "post_type = '$post_type'", $args);
 
 		return $posts;
 	}

@@ -45,7 +45,7 @@
 		ga('send', 'pageview');
 	</script>
 </head>
-<body <?= body_classes(); ?>>
+<body <?= body_classes(); ?> lang="en">
 	<div class="wrapper">
 		<div class="top_outer">
 			<div class="top container row content-middle">

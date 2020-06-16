@@ -8,7 +8,7 @@
 					<?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?>
 				</div>
 				<div class="os">
-					<h1>BD<span class="text-primary">GG</span> - Illidan</h1>
+					<h2 class='title'>BD<span class="text-primary">GG</span> - Illidan</h2>
 					<h3>US WoW Raiding Team</h3>
 					<?= $page->content; ?>
 				</div>

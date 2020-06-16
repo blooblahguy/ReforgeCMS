@@ -30,11 +30,13 @@ function rf_head() {
 		$request['page'] = array(
 			"seo_title" => $core->ERROR['status'],
 			"description" => "",
-			"seo_noindex" => "1",
+			"seo_enable" => 0,
 		);
 	}
 
-	if ($options['disable_seo'] || $request['page']['seo_noindex']) {
+	$page = $request['page'];
+
+	if ($options['disable_seo'] || $page['seo_enable'] == 0) {
 		echo '<meta name="robots" content="noindex" />';
 	}
 
@@ -43,11 +45,14 @@ function rf_head() {
 	$title_keywords = $options['seo_keywords'];
 	$sitename = $options['sitename'];
 
-	$title = $request['page']['seo_title'];
+	$title = $page['seo_title'];
 	$title = apply_filters("page/title", $title, $request, $core->PARAMS);
 
-	$category = $request['page']['seo_category'];
-	$description = $request['page']['seo_description'];
+	$category = $page['seo_category'];
+	$description = $page['seo_description'];
+
+	$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+	$seo_image = get_file(get_field("seo-default-image", "settings_0"))['original'];
 
 	if ($title) {
 		$parts[] = $title;
@@ -67,6 +72,10 @@ function rf_head() {
 	// echo out SEO
 	echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 	echo '<meta name=viewport content="width=device-width, initial-scale=1">';
+
+	echo '<meta property="og:title" content="'.$page["title"].'" />';
+	echo '<meta property="og:description" content="'.$page["description"].'" />';
+	echo '<meta property="og:image" content="'.$url.$seo_image.'" />';
 }
 
 function rf_footer() {

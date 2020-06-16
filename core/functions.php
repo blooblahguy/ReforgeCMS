@@ -193,10 +193,14 @@ function render_html_field($field, $settings) {
 
 	if ($type == "wysiwyg") {
 		$attrs['class'] .= " wysiwyg";
+		unset($attrs['value']);
 	} elseif ($type == "checkbox") {
 		$attrs['checked'] = isset($attrs['value']) && $attrs['value'] == 1 ? true : false;
 		$attrs['value'] = "1";
 	}
+
+	// debug($attrs);
+	// debug($settings);
 
 	// now build input attribute string
 	$attrs_array = array_merge($attrs, $settings);
@@ -207,6 +211,7 @@ function render_html_field($field, $settings) {
 			return $key.'="'.$value.'"';
 		}
 	}, array_keys($attrs_array), array_values($attrs_array));
+
 	$attrs = implode(' ', $attrs);
 
 	?>
@@ -245,9 +250,10 @@ function render_html_field($field, $settings) {
 
 			<? } elseif ($type == "textarea") { ?>
 				<textarea type="text" rows="5" <?= $attrs; ?>><?= $attrs_array['value']; ?></textarea>
-			<? } elseif ($type == "wysiwyg") { ?>
-				<textarea name="<?= $name; ?>" class="wysiwyg_input"  style="display: none"><?= $attrs_array['value']; ?></textarea>
-				<div <?= $attrs; ?>><?= htmlspecialchars_decode($attrs_array['value']); ?></div>
+			<? } elseif ($type == "wysiwyg") {
+				?>
+				<textarea name="<?= $name; ?>" class="wysiwyg_input" style="display: none"><?= $value; ?></textarea>
+				<div <?= $attrs; ?>><?= htmlspecialchars_decode($value); ?></div>
 			<? } else { ?>
 				<input type="<?= $type; ?>" <?= $attrs; ?>>
 			<? } ?>

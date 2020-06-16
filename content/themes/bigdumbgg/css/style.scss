@@ -59,6 +59,9 @@ h1 {font-family: "Prohibition"; font-weight:normal;  }
 .content {position: relative; }
 .message_outer {position: absolute; top: $pad2; left: 0; right: 0;  }
 
+// a {color: $primary;}
+// a:hover {color: $primary; }
+
 //===========================================
 // TYPEOGRAPHY
 //===========================================
@@ -126,7 +129,7 @@ a:hover {
 	.footer {position: relative; z-index: 1; }
 }
 .footerlogo {
-	h2 {text-align:center; color: $white; display: block; font-size: 50px; font-family: "Prohibition"; line-height:1;}
+	h2 {text-align:center; color: $white; display: block; font-size: 50px; font-family: "Prohibition"; line-height:1; font-weight: normal; }
 	span {color: $primary; }
 	svg {width: 130px; margin: auto; }
 }
@@ -174,7 +177,8 @@ a:hover {
 	}
 
 	.page_header_outer {
-		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0; padding-top: 120px; 
+		position: relative; overflow: hidden; border-bottom: 2px solid $dark; padding: $pad4 0; padding-top: 10vh; 
+		&.news {padding-top: 20vh;}
 
 		.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
 		img {z-index: -1; min-width: 100%; max-width: none; display:block; }
@@ -333,6 +337,15 @@ a:hover {
 		a {color: $white; }
 	}
 }
+
+.news_card {
+	h1 {color: $white; }
+}
+
+// News
+iframe {height: 50vh !important; width: 100% !important; }
+
+
 // Medium
 @media screen and (max-width : 1024px) {
 

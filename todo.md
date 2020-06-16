@@ -1,6 +1,7 @@
 [] Streams Plugin
 [] Homepage
 [] Front-end profile
+[] Contact us
 [] Mobile
 [] SEO
 

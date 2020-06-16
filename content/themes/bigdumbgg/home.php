@@ -69,11 +69,11 @@
 
 					?>
 					<div class="os-lg-12 os-6">
-						<div class="card news_card">
+						<a href="<?= $news->get_permalink(); ?>" class="card news_card">
 							<img src="<?= $featured; ?>" alt="" class="bg">
-							<h2><?= $news['title']; ?></h2>
-							<p><?= $news['subtitle']; ?></p>
-						</div>
+							<h1 class="marg0"><?= $news['title']; ?></h1>
+							<p class="marg0"><?= $news['subtitle']; ?></p>
+						</a>
 					</div>
 				<? } ?>
 

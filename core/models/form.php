@@ -28,7 +28,7 @@ class Form extends \RF\Mapper {
 				<? if (! $args['hide_title']) { ?>
 					<h3 class="form_title"><?= $this->title; ?></h3>
 				<? } ?>
-				<div class="form_instructions"><?= $this->instructions; ?></div>
+				<div class="form_instructions"><?= $this->subtitle; ?></div>
 
 				<?
 				RCF()->render_fields($field['id'], $entry, $type, $field);

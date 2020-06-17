@@ -127,9 +127,16 @@ class admin_page_USERS extends RF_Admin_Page {
 			$subject = ucfirst($user->username);
 		}
 
+		$user_role = new Role();
+		$user_role->load("priority", "id = ".$user->role_id);
+
+
 		$roles = new Role();
-		$roles = $roles->find("*", null, array("order by" => "priority ASC"));
+		$roles = $roles->find("*", "priority >= {$user_role->priority}", array("order by" => "priority ASC"));
 		$roles = array_extract($roles, "id", "label");
+
+
+
 		$classes = array(	
 			"deathknight" => "Death Knight",
 			"demonhunter" => "Demon Hunter",
@@ -239,7 +246,10 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->username = $_POST['username'];
 		$user->twitch = $_POST['twitch'];
 		$user->email = $_POST['email'];
-		$user->role_id = $_POST['role_id'];
+		$role_id = $_POST['role_id'];
+		if ($role_id >= $user->role_id || $user->can("administrator")) {
+			$user->role_id = $_POST['role_id'];
+		}
 		$user->admin_theme = $_POST['admin_theme'];
 		$user->character_name = $_POST['character_name'];
 		$user->class = $_POST['class'];

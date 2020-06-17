@@ -51,17 +51,6 @@ class Forms extends \Prefab {
 		redirect();
 	}
 
-	function profile_submit($core, $args) {
-		$user = current_user();
-
-		$user->email = $_POST['email'];
-		$user->username = $_POST['username'];
-		$user->twitch = $_POST['twitch'];
-		$user->class = $_POST['class'];
-
-		exit();
-	}
-
 	function register_submit($core, $args) {
 		$user = new User();
 		$redirect = $_POST["redirect"];
@@ -194,6 +183,30 @@ class Forms extends \Prefab {
 			Alerts::instance()->error("Invalid verification code");
 			redirect("/");
 		}
+	}
+
+
+	function profile_submit($core, $args) {
+		$user = current_user();
+
+		$user->email = $_POST['email'];
+		$user->username = $_POST['username'];
+		$user->twitch = $_POST['twitch'];
+		$user->character_name = $_POST['character_name'];
+		$user->class = $_POST['class'];
+
+		// debug($_FILES);
+		// exit();
+		
+		$avatar = Media::instance()->upload($core, $args);
+		$user->avatar = $avatar->get_size(200, 200);
+
+
+		$user->save();
+
+		redirect("/profile");
+
+		exit();
 	}
 }
 
@@ -329,9 +342,11 @@ function profile_form($attrs) {
 
 	$user = current_user();
 
+	// debug($user);
+
 	?>
 
-	<form method="POST" action="/profile">
+	<form method="POST" action="/profile_submit" enctype='multipart/form-data'>
 		<h2>Profile</h2>
 		<div class="row g1">
 			<div class="os-2 text-center">
@@ -339,7 +354,7 @@ function profile_form($attrs) {
 				<div class="avatar">
 					<img src="<?= current_user()->avatar; ?>" alt="">
 				</div>
-				<input type="file" name="avatar">
+				<input type="file" name="file">
 			</div>
 			<div class="os padt0">
 				<div class="row g1">
@@ -364,6 +379,14 @@ function profile_form($attrs) {
 						"label" => "Twitch",
 						"type" => "text",
 						"name" => "twitch",
+						"layout" => "os-12",
+					));
+
+					render_html_field($user, array(
+						"label" => "Character Name",
+						"type" => "text",
+						"required" => true,
+						"name" => "character_name",
 						"layout" => "os-6",
 					));
 
@@ -371,6 +394,7 @@ function profile_form($attrs) {
 						"label" => "Class",
 						"type" => "select",
 						"choices" => $wow_classes,
+						"required" => true,
 						"name" => "class",
 						"layout" => "os-6",
 					));

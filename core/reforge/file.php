@@ -133,6 +133,7 @@ class File extends \RF\Mapper {
 
 		if (! $found) {
 			$this->create_size($width, $height);
+			return $this->get_size($width, $height);
 		}
 
 		return $found['path'];

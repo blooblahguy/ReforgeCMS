@@ -3,6 +3,7 @@
 class User extends \RF\Mapper {
 	private 
 		$token,
+		$role,
 		$logged_in = false,
 		$permissions;
 

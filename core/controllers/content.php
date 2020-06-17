@@ -78,7 +78,7 @@ function rf_head() {
 	echo '<meta property="og:image" content="'.$url.$seo_image.'" />';
 
 	echo '<meta name="twitter:card" content="summary" /> ';
-	echo '<meta name="twitter:site" content="@bdgg" /> ';
+	echo '<meta name="twitter:site" content="@bigdumbgaming" /> ';
 	echo '<meta name="twitter:title" content="'.$title.'" /> ';
 	echo '<meta name="twitter:description" content="'.$description.'" /> ';
 	echo '<meta name="twitter:image" content="'.$url.$seo_image.'" />';

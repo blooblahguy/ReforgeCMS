@@ -141,7 +141,7 @@ class Media extends Prefab {
 		$file->hash = $hash;
 
 		if ($file->original) {
-			return;
+			return $file;
 		}
 
 		// Image
@@ -162,6 +162,8 @@ class Media extends Prefab {
 		}
 
 		$file->save();
+
+		return $file;
 	}
 
 	//=============================================================

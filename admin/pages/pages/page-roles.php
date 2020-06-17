@@ -17,6 +17,9 @@ class admin_page_ROLES extends RF_Admin_Page {
 	}
 
 	function index($args) {
+		$user = current_user();
+		
+
 		$this->render_title();
 		$roles = new Role();
 		$roles = $roles->find("*", null, array(

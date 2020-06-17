@@ -117,7 +117,7 @@ class Forms extends \Prefab {
 		$code->user_id = $user->id; 
 		$code->save();
 
-		rf_mail($user->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://localhost/verify?code=".$code->code."'>Verify Email</a>");
+		rf_mail($user->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://bigdumb.gg/verify?code=".$code->code."'>Verify Email</a>");
 
 		Alerts::instance()->success("Account created, please check your email to verify your account");
 		redirect($redirect);
@@ -168,7 +168,7 @@ class Forms extends \Prefab {
 			$code->user_id = $user->id;
 			$code->save();
 
-			rf_mail($user->email, "Reset Password Request", "Click the link below to reset your account password. <br> <a href='https://localhost/forgot-password?code=".$code->code."'>Reset Password</a>");
+			rf_mail($user->email, "Reset Password Request", "Click the link below to reset your account password. <br> <a href='https://bigdumb.gg/forgot-password?code=".$code->code."'>Reset Password</a>");
 		}
 		Alerts::instance()->success("If that email exists, a reset password has been sent to them");
 		redirect("/");

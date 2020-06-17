@@ -73,9 +73,15 @@ function rf_head() {
 	echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 	echo '<meta name=viewport content="width=device-width, initial-scale=1">';
 
-	echo '<meta property="og:title" content="'.$page["title"].'" />';
-	echo '<meta property="og:description" content="'.$page["description"].'" />';
+	echo '<meta property="og:title" content="'.$title.'" />';
+	echo '<meta property="og:description" content="'.$description.'" />';
 	echo '<meta property="og:image" content="'.$url.$seo_image.'" />';
+
+	echo '<meta name="twitter:card" content="summary" /> ';
+	echo '<meta name="twitter:site" content="@bdgg" /> ';
+	echo '<meta name="twitter:title" content="'.$title.'" /> ';
+	echo '<meta name="twitter:description" content="'.$description.'" /> ';
+	echo '<meta name="twitter:image" content="'.$url.$seo_image.'" />';
 }
 
 function rf_footer() {

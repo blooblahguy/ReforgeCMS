@@ -116,7 +116,7 @@ class User extends \RF\Mapper {
 			$this->reup_login();
 
 			// now log them in
-			$user->last_login = "NOW()";
+			$user->last_login = date("Y-m-d H:i:s");
 			$user->save();
 
 			// delete old cookies

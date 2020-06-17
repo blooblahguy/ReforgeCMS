@@ -88,7 +88,7 @@ class CustomField extends \RF\Mapper {
 		$this->inactive = $_POST['inactive'];
 		$this->fieldset = serialize($fieldset);
 		$this->load_rules = serialize($rules);
-		$this->virtual = $_POST['virtual_fieldset'];
+		$this->virtual = isset($_POST['virtual_fieldset']) ? 1 : 0;
 		$this->save();
 
 		return $this;

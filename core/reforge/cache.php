@@ -72,7 +72,7 @@ class Cache {
 	 *	@param $val mixed
 	 *	@param $ttl int
 	 **/
-	function set($key, $val, $ttl = 0) {
+	function set($key, $val, $ttl = 500) {
 		$fw = \Base::instance();
 		if (!$this->engine)
 			return true;

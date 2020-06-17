@@ -243,6 +243,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->admin_theme = $_POST['admin_theme'];
 		$user->character_name = $_POST['character_name'];
 		$user->class = $_POST['class'];
+		$user->verified = 1;
 		$user->save();
 
 		RCF()->save_fields("user", $user->id);

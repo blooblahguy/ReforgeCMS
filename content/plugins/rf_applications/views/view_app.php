@@ -6,7 +6,7 @@
 		<div class="row g1 content-middle">
 			<div class="os-min padx2">
 				<div class="avatar_icon">
-					<img src="<?= get_user($comment['author'])->avatar; ?>" alt="">
+					<img src="<?= get_user($app['author'])->avatar; ?>" alt="">
 				</div>
 			</div>
 			<div class="os">

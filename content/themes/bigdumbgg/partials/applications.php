@@ -43,12 +43,12 @@ if (count($open) == 0) {
 						</div>
 					</div>
 					<div class="os">
-						<div class="post_title strong">
+						<div class="post_title">
 							<a href="<?= $link; ?>#comment<?= $comment['id']; ?>"><?= $app['title']; ?></a>
 						</div>
 						<div class="post_info row content-middle">
 							<div class="os">
-								<span class="user"><strong class="<?= $author['class']; ?>"><?= $author['username']; ?></strong></span>
+								<span class="user"><span class="small <?= $author['class']; ?>"><?= $author['username']; ?></strong></span>
 							</div>
 							<div class="os small text-right">
 								<a href="<?= $link; ?>#comment<?= $comment['id']; ?>" class="display-block date"><?= smart_date($comment['created']); ?></a>

@@ -58,7 +58,7 @@ class Form extends \RF\Mapper {
 		$entry->post_type = $type;
 		$entry->post_parent = $this->id;
 		$entry->author = current_user()->id;
-		$entry->seo_noindex = 1;
+		$entry->seo_enable = 1;
 		$entry->title = $this->title." - ".current_user()->username;
 
 		$entry = apply_filters("form/submit", $entry, $entry_id);

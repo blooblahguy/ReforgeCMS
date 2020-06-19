@@ -128,7 +128,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		}
 
 		$user_role = new Role();
-		$user_role->load("priority", "id = ".$user->role_id);
+		$user_role->load("priority", "id = ".current_user()->role_id);
 
 
 		$roles = new Role();
@@ -247,7 +247,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->twitch = $_POST['twitch'];
 		$user->email = $_POST['email'];
 		$role_id = $_POST['role_id'];
-		if ($role_id >= $user->role_id || $user->can("administrator")) {
+		if ($role_id >= current_user()->role_id || current_user()->can("administrator")) {
 			$user->role_id = $_POST['role_id'];
 		}
 		$user->admin_theme = $_POST['admin_theme'];

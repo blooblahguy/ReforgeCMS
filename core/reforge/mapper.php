@@ -50,18 +50,18 @@ class Mapper extends \Magic {
 		// }
 
 		// Now, determine if this needs to be updated
-		$field_hash = md5(serialize($schema));
-		$field_cache = $cache->get($this->table);
+		// $field_hash = md5(serialize($schema));
+		// $field_cache = $cache->get($this->table);
 
-		// doesn't have a cache or doesn't match
-		if (! $field_cache || $field_cache != $field_hash) {
-			// save hash in cache
-			$cache->set($this->table, $field_hash);
-			// send to schema class for update
-			\RF\Schema::instance()->update($this->table, $schema);
-		}
+		// // doesn't have a cache or doesn't match
+		// if (! $field_cache || $field_cache != $field_hash) {
+		// 	// save hash in cache
+		// 	$cache->set($this->table, $field_hash);
+		// 	// send to schema class for update
+		// 	\RF\Schema::instance()->update($this->table, $schema);
+		// }
 
-		$schema_checked[$this->table] = 1;
+		// $schema_checked[$this->table] = 1;
 	}
 
 	/**

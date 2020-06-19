@@ -35,7 +35,7 @@
 							?>
 							<tr>
 								<td class="text-center rank<?= $ach['rank']; ?> <?= $color; ?>"><?= $ach['rank']; ?></td>
-								<td class="event"><a href="https://www.wowprogress.com/guild/us/illidan/Big+Dumb+Guild" target="_blank"><?= $ach['event']; ?></a></td>
+								<td class="event"><a href="https://www.wowprogress.com/guild/us/illidan/Bdgg" target="_blank"><?= $ach['event']; ?></a></td>
 								<td class="date"><?= $ach['date']; ?></td>
 							</tr>
 						<? } ?>

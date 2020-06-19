@@ -29,7 +29,7 @@
 	</div>
 	<div class="os">
 		<a href="<?= $link; ?>" class="display-block"><?= $app['title']; ?></a>
-		<span class="small">Author: <?= $author->username; ?></span>
+		<span class="small">Author: <span class="<?= $author->class; ?>"><?= $author->username; ?></span></span>
 	</div>
 	<div class="os-min">
 		<div class="row content-middle">
@@ -40,7 +40,7 @@
 			</div>
 			<div class="os">
 				<a href="<?= $link; ?>#comment<?= $comment['id']; ?>" class="display-block date"><?= smart_date($comment['created']); ?></a>
-				<span class="small"><?= $author->username; ?></span>
+				<span class="small <?= $author->class; ?>"><?= $author->username; ?></span>
 			</div>
 		</div>
 	</div>

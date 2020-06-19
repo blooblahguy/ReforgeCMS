@@ -3,7 +3,7 @@
 //=====================================================================
 // Update DATA
 //=====================================================================
-$guild = get_data("https://raider.io/api/guilds/us/illidan/Big%20Dumb%20Guild");
+$guild = get_data("https://raider.io/api/guilds/us/illidan/Bdgg");
 $guild = json_decode($guild, true);
 
 // tier

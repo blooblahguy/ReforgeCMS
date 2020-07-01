@@ -376,7 +376,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		if (isset($_POST['content'])) {
 			$post->content = $_POST["content"];
 		}
-		$post->post_parent = $_POST["post_parent"];
+		$post->post_parent = $_POST["post_parent"] > 0 ? $_POST['post_parent'] : 0;
 		$post->post_type = $this->name;
 		$post->author = $user->id;
 		$post->permission = $_POST['permission'];

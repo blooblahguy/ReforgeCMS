@@ -4,6 +4,10 @@
 [] Contact us
 [] Mobile
 [] SEO
+[] Fix email notifications
+[] Fix email logo
+[] Fix APCu cache or disable it
+[] Add application formatting and custom fields
 
 Front end
 [] News Page

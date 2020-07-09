@@ -6,7 +6,7 @@ $token = false;
 $json = json_decode($content, true);
 
 echo "<pre>";
-print_r($repository['repository']['id']);
+print_r($json['repository']['id']);
 echo "</pre>";
 
 // github info

@@ -5,7 +5,7 @@ define("REMOTE_REPOSITORY", "git@github.com:blooblahguy/ReforgeCMS.git"); // The
 define("DIR", "/home/runcloud/webapps/bigdumb/");                       // The path to your repostiroy; this must begin with a forward slash (/)
 define("BRANCH", "refs/heads/master");                             				// The branch route
 define("LOGFILE", "deploy.log");                                       // The name of the file you want to log to.
-define("GIT", "git");                                    // The path to the git executable
+define("GIT", "/usr/lib/git-core/git");                                    // The path to the git executable
 define("MAX_EXECUTION_TIME", 180);                                     // Override for PHP's max_execution_time (may need set in php.ini)
 define("BEFORE_PULL", "");                                             // A command to execute before pulling
 define("AFTER_PULL", "");                                              // A command to execute after successfully pulling

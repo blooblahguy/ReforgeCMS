@@ -316,14 +316,16 @@ function resetCaches() {
  * Load currently active plugins
  * @return null
  */
-function load_plugins() {	
+function load_plugins() {
+	global $root;
 	$plugins = get_option('active_plugins');
+
 	if (! $plugins) {
 		$plugins = array();
 	}
 	foreach ($plugins as $key => $path) {
-		if (file_exists($path)) {
-			require $path;
+		if (file_exists($root.$path)) {
+			require $root.$path;
 		}
 	}
 }
@@ -432,8 +434,7 @@ function set_meta($uid, $key, $value) {
 }
 
 function plugins_dir() {
-	global $root;
-	return $root."/content/plugins";
+	return "/content/plugins";
 }
 function theme_dir() {
 	global $root;

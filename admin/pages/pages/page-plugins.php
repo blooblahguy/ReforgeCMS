@@ -43,14 +43,15 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 
 			if ($file->isDir()) {
 				$folder = $file->getFilename();
+
 				$ini = $path.$file."/plugin.ini";
 				$thumbnail = "/content/plugins/".$file."/plugin.jpg";
 				if (! file_exists($ini)) { continue; }
 				if (! file_exists($root.$thumbnail)) { $thumbnail = "/core/img/default_theme.jpg"; }
-
+				
 				$info = parse_ini_file($ini);
 				$info['thumbnail'] = $thumbnail;
-
+				
 				$plugins[$folder] = $info;				
 			}
 		}
@@ -134,6 +135,8 @@ class admin_page_PLUGINS extends RF_Admin_Page {
 		$active_plugins = $active_plugins;
 
 		$active_plugins[$slug] = plugins_dir()."/$slug/$slug.php";
+
+		debug($active_plugins[$slug]);
 
 		set_option("active_plugins", $active_plugins);
 		\Alerts::instance()->success("Plugin '{$slug}' activated");

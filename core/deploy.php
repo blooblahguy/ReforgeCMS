@@ -5,17 +5,20 @@ $secret = "BDGSECRET_2020_GLADE";
 $token = false;
 $json = json_decode($content, true);
 
-$id = $json['repository']['id'];
+// $id = $json['repository']['id'];
 
-
-if ($id != 242001243) {
-	http_response_code(403);
-	exit();
-}
+// if ($id != 242001243) {
+// 	http_response_code(403);
+// 	exit();
+// }
 
 chdir("/home/runcloud/webapps/bigdumb/");
-echo exec("git pull git@github.com:blooblahguy/ReforgeCMS.git 2>&1", $output);
-echo $output;
+exec("git pull git@github.com:blooblahguy/ReforgeCMS.git 2>&1", $output, $exit);
+
+echo "<pre>";
+print_r($output);
+print_r($exit);
+echo "</pre>";
 
 // define("TOKEN", "BDGSECRET_2020_GLADE");                                       // The secret token to add as a GitHub or GitLab secret, or otherwise as https://www.example.com/?token=secret-token
 // define("REMOTE_REPOSITORY", "git@github.com:blooblahguy/ReforgeCMS.git"); // The SSH URL to your repository

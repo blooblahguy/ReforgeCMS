@@ -12,6 +12,8 @@ $id = $json['repository']['id'];
 // }
 
 chdir("/home/runcloud/webapps/bigdumb/");
+// echo exec("ssh -T git@github.com 2>&1");
+// echo exec("git reset --hard origin/master git@github.com:blooblahguy/ReforgeCMS.git 2>&1");
 exec("git pull git@github.com:blooblahguy/ReforgeCMS.git 2>&1", $output, $exit);
 
 if ($exit !== 0) {

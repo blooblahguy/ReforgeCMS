@@ -5,16 +5,11 @@ $secret = "BDGSECRET_2020_GLADE";
 $token = false;
 $json = json_decode($content, true);
 
-echo "<pre>";
-print_r($json['repository']['id']);
-echo "</pre>";
+$id = $json['repository']['id'];
 
-// github info
-list($algo, $token) = explode("=", $_SERVER["HTTP_X_HUB_SIGNATURE"], 2) + array("", "");
 
-if (! isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) || $token !== hash_hmac($algo, $content, $secret)) {
+if ($id != 242001243) {
 	http_response_code(403);
-	echo "Token did not match secret";
 	exit();
 }
 

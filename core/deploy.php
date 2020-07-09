@@ -11,4 +11,3 @@ define("BEFORE_PULL", "");                                             // A comm
 define("AFTER_PULL", "");                                              // A command to execute after successfully pulling
 
 include "deployer.php";
-

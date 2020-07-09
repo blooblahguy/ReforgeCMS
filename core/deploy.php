@@ -2,6 +2,12 @@
 
 $content = file_get_contents("php://input");
 $secret = "BDGSECRET_2020_GLADE";
+$token = false;
+
+echo "<pre>";
+print_r($_POST);
+print_r($_GET);
+echo "</pre>";
 
 // github info
 list($algo, $token) = explode("=", $_SERVER["HTTP_X_HUB_SIGNATURE"], 2) + array("", "");

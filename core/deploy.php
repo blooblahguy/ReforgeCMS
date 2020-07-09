@@ -3,10 +3,10 @@
 $content = file_get_contents("php://input");
 $secret = "BDGSECRET_2020_GLADE";
 $token = false;
+$json = json_decode($content, true);
 
 echo "<pre>";
-print_r($_POST);
-print_r($_GET);
+print_r($repository['repository']['id']);
 echo "</pre>";
 
 // github info

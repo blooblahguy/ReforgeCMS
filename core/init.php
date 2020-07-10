@@ -8,7 +8,7 @@ $core->set("salt", $configuration["salt"]);
 
 // Reforge Core
 $reforge = include $root."/core/reforge/reforge.php";
-$reforge = include $root."/core/reforge/magic.php";
+include $root."/core/reforge/magic.php";
 
 // core stuff
 include $root."/core/database.php";

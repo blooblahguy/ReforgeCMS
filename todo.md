@@ -1,13 +1,11 @@
-[] Streams Plugin
-[] Homepage
-[] Front-end profile
-[] Contact us
-[] Mobile
-[] SEO
-[] Fix email notifications
-[] Fix email logo
-[] Fix APCu cache or disable it
-[] Add application formatting and custom fields
+Streams Plugin
+Fix form entries (contact us)
+Mobile
+SEO
+Fix email notifications
+Fix email logo
+Fix APCu cache or disable it
+Add application formatting and custom fields
 
 Front end
 [] News Page

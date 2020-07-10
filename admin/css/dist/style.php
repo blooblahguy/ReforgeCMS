@@ -1,7 +1,11 @@
 <?php
+	$expires = 60*60*24; // how long to cache in secs..
 	header('Content-Type: text/css');
+	header("Pragma: public");
+	header("Cache-Control: maxage=".$expires);
+	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+
 	$root = $_SERVER['DOCUMENT_ROOT'];
-	$config = include $root."reforge-config.php";
 
 	$theme = "default";
 	if (isset($_GET['theme'])) {
@@ -9,19 +13,6 @@
 	}
 
 	$out_file = "{$theme}_openskull.min.css";
-
-
-	if ($config['environment'] == "production") {
-		$expires = 60*60*24*7; // how long to cache in secs..
-		header("Pragma: public");
-		header("Cache-Control: maxage=".$expires);
-		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-
-		require $out_file;
-		exit();
-	}
-
-
 	
 	$sheets = array();
 	$sheets[] = $root."/core/assets/css/openskull/_defaults.scss";

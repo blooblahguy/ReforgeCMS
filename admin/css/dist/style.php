@@ -3,6 +3,11 @@
 	$root = $_SERVER['DOCUMENT_ROOT'];
 	$config = include $root."reforge-config.php";
 
+	$theme = "default";
+	if (isset($_GET['theme'])) {
+		$theme = $_GET['theme'];
+	}
+
 	$out_file = "{$theme}_openskull.min.css";
 
 
@@ -11,10 +16,7 @@
 		exit();
 	}
 
-	$theme = "default";
-	if (isset($_GET['theme'])) {
-		$theme = $_GET['theme'];
-	} 
+
 	
 	$sheets = array();
 	$sheets[] = $root."/core/assets/css/openskull/_defaults.scss";

@@ -9,6 +9,11 @@
 	$out_file = "openskull.min.css";
 
 	if ($config['environment'] == "production") {
+		$expires = 60*60*24*7; // how long to cache in secs..
+		header("Pragma: public");
+		header("Cache-Control: maxage=".$expires);
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+		
 		require $out_file;
 		exit();
 	}

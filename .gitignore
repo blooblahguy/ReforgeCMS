@@ -4,5 +4,6 @@ info.php
 tmp/
 content/uploads/*
 core/imports
+core/logs
 webgrind
 content/themes/bigdumbgg/lib/tweet-php/cache/twitter-array.txt

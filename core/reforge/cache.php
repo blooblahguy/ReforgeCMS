@@ -34,7 +34,8 @@ class Cache {
 		switch ($parts[0]) {
 			case 'apc':
 			case 'apcu':
-				$raw = call_user_func($parts[0] . '_fetch', $ndx);
+				$raw = apcu_fetch($ndx);
+				// $raw = call_user_func($parts[0] . '_fetch', $ndx);
 				break;
 			case 'redis':
 				$raw = $this->ref->get($ndx);
@@ -84,7 +85,9 @@ class Cache {
 		switch ($parts[0]) {
 			case 'apc':
 			case 'apcu':
-				return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
+				// debug($parts[0]);
+				return apcu_store($ndx, $data, $ttl);
+				// return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
 			case 'redis':
 				return $this->ref->set($ndx, $data, $ttl ? ['ex' => $ttl] : []);
 			case 'memcache':
@@ -124,7 +127,8 @@ class Cache {
 		switch ($parts[0]) {
 			case 'apc':
 			case 'apcu':
-				return call_user_func($parts[0] . '_delete', $ndx);
+				return apcu_delete($ndx);
+				// return call_user_func($parts[0] . '_delete', $ndx);
 			case 'redis':
 				return $this->ref->del($ndx);
 			case 'memcache':
@@ -156,10 +160,11 @@ class Cache {
 		switch ($parts[0]) {
 			case 'apc':
 			case 'apcu':
-				$info = call_user_func(
-					$parts[0] . '_cache_info',
-					$parts[0] == 'apcu' ? false : 'user'
-				);
+				$info = apcu_cache_info();
+				// $info = call_user_func(
+				// 	$parts[0] . '_cache_info',
+				// 	$parts[0] == 'apcu' ? false : 'user'
+				// );
 				if (!empty($info['cache_list'])) {
 					$key = array_key_exists(
 						'info',
@@ -167,7 +172,8 @@ class Cache {
 					) ? 'info' : 'key';
 					foreach ($info['cache_list'] as $item)
 						if (preg_match($regex, $item[$key]))
-							call_user_func($parts[0] . '_delete', $item[$key]);
+							apcu_delete($item[$key]);
+							// call_user_func($parts[0] . '_delete', $item[$key]);
 				}
 				return true;
 			case 'redis':

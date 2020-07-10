@@ -57,9 +57,11 @@ class Cache {
 				break;
 		}
 		if (! empty($raw)) {
-			list($val, $time, $ttl) = (array) unserialize($raw);
+			list($val, $time, $ttl) = (array) $fw->unserialize($raw);
+
 			if ($ttl === 0 || $time + $ttl > microtime(true))
 				return [$time, $ttl];
+			
 			$val = null;
 			$this->clear($key);
 		}
@@ -80,12 +82,13 @@ class Cache {
 		$ndx = $this->name . '.' . $key;
 		if ($cached = $this->exists($key))
 			$ttl = $cached[1];
+
+		// debug($val);
 		$data = $fw->serialize([$val, microtime(true), $ttl]);
 		$parts = explode('=', $this->engine, 2);
 		switch ($parts[0]) {
 			case 'apc':
-			case 'apcu':
-				// debug($parts[0]);
+			case 'apcu':				
 				return apcu_store($ndx, $data, $ttl);
 				// return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
 			case 'redis':

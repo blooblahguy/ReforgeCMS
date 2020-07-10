@@ -1151,6 +1151,7 @@ final class Base extends Prefab implements ArrayAccess {
 	function serialize($arg) {
 		switch (strtolower($this->hive['SERIALIZER'])) {
 			case 'igbinary':
+				// debug("igbinary");
 				return igbinary_serialize($arg);
 			default:
 				return serialize($arg);
@@ -1163,12 +1164,12 @@ final class Base extends Prefab implements ArrayAccess {
 	*	@param $arg mixed
 	**/
 	function unserialize($arg) {
-		// switch (strtolower($this->hive['SERIALIZER'])) {
-		// 	case 'igbinary':
-		// 		return igbinary_unserialize($arg);
-		// 	default:
+		switch (strtolower($this->hive['SERIALIZER'])) {
+			case 'igbinary':
+				return igbinary_unserialize($arg);
+			default:
 				return unserialize($arg);
-		// }
+		}
 	}
 
 	/**

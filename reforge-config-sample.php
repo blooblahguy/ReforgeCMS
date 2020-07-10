@@ -34,6 +34,7 @@ function rf_config() {
 	## Misc Variables
 	//===================================
 	$config["salt"] = "reforge";
+	$config["environment"] = "production";
 
 	return $config;
 }

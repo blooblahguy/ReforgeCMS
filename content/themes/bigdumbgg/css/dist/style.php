@@ -2,9 +2,16 @@
 	header('Content-Type: text/css');
 	ini_set("display_errors", 1);
 	error_reporting(E_ALL);
-
 	$root = $_SERVER['DOCUMENT_ROOT'];
+
+	$config = include $root."reforge-config.php";
+
 	$out_file = "openskull.min.css";
+
+	if ($config['environment'] == "production") {
+		require $out_file;
+		exit();
+	}
 
 	$sheets = array();
 	$sheets[] = $root."/core/assets/css/openskull/_defaults.scss";

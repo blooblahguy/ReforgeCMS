@@ -1,15 +1,21 @@
 <?php
 	header('Content-Type: text/css');
 	$root = $_SERVER['DOCUMENT_ROOT'];
+	$config = include $root."reforge-config.php";
 
+	$out_file = "{$theme}_openskull.min.css";
+
+
+	if ($config['environment'] == "production") {
+		require $out_file;
+		exit();
+	}
 
 	$theme = "default";
 	if (isset($_GET['theme'])) {
 		$theme = $_GET['theme'];
 	} 
-
-	$out_file = "{$theme}_openskull.min.css";
-
+	
 	$sheets = array();
 	$sheets[] = $root."/core/assets/css/openskull/_defaults.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_functions.scss";

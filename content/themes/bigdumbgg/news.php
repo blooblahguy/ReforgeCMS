@@ -17,7 +17,7 @@
 				</div>
 			</div>
 
-			<div class="post_hero padt2">
+			<div class="post_hero padt2 text-center">
 				<img src="<?= get_file(get_field("featured_image"))['original']; ?>" alt="<?= $page->title; ?>">
 			</div>
 			<div class="post_body pady2">

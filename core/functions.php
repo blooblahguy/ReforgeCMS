@@ -319,7 +319,7 @@ function resetCaches() {
 function load_plugins() {
 	global $root;
 	$plugins = get_option('active_plugins');
-
+	
 	if (! $plugins) {
 		$plugins = array();
 	}

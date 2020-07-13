@@ -238,7 +238,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 					<div class="section">
 						<div class="message_action">
 							<label for="">Message & Action</label>
-							<textarea name="message" placeholder="Required if changing app status"></textarea>
+							<textarea name="message" required placeholder="Required if changing app status"></textarea>
 							<div class="row g1 padt2">
 								<div class="os"><input type="submit" class="btn-success" name="action" value="Accept"></div>
 								<div class="os"><input type="submit" class="btn-error" name="action" value="Decline"></div>

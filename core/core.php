@@ -36,6 +36,5 @@ $core->route("GET /glade/import", function() {
 
 $core->run();
 
-// $app = new Post();
-// $app->load("*", array("id = :id", ":id" => 49));
-// send_discord_app($app);
+$reforge_load_time += hrtime(true);
+$reforge_load_time = $reforge_load_time / 1e+6;

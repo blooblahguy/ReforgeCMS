@@ -7,7 +7,6 @@ require "$root/admin/pages/class-admin-pages.php";
 
 function build_pages() {
 	global $root;
-	global $custom_fields_page;
 	
 	$pages = array();
 	$pages["comments"] = "page-comments.php";
@@ -24,11 +23,11 @@ function build_pages() {
 	$pages["partials"] = "page-partials.php";
 	$pages["plugins"] = "page-plugins.php";
 	$pages["themes"] = "page-themes.php";
-
+	
 	$pages = apply_filters("admin/pages", $pages);
-
+	
 	foreach ($pages as $class => $path) {
-		require "$root/admin/pages/pages/$path";
+		include "$root/admin/pages/pages/$path";
 	}
 }
 

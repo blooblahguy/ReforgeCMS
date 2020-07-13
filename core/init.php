@@ -1,6 +1,5 @@
 <?php
 $configuration = require $root."/reforge-config.php";
-
 // F3 Core
 $core = require $root."/core/fatfree/base.php";
 $core->set("DEBUG", 1);

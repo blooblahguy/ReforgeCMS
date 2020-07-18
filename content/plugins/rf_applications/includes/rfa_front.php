@@ -2,6 +2,7 @@
 
 class RFA_Applications_Front extends \Prefab {
 	public $applications, $apply, $form;
+	private $character_name;
 
 	function __construct() {
 		global $core;
@@ -15,7 +16,10 @@ class RFA_Applications_Front extends \Prefab {
 
 		// filters
 		add_filter("page/title", array($this, "application_page"));
-		add_filter("form/redirect", array($this, "submit_redirect"));	
+		add_filter("form/redirect", array($this, "submit_redirect"));
+
+		add_action("group_results/after_render/application/character_name", array($this, "get_character_info"));
+		add_action("group_results/after_render/application/character_server", array($this, "display_character_info"));
 	}
 
 	function submit_redirect($redirect, $form_id, $entry_id) {
@@ -39,12 +43,20 @@ class RFA_Applications_Front extends \Prefab {
 
 		// load all applications
 		if ($user->can("view_applications")) {
-			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' ");
-			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' ");
+			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' ", array(
+				"order by" => "created DESC"
+			));
+			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' ", array(
+				"order by" => "created DESC"
+			));
 		// load my applications
 		} else {
-			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' AND author = {$user->id} ");
-			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND author = {$user->id} ");
+			$open = $app->find("*", "post_type = 'application' AND post_status = 'open' AND author = {$user->id} ", array(
+				"order by" => "created DESC"
+			));
+			$other = $app->find("*", "post_type = 'application' AND post_status != 'open' AND author = {$user->id} ", array(
+				"order by" => "created DESC"
+			));
 		}
 
 		if (! $user->can("view_applications") && count($open) == 0 && logged_in()) { ?>
@@ -93,6 +105,43 @@ class RFA_Applications_Front extends \Prefab {
 		return $title;
 	}
 
+	function get_character_info($field, $data) {
+		$this->character_name = $data['meta_value'];
+	}
+	function display_character_info($field, $data) {
+		$server = $data['meta_value'];
+		$character = $this->character_name;
+
+		// debug($server);
+		// debug($character);
+
+		$realm = str_replace (" ", "-", $server);
+		$realm = preg_replace ("/[^a-zA-Z-]/", "", $realm);
+
+		$wcl = "https://www.warcraftlogs.com/character/us/{$realm}/{$character}";
+		$armory = "https://worldofwarcraft.com/en-us/character/{$realm}/{$character}";
+		$analyzer = "https://wowanalyzer.com/character/US/{$realm}/{$character}";
+		$wipefest = "https://www.wipefest.net/character/{$character}/{$realm}/US";
+
+		?>
+		<div class="field os-12">
+			<div class="formsec group_outer">
+				<label for="">Sites</label>
+				<div class="repeater_body custom_app_links">
+					<div class="row">
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $armory; ?>">Armory</a>
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wcl; ?>">Warcraft Logs</a>
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $analyzer; ?>">WoW Analyzer</a>
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wipefest; ?>">Wipefest</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
+
+		// return false;
+	}
+
 	/**
 	 * Return list of all of this user's applications
 	 */
@@ -104,7 +153,7 @@ class RFA_Applications_Front extends \Prefab {
 
 		$apps = new Post();
 		$apps->find("*", array("post_type = :post_type AND author = :author", ":post_type" => "applications", ":author" => $user->id), array(
-			"order by" => "post_status ASC"
+			"order by" => "post_status ASC, id DESC"
 		));
 	}
 
@@ -152,6 +201,10 @@ class RFA_Applications_Front extends \Prefab {
 	}
 }
 
+function RFA_Front() {
+	return RFA_Applications_Front::instance();
+}
+
 if (current_user()->logged_in()) {
-	$front = new RFA_Applications_Front();
+	$front = RFA_Front();
 }

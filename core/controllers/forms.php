@@ -486,6 +486,10 @@ function render_entry_results($entry_id, $args = array()) {
 	$cf = new CustomField();
 	$field = reset($cf->find("*", array("id = :id", ":id" => $form->post_parent)));
 
+	// debug($entry);
+	// debug($form);
+	// debug($field);
+
 	RCF()->render_results($field['id'], $entry_id, "application", $field);
 }
 

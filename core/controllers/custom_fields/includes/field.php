@@ -76,11 +76,12 @@
 		}
 
 		function result($data, $field, $context) {
-			// debug($field);
+			$data['meta_value'] = nl2br($data['meta_value']);
+			$data['meta_value'] = linkify($data['meta_value'], true);
 			?>
 			<div class="formsec field_<?= $field['type']; ?>">
 				<label for=""><?= $field['label']; ?></label>
-				<p class="value"><?= $data['meta_value']; ?> </p>
+				<div class="value"><?= $data['meta_value']; ?> </div>
 			</div>
 			<?
 		}

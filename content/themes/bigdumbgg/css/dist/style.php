@@ -1,9 +1,15 @@
 <?php
-	$expires = 60*60*24; // how long to cache in secs..
+	// print_r($_SERVER['DOCUMENT_ROOT']."/reforge_config.php");
+	$config = include $_SERVER['DOCUMENT_ROOT']."/reforge-config.php";
+
 	header('Content-Type: text/css');
-	header("Pragma: public");
-	header("Cache-Control: maxage=".$expires);
-	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+
+	if ($config['environment'] == "productions") {
+		$expires = 60*60*24; // how long to cache in secs..
+		header("Pragma: public");
+		header("Cache-Control: maxage=".$expires);
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+	}
 
 	ini_set("display_errors", 1);
 	error_reporting(E_ALL);

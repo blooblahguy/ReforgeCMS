@@ -86,6 +86,9 @@
 			}
 		}
 
+		function pull_fields($cf, $type, $id) {
+
+		}
 
 		function load_fields($type, $id) {
 			if (! isset($this->loaded[$type.":".$id])) {
@@ -248,10 +251,10 @@
 				"context" => "",
 			);
 
-			// debug($view);
-
 			$this->meta_type = $type;
 			$this->page_id = $page_id;
+
+			// debug($view);
 
 			// load view
 			echo '<div class="field_results">';

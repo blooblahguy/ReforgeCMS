@@ -26,7 +26,7 @@ class reforge_field_GROUP extends reforge_field {
 
 		?>
 		<div class="rcf_group">
-			<label for=""><?= $field['label']; ?></label>
+			<label class="group_label" for=""><?= $field['label']; ?></label>
 			<div class="row g1">
 				<?			
 				foreach ($children as $field) {

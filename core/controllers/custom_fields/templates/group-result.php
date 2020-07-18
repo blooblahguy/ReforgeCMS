@@ -22,6 +22,16 @@ $layout = "os-12";
 if (isset($field["layout"])) {
 	$layout = $field['layout'];
 }
+
+// debug($data);
+// debug($field);
+// debug($context);
+$filter = apply_filters("group_results/custom_display/{$data['meta_type']}", $field['type'], $field, $data);
+if ($filter === false) {
+	return;
+}
+
+do_action("group_results/before_render/{$data['meta_type']}/{$field['slug']}", $field, $data);
 ?>
 <div class="field <?= $layout; ?>">
 	<div class="meta">
@@ -32,8 +42,9 @@ if (isset($field["layout"])) {
 	</div>
 
 	<?
-	// do_action("rcf/value", $data, $field, $context);
-	// do_action("rcf/html", $data, $field, $context);
 	do_action("rcf/result/type={$field['type']}", $data, $field, $context);
 	?>
 </div>
+<?
+do_action("group_results/after_render/{$data['meta_type']}/{$field['slug']}", $field, $data);
+?>

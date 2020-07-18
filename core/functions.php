@@ -1,5 +1,23 @@
 <?
 
+function linkify($text, $blank = false) {
+
+		if ($blank) {
+			$text = preg_replace(
+				'/(?<!=\")(?<!\")(?<!\">)(?<!\dw,\s)((https?|ftp)+(s)?:\/\/[^<>\s]+)/i',
+				'<a target="_blank" href="$1">$1</a>',
+				$text
+			);
+		} else {
+			$text = preg_replace(
+				'/(?<!=\")(?<!\")(?<!\">)(?<!\dw,\s)((https?|ftp)+(s)?:\/\/[^<>\s]+)/i',
+				'<a href="$1">$1</a>',
+				$text
+			);
+		}
+		
+		return $text;
+	}
 
 /**
  * User functions

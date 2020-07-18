@@ -294,6 +294,23 @@ a:hover {
 .avatar_icon.xs {width: 20px; height: 20px; }
 .unread_status {min-width: 60px;}
 
+.application_view {
+	.group_label {color: $primary; font-size: 1.5rem; border-bottom: 1px solid $grey; padding-bottom: $pad1; margin-bottom: $pad1; }
+	a {color: $primary; }
+	label {font-weight: 700; font-size:1.1rem;}
+	.value {color: #ddd;}
+
+	.repeater_outer {
+		// background
+		// & > label {background: $dark; padding: 6px;}
+	}
+
+	.custom_app_links .repeater_entry:hover {background: rgba(255, 255, 255, .02)}
+}
+
+.repeater_body {border: 1px solid $dark;}
+.repeater_entry {padding: 0 $pad1; background: rgba(0, 0, 0, .1)}
+.repeater_entry:nth-child(even) {background: rgba(0, 0, 0, .2) }
 
 //===========================================
 // Comments

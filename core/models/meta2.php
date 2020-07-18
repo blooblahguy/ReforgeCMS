@@ -1,5 +1,4 @@
-<?
-
+<?php
 
 class Meta extends \RF\Mapper {
 	function __construct() {
@@ -10,14 +9,17 @@ class Meta extends \RF\Mapper {
 			"meta_type" => array(
 				"type" => "VARCHAR(255)",
 			),
-			"meta_key" => array(
+			"field_key" => array(
 				"type" => "VARCHAR(255)",
 			),
-			"meta_value" => array(
+			"field_value" => array(
 				"type" => "LONGTEXT",
 			),
-			"meta_info" => array(
+			"field_parent" => array(
 				"type" => "VARCHAR(100)",
+			),
+			"field_info" => array(
+
 			),
 			"created" => false,
 			"modified" => false,

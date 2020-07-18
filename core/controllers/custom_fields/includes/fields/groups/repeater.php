@@ -34,11 +34,18 @@ class reforge_field_REPEATER extends reforge_field {
 				// loop through data to populate children layouts
 				// debug($children);
 				for ($i = 0; $i < $data['meta_value']; $i++) {
-					rcf_get_template('group-results', array(
-						'fields' => $children,
-						"context" => $context,
-						"index" => $i
-					));
+					?>
+					<div class="repeater_entry">
+						
+						<?php
+						rcf_get_template('group-results', array(
+							'fields' => $children,
+							"context" => $context,
+							"index" => $i
+						));
+						?>
+					</div>
+					<?php
 					$index++;
 				}
 				?>
@@ -97,7 +104,7 @@ class reforge_field_REPEATER extends reforge_field {
 			</div>
 
 			
-			<div class="repeater_footer border bg-light-grey pad1">
+			<div class="repeater_footer bg-light-grey pad1">
 				<div class="pull-left"><? $this->render_instructions($field); ?></div>
 				<div class="btn-primary pull-right" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".repeater_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
 				<div class="clear"></div>

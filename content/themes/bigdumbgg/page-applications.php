@@ -6,7 +6,7 @@ get_template_part("parts", "page-header");
 	<div class="row g1">
 		<div class="os pady2">
 			<? 
-			$front = RFA_Applications_Front::instance();
+			$front = RFA_Front();
 			if (! $params['id']) {
 				$front->render_index();
 			} else {

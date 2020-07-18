@@ -4,7 +4,7 @@ $source = RCF()->current_data;
 // debug($source);
 ?>
 
-<div class="field_group_outer row<? if ($context != "") { echo " border"; } ?>">
+<div class="field_group_outer row<? if ($context != "") { echo " top"; } ?>">
 	<div class="field_group os row g1">
 		<?
 		// loop through field layout

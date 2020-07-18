@@ -31,6 +31,7 @@ class RF_Hook {
 		if (! $this->callbacks) { return $value; }
 		$num_args = count($args);
 
+		
 		// simply call through each callback and keep updating the value
 		// not going to worry about whether we determined the # of arguments ahead of time
 		foreach ($this->callbacks as $priority => $keys) {

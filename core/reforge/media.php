@@ -62,7 +62,8 @@ class Media extends Prefab {
 		$core->route("GET /admin/rf_media/display", "Media->display");
 		$core->route("GET /admin/rf_media/select", "Media->select");
 		$core->route("GET /admin/rf_media/edit/@id", "Media->edit");
-		// $core->route("GET /admin/rf_media/delete", "Media->delete");
+		$core->route("GET /admin/rf_media/delete/@id", "Media->delete");
+		$core->route("GET /admin/rf_media/regenerate/@id", "Media->regenerate");
 
 		// POST ROUTES
 		$core->route("POST /admin/rf_media/upload", "Media->upload");
@@ -169,6 +170,33 @@ class Media extends Prefab {
 	//=============================================================
 	// Views
 	//=============================================================
+	function delete($core, $args) {
+		$id = $args['id'];
+
+		if (current_user()->can("manage_media")) {
+			$file = new File();
+			$file->load("*", "id = $id");
+
+			$file->erase();
+		}
+
+		redirect("/admin/media");
+	}
+
+	function regenerate($core, $args) {
+		$id = $args['id'];
+
+		if (current_user()->can("manage_media")) {
+			$file = new File();
+			$file->load("id, sizes", "id = $id");
+
+			$file->sizes = serialize(array());
+			$file->update();
+		}
+
+		redirect("/admin/media");
+	}
+
 	function edit($core, $args) {
 		$id = $args['id'];
 		$file = new File();

@@ -116,7 +116,7 @@ class RFA_Applications_Front extends \Prefab {
 		// debug($character);
 
 		$realm = str_replace (" ", "-", $server);
-		$realm = preg_replace ("/[^a-zA-Z-]/", "", $realm);
+		$realm = preg_replace ("/[^a-zA-Z0-9-]/", "", $realm);
 
 		$wcl = "https://www.warcraftlogs.com/character/us/{$realm}/{$character}";
 		$armory = "https://worldofwarcraft.com/en-us/character/{$realm}/{$character}";
@@ -153,7 +153,7 @@ class RFA_Applications_Front extends \Prefab {
 
 		$apps = new Post();
 		$apps->find("*", array("post_type = :post_type AND author = :author", ":post_type" => "applications", ":author" => $user->id), array(
-			"order by" => "post_status ASC, id DESC"
+			"order by" => "created DESC"
 		));
 	}
 

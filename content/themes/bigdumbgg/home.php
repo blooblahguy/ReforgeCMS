@@ -42,9 +42,9 @@
 <div class="partners bg-dark">
 	<div class="container">
 		<div class="row g2 content-middle content-justify">
-			<a href="/partners" class="os home_partner gg"><img src="/content/themes/bigdumbgg/img/goldenguardians.png" alt=""></a>
-			<a href="/partners" class="os home_partner tm"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></a>
-			<a href="/partners" class="os home_partner zenni"><img src="/content/themes/bigdumbgg/img/zenni.png" alt=""></a>
+			<a href="/partners" class="os-hidden os-12 os-lg os-md-display-block home_partner gg"><img src="/content/themes/bigdumbgg/img/goldenguardians.png" alt=""></a>
+			<a href="/partners" class="os-hidden os-12 os-lg os-md-display-block home_partner tm"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></a>
+			<a href="/partners" class="os-hidden os-12 os-lg os-md-display-block home_partner zenni"><img src="/content/themes/bigdumbgg/img/zenni.png" alt=""></a>
 		</div>
 	</div>
 </div>
@@ -68,7 +68,7 @@
 					}
 
 					?>
-					<div class="os-lg-12 os-6">
+					<div class="os-12">
 						<a href="<?= $news->get_permalink(); ?>" class="card news_card">
 							<img src="<?= $featured; ?>" alt="" class="bg">
 							<h2 class="marg0"><?= $news['title']; ?></h2>
@@ -79,7 +79,7 @@
 
 			</div>
 		</div>
-		<div class="os-3 sidebar">
+		<div class="os-12 os-md-4 os-lg-3 sidebar">
 			<? get_template_part("sidebar"); ?>
 		</div>
 	</div>

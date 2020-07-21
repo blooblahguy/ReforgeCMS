@@ -5,10 +5,10 @@
 		<div class="os pady0">
 			<?
 			
-			do_action("page/{$page['id']}/content_high", $page);
+			// do_action("page/{$page['id']}/content_high", $page);
 			get_template_part("parts", "content-mega");
-			do_action("page/{$page['id']}/content", $page);
-			do_action("page/{$page['id']}/content_low", $page);
+			// do_action("page/{$page['id']}/content", $page);
+			// do_action("page/{$page['id']}/content_low", $page);
 			?>		
 		</div>
 		<div class="os-3 sidebar padt2">

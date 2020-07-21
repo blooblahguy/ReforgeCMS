@@ -346,8 +346,7 @@ class Content extends \Prefab {
 		$templates[] = "{$this->page->post_type}-{$this->page->id}.php";
 		$templates[] = "{$this->page->post_type}.php";
 		$templates[] = "single.php";
-
-		// debug($this->page);
+		$templates[] = "page.php";
 
 		add_body_class("page");
 

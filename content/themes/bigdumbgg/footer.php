@@ -14,7 +14,7 @@
 							<? 
 							$menu = get_menu('footer-menu');
 							foreach ($menu as $header) { ?>
-								<div class="os menu_sec">
+								<div class="os-6 text-center os-md os-md-text-left menu_sec">
 									<div class="header">
 										<?= $header['html']; ?>
 									</div>
@@ -37,10 +37,10 @@
 		</div>
 		<div class="subfooter">
 			<div class="container row pady1 content-middle">
-				<div class="os-6">
+				<div class="os-12 text-center md-text-left os-md-6">
 					<? render_socials(); ?>
 				</div>
-				<div class="os-6 muted copy em small text-right"> © <?= Date("Y"); ?> Big Dumb Gaming LLC - All rights reserved</div>
+				<div class="os-12 md-text-right os-md-6 muted copy em small text-center"> © <?= Date("Y"); ?> Big Dumb Gaming LLC - All rights reserved</div>
 			</div>
 		</div>
 	</div>

@@ -232,9 +232,13 @@ function render_html_field($field, $settings) {
 
 	$attrs = implode(' ', $attrs);
 
+	// if (! $settings['disable_fieldset']) {
+	// 	$layout .= " fieldset";
+	// }
+
 	?>
 
-	<div class="fieldset <?= $layout; ?>">
+	<div class="field <?= $layout; ?>">
 		<div class="field_label">
 			<? if ($label) { ?>
 				<label for="<?= $name; ?>"><?= $label; ?></label>

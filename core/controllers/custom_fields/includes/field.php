@@ -87,11 +87,24 @@
 		}
 
 		function prepare_value($value) {
-			return $value;
+			if (gettype($value) == "array") {
+				return $value;
+			}
+			return htmlspecialchars_decode($value);
 		}
-
-		function prepare_save($meta, $metas) {
+	
+		function prepare_save($meta, $all_metas) {
+			$meta['meta_value'] = htmlspecialchars($meta['meta_value']);
+	
 			return $meta;
 		}
+
+		// function prepare_value($value) {
+		// 	return $value;
+		// }
+
+		// function prepare_save($meta, $metas) {
+		// 	return $meta;
+		// }
 	}
 

@@ -16,6 +16,7 @@ queue_script("/core/assets/js/core.js", 16);
 queue_script("/core/assets/js/custom_fields.js", 18);
 
 // Admin Area
+locate_template(array("functions.php"), true, false);
 if ("/" . $CONTROLLER == "/admin") {
 	require $root."/admin/functions.php";
 	require $root."/admin/admin.php";

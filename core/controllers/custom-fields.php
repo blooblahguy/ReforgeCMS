@@ -123,6 +123,7 @@
 					$d = $d['value'];
 					continue;
 				} elseif ($type) {
+					// debug($type, $d);
 					$d = $this->types[$type]->prepare_field_values($d['value']);
 				} 
 				
@@ -136,73 +137,164 @@
 			return $data;
 		}
 
+		// function traverse($data, $branch, $val) {
+		// 	$data = array();
+
+		// 	$data['test'] = true;
+
+		// 	return $data;
+		// }
+
 		function get_fields($type, $id) {
-			// debug("loading fields");
 			$this->load_all_fields();
 
-
+			// load the field data
 			$fields = $this->load_fields($type, $id);
 			if (! $fields) {
 				$fields = array();
 			}
 
+			// get the keys of the fields
+			$keys = array_keys($fields);
 			$data = array();
 			$row = array();
-			$last = false;
-			foreach ($fields as $key => $meta) {
-				$more = preg_split("/_[0-9]_/", $key);
-				array_shift($more);
-				preg_match_all('/_[0-9]_/', $key, $matches);
-				$matches = reset($matches);
+			foreach ($keys as $key) {
+				// first break up the indexes (_0_, _1_, etc)
+				preg_match_all('/(?<=_)[0-9]+(?=_)/', $key, $indexes);
+				$indexes = reset($indexes);
+				// now split the string around those
+				$split = preg_split('/_[0-9]+_/', $key);
+
+				// load the values for this field
+				$meta = $fields[$key];
+				$value = $meta['meta_value'];
 				$field = $this->field_data[$meta['meta_info']];
- 
-				// debug($field);
 				
-				if (count($more) == 0) {
-					if (! $field['type']) {
-						$field['type'] = "meta";
+				// merge them together into list (branch, 0, text)
+				$branch = array();
+				foreach ($split as $e) {
+					$branch[] = $e;
+					$ind = array_shift($indexes);
+					if ($ind !== null) {
+						$branch[] = $ind;
 					}
-					$data[$key]  = array(
-						"type" => $field['type'],
-						"value" => $meta['meta_value'], 
-					);
-					$row = &$data[$key];
+				}
+				
+				// now build the array and populate the data
+				$row = &$data;
+				foreach ($branch as $ind => $v) {
+					// we hit this entry again, replace the value with array
+					if (gettype($row) !== "array") {
+						$row = array();
+					}
 
-					continue;
+					// if it's a row, just add the index and continue
+					if ($ind > 0 && $ind % 2 != 0) {
+						$row = &$row[$v];
+
+						continue;
+					}
+
+					// default value structure
+					if (! isset($row[$v])) {
+						$row[$v] = array();
+						$row[$v]['type'] = $field['type'];
+						$row[$v]['value'] = array();
+					}
+
+					$row = &$row[$v]['value'];
 				}
 
-				// reference loop build array
-				$sub = &$row;
-				foreach ($more as $i => $v) {
-					$k = false;
-					if (isset($matches[$i])) {
-						$k = (int) preg_replace("/[^0-9]/", "", $matches[$i]);
-					}
-
-					// if parent row was already set to a value, make it an array to we can store values
-					if (gettype($sub['value']) !== "array") {
-						$sub['value'] = array();
-					}
-
-					// build array
-					$sub['value'][$k] = isset($sub['value'][$k]) ? $sub['value'][$k] : array();
-					$sub['value'][$k][$v] = isset($sub['value'][$k][$v]) ? $sub['value'][$k][$v] : array();
-					$sub = &$sub['value'][$k][$v];
-				}
-
-				// store values
-				$sub = array(
-					"type" => $field['type'],
-					"value" => $meta['meta_value'], 
-				);
+				// last loop gets a value added
+				$row = $value;
 			}
 
-			// now run the data through the prepare_value methods
-			// debug($data);
+			// filter data by field
 			$data = $this->prepare_values($data);
 
 			return $data;
 		}
+
+		
+
+// 		function get_fields($type, $id) {
+
+// 			$data = $this->build_fields($type, $id);
+
+// 			$data = $this->prepare_values($data);
+// // 
+// 			return $data;
+
+// 			// debug("loading fields");
+// 			$this->load_all_fields();
+
+// 			$fields = $this->load_fields($type, $id);
+// 			if (! $fields) {
+// 				$fields = array();
+// 			}
+
+// 			// build structure of data first
+// 			$data = array();
+// 			$row = array();
+// 			$last = false;
+// 			foreach ($fields as $key => $meta) {
+// 				// debug($key, $meta);
+
+// 				$more = preg_split("/_[0-9]+_/", $key);
+
+// 				array_shift($more);
+
+// 				preg_match_all('/(?<=_)[0-9]+(?=_)/', $key, $matches);
+// 				$matches = reset($matches);
+// 				$field = $this->field_data[$meta['meta_info']];
+ 
+				
+// 				if (count($more) == 0) {
+// 					if (! $field['type']) {
+// 						$field['type'] = "meta";
+// 					}
+// 					$data[$key]  = array(
+// 						"type" => $field['type'],
+// 						"value" => $meta['meta_value'], 
+// 					);
+// 					$row = &$data[$key];
+					
+// 					continue;
+// 				}
+// 				// debug($key, $field, $matches, $more, $row);
+
+// 				// reference loop build array
+// 				$sub = &$row;
+// 				foreach ($more as $i => $v) {
+// 					$k = false;
+// 					if (isset($matches[$i])) {
+// 						$k = (int) preg_replace("/[^0-9]/", "", $matches[$i]);
+// 					}
+
+// 					// if parent row was already set to a value, make it an array to we can store values
+// 					if (gettype($sub['value']) !== "array") {
+// 						$sub['value'] = array();
+// 					}
+
+// 					// build array
+// 					$sub['value'][$k] = isset($sub['value'][$k]) ? $sub['value'][$k] : array();
+// 					$sub['value'][$k][$v] = isset($sub['value'][$k][$v]) ? $sub['value'][$k][$v] : array();
+// 					$sub = &$sub['value'][$k][$v];
+// 				}
+
+// 				// store values
+// 				$sub = array(
+// 					"type" => $field['type'],
+// 					"value" => $meta['meta_value'], 
+// 				);
+// 			}
+
+// 			// now run the data through the prepare_value methods
+// 			debug($data);
+// 			$data = $this->prepare_values($data);
+
+// 			return $data;
+// 		}
 
 		function save_fields($type, $id) {
 

@@ -266,7 +266,6 @@ class Content extends \Prefab {
 		$url = $this->url_parse($args);
 		$this->page = isset($this->page) ? $this->page : $this->pages[$url];
 
-		locate_template(array("functions.php"), true, false);
 		locate_template(array("header.php"), true, true);
 	}
 	// automatic footer

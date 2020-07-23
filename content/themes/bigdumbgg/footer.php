@@ -46,5 +46,10 @@
 	</div>
 
 	<? rf_footer(); ?>
+	<script type="text/javascript" src="/content/themes/bigdumbgg/js/scripts.js"></script>
+
+	<script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+	<script src="https://wow.zamimg.com/widgets/power.js"></script>
+
 </body>
 </html>

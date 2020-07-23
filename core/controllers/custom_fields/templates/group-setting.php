@@ -67,8 +67,6 @@
 						));
 					}
 				?>
-			</div>
-			<div class="row g1 content-middle">
 				<?
 					// Instructions
 					render_rcf_field($field, array(
@@ -77,19 +75,13 @@
 						'type' => 'text',
 						'class' => 'field-instructions'
 					));
+
+					do_action("rcf/options_html/type={$field['type']}", $field);
 				?>
 			</div>
 		</div>
 
-		<div class="section field_details">
-			<div class="row g1 content-middle field_settings">
-				<? 
-				// Render the field
-				do_action("rcf/options_html", $field);
-				do_action("rcf/options_html/type={$field['type']}", $field);
-				?>
-			</div>
-		</div>
+			
 
 	</div>
 </div>

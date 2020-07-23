@@ -2,10 +2,6 @@
 	$fields = get_fields();
 	if (! $fields['section']) { return; }
 
-	function row_layout($row) {
-		return reset(array_keys($row));
-	}
-
 	foreach ($fields['section'] as $row) {
 		$classes = array();
 		if ($row['background']) { $classes[] = $row['background']; }

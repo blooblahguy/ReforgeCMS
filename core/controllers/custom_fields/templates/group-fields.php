@@ -4,7 +4,7 @@ $source = RCF()->current_data;
 // debug($source);
 ?>
 
-<div class="field_group_outer row<? if ($context != "") { echo " border"; } ?>">
+<div class="field_group_outer sortable row<? if ($context != "") { echo " border"; } ?>">
 	<? if ($context != "") { ?>
 		<div class="group_drag os-min pad1 bg-light-grey">
 			<i>drag_indicator</i>

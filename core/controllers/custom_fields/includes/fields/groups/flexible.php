@@ -75,7 +75,7 @@ class reforge_field_FLEXIBLE extends reforge_field {
 			<div class="flexible_footer border bg-light-grey pad1 os-12">
 				<div class="pull-left"><? $this->render_instructions($field); ?></div>
 				<? foreach ($templates as $child) { ?>
-					<div class="btn-primary pull-right flexible_add" data-rcf-template=".<?= $context; ?>_template_<?= $child['slug']; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".flexible_<?= $friendly; ?>">Add <?= $child['label']; ?></div>
+					<div class="btn margl1 pull-right flexible_add" data-rcf-template=".<?= $context; ?>_template_<?= $child['slug']; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".flexible_<?= $friendly; ?>">Add <?= $child['label']; ?></div>
 				<? } ?>
 				<div class="clear"></div>
 			</div>
@@ -115,7 +115,13 @@ class reforge_field_FLEXIBLE extends reforge_field {
 		<?
 	}
 
+	function prepare_value($value) {
+		if (gettype($value) != "array") {
+			return array();
+		}
 
+		return $value;
+	}
 
 	function prepare_save($meta, $metas) {
 		$key = $meta['meta_key'];

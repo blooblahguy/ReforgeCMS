@@ -347,7 +347,6 @@ function profile_form($attrs) {
 	?>
 
 	<form method="POST" action="/profile_submit" enctype='multipart/form-data'>
-		<h2>Profile</h2>
 		<div class="row g1">
 			<div class="os-2 text-center">
 				<label for="">Avatar</label>

@@ -1,7 +1,16 @@
 <?
 
 	// theme functions
+	add_permission(array(
+		"slug" => "view_guides",
+		"label" => "View Raid Guides",
+		"description" => "Allow users to view all guides"
+	));
 
+	function row_layout($row) {
+		return reset(array_keys($row));
+	}
+	
 	function render_socials() {
 		$socials = get_field("socials", "settings"); 
 

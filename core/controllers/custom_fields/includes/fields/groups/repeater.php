@@ -29,7 +29,7 @@ class reforge_field_REPEATER extends reforge_field {
 
 		<div class="repeater_outer">
 			<label for=""><?= $field['label']; ?></label>
-			<div class="repeater_body repeater_<?= $friendly; ?>">
+			<div class="repeater_body repeater_<?= $friendly; ?> ">
 				<?
 				// loop through data to populate children layouts
 				// debug($children);
@@ -131,20 +131,20 @@ class reforge_field_REPEATER extends reforge_field {
 	function options_html($field) {
 
 		// Minimum Rows
-		render_rcf_field($field, array(
-			"type" => "number",
-			"label" => "Minimum Rows",
-			"name" => "min",
-			"placeholder" => "0",
-		));
+		// render_rcf_field($field, array(
+		// 	"type" => "number",
+		// 	"label" => "Minimum Rows",
+		// 	"name" => "min",
+		// 	"placeholder" => "0",
+		// ));
 
-		// Maximum Rows
-		render_rcf_field($field, array(
-			"type" => "number",
-			"label" => "Maximum Rows",
-			"name" => "max",
-			"placeholder" => "0",
-		));
+		// // Maximum Rows
+		// render_rcf_field($field, array(
+		// 	"type" => "number",
+		// 	"label" => "Maximum Rows",
+		// 	"name" => "max",
+		// 	"placeholder" => "0",
+		// ));
 
 		// Button Label
 		render_rcf_field($field, array(
@@ -173,7 +173,13 @@ class reforge_field_REPEATER extends reforge_field {
 		<?
 	}
 
+	function prepare_value($value) {
+		if (gettype($value) != "array") {
+			return array();
+		}
 
+		return $value;
+	}
 
 	function prepare_save($meta, $metas) {
 		$key = $meta['meta_key'];

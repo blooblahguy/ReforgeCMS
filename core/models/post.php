@@ -65,6 +65,7 @@ class Post extends \RF\Mapper {
 
 	function afterinsert() {
 		do_action("post/insert", $this);
+		do_action("post/insert/{$this->post_type}", $this);
 	}
 
 	function is_visible() {

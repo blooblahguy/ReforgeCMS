@@ -34,7 +34,6 @@ class CustomField extends \RF\Mapper {
 		parent::__construct("rf_custom_fields", $schema);
 	}
 
-
 	private function build_hierarchy($source) {
 		$nested = array();
 		if (! isset($source)) { return array(); }

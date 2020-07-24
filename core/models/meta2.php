@@ -18,6 +18,9 @@ class Meta extends \RF\Mapper {
 			"field_parent" => array(
 				"type" => "VARCHAR(100)",
 			),
+			"field_order" => array(
+				"type" => "INT(4)",
+			),
 			"field_info" => array(
 
 			),

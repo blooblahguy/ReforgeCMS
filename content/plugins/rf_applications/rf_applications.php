@@ -35,7 +35,7 @@ class RFApplications extends \Prefab {
 		add_filter("form/submit", array($this, "save_status"));
 		add_filter("form/submit/type", array($this, "save_as_application"));
 		add_action("post/comment", array($this, "alert_comment"));
-		add_action("post/insert", array($this, "alert_discord"));
+		add_action("post/insert/application", array($this, "alert_discord"));
 
 		// shortcode for front end apply
 		add_shortcode("apply_button", array($this, "apply_shortcode"));

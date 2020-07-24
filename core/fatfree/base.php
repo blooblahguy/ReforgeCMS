@@ -1454,6 +1454,7 @@ final class Base extends Prefab implements ArrayAccess {
 		}
 		preg_match('/([\|\w]+)\h+(?:(?:@?(.+?)\h*:\h*)?(@(\w+)|[^\h]+))'.
 			'(?:\h+\[('.implode('|',$types).')\])?/u',$pattern,$parts);
+
 		if (isset($parts[2]) && $parts[2]) {
 			if (!preg_match('/^\w+$/',$parts[2]))
 				user_error(sprintf(self::E_Alias,$parts[2]),E_USER_ERROR);

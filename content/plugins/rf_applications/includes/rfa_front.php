@@ -122,6 +122,7 @@ class RFA_Applications_Front extends \Prefab {
 		$armory = "https://worldofwarcraft.com/en-us/character/{$realm}/{$character}";
 		$analyzer = "https://wowanalyzer.com/character/US/{$realm}/{$character}";
 		$wipefest = "https://www.wipefest.net/character/{$character}/{$realm}/US";
+		$raiderio = "https://raider.io/characters/us/{$realm}/{$character}";
 
 		?>
 		<div class="field os-12">
@@ -133,6 +134,7 @@ class RFA_Applications_Front extends \Prefab {
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wcl; ?>">Warcraft Logs</a>
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $analyzer; ?>">WoW Analyzer</a>
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wipefest; ?>">Wipefest</a>
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $raiderio; ?>">raiderio</a>
 					</div>
 				</div>
 			</div>
@@ -169,28 +171,6 @@ class RFA_Applications_Front extends \Prefab {
 		</div>
 		<?
 		echo "show all";
-	}
-	function index_mine() {
-		$user = current_user();
-
-			echo "show mine";
-
-	}
-
-	/**
-	 * View specific application
-	 */
-	function view($page) {
-		// $id = $args['id'];
-		
-		echo "view";
-	}
-	
-	/**
-	 * Show new application form
-	 */
-	function apply($page) {
-		echo "new_application";
 	}
 
 	/**

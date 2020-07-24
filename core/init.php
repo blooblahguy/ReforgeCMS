@@ -7,7 +7,13 @@ $core->set("salt", $configuration["salt"]);
 
 // Reforge Core
 $reforge = include $root."/core/reforge/reforge.php";
+// include $root."/core/reforge/router.php";
 include $root."/core/reforge/magic.php";
+
+// Route::instance()->route("GET|POST /about-us", function() {
+// 	echo "test";
+// });
+// Route::instance()->run();
 
 // core stuff
 include $root."/core/database.php";

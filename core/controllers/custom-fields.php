@@ -137,14 +137,6 @@
 			return $data;
 		}
 
-		// function traverse($data, $branch, $val) {
-		// 	$data = array();
-
-		// 	$data['test'] = true;
-
-		// 	return $data;
-		// }
-
 		function get_fields($type, $id) {
 			$this->load_all_fields();
 

@@ -76,7 +76,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		$id = $this->id;
 		$role = new Role();
 		if ($id > 0) {
-			$role->load("*", "id = $id");
+			$role->load("*", array("id = :id", ":id" => $id));
 		}
 
 		if (! $role->color) {$role->color = "#b83336"; }
@@ -183,7 +183,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$role->load("*", "id = $id");
+			$role->load("*", array("id = :id", ":id" => $id));
 		}
 
 		$default = isset($_POST['default']) ? 1 : 0;
@@ -208,7 +208,7 @@ class admin_page_ROLES extends RF_Admin_Page {
 	function delete($args) {
 		$id = $args['id'];
 		$role = new Role();
-		$role->load("*", "id = $id");
+		$role->load("*", array("id = :id", ":id" => $id));
 		$role->erase();
 
 		\Alerts::instance()->success("Role deleted");

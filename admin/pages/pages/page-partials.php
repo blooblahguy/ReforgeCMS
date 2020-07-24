@@ -40,7 +40,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$id = $this->id;
 		$partial = new Partial();
 		if ($id > 0) {
-			$partial->load("*", "id = $id");
+			$partial->load("*", array("id = :id", ":id" => $id));
 		}
 
 		$cache = get_meta("partial_$id", 'cache');
@@ -130,7 +130,7 @@ class admin_page_PARTIALS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$partial->load("*", "id = $id");
+			$partial->load("*", array("id = :id", ":id" => $id));
 		}
 
 		$partial->title = $_POST['title'];

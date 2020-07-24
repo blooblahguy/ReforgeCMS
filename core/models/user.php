@@ -226,7 +226,7 @@ class User extends \RF\Mapper {
 		if (! $this->role_id) { return false; }
 		if (! $this->permissions) {
 			$role = new Role();
-			$role->load("*", "id = {$this->role_id}");
+			$role->load("*", array("id = :id", ":id" => $this->role_id));
 
 			$this->permissions = unserialize($role->permissions);
 			$this->role = $role->label;

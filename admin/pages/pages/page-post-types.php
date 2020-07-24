@@ -72,7 +72,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$id = $this->id;
 		$post = new \PostType();
 		if ($id > 0) {
-			$post->load("*", "id = $id");
+			$post->load("*", array("id = :id", ":id" => $id);
 		}
 		if (! $post["statuses"]) {
 			$post["statuses"] = serialize(array());
@@ -268,7 +268,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$type->load("*", "id = $id");
+			$type->load("*", array("id = :id", ":id" => $id));
 		}
 
 		$default_status = $_POST["default_status"];

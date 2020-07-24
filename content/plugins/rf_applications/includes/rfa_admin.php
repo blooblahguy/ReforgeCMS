@@ -258,7 +258,7 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 
 		$app = new Post();
 		if ($id > 0) {
-			$app->load("*", "id = $id");
+			$app->load("*", array("id = :id", ":id" => $id));
 		}
 
 		$app->post_status = $_POST['post_status'];

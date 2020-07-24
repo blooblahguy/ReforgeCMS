@@ -20,7 +20,7 @@ function set_option($key, $value = "") {
 		if ($options[$key] == $value) {
 			return;
 		}
-		$option->load("*", "`key` = '{$key}'");
+		$option->load("*", array("`key` = :key", ":key" => $key));
 	}
 	
 	

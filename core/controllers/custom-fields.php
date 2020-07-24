@@ -371,7 +371,7 @@
 		function render_settings($id) {
 			$cf = new CustomField();
 			if ($id > 0) {
-				$cf->load("*", "id = $id", null, 1);
+				$cf->load("*", array("id = :id", ":id" => $id));
 			}
 
 			$view = array(
@@ -387,7 +387,7 @@
 		function render_rules($id) {
 			$cf = new CustomField();
 			if ($id > 0) {
-				$cf->load("*", "id = $id", null, 1);
+				$cf->load("*", array("id = :id", ":id" => $id));
 			}
 
 			$rules = array("all_rules" => $cf->get_rules());

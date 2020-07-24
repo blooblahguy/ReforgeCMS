@@ -126,7 +126,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		$id = $args['id'];
 		$form = new Post();
 		if ($id > 0) {
-			$form->load("*", "id = $id");
+			$form->load("*", array("id = :id", ":id" => $id));
 		}
 		$rca_id = $form->post_parent;
 
@@ -188,7 +188,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 		// save custom fieldset
 		$cf = new CustomField();
 		if ($form->post_parent > 0) {
-			$cf->load("*", "id = $form->post_parent");
+			$cf->load("*", array("id = :id", ":id" => $form->post_parent));
 		}
 		$_POST['virtual_fieldset'] = true;
 		$cf = $cf->save_fieldset();

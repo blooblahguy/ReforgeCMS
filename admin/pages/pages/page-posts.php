@@ -114,7 +114,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		
 		$post = new Post();
 		if ($id > 0) {
-			$post->load("*", "id = $id");
+			$post->load("*", array("id = :id", ":id" => $id));
 		}
 		// debug($post);
 
@@ -358,7 +358,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		$changed = "created";
 		if ($id > 0) {
 			$changed = "updated";
-			$post->load("*", "id = $id");
+			$post->load("*", array("id = :id", ":id" => $id));
 		}
 
 		// calculate permalink

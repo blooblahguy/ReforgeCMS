@@ -128,7 +128,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		}
 
 		$user_role = new Role();
-		$user_role->load("priority", "id = ".current_user()->role_id);
+		$user_role->load("priority", array("id = :id", ":id" => current_user()->role_id));
 
 
 		$roles = new Role();

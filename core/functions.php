@@ -304,7 +304,7 @@ function uploads_url() {
 function get_file_size($id, $width = null, $height = null) {
 	$file = new File();
 	debug("id = $id");
-	$file->load("*", "id = $id");
+	$file->load("*", array("id = :id", ":id" => $id));
 
 	return $file->get_size($width, $height);
 }
@@ -314,7 +314,7 @@ function get_file($id) {
 	$arr = array();
 
 	$file = new File();
-	$file->load("*", "id = $id");
+	$file->load("*", array("id = :id", ":id" => $id));
 
 	$arr['id'] = $file->id;
 	$arr['name'] = $file->name;

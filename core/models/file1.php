@@ -208,7 +208,7 @@ class File extends \RF\Mapper {
 		
 		// try and load existing file from database
 		$file = new File();
-		$file->load("*", "hash = '{$hash}'");
+		$file->load("*", array("hash = :hash", ":hash" => $hash));
 		$file->name = $name;
 		$file->extension = $ext;
 		$file->hash = $hash;

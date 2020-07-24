@@ -136,7 +136,7 @@ class Media extends Prefab {
 		
 		// try and load existing file from database
 		$file = new File();
-		$file->load("*", "hash = '{$hash}'");
+		$file->load("*", array("hash = :hash", ":hash" => $hash));
 		$file->name = $name;
 		$file->extension = $ext;
 		$file->hash = $hash;
@@ -175,7 +175,7 @@ class Media extends Prefab {
 
 		if (current_user()->can("manage_media")) {
 			$file = new File();
-			$file->load("*", "id = $id");
+			$file->load("*", array("id = :id", ":id" => $id));
 
 			$file->erase();
 		}
@@ -188,7 +188,7 @@ class Media extends Prefab {
 
 		if (current_user()->can("manage_media")) {
 			$file = new File();
-			$file->load("id, sizes", "id = $id");
+			$file->load("id, sizes", array("id = :id", ":id" => $id));
 
 			$file->sizes = serialize(array());
 			$file->update();
@@ -200,7 +200,7 @@ class Media extends Prefab {
 	function edit($core, $args) {
 		$id = $args['id'];
 		$file = new File();
-		$file->load("*", "id = $id");
+		$file->load("*", array("id = :id", ":id" => $id));
 		?>
 			<div class="padx2 rf_media_edit">
 				<div class="image text-center">

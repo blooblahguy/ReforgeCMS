@@ -72,7 +72,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 		$id = $this->id;
 		$post = new \PostType();
 		if ($id > 0) {
-			$post->load("*", array("id = :id", ":id" => $id);
+			$post->load("*", array("id = :id", ":id" => $id));
 		}
 		if (! $post["statuses"]) {
 			$post["statuses"] = serialize(array());

@@ -1,71 +1,41 @@
 <?php
 
+
 //=====================================================================
 // Update DATA
 //=====================================================================
-$guild = get_data("https://raider.io/api/guilds/us/illidan/Bdgg");
-$guild = json_decode($guild, true);
+$raid = "nyalotha-the-waking-city";
 
-// tier
-if (! $guild) { return; }
+// first get x / x for tier
+$total = get_data("https://raider.io/api/v1/guilds/profile?region=us&realm=illidan&name=BDGG&fields=raid_progression");
+$total = json_decode($total, true);
+$total = $total['raid_progression'][$raid];
+$total = $total['total_bosses']."/".$total['mythic_bosses_killed'];
 
-$tiers = $guild['guildDetails']['raidProgress'];
-$tier = false;
-$lastdate = false;
-foreach ($tiers as $t) {
-	if ( ! $lastdate || strtotime($t['encountersDefeated']['heroic'][0]['firstDefeated']) > $lastdate ) {
-		$lastdate = strtotime($t['encountersDefeated']['heroic'][0]['firstDefeated']);
-		$tier = $t;
-	}
-}
+// now get specific kill and guild data
+$ranks = get_data("https://raider.io/api/v1/raiding/raid-rankings?raid={$raid}&difficulty=mythic&region=us&realm=illidan&guilds=81");
+$ranks = json_decode($ranks, true);
+$ranks = reset($ranks['raidRankings']);
 
-$raid_title = deslugify_title($tier['raid']);
-
-// ranks
-$ranks = $guild['guildDetails']['raidRankings'];
-foreach ($ranks as $r) {
-	if ($r['raid'] == $tier['raid']) {
-		$ranks = $r;
-		break;
-	}
-}
-
-$ranks = end($ranks);
-
-$us_rank = $ranks['mythic']['region'];
-$world_rank = $ranks['mythic']['world'];
 $rank_type = "blue";
-if ($us_rank <= 10) {
+if ($ranks['regionRank'] <= 3) {
+	$rank_type = "legendary";
+} elseif ($ranks['regionRank'] <= 10) {
 	$rank_type = "orange";
-} elseif ($us_rank < 100) {
+} elseif ($ranks['regionRank'] < 100) {
 	$rank_type = "purple";
 }
 
-// bosses & kills
-$bosses = array();
-$num_bosses = 0;
-$num_killed = 0;
-foreach ($tier['encountersDefeated']['normal'] as $k => $boss) {
-	$bosses[$boss['slug']] = 'N';
-	$num_bosses += 1;
-}
-foreach ($tier['encountersDefeated']['heroic'] as $k => $boss) {
-	$bosses[$boss['slug']] = 'H';
-}
-foreach ($tier['encountersDefeated']['mythic'] as $k => $boss) {
-	$bosses[$boss['slug']] = 'M';
-	$num_killed += 1;
-}
+// if we wanted to, we could get boss specific rankings from this
+// https://raider.io/api/v1/raiding/boss-rankings?{$raid}&boss={$boss_slug}&difficulty=mythic&region=us&realm=illidan
 
 $progression = array(
-	"tier" => $tier
-	, "raid_title" => $raid_title
-	, "us_rank" => $us_rank
-	, "world_rank" => $world_rank
-	, "rank_type" => $rank_type
-	, "bosses" => $bosses
-	, "num_bosses" => $num_bosses
-	, "num_killed" => $num_killed
+	"tier" => $raid,
+	"guild" => $ranks['guild'],
+	"rank" => $ranks['regionRank'],
+	"rank_type" => $rank_type,
+	"score" => $total,
+	"progress" => $ranks['encountersDefeated'],
 );
 
 set_option("bdg_progression", serialize($progression));

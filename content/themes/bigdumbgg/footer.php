@@ -1,11 +1,17 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="footer_outer">
+			<div class="pre_footer container">
+				<div class="row g2">
+					
+				</div>
+			</div>
 
-		<div class="footer_outer bg-dark">
 			<div class="footer container pady2">
 				<div class="row g2 content-middle">
-					<a href="/" class="os-md-min padx4 os-12 text-center md-text-left footerlogo fill-primary text-center">
+					<a href="/" class="os-md-4 padx4 os-12 text-center md-text-left footerlogo fill-primary text-center">
 						<span class="svglogo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?></span>
 						<h2 class="margb0">BD<span>GG</span></h2>
 					</a>
@@ -14,7 +20,7 @@
 							<? 
 							$menu = get_menu('footer-menu');
 							foreach ($menu as $header) { ?>
-								<div class="os-6 text-center os-md os-md-text-left menu_sec">
+								<div class="os-6 text-center os-md md-text-left menu_sec">
 									<div class="header">
 										<?= $header['html']; ?>
 									</div>

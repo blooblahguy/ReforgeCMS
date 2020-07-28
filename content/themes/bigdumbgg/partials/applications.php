@@ -2,7 +2,9 @@
 if (! $user->can("view_applications")) { return; }
 
 $open = new Post();
-$open = $open->find("*", "post_type = 'application' AND post_status = 'open' ");
+$open = $open->find("*", "post_type = 'application' AND post_status = 'open'", array(
+	"order by" => "created DESC"
+));
 
 if (count($open) == 0) {
 	return;
@@ -10,8 +12,8 @@ if (count($open) == 0) {
 
 ?>
 
-<div class="widget applications">
-	<div class="title">Applications Activity</div>
+<div class="bg-dark pad2 applications_feed card_glow">
+	<h3 class="title"><a href="/recruitment/applications" class="text-primary">Applications</a> Activity</h3>
 	<div class="content">
 		<? foreach ($open as $app) {
 			$author = get_user($app['author']);

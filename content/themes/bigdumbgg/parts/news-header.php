@@ -1,7 +1,7 @@
 <?
 $breadcrumbs = $page->get_breadcrumbs();
 
-
+// debug($page);
 $sub = $page['subtitle'];
 
 ?>

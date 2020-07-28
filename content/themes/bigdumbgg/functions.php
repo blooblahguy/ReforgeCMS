@@ -1,5 +1,43 @@
 <?
 
+	function tweet_template($tweet) {
+		$date = strtotime($tweet['created_at']);
+		if (date("Y", $date) == date("Y")) {
+			$date = date("M j", $date);
+		} else {
+			$date = date("M j Y");
+		}
+
+		// debug($tweet);
+		?>
+		<div class="tweet os">
+			
+			<div class="head row content-middle relative">
+				<a href="<?= $tweet['url']; ?>" target="_blank" class="link_overlay"></a>
+				<span class="image">
+					<img src="<?= $tweet['profile_image_url']; ?>" alt="<?= $tweet['user_nickname']; ?>">
+				</span>
+				<span class="name"><strong><?= $tweet['user_nickname']; ?></strong></span>
+				<span class="user">
+					@<a href="<?= $tweet['user_url']; ?>" target="_blank"><?= $tweet['user_name']; ?></a>
+				</span>
+				<span class="date">
+					· <?= $date; ?>
+				</span>
+			</div>
+			<div class="message">
+				<div class="text relative">
+					<a href="<?= $tweet['url']; ?>" target="_blank" class="link_overlay"></a>
+					<?= $tweet['text']; ?>
+				</div>
+				<? if (isset($tweet['quoted'])) { 
+					tweet_template($tweet['quoted']);
+				} ?>
+			</div>
+		</div>
+		<?
+	}
+
 	// theme functions
 	add_permission(array(
 		"slug" => "view_guides",

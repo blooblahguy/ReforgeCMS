@@ -2,7 +2,7 @@
 $breadcrumbs = $page->get_breadcrumbs();
 
 // $bg = get_file(get_field("featured_image"));
-// $sub = $page['subtitle'];
+$sub = $page['subtitle'];
 // if ($bg) {
 // 	$bg = $bg['original'];
 // } else {
@@ -23,11 +23,14 @@ $breadcrumbs = $page->get_breadcrumbs();
 		<div class="clear"></div>
 		<? if ($sub) { ?>
 			<h3><?= $sub; ?></h3>
-		<? } else {
+		<? } ?>
+		<div class="breadcrumbs_outer">
+			<?
 			$breadcrumbs = $page->get_breadcrumbs();
 			if ($breadcrumbs) {
 				render_breadcrumbs($breadcrumbs);
 			}
-		} ?>
+			?>
+		</div>
 	</div>
 </div>

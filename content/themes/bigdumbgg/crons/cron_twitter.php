@@ -12,7 +12,7 @@ $twitter = new Twitter(
 	"YhsCuheQL21Fu9b6lmhWZtJLARJDzkmqgIrPpUJafvcdK"
 );
 
-$statuses = $twitter->load(Twitter::ME, 4);
+$statuses = $twitter->load($twitter::ME, 4);
 
 $user = array(
 	"id" => $statuses[0]->user->id,
@@ -25,15 +25,35 @@ $user = array(
 
 $tweets = array();
 foreach ($statuses as $status) {
+	// debug($status);
 	$tweet = array(
-		"message" => Twitter::clickable($status),
-		"posted_at" => $status->created_at,
-		"posted_by" => $status->user->name,
+		"user_nickname" => $status->user->name,
+		"user_name" => $status->user->screen_name,
+		"user_url" => $status->user->url,
+		"url" => "https://twitter.com/i/web/status/".$status->id,
+		"profile_image_url" => $status->user->profile_image_url,
+		"text" => Twitter::clickable($status),
+		"created_at" => $status->created_at,
 		"link" => "https://twitter.com/bigdumbgaming/status/".$status->id,
 	);
 
+	if (isset($status->quoted_status)) {
+		$tweet["quoted"] = array(
+			"user_nickname" => $status->quoted_status->user->name,
+			"user_name" => $status->quoted_status->user->screen_name,
+			"user_url" => $status->quoted_status->user->url,
+			"url" => "https://twitter.com/i/web/status/".$status->quoted_status->id,
+			"profile_image_url" => $status->quoted_status->user->profile_image_url,
+			"text" => Twitter::clickable($status->quoted_status),
+			"created_at" => $status->quoted_status->created_at,
+			"link" => "https://twitter.com/bigdumbgaming/status/".$status->quoted_status->id,
+		);
+	}
+
 	$tweets[] = $tweet;
 }
+
+array_splice($tweets, 2, (count($tweets) - 2));
 
 $result = array(
 	"tweets" => $tweets,

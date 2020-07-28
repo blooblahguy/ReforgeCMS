@@ -3,7 +3,7 @@
 	$el_bg: mix($text, $background, 20%);
 	$el_hover: hover($primary, $hover-difference);
 
-	font-family: inherit; font-size: inherit; border: 1px solid transparent; background: $el_bg; text-decoration:none; padding: $pad1 $pad2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: contrast($el_bg); line-height: $pad2; border-radius: $border-radius;
+	font-size: 0.9rem; border: 2px solid $primary; background: none; text-decoration:none; padding: $pad1 $pad2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: $text; line-height: $pad2; border-radius: $border-radius; font-weight: bold; text-transform: uppercase;
 	&:hover, &:focus {
 		text-decoration:none; color: contrast($el_hover); background: $el_hover; border-color: $el_hover;
 	}
@@ -21,7 +21,7 @@
 		@extend %btn-base;
 		$bg: $color;
 
-		color: contrast($bg); background: $bg; border-color: $bg;
+		color: $text; border-color: $bg;
 		&:hover, &:focus {
 			$bg: hover($bg);
 			color: contrast($bg); background-color: $bg; border-color: $bg;

@@ -1,10 +1,9 @@
 <?php
 	// print_r($_SERVER['DOCUMENT_ROOT']."/reforge_config.php");
 	$config = include $_SERVER['DOCUMENT_ROOT']."/reforge-config.php";
-
 	header('Content-Type: text/css');
 
-	if ($config['environment'] == "productions") {
+	if ($config['environment'] == "production") {
 		$expires = 60*60*24; // how long to cache in secs..
 		header("Pragma: public");
 		header("Cache-Control: maxage=".$expires);
@@ -17,9 +16,9 @@
 	$out_file = "openskull.min.css";
 
 	$sheets = array();
+	$sheets[] = "../_variables.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_defaults.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_functions.scss";
-	$sheets[] = "../_variables.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_variables.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_reset.scss";
 	$sheets[] = $root."/core/assets/css/openskull/_colors.scss";

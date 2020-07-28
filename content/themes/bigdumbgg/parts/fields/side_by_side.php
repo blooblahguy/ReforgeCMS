@@ -7,13 +7,13 @@ $alignment = $content['side_by_side']['alignment'];
 ?>
 <div class="row g2 content-middle">
 	<? if ($alignment == "left") { ?>
-		<div class="os-4 img text-center">
+		<div class="os-6 img text-center">
 			<img class="float" src="<?= $image['original']; ?>">
 		</div>		
 	<? } ?>
 	<div class="os"><?= $text; ?></div>
 	<? if ($alignment == "right") { ?>
-		<div class="os-5 img">
+		<div class="os-6 img">
 			<img class="float" src="<?= $image['original']; ?>">
 		</div>
 	<? } ?>

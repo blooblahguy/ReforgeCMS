@@ -44,6 +44,8 @@
 		ga('create', 'UA-78277409-1', 'auto');
 		ga('send', 'pageview');
 	</script>
+
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body <?= body_classes(); ?> lang="en">
 	<div class="wrapper">
@@ -105,5 +107,5 @@
 
 		<div class="content_outer">
 			<div class="content">
-				<? display_alerts(); ?>		
+				<? display_alerts(); ?>
 			

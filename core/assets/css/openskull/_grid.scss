@@ -8,6 +8,37 @@
 	&:after {content: ""; display:block; clear:both;}
 }
 
+.autofit {
+	display: grid; grid-template-columns: repeat(12, 1fr);
+
+	&.col1 {grid-template-columns: repeat(1, 1fr);}
+	&.col2 {grid-template-columns: repeat(2, 1fr);}
+	&.col3 {grid-template-columns: repeat(3, 1fr);}
+	&.col4 {grid-template-columns: repeat(4, 1fr);}
+	&.col5 {grid-template-columns: repeat(5, 1fr);}
+	&.col6 {grid-template-columns: repeat(6, 1fr);}
+	&.col7 {grid-template-columns: repeat(7, 1fr);}
+	&.col8 {grid-template-columns: repeat(8, 1fr);}
+	&.col9 {grid-template-columns: repeat(9, 1fr);}
+	&.col10 {grid-template-columns: repeat(11, 1fr);}
+	&.col11 {grid-template-columns: repeat(10, 1fr);}
+
+	&.g1 { grid-gap: $pad1; }
+	&.g2 { grid-gap: $pad2; }
+	&.g3 { grid-gap: $pad3; }
+	&.g4 { grid-gap: $pad4; }
+
+	&.col2 {grid-column: auto / span 2}
+	&.col3 {grid-column: auto / span 3}
+	&.col4 {grid-column: auto / span 4}
+	&.col5 {grid-column: auto / span 5}
+
+	&.row2 {grid-column: auto / span 2}
+	&.row3 {grid-column: auto / span 3}
+	&.row4 {grid-column: auto / span 4}
+	&.row5 {grid-column: auto / span 5}
+}
+
 // Row for flexboxing
 .row {
 	display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; 

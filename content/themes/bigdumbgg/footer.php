@@ -3,12 +3,6 @@
 		</div>
 		
 		<div class="footer_outer">
-			<div class="pre_footer container">
-				<div class="row g2">
-					
-				</div>
-			</div>
-
 			<div class="footer container pady2">
 				<div class="row g2 content-middle">
 					<a href="/" class="os-md-4 padx4 os-12 text-center md-text-left footerlogo fill-primary text-center">

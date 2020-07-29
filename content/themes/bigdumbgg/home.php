@@ -97,7 +97,7 @@ $bg = get_file($bg);
 			<div class="os-lg-6 os">
 				<h2 class="title"><?= $fields['hero_text']['main']; ?></h2>
 				<h3 class="margb4"><?= $fields['hero_text']['sub_text']; ?></h3>
-				<a class="btn-secondary" href="/recruitment">I Can Handle That</a>
+				<a class="btn-primary" href="/recruitment">I Can Handle That</a>
 			</div>
 		</div>
 	</div>

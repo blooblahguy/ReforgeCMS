@@ -167,7 +167,7 @@ class Post extends \RF\Mapper {
 		if (! $this->post_parent) {
 			$permalinks[] = $this->slug;
 
-			$this->permalink = "/".implode("/", $permalinks);
+			// $this->permalink = "/".implode("/", $permalinks);
 			
 			return "/".implode("/", $permalinks);
 		}
@@ -175,7 +175,7 @@ class Post extends \RF\Mapper {
 		$permalinks = array_merge($permalinks, $this->hierchal_permalink($this->post_parent));
 		$permalinks[] = $this->slug;
 		
-		$this->permalink = "/".implode("/", $permalinks);
+		// $this->permalink = "/".implode("/", $permalinks);
 		return "/".implode("/", $permalinks); 
 	}
 

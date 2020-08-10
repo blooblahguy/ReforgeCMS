@@ -24,7 +24,7 @@ $posts = Content::instance()->query("news", array(
 <div class="home_feature relative">
 	<img src="/content/themes/bigdumbgg/img/home_hero.jpg" alt="" class="full-stretch">
 	<div class="container text-center">
-		<div class="row">
+		<div class="row content-middle">
 			<div class="os"></div>
 			<div class="os-min content pad2">
 				<h1>US #2 World of Warcraft Raiding Guild</h1>

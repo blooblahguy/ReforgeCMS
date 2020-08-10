@@ -54,7 +54,7 @@ $wow-colors: (
 //===========================================
 // OS Overrides
 //===========================================
-body {background: $background; color: $white; font-family: 'Montserrat', sans-serif;}
+body {background: $background; color: $white; font-family: 'Montserrat', sans-serif; color: #d0d1d3; font-weight: 400;}
 .container {max-width: 1400px;}
 .fill-primary {fill: $primary; }
 .fill-facebook {fill: #3b5998}
@@ -64,7 +64,16 @@ body {background: $background; color: $white; font-family: 'Montserrat', sans-se
 .fill-twitter {fill: #1da1f2}
 .fill-discord {fill: #7289da}
 
-p {color: #ddd;}
+h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500;}
+
+.h1, h1 {font-weight: 500; }
+.h2, h2 {font-weight: 500; }
+.h3, h3 {font-weight: 500; }
+.h4, h4 {font-weight: 500; }
+.h5, h5 {font-weight: 500; }
+.h6, h6 {font-weight: 500; }
+
+// p {color: #ddd;}
 
 // h1 {font-family: "Prohibition"; font-weight:normal;  }
 
@@ -109,7 +118,7 @@ p {color: #ddd;}
 .header .menu {
 	margin:0; padding:0; list-style: none;
 	li {display: inline-block; }
-	a { display:block; color: $white; padding: $pad1 $pad2; opacity: 1; font-weight: bold; }
+	a { display:block; color: $white; padding: $pad1 $pad2; opacity: 1; font-weight: 500; }
 	a:hover {opacity: 1; color: $white;  }
 	a.active {opacity: 1; color: $primary; }
 }
@@ -147,7 +156,7 @@ a:hover {
 }
 .subfooter {background: darken($dark, 2%); border-top: 1px solid $grey }
 .footer_menu {
-	.head_link {padding: $pad1 0; font-weight: bold; color: $white; border-bottom: 2px solid $primary; display:inline-block; font-size: 1.1rem; margin-bottom: 5px;}
+	.head_link {padding: $pad1 0; font-weight: 500; color: $white; border-bottom: 2px solid $primary; display:inline-block; font-size: 1.1rem; margin-bottom: 5px;}
 	a {opacity: 0.7; padding: 4px 0; padding-right: $pad2; display: inline-block; color: $white; }
 	a.active {opacity: 1; color: $primary; font-weight: 500; }
 	a:hover {opacity: 1; color: $primary; }
@@ -345,7 +354,7 @@ a:hover {
 .application_view {
 	.group_label {color: $primary; font-size: 1.5rem; border-bottom: 1px solid $grey; padding-bottom: $pad1; margin-bottom: $pad1; }
 	a {color: $primary; }
-	label {font-weight: 700; font-size:1.1rem;}
+	label {font-weight: 600; }
 	.value {color: #ddd;}
 
 	.repeater_outer {
@@ -411,7 +420,7 @@ a:hover {
 	.news_image { position: relative; overflow: hidden; height: 260px;}
 	.news_image img {position: absolute; left: 50%; top: 50%; max-width: none; min-width: 100%; height: 100%; @include prefix(transform, translate(-50%, -50%));}
 	.news_text {
-		padding: $pad3; background: rgba(255, 255, 255, .03); 
+		padding: $pad3; background: $light-grey;
 		h2 {min-height: 108px;  }
 		h3 {min-height: 56px; font-weight: normal; font-size: 1rem; }
 		a {color: $white; }
@@ -422,6 +431,10 @@ a:hover {
 
 // News
 iframe {height: 50vh !important; width: 100% !important; }
+.news_content {
+	h2 {margin-top: $pad4; }
+	h3 {margin-top: $pad4; }
+}
 
 
 // Medium

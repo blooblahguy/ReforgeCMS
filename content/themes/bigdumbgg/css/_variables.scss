@@ -2,6 +2,7 @@
 $padding: 12px;
 // $padding-multipler: 1.4;
 $font-size: 15px;
+$font-bold: 500;
 // $border-radius: 0; 
 
 //============================================
@@ -12,20 +13,21 @@ $font-size: 15px;
 	$secondary: #a02c2f;
 
 	// $black: #252830;
-	$black: #2C333B;
+	// $black: #2C333B;
+	$black: #1e232a;
 	$white: #f0f4ff;
 
 	$grey: rgba(mix($white, $black, 50%), 0.3);
 
-	$background: #232A35;
+	$background: $black;
 	$text: $white;
 	$dark: #181A1F;
-	$light-grey: lighten($background, 5%);
+	$light-grey: #393944;
 	$dark-grey: darken($background, 2%);
 
 	$h1: 2rem;
-	$h2: 1.6rem;
-	$h3: 1.2rem;
-	$h4: 1.1rem;
+	$h2: 1.5rem;
+	$h3: 1.3rem;
+	$h4: 1.2rem;
 	$h5: 1.0rem;
 	$h6: 0.8rem;

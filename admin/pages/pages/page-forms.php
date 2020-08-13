@@ -191,6 +191,7 @@ class admin_page_FORMS extends RF_Admin_Page {
 			$cf->load("*", array("id = :id", ":id" => $form->post_parent));
 		}
 		$_POST['virtual_fieldset'] = true;
+		$_POST['priority'] = 0;
 		$cf = $cf->save_fieldset();
 
 		// store form values

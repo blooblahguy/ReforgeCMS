@@ -83,8 +83,8 @@ class CustomField extends \RF\Mapper {
 		}
 
 		$this->title = $title;
-		$this->priority = $_POST['priority'];
-		$this->inactive = $_POST['inactive'];
+		$this->priority = isset($_POST['priority']) ? $_POST['priority'] : 0;
+		$this->inactive = isset($_POST['inactive']) ? $_POST['inactive'] : 1;
 		$this->fieldset = serialize($fieldset);
 		$this->load_rules = serialize($rules);
 		$this->virtual = isset($_POST['virtual_fieldset']) ? 1 : 0;

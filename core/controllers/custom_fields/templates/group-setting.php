@@ -13,9 +13,9 @@
 
 <div class="rcf_field menu_header sort rcf_field_<?= $key; ?>" data-key="<?= $key; ?>" data-parent="<?= $parent; ?>" data-post_id="<?= $field['post_id']; ?>">
 	<div class="meta">
-		<input type="hidden" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
-		<input type="hidden" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
-		<input type="hidden" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
+		<input type="hidden" class="key" name="rcf_fields[<?= $key?>][key]" value="<?= $meta['key']; ?>" >
+		<input type="hidden" class="parent" name="rcf_fields[<?= $key?>][parent]" value="<?= $meta['parent']; ?>" >
+		<input type="hidden" class="menu_order" name="rcf_fields[<?= $key?>][menu_order]" value="<?= $meta['menu_order']; ?>" >
 	</div>
 	<a href="#" data-accordion=".accordion.settings_<?= $key; ?>" class="row accordion_handle content-middle">
 		<div class="os-min text-grey self-middle dragger"><i class="display-block">drag_indicator</i></div>
@@ -25,7 +25,7 @@
 		<div class="os-2 type"><span data-remove=".rcf_field_<?= $key; ?>" class="remove pad1">Remove</span></div>
 	</a>
 	<div class="accordion pad2 rcf_field_settings collapsed settings_<?= $key; ?>">
-		<div class="section field_base">
+		<div class="section field_base" data-field="<?= $key; ?>">
 			<div class="row g1 content-middle">
 				<?
 					// label

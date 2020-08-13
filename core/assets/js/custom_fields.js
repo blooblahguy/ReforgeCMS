@@ -83,7 +83,44 @@ $("body").on("click", "[data-remove]", function() {
 	parent.remove()
 })
 
+function cf_sorters() {
+	[].forEach.call(document.getElementsByClassName('cf_sortable'), function (el){
+		new Sortable(el, { 
+			group: 'sortable',
+			handle: ".dragger",
+			draggable: ".sort",
+			// direction: "vertical",
+			// invertSwap: true,
+			animation: 150,
+			onEnd: function(evt) {
+				var item = $(evt.item)
+				var parent = item.parents(".rcf_group_fields").first()
+				var top = parent.parent(".section")
+				var base = item.parents(".field_base").first()
+				var button = item.find(".cf-add").first();
 
+				// console.log(top)
+
+				var meta = item.children(".meta").children(".parent")
+
+				if (top.length) {
+					// this is top level
+					button.data("parent", 0)
+					meta.val(0)
+					item.parents(".rcf_field").first().data("parent", 0)
+				} else {
+					button.data("parent", base.data("field"))
+					meta.val(base.data("field"))
+					item.parents(".rcf_field").first().data("parent", base.data("field"))
+					// this is sublevel
+				}
+
+				// console.log(parent, top)
+				// console.log("end", item)
+			}
+		});
+	})
+}cf_sorters()
 
 !function($, e) {
 	var rf = {}
@@ -119,13 +156,14 @@ $("body").on("click", "[data-remove]", function() {
 			outer.remove()
 			console.log(children)
 		}
+		cf_sorters()
 	})
 	$("body").on("click", ".rcf-add-rule", function() {
-		console.log("here")
 		var template = $(this).parents(".condition_row").first()
 		var target = $($(this).data("target"))
 
 		target.append(template.clone())
+		cf_sorters()
 	})
 	// add OR
 	$("body").on("click", ".rcf-add-rulegroup", function() {
@@ -138,6 +176,7 @@ $("body").on("click", "[data-remove]", function() {
 		target.append(html)
 
 		$(this).data("index", ++index)
+		cf_sorters()
 	})
 
 	// rules ajax
@@ -218,6 +257,7 @@ $("body").on("click", "[data-remove]", function() {
 		inserted.find(".rcf_dropdown.loaded").first().removeClass("loaded")
 
 		rf.fetch_cfield();
+		cf_sorters()
 	})
 
 	// generate unique row id

@@ -25,10 +25,10 @@ if (isset($field["layout"])) {
 ?>
 <div class="field <?= $layout; ?>">
 	<div class="meta">
-		<input type="hidden" name="<?= $meta_name; ?>[meta_key]" value="<?= $data['meta_key']; ?>" >
-		<input type="hidden" name="<?= $meta_name; ?>[meta_info]" value="<?= $field['key']; ?>" >
-		<input type="hidden" name="<?= $meta_name; ?>[meta_type]" value="<?= $field['type']; ?>" >
-		<input type="hidden" name="<?= $meta_name; ?>[parent]" value="<?= $name; ?>" >
+		<input type="hidden" class="meta_key" name="<?= $meta_name; ?>[meta_key]" value="<?= $data['meta_key']; ?>" >
+		<input type="hidden" class="meta_info" name="<?= $meta_name; ?>[meta_info]" value="<?= $field['key']; ?>" >
+		<input type="hidden" class="meta_type" name="<?= $meta_name; ?>[meta_type]" value="<?= $field['type']; ?>" >
+		<input type="hidden" class="parent" name="<?= $meta_name; ?>[parent]" value="<?= $name; ?>" >
 	</div>
 
 	<?

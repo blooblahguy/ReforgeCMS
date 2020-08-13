@@ -4,7 +4,7 @@
 		<div class="os slug strong pad1">Slug</div>
 		<div class="os type strong pad1">Type</div>
 		<div class="os-2 type strong pad1">Actions</div>
-		<div class="os-12 cf_fields border sortable">
+		<div class="os-12 cf_fields border field_parent cf_sortable" data-field="<?= $parent; ?>">
 			<? 
 			if ($fields) {
 				foreach( $fields as $i => $field ) {

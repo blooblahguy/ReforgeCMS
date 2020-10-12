@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
+
 $root = realpath(dirname(__FILE__).'/../../../../');
 
 // include reforge core

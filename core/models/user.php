@@ -161,6 +161,11 @@ class User extends \RF\Mapper {
 			$lc->save();
 		}
 
+
+		// now log them in
+		// $user->last_login = date("Y-m-d H:i:s");
+		// $user->save();
+
 		// Only allow 3 devices
 		$stored = $lc->find("*", array("user_id = :user_id", ":user_id" => $this->id), array(
 			"order by" => "modified DESC"

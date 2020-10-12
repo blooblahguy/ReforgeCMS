@@ -134,7 +134,7 @@ class RFA_Applications_Front extends \Prefab {
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wcl; ?>">Warcraft Logs</a>
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $analyzer; ?>">WoW Analyzer</a>
 						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $wipefest; ?>">Wipefest</a>
-						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $raiderio; ?>">raiderio</a>
+						<a target="_blank" class="value repeater_entry pad1 os-lg os-md-4 os-12 text-primary text-center" href="<?= $raiderio; ?>">RaiderIO</a>
 					</div>
 				</div>
 			</div>

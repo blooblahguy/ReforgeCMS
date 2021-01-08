@@ -37,6 +37,7 @@ $posts = Content::instance()->query("news", array(
 							<a href="/partners" class="os-hidden os-12 os-lg-min os-md-display-block home_partner gg"><img src="/content/themes/bigdumbgg/img/goldenguardians.png" alt=""></a>
 							<a href="/partners" class="os-hidden os-12 os-lg-min os-md-display-block home_partner tm"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></a>
 							<a href="/partners" class="os-hidden os-12 os-lg-min os-md-display-block home_partner zenni"><img src="/content/themes/bigdumbgg/img/zenni.png" alt=""></a>
+							<a href="/partners" class="os-hidden os-12 os-lg-min os-md-display-block home_partner zenni"><img src="/content/uploads/sizes/wowhead.medium.png" alt=""></a>
 						</div>
 					</div>
 				</div>

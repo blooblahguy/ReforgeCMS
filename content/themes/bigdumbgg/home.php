@@ -34,10 +34,10 @@ $posts = Content::instance()->query("news", array(
 					<h3 class="margb0"><a href="/partners">Our Partners</a></h3>
 					<div class="container">
 						<div class="row g2 content-middle content-center">
-							<a href="/partners" class="os-hidden os-12 os-lg-4 os-md-display-block home_partner gg"><img src="/content/themes/bigdumbgg/img/goldenguardians.png" alt=""></a>
-							<a href="/partners" class="os-hidden os-12 os-lg-4 os-md-display-block home_partner tm"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></a>
-							<a href="/partners" class="os-hidden os-12 os-lg-4 os-md-display-block home_partner zenni"><img src="/content/themes/bigdumbgg/img/zenni.png" alt=""></a>
-							<a href="/partners" class="os-hidden os-12 os-lg-4 os-md-display-block home_partner wowhead"><img src="/content/uploads/sizes/wowhead.medium.png" alt=""></a>
+							<a href="/partners" class="os-hidden os-12 os-lg-3 os-md-display-block home_partner gg"><img src="/content/themes/bigdumbgg/img/goldenguardians.png" alt=""></a>
+							<a href="/partners" class="os-hidden os-12 os-lg-3 os-md-display-block home_partner tm"><img src="/content/themes/bigdumbgg/img/ticketmaster.png" alt=""></a>
+							<a href="/partners" class="os-hidden os-12 os-lg-3 os-md-display-block home_partner zenni"><img src="/content/themes/bigdumbgg/img/zenni.png" alt=""></a>
+							<a href="/partners" class="os-hidden os-12 os-lg-3 os-md-display-block home_partner wowhead"><img src="/content/uploads/sizes/wowhead.medium.png" alt=""></a>
 						</div>
 					</div>
 				</div>

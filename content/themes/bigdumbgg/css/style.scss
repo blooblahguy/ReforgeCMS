@@ -265,6 +265,7 @@ a:hover {
 		max-height: 100px; overflow: hidden; position: relative; height: 75px; display: block; 
 		img {max-height: 25px; display:block; margin: 0; }
 		&.gg img {max-height: 27px; margin-top: 2px;}
+		&.wowhead img {max-height: 95px; margin-top: -26px;}
 		// img {max-width: 280px; max-height: none; max-height: 40px; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); }
 	}
 

@@ -24,7 +24,7 @@ class Form extends \RF\Mapper {
 
 		?>
 		<div class="rf_form">
-			<form method="POST" <?if ($args['target']) {echo "target='_blank' "; }?>action="/rf_form/process/<?= $this->id; ?>">
+			<form method="POST" onkeydown="return event.key != 'Enter';" <?if ($args['target']) {echo "target='_blank' "; }?>action="/rf_form/process/<?= $this->id; ?>">
 				<? if (! $args['hide_title']) { ?>
 					<h3 class="form_title"><?= $this->title; ?></h3>
 				<? } ?>

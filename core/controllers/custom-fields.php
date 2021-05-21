@@ -112,7 +112,9 @@
 
 			foreach ($data as $key => &$d) {
 
+				// debug($key);
 				// debug($d);
+				if (! is_array($d)) { continue; }
 				$type = $d['type'];
 				if ($type) {	
 					unset($d['type']);

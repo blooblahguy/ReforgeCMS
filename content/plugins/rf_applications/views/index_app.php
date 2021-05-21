@@ -23,7 +23,7 @@
 
 <div class="row g1 content-middle">
 	<div class="os-min unread_status">
-		<div class="fill-primary">
+		<div class="fill-primary" style="width: 36px;">
 			<?= get_file_contents_url(theme_url()."/img/emblem.svg"); ?>
 		</div>
 	</div>

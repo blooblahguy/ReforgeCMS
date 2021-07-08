@@ -55,33 +55,84 @@
 	$groups = array();
 	// global $wow_class_colors;
 
-	// sort into roles and tabs
-	foreach ($players as $user) {
-		if ($user['role_id'] == 1 || $user['role_id'] == 2) {
-			$user['role'] = "Leadership";
-		} else {
-			$user['role'] = "Raiders";
-		}
-		$groups[$user['role']] = $user['role'];
-		$users[$user['role']][] = $user;
-	}
+	$leadership = array(
+		"Lozy" => array("demonhunter", "tank"),
+		"Shampy" => array("priest", "healer"),
+		"Impakt" => array("warlock", "dps"),
+		"Maple" => array("priest", "dps"),
+		"Hyperion" => array("deathknight", "dps"),
+	);
+	$raiders = array(
+		"Slootbag" => array("paladin", "tank"),
+		"Tegu" => array("paladin", "dps"),
+		"Benisbringer" => array("deathknight", "dps"),
+		"Psychox" => array("demonhunter", "dps"),
+		"Aestisqt" => array("rogue", "dps"),
+		"Xiphic" => array("rogue", "dps"),
+		"Smacked" => array("monk", "dps"),
+		"Shamxd" => array("shaman", "dps"),
+		"Honorax" => array("hunter", "dps"),
+		"Paxington" => array("hunter", "dps"),
+		"Undad" => array("warrior", "dps"),
+		"Dorovon" => array("mage", "dps"),
+		"Herusx" => array("mage", "dps"),
+		"Soulsi" => array("warlock", "dps"),
+		"Onezy" => array("druid", "dps"),
+		"Spenx" => array("mage", "dps"),
+		"Zooshi" => array("hunter", "dps"),
+		"Crizp" => array("druid", "dps"),
+		"Shadoeslock" => array("warlock", "dps"),
+		"Chow" => array("mage", "dps"),
+		"Eraain" => array("shaman", "healer"),
+		"Theun" => array("shaman", "healer"),
+		"Beladepal" => array("paladin", "healer"),
+		"Ardent" => array("priest", "healer"),
+	);
 
-	$groups['Leadership'] = "Leadership";
-
-	foreach ($groups as $rank) {
-		$players = $users[$rank];
-		?>
-		<h2 class="text-center"><?= $rank; ?></h2>
-		<div class="row g1">
-			<? foreach ($players as $p) { ?>
-				<div class="os-6 os-lg-4">
-					<div class="player_card">
-						<strong class='<?= $p['class']; ?>'><?= $p['character_name']; ?></strong>
-						<img src="/content/themes/bigdumbgg/img/<?= $p['class']; ?>_emblem.png" alt="">
-					</div>
+	?>
+	<h2 class="text-center">Leadership</h2>
+	<div class="row g1">
+		<? foreach ($leadership as $name => $p) { ?>
+			<div class="os-6 os-lg-4">
+				<div class="player_card">
+					<strong class='<?= $p[0]; ?>'><?= $name; ?></strong>
+					<img src="/content/themes/bigdumbgg/img/<?= $p[0]; ?>_emblem.png" alt="">
 				</div>
-			<? } ?>
-		</div>
-		<?
-	} ?>		
+			</div>
+		<? } ?>
+	</div>
+
+	<br>
+	<h2 class="text-center">Raiders</h2>
+	<div class="row g1">
+		<? foreach ($raiders as $name => $p) { ?>
+			<div class="os-6 os-lg-4">
+				<div class="player_card">
+					<strong class='<?= $p[0]; ?>'><?= $name; ?></strong>
+					<img src="/content/themes/bigdumbgg/img/<?= $p[0]; ?>_emblem.png" alt="">
+				</div>
+			</div>
+		<? } ?>
+	</div>
+	<br>
+
+	<?php
+	// sort into roles and tabs
+	// foreach ($players as $user) {
+	// 	if ($user['role_id'] == 1 || $user['role_id'] == 2) {
+	// 		$user['role'] = "Leadership";
+	// 	} else {
+	// 		$user['role'] = "Raiders";
+	// 	}
+	// 	$groups[$user['role']] = $user['role'];
+	// 	$users[$user['role']][] = $user;
+	// }
+
+	// $groups['Leadership'] = "Leadership";
+
+	// foreach ($groups as $rank) {
+	// 	$players = $users[$rank];
+
+	?>
+
 </div>

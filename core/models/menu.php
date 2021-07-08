@@ -60,7 +60,8 @@ class Menu extends \RF\Mapper {
 		// debug($path);
 		// debug($CONTROLLER);
 
-		if (strpos($link['url'], "http") === false && $link['url'] != "#0") {
+		if (strpos($link['url'], "mailto") !== false || strpos($link['url'], "tel") !== false) {
+		} elseif (strpos($link['url'], "http") === false && $link['url'] != "#0") {
 			$link['url'] = "/".$link['url'];
 			if ($link['url'] == $path) {
 				$link['class'] .= " active";

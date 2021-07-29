@@ -1,10 +1,15 @@
 <?php
 	namespace BDG;
 	class Twitch {
-		private $client_id;
+		private $client;
+		private $secret;
 
 		function __construct($client_id) {
 			$this->client_id = $client_id;
+		}
+
+		function getOAuth() {
+			
 		}
 
 		function getUsers($ids) {

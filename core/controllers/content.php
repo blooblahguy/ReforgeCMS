@@ -145,7 +145,11 @@ function locate_template($templates, $include = true, $required = false) {
 
 	foreach ($templates as $t) {
 		$looked .= $t.", ";
-		if (is_file($path.$t)) {
+
+		$look = strval(str_replace("\0", "", $path.$t));
+
+		// var_dump($look);
+		if (is_file($look)) {
 			if ($include) {
 				rf_require($path.$t);
 			} else {
@@ -155,8 +159,6 @@ function locate_template($templates, $include = true, $required = false) {
 		}
 	}
 	$looked = rtrim($looked, ", ");
-
-	
 
 	if ($required) {
 		Alerts::instance()->error("Theme doesn't have required theme file: $looked");

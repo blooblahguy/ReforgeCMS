@@ -17,7 +17,8 @@ queue_script("/core/assets/js/custom_fields.js", 18);
 
 // Admin Area
 locate_template(array("functions.php"), true, false);
-if ("/" . $CONTROLLER == "/admin") {
+
+if ($CONTROLLER == "admin") {
 	require $root."/admin/functions.php";
 	require $root."/admin/admin.php";
 	// common actions
@@ -31,9 +32,9 @@ if ("/" . $CONTROLLER == "/admin") {
 	Content::instance();
 }
 
-$core->route("GET /glade/import", function() {
-	include "import.php";
-});
+// $core->route("GET /glade/import", function() {
+// 	include "import.php";
+// });
 
 $core->run();
 

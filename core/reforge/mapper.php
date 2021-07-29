@@ -14,7 +14,7 @@ class Mapper extends \Magic {
 		$table;
 
 	// construct mapper with provided information
-	function __construct($table, $schema = false, $cache_key = false) {
+	function __construct($table, $schema = array(), $cache_key = false) {
 		global $schema_checked;
 
 		if (! $table) { echo "no table"; return false; }
@@ -144,6 +144,8 @@ class Mapper extends \Magic {
 			$params[":$col"] = $this->{$col};
 			$qry[] = "`$col` = :$col";
 		}
+
+		// debug($qry);
 		// reset this back
 		$this->changed = array();
 		

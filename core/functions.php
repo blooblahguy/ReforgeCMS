@@ -414,7 +414,7 @@ function resetCaches() {
 function load_plugins() {
 	global $root;
 	$plugins = get_option('active_plugins');
-	
+
 	if (! $plugins) {
 		$plugins = array();
 	}
@@ -546,7 +546,6 @@ function theme_path() {
 function register_post_type($options) {
 	global $rf_custom_posts;
 
-	
 	// debug($options);
 	$slug = $options['slug'];
 

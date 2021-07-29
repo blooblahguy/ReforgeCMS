@@ -31,10 +31,11 @@ class RF_Hook {
 		if (! $this->callbacks) { return $value; }
 		$num_args = count($args);
 
-		
 		// simply call through each callback and keep updating the value
 		// not going to worry about whether we determined the # of arguments ahead of time
+		// var_dump($this->callbacks);
 		foreach ($this->callbacks as $priority => $keys) {
+			// var_dump($keys);
 			foreach ($keys as $callback) {
 				$value = call_user_func_array( $callback, $args );
 			}

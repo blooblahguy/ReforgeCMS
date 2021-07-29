@@ -1,5 +1,6 @@
 <?
 
+
 	function tweet_template($tweet) {
 		$date = strtotime($tweet['created_at']);
 		if (date("Y", $date) == date("Y")) {
@@ -8,7 +9,8 @@
 			$date = date("M j Y");
 		}
 
-		// debug($tweet);
+		$tweet['text'] = json_decode($tweet['text']);
+
 		?>
 		<div class="tweet os">
 			

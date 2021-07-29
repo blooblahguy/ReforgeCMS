@@ -1,7 +1,5 @@
 <?
 
-
-
 class RFApplications extends \Prefab {
 	function __construct() {
 		global $core; 

@@ -14,11 +14,11 @@ if (! $_SERVER['DOCUMENT_ROOT']) {
 }
 
 // include reforge core
-include $root."/core/init.php";
+require $root."/core/init.php";
 do_action("load_plugins");
 do_action("init");
 
 // cron jobs
 // include "cron_progression.php";
-// include "cron_twitter.php";
-include "cron_twitch.php";
+include "cron_twitter.php";
+require "cron_twitch.php";

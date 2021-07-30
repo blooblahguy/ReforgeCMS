@@ -2,6 +2,8 @@
 
 error_reporting(E_ALL);
 
+$cron = true;
+
 // echo dirname(dirname(__FILE__));
 // echo "\n";
 // echo realpath(dirname(__FILE__));

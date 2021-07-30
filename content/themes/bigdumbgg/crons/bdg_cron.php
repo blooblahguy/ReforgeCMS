@@ -2,13 +2,13 @@
 
 error_reporting(E_ALL);
 
-echo dirname(dirname(__FILE__));
-echo "\n";
-echo realpath(dirname(__FILE__));
-echo "\n";
-echo dirname(__FILE__, 2);
+// echo dirname(dirname(__FILE__));
+// echo "\n";
+// echo realpath(dirname(__FILE__));
+// echo "\n";
+// echo dirname(__FILE__, 2);
 
-$root = '../../../../';
+$root = '../../../..';
 
 // include reforge core
 include $root."/core/init.php";

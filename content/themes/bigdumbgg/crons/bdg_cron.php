@@ -8,7 +8,10 @@ error_reporting(E_ALL);
 // echo "\n";
 // echo dirname(__FILE__, 2);
 
-$root = '../../../..';
+$root = $_SERVER['DOCUMENT_ROOT'];
+if (! $_SERVER['DOCUMENT_ROOT']) {
+	$root = '/home/runcloud/webapps/bigdumb';
+}
 
 // include reforge core
 include $root."/core/init.php";

@@ -399,6 +399,22 @@ a:hover {
 	strong {font-size: 1.2rem; text-shadow: 0 0 20px $black; position: relative; z-index: 2; }
 }
 
+.streamer_tab {
+	border: 2px solid $dark; padding: $pad2 $pad2; position: relative; text-align: left; overflow: hidden; display: block; color: $white; background: $dark; text-shadow: 2px 2px #000;
+	strong {color: $white;}
+	img {z-index: 0; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; opacity: 0.7; pointer-events: none;}
+	strong {font-size: 1.2rem; text-shadow: 0 0 20px $black; position: relative; }
+	strong, span {position: relative; z-index: 2; display: inline-block; font-weight:bold; }
+	.game {display:block; text-align: right; font-weight: normal; font-style: italic; opacity: 0.8; }
+	.live_icon svg {fill: red; width: 16px; height: 16px; padding: 4px; position: relative; bottom: -3px;}
+
+	&:hover, &:hover strong {color: $white;}
+	// &:hover {background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(224,177,90,1) 100%);}
+	&:hover, &.active {border-color: $primary; }
+}
+
+.streams .feature {border: 2px solid $dark; line-height: 0;}
+
 .featured_news {
 	position: relative; z-index: 5; display:block; z-index: 2; padding: $pad4 0; padding-top: 15vh; overflow:hidden;
 	&:after {
@@ -431,7 +447,7 @@ a:hover {
 // h2.title, .field-wysiwyg h2, .field-side_by_side h2 {font-family: "Prohibition"; font-weight:normal; font-size: 2rem;}
 
 // News
-iframe {height: 50vh !important; width: 100% !important; }
+iframe {height: 580px; width: 100% !important; }
 .news_content {
 	h2 {margin-top: $pad4; }
 	h3 {margin-top: $pad4; }
@@ -440,10 +456,11 @@ iframe {height: 50vh !important; width: 100% !important; }
 
 // Medium
 @media screen and (max-width : 1024px) {
-
+	iframe {height: 400px; }
 }
 
 // Small
 @media screen and (max-width : 768px) {
+	iframe {height: 300px; }
 
 }

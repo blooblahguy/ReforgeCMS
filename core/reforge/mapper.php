@@ -102,6 +102,8 @@ class Mapper extends \Magic {
 			$this->changed[$key] = true;
 		}
 		$this->data[$key] = $val;
+
+		$this->cache['queries']->clear($key);
 	}
 
 	function &get($key) {
@@ -267,30 +269,15 @@ class Mapper extends \Magic {
 	 * Load data about this object, then attach it to $this
 	 */
 	function load($fields, $filter = null, array $options = null, $ttl = 0) {
-		$value = null;
-		$cache = $this->cache['queries'];
+		$rs = $this->find($fields, $filter, $options);
+		if (count($rs) > 1) {
+			echo "error";
+			return;
+		}
 
-		// $sql_key = md5(serialize(array(
-		// 	$fields, $filter, $options
-		// )));
-
-		// if ($cache->exists($sql_key, $value)) {
-		// 	$rs = $value; //$cache->get($sql_key);
-		// }
-
-		// if (! $rs) {
-			$rs = $this->find($fields, $filter, $options);
-			if (count($rs) > 1) {
-				echo "error";
-				return;
-			}
-
-			$rs = reset($rs);
-			// $cache->set($sql_key, $rs);
-		// }
+		$rs = reset($rs);
 
 		// attach data to this object
-		// debug($rs);
 		$this->factory($rs);
 
 		$this->afterload();

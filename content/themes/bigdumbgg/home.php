@@ -19,15 +19,81 @@ $posts = Content::instance()->query("news", array(
 // 	$latest_featured = $latest_featured->get_size(1200);
 // }
 
+$streams = get_option("live_streams", true);
+$feature = array_shift($streams);
+$all = $streams;
+array_unshift($all, $feature);
+
 ?>
 
 <div class="home_feature relative">
 	<img src="/content/themes/bigdumbgg/img/home_hero.jpg" alt="" class="full-stretch">
+	<? if (isset($feature)) { ?>
+		<div class="container">
+			<div class="streams">
+				<div class="feature">
+					<div class="row">
+						<div class="os">
+							<div id="twitch-embed"></div>
+						</div>
+						<div class="os-min hidden md-display-block" id="twitch-chat-embed">
+							<iframe src="https://www.twitch.tv/embed/<? echo $feature['user_login']; ?>/chat?parent=bigdumb.gg&parent=localhost&darkpopout" width="200"></iframe>
+						</div>
+					</div>
+				</div>
+				
+				
+				<script src="https://embed.twitch.tv/embed/v1.js"></script>
+				<script type="text/javascript">
+					var embed = new Twitch.Embed("twitch-embed", {
+						height: 460,
+						channel: "<? echo $feature['user_login']; ?>",
+						layout: "video",
+						autoplay: false,
+						muted: true,
+						parent: "bigdumb.gg"
+					});
+
+					embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+						var player = embed.getPlayer();
+						player.play();
+					});
+				</script>
+				
+				<div class="stream_nav row g1">
+					<? foreach ($all as $k => $stream) { 
+						$width = "300";
+						$height = "200";
+						$thumb = str_replace("{width}", $width, $stream['thumbnail_url']);
+						$thumb = str_replace("{height}", $height, $thumb);
+
+						?>
+						<div class="os-3">
+							<a href="#<? echo $stream['user_login']; ?>" id="<? echo $stream['user_login']; ?>" class="streamer_tab<? if ($k == 0) { echo " active";} ?>">
+								<div class="row g1 content-middle">
+									<div class="os">
+										<strong class="title"><? echo $stream['user_name']; ?></strong>
+									</div>
+									<div class="os-min">
+										<span class="live_icon"><xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 122.88" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M61.438,0c33.93,0,61.441,27.512,61.441,61.441 c0,33.929-27.512,61.438-61.441,61.438C27.512,122.88,0,95.37,0,61.441C0,27.512,27.512,0,61.438,0L61.438,0z"/></g></svg></span>
+										<span><? echo $stream['viewer_count']; ?></span>
+									</div>
+								</div>
+								<img src="<? echo $thumb; ?>" alt="">
+							</a>
+						</div>
+					<? } ?>
+				</div>
+			</div>
+		</div>
+	<? } ?>
+	
+
 	<div class="container text-center">
 		<div class="row content-middle">
 			<div class="os"></div>
 			<div class="os-min content pad2">
-				<h1>US #2 World of Warcraft Raiding Guild</h1>
+				<h1>World 4th World of Warcraft Raiding Guild</h1>
 				<h3>BDGG is a unique raid team with a focus on content creation, quality guides, and giving back to the community</h3>
 				
 				<div class="partners text-center padt2">

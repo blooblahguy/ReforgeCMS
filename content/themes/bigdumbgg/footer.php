@@ -46,6 +46,7 @@
 	</div>
 
 	<? rf_footer(); ?>
+	<script src="/content/themes/bigdumbgg/js/cash.js"></script>
 	<script type="text/javascript" src="/content/themes/bigdumbgg/js/scripts.js"></script>
 
 	<script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>

@@ -1,7 +1,14 @@
 <?php
 
-function get_option($key) {
+function get_option($key, $force = false) {
 	global $options;
+
+	if ($force) {
+		$option = new Option();
+		$option->load("*", array("`key` = :key", ":key" => $key));
+		$options[$key] = $option->value;
+	}
+
 	if (is_serial($options[$key])) {
 		return unserialize($options[$key]);
 	}

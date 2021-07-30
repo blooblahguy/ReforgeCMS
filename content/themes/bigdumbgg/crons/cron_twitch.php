@@ -54,20 +54,20 @@ try {
 	// Get and decode the actual content sent by Twitch.
 	$responseContent = json_decode($response->getBody()->getContents());
 
-	$data = $responseContent->data[0];
-
+	$data = $responseContent->data;
+	
 	$data = json_decode(json_encode($data), true);
-	unset($data['started_at']);
-	unset($data['language']);
-	unset($data['tag_ids']);
-	unset($data['is_mature']);
-	unset($data['game_id']);
-
+	
 	$live_streams = $data;
+	$rand = array_rand($live_streams);
+	$feature = $live_streams[$rand];
+	unset($live_streams[$rand]);
+	array_unshift($live_streams, $feature);
 
 } catch (GuzzleException $e) {
 	debug($e);
 }
 
-// debug($live_streams);
+debug($live_streams);
+
 set_option("live_streams", $live_streams);

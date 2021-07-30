@@ -2,6 +2,9 @@
 
 error_reporting(E_ALL);
 
+print_r(dirname(dirname(__FILE__)));
+print_r(realpath(dirname(__FILE__)));
+
 $root = realpath(dirname(__FILE__).'/../../../../');
 
 // include reforge core

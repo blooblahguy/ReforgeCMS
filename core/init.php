@@ -8,11 +8,11 @@ $core->set("salt", $configuration["salt"]);
 // Reforge Core
 if ($cron) {
 	include $root."/core/reforge/session.php";
-	include $root."/core/reforge/user.php";
+	include $root."/core/models/user.php";
 	include $root."/core/reforge/mapper.php";
 	include $root."/core/reforge/cache.php";
-	include $root."/core/reforge/role.php";
-	include $root."/core/reforge/option.php";
+	include $root."/core/models/role.php";
+	include $root."/core/models/option.php";
 }
 $reforge = include $root."/core/reforge/reforge.php";
 // include $root."/core/reforge/router.php";

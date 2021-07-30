@@ -2,8 +2,11 @@
 
 error_reporting(E_ALL);
 
-print_r(dirname(dirname(__FILE__)));
-print_r(realpath(dirname(__FILE__)));
+echo dirname(dirname(__FILE__));
+echo "\n";
+echo realpath(dirname(__FILE__));
+echo "\n";
+echo dirname(__FILE__, 2);
 
 $root = realpath(dirname(__FILE__).'/../../../../');
 

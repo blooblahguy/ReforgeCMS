@@ -6,6 +6,7 @@ $core->set("DEBUG", 1);
 $core->set("salt", $configuration["salt"]);
 
 // Reforge Core
+$reforge = include $root."/core/reforge/session.php";
 $reforge = include $root."/core/reforge/reforge.php";
 // include $root."/core/reforge/router.php";
 include $root."/core/reforge/magic.php";

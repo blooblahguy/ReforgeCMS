@@ -8,7 +8,7 @@ echo realpath(dirname(__FILE__));
 echo "\n";
 echo dirname(__FILE__, 2);
 
-$root = realpath(dirname(__FILE__).'/../../../../');
+$root = '../../../../';
 
 // include reforge core
 include $root."/core/init.php";

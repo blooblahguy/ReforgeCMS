@@ -11,7 +11,7 @@ $cron = true;
 // echo dirname(__FILE__, 2);
 
 $root = $_SERVER['DOCUMENT_ROOT'];
-if (! $_SERVER['DOCUMENT_ROOT']) {
+if (! isset($_SERVER['DOCUMENT_ROOT'])) {
 	$root = '/home/runcloud/webapps/bigdumb';
 }
 

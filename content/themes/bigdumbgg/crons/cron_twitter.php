@@ -1,8 +1,8 @@
 <?php
 
 // declare(strict_types=1);
-require "../lib/twitter-php/OAuth.php";
-require "../lib/twitter-php/twitter.php";
+require $root."/content/themes/bigdumbgg/lib/twitter-php/OAuth.php";
+require $root."/content/themes/bigdumbgg/lib/twitter-php/twitter.php";
 
 use DG\Twitter\Twitter;
 $twitter = new Twitter(

@@ -5,9 +5,12 @@ class Reforge extends \Prefab {
 
 	function __construct() {
 		global $root;
+		global $cron;
 		$this->root = $root;
 		spl_autoload_register([$this, 'autoload']);
-		Session::instance();
+		if (! $cron) {
+			Session::instance();
+		}
 	}
 
 	/**

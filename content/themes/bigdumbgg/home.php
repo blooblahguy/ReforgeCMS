@@ -89,7 +89,7 @@ array_unshift($all, $feature);
 	<? } ?>
 	
 
-	<div class="container text-center">
+	<div class="container text-center padt2">
 		<div class="row content-middle">
 			<div class="os"></div>
 			<div class="os-min content pad2">

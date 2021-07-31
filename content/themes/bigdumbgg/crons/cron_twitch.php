@@ -59,10 +59,12 @@ try {
 	$data = json_decode(json_encode($data), true);
 	
 	$live_streams = $data;
-	$rand = array_rand($live_streams);
-	$feature = $live_streams[$rand];
-	unset($live_streams[$rand]);
-	array_unshift($live_streams, $feature);
+	if (count($live_streams) > 0) {
+		$rand = array_rand($live_streams);
+		$feature = $live_streams[$rand];
+		unset($live_streams[$rand]);
+		array_unshift($live_streams, $feature);
+	}
 
 } catch (GuzzleException $e) {
 	debug($e);

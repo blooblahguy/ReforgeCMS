@@ -166,7 +166,7 @@ a:hover {
 // HOME
 //===========================================
 .home_feature { 
-	overflow:hidden; padding: 75px 0 180px;
+	overflow:hidden; padding: $pad1 0 180px;
 	.content {max-width: 800px;}
 	.application_updates {min-width: 400px; }
 	h3 {font-weight: normal;}

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Alerts extends Prefab {
 	private function add($level, $message) {

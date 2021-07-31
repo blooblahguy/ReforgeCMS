@@ -1,4 +1,4 @@
-<?
+<?php
 $user = new User();
 $user->get_user($comment['author']); 
 ?>

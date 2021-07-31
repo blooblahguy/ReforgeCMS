@@ -1,4 +1,4 @@
-<?
+<?php
 
 class reforge_field_TEXTAREA extends reforge_field {
 	// Registration

@@ -1,4 +1,4 @@
-<?
+<?php
 
 function render_rcf_field($field, $options) {
 	// debug($options);

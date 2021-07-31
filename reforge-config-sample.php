@@ -1,4 +1,4 @@
-<?
+<?php
 function rf_config() {
 	//===================================
 	## MySQL Connection - Common

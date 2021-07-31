@@ -1,4 +1,4 @@
-<?
+<?php
 $breadcrumbs = $page->get_breadcrumbs();
 
 // $bg = get_file(get_field("featured_image"));

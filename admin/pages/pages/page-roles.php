@@ -1,4 +1,4 @@
-<?
+<?php
 
 class admin_page_ROLES extends RF_Admin_Page {
 	function __construct() {

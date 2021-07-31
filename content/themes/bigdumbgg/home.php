@@ -1,4 +1,4 @@
-<?
+<?php
 
 $posts = Content::instance()->query("news", array(
 	"order by" => "created DESC",

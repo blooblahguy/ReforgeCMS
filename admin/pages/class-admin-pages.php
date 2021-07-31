@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RF_Admin_Pages extends \Prefab {
 	var $pages = array();

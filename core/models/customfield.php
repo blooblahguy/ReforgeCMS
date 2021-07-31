@@ -1,4 +1,4 @@
-<?
+<?php
 
 class CustomField extends \RF\Mapper {
 	protected $cfs_load = array();

@@ -1,4 +1,4 @@
-<?
+<?php
 $image = $content['side_by_side']['image'];
 $image = get_file($image);
 $text = $content['side_by_side']['text'];

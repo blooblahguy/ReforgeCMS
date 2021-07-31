@@ -1,4 +1,4 @@
-<?
+<?php
 
 class reforge_field_IMAGE extends reforge_field {
 	// Registration

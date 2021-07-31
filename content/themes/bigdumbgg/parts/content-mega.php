@@ -1,4 +1,4 @@
-<?
+<?php
 	$fields = get_fields();
 	if (! $fields['section']) { return; }
 

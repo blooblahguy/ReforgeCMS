@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RF_Hook {
 	public $callbacks = array();

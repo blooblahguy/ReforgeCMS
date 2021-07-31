@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Option extends \RF\Mapper {
 	function __construct() {

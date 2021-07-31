@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Render breadcrumb array

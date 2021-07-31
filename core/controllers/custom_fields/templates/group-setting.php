@@ -1,4 +1,4 @@
-<?
+<?php
 	$key = $field["key"];
 	$parent = $field["parent"];
 	$field['post_id'] = isset($field['post_id']) ? $field['post_id'] : $post_id;

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class reforge_field_COLOR extends reforge_field {
 

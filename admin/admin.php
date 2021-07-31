@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Admin extends \Prefab {
 	function __construct() {

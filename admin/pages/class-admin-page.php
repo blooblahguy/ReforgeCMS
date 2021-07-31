@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RF_Admin_Page {
 	function __construct() {

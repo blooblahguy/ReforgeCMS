@@ -1,4 +1,4 @@
-<?
+<?php
 
 class rcf_rule_ADMINPAGE extends rcf_rule {
 	function __construct() {

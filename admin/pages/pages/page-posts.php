@@ -1,4 +1,4 @@
-<?
+<?php
 
 class admin_page_POSTS extends RF_Admin_Page {
 

@@ -1,4 +1,4 @@
-<?
+<?php
 class Activity extends \RF\Mapper {
 	function __construct() {
 		$schema = array(

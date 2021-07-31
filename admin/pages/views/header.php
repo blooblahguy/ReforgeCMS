@@ -1,4 +1,4 @@
-<?
+<?php
 $active_theme = get_option('active_theme');
 $admin_theme = current_user()->admin_theme;
 if (! $admin_theme) { $admin_theme = "default"; }

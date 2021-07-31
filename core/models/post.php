@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Post extends \RF\Mapper {
 	public $meta;

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Add arbitrary links to the admin menu, with parenting

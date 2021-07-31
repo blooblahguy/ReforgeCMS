@@ -1,4 +1,4 @@
-<?
+<?php
 // $b64image = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT'].theme_url()."/img/bdgg.svg"));
 // debug($b64image);
 

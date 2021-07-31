@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RFApplications extends \Prefab {
 	function __construct() {

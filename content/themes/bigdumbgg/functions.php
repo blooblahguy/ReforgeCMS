@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 	function tweet_template($tweet) {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class rcf_rule_FORM extends rcf_rule {
 	function __construct() {

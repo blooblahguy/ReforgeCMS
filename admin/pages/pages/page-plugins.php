@@ -1,4 +1,4 @@
-<?
+<?php
 
 class admin_page_PLUGINS extends RF_Admin_Page {
 	private $cache = array();

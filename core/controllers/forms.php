@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Forms extends \Prefab {
 	function __construct() {

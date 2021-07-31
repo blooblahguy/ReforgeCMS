@@ -1,4 +1,4 @@
-<?
+<?php
 $source = RCF()->current_data;
 // debug($fields);
 // debug($source);

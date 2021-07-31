@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Include Files
 require "$root/admin/pages/class-admin-page.php";

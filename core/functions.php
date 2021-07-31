@@ -1,4 +1,4 @@
-<?
+<?php
 
 function printTruncated($maxLength, $html, $isUtf8=true)
 {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class PostType extends \RF\Mapper {
 	function __construct() {

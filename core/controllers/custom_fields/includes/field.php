@@ -1,4 +1,4 @@
-<?
+<?php
 
 	class reforge_field {
 		var $name = '',

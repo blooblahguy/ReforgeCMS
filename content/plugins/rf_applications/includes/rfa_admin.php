@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RFA_Applications_Admin extends RF_Admin_Page {
 	function __construct() {

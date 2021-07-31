@@ -1,4 +1,4 @@
-<?
+<?php
 // CACHE BUCKETS
 $meta_cache = array();
 $rf_caches = array();

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class admin_page_THEMES extends RF_Admin_Page {
 	private $cache = array();

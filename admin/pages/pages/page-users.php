@@ -1,4 +1,4 @@
-<?
+<?php
 
 class admin_page_USERS extends RF_Admin_Page {
 	function __construct() {

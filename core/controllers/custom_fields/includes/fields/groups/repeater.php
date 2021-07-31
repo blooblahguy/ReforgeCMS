@@ -1,4 +1,4 @@
-<?
+<?php
 
 class reforge_field_REPEATER extends reforge_field {
 	// Registration

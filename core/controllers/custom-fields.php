@@ -1,4 +1,4 @@
-<?
+<?php
 
 	class RCF extends Prefab {
 		public $types = array();

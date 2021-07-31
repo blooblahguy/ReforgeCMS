@@ -1,4 +1,4 @@
-<?
+<?php
 $table = $content['table'];
 $header = false;
 $lines = array();

@@ -1,4 +1,4 @@
-<?
+<?php
 class rcf_rule {
 	public $choices = array();
 

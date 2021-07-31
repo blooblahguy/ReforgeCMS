@@ -1,4 +1,4 @@
-<?
+<?php
 $local = dirname(__FILE__);
 
 require "$local/functions.php";

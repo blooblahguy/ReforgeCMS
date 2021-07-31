@@ -1,4 +1,4 @@
-<?
+<?php
 
 $all_rules = RCF::instance()->rules;
 

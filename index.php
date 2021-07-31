@@ -1,4 +1,4 @@
-<?
+<?php
 $reforge_load_time = -hrtime(true);
 
 $start_perf = -hrtime(true);

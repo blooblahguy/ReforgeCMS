@@ -1,4 +1,4 @@
-<?
+<?php
 
 class rcf_rule_POSTS extends rcf_rule {
 	function __construct($info) {

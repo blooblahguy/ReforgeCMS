@@ -1,4 +1,4 @@
-<?
+<?php
 	class Setup extends \Prefab {
 		function index() {
 			global $root;

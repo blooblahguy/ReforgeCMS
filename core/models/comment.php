@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Comment extends \RF\Mapper {
 	function __construct() {

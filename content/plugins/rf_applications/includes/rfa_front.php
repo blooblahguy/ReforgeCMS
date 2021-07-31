@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RFA_Applications_Front extends \Prefab {
 	public $applications, $apply, $form;

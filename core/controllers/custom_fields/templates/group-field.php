@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Gaurantee data for blank groups
 if (! isset($data['meta_key'])) {

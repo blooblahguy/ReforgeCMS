@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 class Partial extends \RF\Mapper {

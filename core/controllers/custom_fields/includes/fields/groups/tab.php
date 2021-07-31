@@ -1,4 +1,4 @@
-<?
+<?php
 
 class reforge_field_TABS extends reforge_field {
 	// Registration

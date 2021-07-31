@@ -2,11 +2,13 @@
 
 function get_option($key, $force = false) {
 	global $options;
+	global $db;
 
 	if ($force) {
 		$option = new Option();
-		$option->load("*", array("`key` = :key", ":key" => $key));
-		$options[$key] = $option->value;
+		$rs = $db->exec("SELECT * FROM rf_options WHERE `key` = '{$key}'");
+		// debug($rs);
+		$options[$key] = $rs[0]['value'];//->value;
 	}
 
 	if (is_serial($options[$key])) {

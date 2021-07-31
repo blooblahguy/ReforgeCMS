@@ -5,7 +5,7 @@ if ($cron) {
 	$db = new DB\SQL(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
 		"{$configuration["database_user"]}",
-		"{$configuration["database_password"]}",
+		"{$configuration["database_password"]}"
 	);
 } else {
 	$db = new DB\SQL(

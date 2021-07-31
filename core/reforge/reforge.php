@@ -4,7 +4,8 @@ class Reforge extends \Prefab {
 	public $root;
 
 	function __construct() {
-		$this->root = $_SERVER['DOCUMENT_ROOT'];
+		global $root;
+		$this->root = $root;
 		spl_autoload_register([$this, 'autoload']);
 		Session::instance();
 	}

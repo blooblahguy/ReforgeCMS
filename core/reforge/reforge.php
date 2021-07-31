@@ -8,9 +8,7 @@ class Reforge extends \Prefab {
 		global $cron;
 		$this->root = $root;
 		spl_autoload_register([$this, 'autoload']);
-		if (! $cron) {
-			Session::instance();
-		}
+		Session::instance();
 	}
 
 	/**

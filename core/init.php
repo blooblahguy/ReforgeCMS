@@ -5,10 +5,6 @@ $core = require $root."/core/fatfree/base.php";
 $core->set("DEBUG", 1);
 $core->set("salt", $configuration["salt"]);
 
-if ($cron) {
-	echo $root."/core/reforge/reforge.php";
-}
-
 // Reforge Core
 $reforge = include $root."/core/reforge/reforge.php";
 // include $root."/core/reforge/router.php";

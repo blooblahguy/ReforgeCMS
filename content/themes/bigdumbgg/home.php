@@ -68,7 +68,7 @@ array_unshift($all, $feature);
 						$thumb = str_replace("{height}", $height, $thumb);
 
 						?>
-						<div class="os-3">
+						<div class="os-12 os-md-4 os-lg-3">
 							<a href="#<? echo $stream['user_login']; ?>" id="<? echo $stream['user_login']; ?>" class="streamer_tab<? if ($k == 0) { echo " active";} ?>">
 								<div class="row g1 content-middle">
 									<div class="os">

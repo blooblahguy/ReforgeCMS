@@ -1,13 +1,6 @@
 <?php
 
 // Database
-if ($cron) {
-	$db = new DB\SQL(
-		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
-		"{$configuration["database_user"]}",
-		"{$configuration["database_password"]}"
-	);
-} else {
 	$db = new DB\SQL(
 		"mysql:host={$configuration["database_host"]};port={$configuration["database_port"]};dbname={$configuration["database"]}",
 		"{$configuration["database_user"]}",
@@ -18,4 +11,3 @@ if ($cron) {
 			\PDO::MYSQL_ATTR_COMPRESS => true,
 		)
 	);
-}

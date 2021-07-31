@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Session extends \Prefab {
 	function __construct() {

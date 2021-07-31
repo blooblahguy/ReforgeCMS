@@ -540,7 +540,8 @@ function theme_url() {
 }
 
 function theme_path() {
-	return $_SERVER['DOCUMENT_ROOT']."/content/themes/".get_option("active_theme")."/";
+	global $root;
+	return $root."/content/themes/".get_option("active_theme")."/";
 }
 
 function register_post_type($options) {
@@ -793,13 +794,14 @@ function redirect($path = false, $hash = "") {
 
 // svg includes
 function get_file_contents_url($url) {
+	global $root;
 	if (strpos($url, $_SERVER['HTTP_HOST']) !== false) {
 		echo "strip";
 		$url = explode($_SERVER['HTTP_HOST'], $url);
 		$url = $url[1];
-		return file_get_contents($_SERVER['DOCUMENT_ROOT'].$url);
+		return file_get_contents($root.$url);
 	} else {
-		return file_get_contents($_SERVER['DOCUMENT_ROOT'].$url);
+		return file_get_contents($root.$url);
 	}
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-require "../../../../vendor/autoload.php";
+require $root."/vendor/autoload.php";
 
 
 $twitch_client_id = 'so3d8hae0pmk8nz6kuwel6fhdbpofw3';

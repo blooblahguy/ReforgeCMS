@@ -49,7 +49,7 @@ class Mapper extends \Magic {
 		// 	$this->schema["modified"] = "DATETIME";
 		// }
 
-		// Now, determine if this needs to be updated
+		// // Now, determine if this needs to be updated
 		// $field_hash = md5(serialize($schema));
 		// $field_cache = $cache->get($this->table);
 

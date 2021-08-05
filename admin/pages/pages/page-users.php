@@ -78,7 +78,7 @@ class admin_page_USERS extends RF_Admin_Page {
 				}
 			)
 		);
-		if (current_user()->can("administrator")) {
+		if (current_user()->can("manage_users")) {
 			$columns['mimic'] = array(
 				"label" => "Mimic",
 				"html" => '<a href="/admin/mimic-user/%2$d">Mimic User</a>',

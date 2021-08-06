@@ -166,6 +166,14 @@ class admin_page_USERS extends RF_Admin_Page {
 					<? if (current_user()->can("administrator")) { ?>
 						<a href="/admin/users/reset_avatar/<?= $user->id; ?>">Reset Avatar</a>
 					<? } ?>
+
+					<?
+					render_html_field($user, array(
+						"type" => "toggle",
+						"name" => "verified",
+						"label" => "Verified Email",
+						)); 
+					?>
 				</div>
 			</div>
 			<div class="os">
@@ -253,7 +261,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		$user->admin_theme = $_POST['admin_theme'];
 		$user->character_name = $_POST['character_name'];
 		$user->class = $_POST['class'];
-		$user->verified = 1;
+		$user->verified = $_POST['verified'];
 		$user->save();
 
 		RCF()->save_fields("user", $user->id);

@@ -169,7 +169,7 @@ class admin_page_USERS extends RF_Admin_Page {
 
 					<?
 					render_html_field($user, array(
-						"type" => "toggle",
+						"type" => "checkbox",
 						"name" => "verified",
 						"label" => "Verified Email",
 						)); 

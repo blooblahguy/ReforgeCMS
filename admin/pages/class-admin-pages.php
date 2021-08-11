@@ -52,8 +52,6 @@ class RF_Admin_Pages extends \Prefab {
 			return $a['parent'] > $b['parent'];
 		});
 
-		// debug($admin_menu);
-
 		$final = array();
 		foreach ($admin_menu as $entry) {
 			$entry['children'] = array();
@@ -93,7 +91,6 @@ class RF_Admin_Pages extends \Prefab {
 	}
 
 	function route($core, $args) {
-		// debug($args);
 		$this->page->route($this->method, $args);
 	}
 }

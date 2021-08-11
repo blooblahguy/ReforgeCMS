@@ -85,6 +85,14 @@ class Post extends \RF\Mapper {
 				if ($user->can($this->permission)) {
 					return false;
 				}
+			} elseif ($this->permission_exp == "logged_in") {
+				if (! $user->logged_in()) {
+					return false;
+				}
+			} elseif ($this->permission_exp == "logged_out") {
+				if ($user->logged_in()) {
+					return false;
+				}
 			}
 		}
 

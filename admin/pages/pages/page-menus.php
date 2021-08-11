@@ -70,7 +70,6 @@ class admin_page_MENUS extends RF_Admin_Page {
 					<div class="os children content-middle menu_group menu_children margt1" data-placeholder="Children"><? 
 						$menu['children'] = isset($menu['children']) ? $menu['children'] : array();
 						foreach ($menu['children'] as $child) {
-							// debug($child);
 							$this->menu_link_template($child); 
 						} 
 					?></div>
@@ -131,13 +130,13 @@ class admin_page_MENUS extends RF_Admin_Page {
 						$notfirst = true;
 					} ?>
 
-					<template class="menu_item">
+					<div class="template menu_item">
 						<? $this->menu_link_template(array(
 							"label" => "\$label",
 							"url" => "\$url",
 							"children" => array(),
 						)); ?>
-					</template>
+					</div>
 				</div>
 			</div>
 			<div class="os">
@@ -286,8 +285,6 @@ class admin_page_MENUS extends RF_Admin_Page {
 		}
 
 		$links = $this->build_menu();
-		// debug($links);
-		// exit();
 
 		$menu->label = $_POST['label'];
 		$menu->slug = $_POST['slug'];

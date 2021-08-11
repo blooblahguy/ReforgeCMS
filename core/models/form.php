@@ -32,8 +32,6 @@ class Form extends \RF\Mapper {
 
 				<?
 				RCF()->render_fields($field['id'], $entry, $type, $field);
-
-				// debug($core);
 				?>
 
 				<input type="hidden" name="redirect" value="<? echo $core->SERVER['REDIRECT_URL']; ?>">

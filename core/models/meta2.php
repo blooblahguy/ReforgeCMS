@@ -22,7 +22,7 @@ class Meta extends \RF\Mapper {
 				"type" => "INT(4)",
 			),
 			"field_info" => array(
-
+				"type" => "VARCHAR(100)",
 			),
 			"created" => false,
 			"modified" => false,

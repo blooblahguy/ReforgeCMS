@@ -6,21 +6,24 @@ $("body").on("click", ".group_remove a", function() {
 
 // specifically for custom fields
 $("body").on("click", "[data-rcf-template]", function() {
-	var target = $(this).data("target")
-	var template = $($(this).data("rcf-template"))
+	var template_class = $(this).attr("data-rcf-template")
+	var template = $(template_class)
+
+	var target_class = $(this).attr("data-target")
+	var target = $(target_class)
+
 	var replace = $(this).attr("data-replace")
-	var index = $(this).data("index")
-	var html = template.html()
-
+	var index = $(this).attr("data-index")
+	
 	var repreg = new RegExp("\\$"+replace, "gi")
+	var html = template[0].innerHTML.trim()
 	html = html.replace(repreg, index)
+	html = $.parseHTML ( html )
 
-	$(this).attr("data-index", parseInt(index) + 1)
+	$(target).append(html[0]);
 
-	$(target).append(html);
-
-	hook_editors()
-	hook_sorters()
+	// hook_editors()
+	// hook_sorters()
 })
 
 $("body").on("click", ".flexible_add", function() {
@@ -239,6 +242,7 @@ function cf_sorters() {
 	// add CF row
 	$("body").on("click", ".cf-add", function() {
 		var template = $(".blank_field").html()
+		// console.log(template)
 		var target = $($(this).data("target"))
 		var key = rf.uniqid("field_")
 		var parent = $(this).data("parent")

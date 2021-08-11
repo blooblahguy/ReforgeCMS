@@ -58,7 +58,8 @@
 
 		?>
 		<div class="bdg">
-			<? foreach ($socials as $platform => $link) { 
+			<? foreach ($socials as $platform => $link) {
+				if ($link == "") { continue; }
 				$plat = strrev($platform); ?>
 				<a href="<?= $link; ?>" target="_blank" class="<?= $plat; ?>">
 					<span class="svg">

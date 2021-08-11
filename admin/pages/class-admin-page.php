@@ -66,7 +66,6 @@ class RF_Admin_Page {
 		global $core;
 		$save_url = $this->link;
 		$save_url .= $core->build($this->routes['save'][1], $args);
-		// debug($save_url);
 		echo "<form action='{$save_url}' method='POST' enctype='multipart/form-data'>";
 	}
 	function post_edit($args) {

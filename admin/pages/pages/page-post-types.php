@@ -192,7 +192,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 						<? } ?>
 					</div>
 
-					<template class="statuses">
+					<div class="template statuses">
 						<div class="row g1 content-middle 1">
 							<input type="hidden" name="new_status[]" value="1">
 							<div class="os-min">
@@ -212,7 +212,7 @@ class admin_page_POSTTYPES extends RF_Admin_Page {
 								<a href="#" data-remove=".row" class="btn btn-sm">-</a>
 							</div>
 						</div>
-					</template>
+					</div>
 				</div>
 			</div>
 

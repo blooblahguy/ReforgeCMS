@@ -12,6 +12,7 @@ if (count($options) == 0) {
 queue_script("/core/assets/js/lazy.js");
 queue_script("/core/assets/js/cash.js", 1);
 // queue_script("/core/assets/js/ajax.min.js", 3);
+queue_script("/core/assets/js/sortable.min.js", 18);
 queue_script("/core/assets/js/core.js", 16);
 queue_script("/core/assets/js/custom_fields.js", 18);
 

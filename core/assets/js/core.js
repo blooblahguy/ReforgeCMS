@@ -154,7 +154,10 @@ function hook_sorters() {
 		});
 	})
 }
-hook_sorters();
+
+$(document).ready(function() {
+	hook_sorters();
+})
 
 
 // tabs

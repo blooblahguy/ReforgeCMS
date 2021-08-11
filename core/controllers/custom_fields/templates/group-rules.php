@@ -26,6 +26,6 @@ if (count($all_rules) == 0) {
 		"value" => false
 	)
 ?>
-<template class="blank_rule">
+<div class="template blank_rule">
 	<? rcf_get_template('group-rule', array("rules" => array($clone), "group" => "\$group")); ?>
-</template>
+</div>

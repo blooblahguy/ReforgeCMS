@@ -51,8 +51,7 @@ class reforge_field_REPEATER extends reforge_field {
 				?>
 			</div>
 
-			
-			<template class="template_<?= $friendly; ?>">
+			<div class="template template_<?= $friendly; ?>">
 				<? 
 				$template = array( 
 					'fields' => $children,
@@ -63,7 +62,7 @@ class reforge_field_REPEATER extends reforge_field {
 
 				rcf_get_template('group-results', $template); 
 				?>
-			</template>
+			</div>
 		</div>
 
 		<?
@@ -109,18 +108,21 @@ class reforge_field_REPEATER extends reforge_field {
 				<div class="btn-primary pull-right" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".repeater_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
 				<div class="clear"></div>
 			</div>
-			<template class="template_<?= $friendly; ?>">
-				<? 
+
+			<? 
 				$template = array( 
 					'fields' => $children,
 					"context" => $context,
 					"index" => "\${$field['key']}index",
 					"template" => true,
 				);
+				// debug($template);
+			?>
 
-				rcf_get_template('group-fields', $template); 
-				?>
-			</template>
+
+			<div class="template template_<?= $friendly; ?>">
+				<? rcf_get_template('group-fields', $template); ?>
+			</div>
 		</div>
 
 		<?

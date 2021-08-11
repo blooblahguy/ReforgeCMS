@@ -194,13 +194,14 @@ class Forms extends \Prefab {
 		$user->twitch = $_POST['twitch'];
 		$user->character_name = $_POST['character_name'];
 		$user->class = $_POST['class'];
+		$user->twitter = $_POST['twitter'];
+		$user->bio = $_POST['bio'];
 
 		// debug($_FILES);
 		// exit();
 		
-		$avatar = Media::instance()->upload($core, $args);
-		$user->avatar = $avatar->get_size(200, 200);
-
+		// $avatar = Media::instance()->upload($core, $args);
+		// $user->avatar = $avatar->get_size(200, 200);
 
 		$user->save();
 
@@ -348,13 +349,6 @@ function profile_form($attrs) {
 
 	<form method="POST" action="/profile_submit" enctype='multipart/form-data'>
 		<div class="row g1">
-			<div class="os-2 text-center">
-				<label for="">Avatar</label>
-				<div class="avatar">
-					<img src="<?= current_user()->avatar; ?>" alt="">
-				</div>
-				<input type="file" name="file">
-			</div>
 			<div class="os padt0">
 				<div class="row g1">
 					<? 
@@ -378,11 +372,19 @@ function profile_form($attrs) {
 						"label" => "Twitch",
 						"type" => "text",
 						"name" => "twitch",
+						"placeholder" => "Twitch Channel Username",
+						"layout" => "os-12",
+					));
+					
+					render_html_field($user, array(
+						"label" => "Twitter",
+						"type" => "text",
+						"name" => "twitter",
 						"layout" => "os-12",
 					));
 
 					render_html_field($user, array(
-						"label" => "Character Name",
+						"label" => "Main Character Name",
 						"type" => "text",
 						"required" => true,
 						"name" => "character_name",
@@ -398,12 +400,29 @@ function profile_form($attrs) {
 						"layout" => "os-6",
 					));
 
+					render_html_field($user, array(
+						"label" => "Bio",
+						"type" => "textarea",
+						"required" => false,
+						"name" => "bio",
+						"layout" => "os-12",
+					));
+
 					?>
 				</div>
 				<input type="submit" value="Save">
 			</div>
 		</div>
 	</form>
+
+	<script src="/core/assets/js/simplemde.js"></script>
+	<script>
+		var simplemde = new SimpleMDE({ 
+			element: document.getElementById("bio"),
+			spellChecker: false,
+			hideIcons: ["fullscreen", "side-by-side", "preview", "table", "image"],
+		});
+	</script>
 
 	<?
 }

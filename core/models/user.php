@@ -31,6 +31,12 @@ class User extends \RF\Mapper {
 			"twitch" => array(
 				"type" => "VARCHAR(256)"
 			),
+			"twitter" => array(
+				"type" => "VARCHAR(256)"
+			),
+			"bio" => array(
+				"type" => "LONGTEXT"
+			),
 			"verified" => array(
 				"type" => "INT(1)",
 				"attrs" => "DEFAULT 0",

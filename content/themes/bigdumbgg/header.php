@@ -32,6 +32,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="#171C23">
 	
 	<link rel="stylesheet" href="<?= theme_url(); ?>/css/dist/style.php"/>
+	<link rel="stylesheet" href="core/assets/css/simplemde.css"/>
 
 	<link rel="shortcut icon" href="<?= theme_url(); ?>/img/bdgg_emblem.png" type="image/x-icon" />
 

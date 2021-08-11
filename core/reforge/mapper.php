@@ -130,7 +130,7 @@ class Mapper extends \Magic {
 	}
 
 	private function wipe_query_cache() {
-		debug("wiped cache for {$this->table}");
+		// debug("wiped cache for {$this->table}");
 		$this->cache['queries']->reset();
 	}
 

@@ -37,31 +37,31 @@ class Mapper extends \Magic {
 		global $schema_checked;
 
 		$cache = $this->cache['schema'];
+		// Now, determine if this needs to be updated
+		$field_hash = md5(serialize($schema));
+		$field_cache = $cache->get($this->table);
 
-		// first, store schema information in our object
-		// foreach ($schema as $col => $props) {
-		// 	$this->schema[$col] = $props['type'];
-		// }
-		// if ($this->schema["created"] !== false) {
-		// 	$this->schema["created"] = "DATETIME";
-		// }
-		// if ($this->schema["modified"] !== false) {
-		// 	$this->schema["modified"] = "DATETIME";
-		// }
+		// doesn't have a cache or doesn't match
+		if (! $field_cache || $field_cache != $field_hash) {
 
-		// // Now, determine if this needs to be updated
-		// $field_hash = md5(serialize($schema));
-		// $field_cache = $cache->get($this->table);
+			// first, store schema information in our object
+			foreach ($schema as $col => $props) {
+				$this->schema[$col] = $props['type'];
+			}
+			if ($this->schema["created"] !== false) {
+				$this->schema["created"] = "DATETIME";
+			}
+			if ($this->schema["modified"] !== false) {
+				$this->schema["modified"] = "DATETIME";
+			}
+		
+			// save hash in cache
+			$cache->set($this->table, $field_hash);
+			// send to schema class for update
+			\RF\Schema::instance()->update($this->table, $schema);
+		}
 
-		// // doesn't have a cache or doesn't match
-		// if (! $field_cache || $field_cache != $field_hash) {
-		// 	// save hash in cache
-		// 	$cache->set($this->table, $field_hash);
-		// 	// send to schema class for update
-		// 	\RF\Schema::instance()->update($this->table, $schema);
-		// }
-
-		// $schema_checked[$this->table] = 1;
+		$schema_checked[$this->table] = 1;
 	}
 
 	/**

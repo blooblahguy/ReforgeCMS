@@ -1,5 +1,10 @@
 <?php
-
+	$sent = get_meta("application_".$app->id, "sent_to_discord");
+	if ($sent != "1") {
+		send_discord_app($app);
+		set_meta("application_".$app->id, "sent_to_discord", "1");
+	}
+	// debug($meta);
 ?>
 <div class="post">
 	<div class="post_header padx1 bg-dark">

@@ -9,8 +9,6 @@ function send_discord_app($app) {
 	$author->get_user($app->author);
 	$meta = RCF()->get_fields("application", $app->id);//get_meta("application_".$app->id);
 
-	// debug($meta);
-
 	$json_data = json_encode([		
 		"username" => "Application Bot",
 		"tts" => false,

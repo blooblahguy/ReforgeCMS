@@ -55,7 +55,13 @@ class RFApplications extends \Prefab {
 	}
 
 	function alert_discord($post) {
-		send_discord_app($post);
+		$app = new Post();
+		$app->load("*", array("id = :id", ":id" => $post->id));
+
+		// debug($app);
+		
+		send_discord_app($app);
+		exit();
 	}
 
 	function alert_comment($post_id, $comment) {

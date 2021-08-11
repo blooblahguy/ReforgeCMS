@@ -458,7 +458,7 @@ function get_meta($uid, $key = false) {
 		$uid = "post_{$post_id}";
 	}
 
-	if (! isset($meta_cache[$uid][$key])) {
+	if (! isset($meta_cache[$uid]) || ($key != false && ! isset($meta_cache[$uid][$key]))) {
 		$meta = new Meta();
 		$extra = "";
 		$vars = array(

@@ -192,7 +192,7 @@ function hook_editors() {
 					['link'],
 					['image'],
 
-					[{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }], // custom button values
+					[{ 'header': 2 }, { 'header': 3 }, { 'header': 4 }], // custom button values
 					[{ 'list': 'ordered'}, { 'list': 'bullet' }],
 					[{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
 

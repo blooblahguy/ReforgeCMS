@@ -37,6 +37,32 @@ if ($CONTROLLER == "admin") {
 // 	include "import.php";
 // });
 
+// $form = new Form();
+if (! logged_in()) {
+	// debug('test');
+	$core->route("GET /verify", function() {
+		$code = $_GET['code'];
+
+		$verify = new VerifyCode();
+		$verify->load("*", array("code = :code", ":code" => $code));
+
+		if ($verify->id) {
+			$user = new User();
+			$user->load("*", array("id = :id", ":id" => $verify->user_id));
+			$user->verified = 1;
+			$user->save();
+
+			$verify->erase();
+
+			Alerts::instance()->success("Email successfuly verified, you can log in now.");
+			redirect("/login");
+		} else {
+			Alerts::instance()->error("Invalid verification code");
+			redirect("/");
+		}
+	});
+}
+
 $core->run();
 
 $reforge_load_time += hrtime(true);

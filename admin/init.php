@@ -9,7 +9,7 @@ function build_pages() {
 	global $root;
 	
 	$pages = array();
-	$pages["comments"] = "page-comments.php";
+	// $pages["comments"] = "page-comments.php";
 	$pages["customfields"] = "page-custom-fields.php";
 	$pages["dashboard"] = "page-dashboard.php";
 	$pages["forms"] = "page-forms.php";

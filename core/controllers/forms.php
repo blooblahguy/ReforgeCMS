@@ -13,7 +13,6 @@ class Forms extends \Prefab {
 		} else {
 			$core->route("POST /register", "Forms->register_submit");
 			$core->route("POST /login", "Forms->login_submit", 0, 64);
-			$core->route("GET /verify", "Forms->verify");
 
 			// request and reset password
 			$core->route("POST /reset_password_request", "Forms->reset_password_request");
@@ -163,27 +162,27 @@ class Forms extends \Prefab {
 		redirect("/");
 	}
 
-	function verify() {
-		$code = $_GET['code'];
+	// function verify() {
+	// 	$code = $_GET['code'];
 
-		$verify = new VerifyCode();
-		$verify->load("*", array("code = :code", ":code" => $code));
+	// 	$verify = new VerifyCode();
+	// 	$verify->load("*", array("code = :code", ":code" => $code));
 
-		if ($verify->id) {
-			$user = new User();
-			$user->load("*", array("id = :id", ":id" => $verify->user_id));
-			$user->verified = 1;
-			$user->save();
+	// 	if ($verify->id) {
+	// 		$user = new User();
+	// 		$user->load("*", array("id = :id", ":id" => $verify->user_id));
+	// 		$user->verified = 1;
+	// 		$user->save();
 
-			$verify->erase();
+	// 		$verify->erase();
 
-			Alerts::instance()->success("Email successfuly verified, you can log in now.");
-			redirect("/login");
-		} else {
-			Alerts::instance()->error("Invalid verification code");
-			redirect("/");
-		}
-	}
+	// 		Alerts::instance()->success("Email successfuly verified, you can log in now.");
+	// 		redirect("/login");
+	// 	} else {
+	// 		Alerts::instance()->error("Invalid verification code");
+	// 		redirect("/");
+	// 	}
+	// }
 
 
 	function profile_submit($core, $args) {

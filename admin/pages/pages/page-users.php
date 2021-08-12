@@ -183,6 +183,15 @@ class admin_page_USERS extends RF_Admin_Page {
 			<div class="os-2">
 				<div class="section text-center">
 					<a class="btn" href="/admin/users/reset_verify/<?= $user->id; ?>">Resend Verification Email</a>
+
+					<?
+					render_html_field($user, array(
+						"type" => "checkbox",
+						"name" => "verified",
+						"label" => "Verified Email",
+						)); 
+					?>
+					
 				</div>
 
 				<!-- <div class="section text-center">
@@ -198,13 +207,7 @@ class admin_page_USERS extends RF_Admin_Page {
 						<a href="/admin/users/reset_avatar/<?= $user->id; ?>">Reset Avatar</a>
 					<? } ?>
 
-					<?
-					render_html_field($user, array(
-						"type" => "checkbox",
-						"name" => "verified",
-						"label" => "Verified Email",
-						)); 
-					?>
+					
 				</div> -->
 			</div>
 			<div class="os">

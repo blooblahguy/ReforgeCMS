@@ -11,9 +11,9 @@ function send_discord_app($app) {
 
 	// YYYY-MM-DDTHH:MM:SS.MSSZ
 
-	debug($timestamp);
+	// debug($timestamp);
 
-	debug($app); exit();
+	// debug($app); exit();
 	$author = new User();
 	$author->get_user($app->author);
 	$meta = RCF()->get_fields("application", $app->id);//get_meta("application_".$app->id);

@@ -2,6 +2,8 @@
 
 class admin_page_USERS extends RF_Admin_Page {
 	function __construct() {
+		global $core;
+
 		$this->name = "users";
 		$this->label = "User";
 		$this->label_plural = "Users";
@@ -14,6 +16,10 @@ class admin_page_USERS extends RF_Admin_Page {
 
 		// Be sure to set up the parent
 		parent::__construct();
+
+		$core->route("GET /admin/users/reset_verify/@id", function($core, $args) {
+			$this->resend_verify($args);
+		});
 	}
 
 	function index($args) {
@@ -115,6 +121,24 @@ class admin_page_USERS extends RF_Admin_Page {
 		// echo '</div>';
 	}
 
+
+	function resend_verify($args) {
+		$id = $args['id'];
+
+		$user = new User();
+		$user->load("*", array("id = :id", ":id" => $id));
+
+		$code = new VerifyCode();
+		$code->code = uniqid();
+		$code->user_id = $id; 
+		$code->save();
+
+		rf_mail($this->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://bigdumb.gg/verify?code=".$code->code."'>Verify Email</a>");
+
+		\Alerts::instance()->success("Email resent");
+		redirect("/admin/users/edit/{$id}");
+	}
+
 	function edit($args) {
 		$id = $this->id;
 
@@ -151,10 +175,16 @@ class admin_page_USERS extends RF_Admin_Page {
 			"warlock" => "Warlock",
 			"warrior" => "Warrior",
 		);
+
+		
 	?>
 		<div class="row g1">
 			<div class="os-2">
 				<div class="section text-center">
+					<a class="btn" href="/admin/users/reset_verify/<?= $user->id; ?>">Resend Verification Email</a>
+				</div>
+
+				<!-- <div class="section text-center">
 					<h4>Avatar</h4>
 					<div class="avatar preview">
 						<? $user->render_avatar(); ?>
@@ -174,7 +204,7 @@ class admin_page_USERS extends RF_Admin_Page {
 						"label" => "Verified Email",
 						)); 
 					?>
-				</div>
+				</div> -->
 			</div>
 			<div class="os">
 				<div class="section">

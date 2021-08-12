@@ -19,8 +19,6 @@ add_action("rf_footer", function() {
 // Allow for avatar manual refresh
 if (current_user()->can("administrator")) {
 	$core->route("GET /admin/users/reset_avatar/@id", function($core, $args) {
-		// debug($args);
-		// exit();
 		$user = get_user($args['id']);
 		$user->check_avatar();
 

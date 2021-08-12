@@ -62,8 +62,9 @@ class admin_page_ROLES extends RF_Admin_Page {
 			'remove' => array (
 				"label" => "Remove",
 				"class" => "min",
-				"calculate" => function($s, $id) {
-					return "<a href='{$this->link}/delete/{$id}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				"calculate" => function($s, $r) {
+					// debug($r);
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
 				}
 			)
 		));

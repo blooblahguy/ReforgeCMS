@@ -51,6 +51,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&family=Teko:wght@500&display=swap" rel="stylesheet">
 
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	<!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"> -->
 	<!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"> -->
 </head>
@@ -91,6 +93,10 @@
 						<? if (logged_in()) { ?>
 							<li class="link">
 								<a href="/profile" class="<? if (strpos($path, "profile") !== false) {echo "active"; } ?>"><i>account_circle</i></a>
+							</li>
+						<? } else { ?>
+							<li class="link">
+								<a href="/login" class="<? if (strpos($path, "login") !== false) {echo "active"; } ?>"><i>login</i></a>
 							</li>
 						<? } ?>
 

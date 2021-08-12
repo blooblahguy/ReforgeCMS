@@ -95,6 +95,10 @@ array_unshift($all, $feature);
 			<div class="os-min content pad2">
 				<h1>World 4th World of Warcraft Raiding Guild</h1>
 				<h3>BDGG is a unique raid team with a focus on content creation, quality guides, and giving back to the community</h3>
+
+				<div class="text-center home_socials padt1">
+					<? render_socials(); ?>
+				</div>
 				
 				<div class="partners text-center padt2">
 					<h3 class="margb0"><a href="/partners">Our Partners</a></h3>

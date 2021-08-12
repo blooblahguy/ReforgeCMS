@@ -57,7 +57,7 @@
 		// debug($socials);
 
 		?>
-		<div class="bdg">
+		<div class="bdg_socials">
 			<? foreach ($socials as $platform => $link) {
 				if ($link == "") { continue; }
 				$plat = strrev($platform); ?>

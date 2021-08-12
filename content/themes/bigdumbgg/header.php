@@ -56,26 +56,6 @@
 </head>
 <body <?= body_classes(); ?> lang="en">
 	<div class="wrapper">
-		<div class="top_outer">
-			<div class="top container row content-middle">
-				<div class="os-md-min">
-					<? render_socials(); ?>
-				</div>
-				
-				<div class="os-12 os-md links hidden md-display-block text-right">
-					<? if (logged_in()) { ?>
-						<a href="/profile"><?= $user->username; ?></a>
-						<? if ($user->can("access_admin")) { ?>
-							<a href="/admin">Admin</a>
-						<? } ?>
-						<a href="/logout">Logout</a>
-					<? } else { ?>
-						<a href="/login">Login</a>
-						<a href="/register">Register</a>
-					<? } ?>
-				</div>
-			</div>
-		</div>
 		<div class="header_outer bg-dark">
 			<div class="header container">
 				<div class="row content-middle">
@@ -105,6 +85,18 @@
 						<? } else { ?>
 							<li class="link">
 								<a href="/recruitment" class="<? if (strpos($path, "recruitment") !== false) {echo "active"; } ?>">Apply</a>
+							</li>
+						<? } ?>
+
+						<? if (logged_in()) { ?>
+							<li class="link">
+								<a href="/profile" class="<? if (strpos($path, "profile") !== false) {echo "active"; } ?>"><i>account_circle</i></a>
+							</li>
+						<? } ?>
+
+						<? if ($user->can("access_admin")) { ?>
+							<li class="link">
+								<a href="/admin"><i>settings</i></a>
 							</li>
 						<? } ?>
 					</ul>

@@ -5,6 +5,29 @@
 	src: url("/admin/css/materialicons.woff2") format('woff2');
 }
 
+i {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+  
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+  
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+  
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+  }
+
 // @font-face {
 // 	font-family: 'Prohibition';
 // 	// font-style: normal;
@@ -121,12 +144,13 @@ h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500; }
 	a { display:block; color: $white; padding: $pad1 $pad2; opacity: 1; font-size: 1.4rem; font-family: 'Teko', sans-serif;}
 	a:hover {opacity: 1; color: $white;  }
 	a.active {opacity: 1; color: $primary; }
+	i {position: relative; top:5px;}
 }
 // Header
-.bdg {
+.bdg_socials {
 	font-size:0.01rem;
-	a {display: inline-block; opacity: 0.8; margin: 0 2px; padding: 5px; width: 24px; height:24px;}
-	span {display:block; position:relative; height:100%;}
+	a {display: inline-block; opacity: 0.8; margin: 0 0.5rem; padding: 1rem; width: 3.65rem; height: 3.65rem; background: $light-grey; border-radius: 50%; }
+	span { display:block; position:relative; height:100%; }
 	svg {fill:$white; display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); width:100%; height: auto !important; }
 }
 
@@ -145,7 +169,7 @@ a:hover {
 // FOOTER
 //===========================================
 .footer_outer {
-	background: #1c1e24; border-top: 2px solid $primary; position: relative;
+	background: darken($dark, 2%); border-top: 2px solid $primary; position: relative;
 	
 	.footer {position: relative; z-index: 1; }
 }

@@ -4,6 +4,9 @@
 		
 		<div class="footer_outer">
 			<div class="footer container pady2">
+				<div class="text-center footer_socials">
+					<? render_socials(); ?>
+				</div>
 				<div class="row g2 content-middle">
 					<a href="/" class="os-md-4 padx4 os-12 text-center md-text-left footerlogo fill-primary text-center">
 						<span class="svglogo"><?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?></span>
@@ -33,15 +36,10 @@
 				//global $db;
 				//debug($db);
 				?>
+				<div class="os-12 muted copy em small text-center"> © <?= Date("Y"); ?> Big Dumb Gaming LLC - All rights reserved</div>
 			</div>
-		</div>
-		<div class="subfooter">
-			<div class="container row pady1 content-middle">
-				<div class="os-12 text-center md-text-left os-md-6">
-					<? render_socials(); ?>
-				</div>
-				<div class="os-12 md-text-right os-md-6 muted copy em small text-center"> © <?= Date("Y"); ?> Big Dumb Gaming LLC - All rights reserved</div>
-			</div>
+
+			
 		</div>
 	</div>
 

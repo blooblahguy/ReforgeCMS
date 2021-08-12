@@ -156,13 +156,13 @@ h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500; }
 
 a:hover {
 	opacity: 1;
-	&.emblem svg {fill: $primary}
-	&.koobecaf svg {fill: #3b5998}
-	&.ebutuoy svg {fill: #FF0000}
-	&.margatsni svg {fill: #405de6}
-	&.hctiwt svg {fill: #6441a5}
-	&.rettiwt svg {fill: #1da1f2}
-	&.drocsid svg {fill: #7289da}
+	&.emblem {background: $primary}
+	&.koobecaf {background: #3b5998}
+	&.ebutuoy {background: #FF0000}
+	&.margatsni {background: #405de6}
+	&.hctiwt {background: #6441a5}
+	&.rettiwt {background: #1da1f2}
+	&.drocsid {background: #7289da}
 }
 
 //===========================================
@@ -388,6 +388,10 @@ a:hover {
 	}
 
 	.custom_app_links .repeater_entry:hover {background: rgba(255, 255, 255, .02)}
+}
+
+.rcf_group > label {
+	color: $primary; font-size: 1.5rem; border-bottom: 1px solid $grey;
 }
 
 .repeater_body {border: 1px solid $dark;}

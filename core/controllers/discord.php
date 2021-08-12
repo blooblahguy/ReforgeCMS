@@ -6,14 +6,14 @@ function send_discord_app($app) {
 	global $discord_webhook;
 
 	$day = date("Y-m-d", strtotime($app->created));
-	$time = date("H:i", strtotime($app->created));
+	$time = date("H:i:s", strtotime($app->created));
 	$timestamp = $day."T".$time.".000Z";
 
 	// YYYY-MM-DDTHH:MM:SS.MSSZ
 
-	// debug($timestamp);
+	debug($timestamp);
 
-	// debug($app); exit();
+	debug($app); exit();
 	$author = new User();
 	$author->get_user($app->author);
 	$meta = RCF()->get_fields("application", $app->id);//get_meta("application_".$app->id);

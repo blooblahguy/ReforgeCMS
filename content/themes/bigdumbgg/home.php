@@ -163,7 +163,7 @@ $bg = get_file($bg);
 		<div class="container row text-left">
 			<div class="os-lg-6 os">
 				<h2 class="title"><?= $fields['hero_text']['main']; ?></h2>
-				<h3 class="margb4"><?= $fields['hero_text']['sub_text']; ?></h3>
+				<p class="margb4"><?= $fields['hero_text']['sub_text']; ?></p>
 				<a class="btn-primary" href="/recruitment">I Can Handle That</a>
 			</div>
 		</div>

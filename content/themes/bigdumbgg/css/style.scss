@@ -5,12 +5,12 @@
 	src: url("/admin/css/materialicons.woff2") format('woff2');
 }
 
-@font-face {
-	font-family: 'Prohibition';
-	// font-style: normal;
-	// font-weight: 300;
-	src: url("/content/themes/bigdumbgg/css/Prohibition-Regular.otf") format('opentype');
-}
+// @font-face {
+// 	font-family: 'Prohibition';
+// 	// font-style: normal;
+// 	// font-weight: 300;
+// 	src: url("/content/themes/bigdumbgg/css/Prohibition-Regular.otf") format('opentype');
+// }
 
 // BG
 .background-svg1 {
@@ -54,7 +54,7 @@ $wow-colors: (
 //===========================================
 // OS Overrides
 //===========================================
-body {background: $background; color: $white; font-family: 'Montserrat', sans-serif; color: #d0d1d3; font-weight: 400;}
+body {background: $background; color: $white; font-family: 'Roboto', sans-serif; color: #d0d1d3; font-weight: 400; line-height: 2;}
 .container {max-width: 1400px;}
 .fill-primary {fill: $primary; }
 .fill-facebook {fill: #3b5998}
@@ -64,10 +64,10 @@ body {background: $background; color: $white; font-family: 'Montserrat', sans-se
 .fill-twitter {fill: #1da1f2}
 .fill-discord {fill: #7289da}
 
-h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500;}
+h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500; }
 
-.h1, h1 {font-weight: 500; }
-.h2, h2 {font-weight: 500; }
+.h1, h1 {font-weight: 500; font-family: 'Teko', sans-serif;}
+.h2, h2 {font-weight: 500; font-family: 'Teko', sans-serif;}
 .h3, h3 {font-weight: 500; }
 .h4, h4 {font-weight: 500; }
 .h5, h5 {font-weight: 500; }
@@ -96,7 +96,7 @@ h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500;}
 // HEADER
 //===========================================
 .logo {
-	color: $white; display: block; font-size: 36px; padding: $pad1; padding-bottom: 18px; padding-left: 0; font-family: "Prohibition"; line-height:1; font-weight: normal;
+	color: $white; display: block; font-size: 42px; padding: $pad1; padding-left: 0; font-family: "Teko", sans-serif; line-height: 1; margin-top: 6px;
 	svg {display:inline-block; max-width: 38px; height: 38px; margin: -5px 10px; margin-left: 0; fill: $primary; }
 	span {color: $primary; }
 	&:hover {opacity: 0.8; color: $white; }
@@ -118,7 +118,7 @@ h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500;}
 .header .menu {
 	margin:0; padding:0; list-style: none;
 	li {display: inline-block; }
-	a { display:block; color: $white; padding: $pad1 $pad2; opacity: 1; font-weight: 500; }
+	a { display:block; color: $white; padding: $pad1 $pad2; opacity: 1; font-size: 1.4rem; font-family: 'Teko', sans-serif;}
 	a:hover {opacity: 1; color: $white;  }
 	a.active {opacity: 1; color: $primary; }
 }
@@ -150,7 +150,7 @@ a:hover {
 	.footer {position: relative; z-index: 1; }
 }
 .footerlogo {
-	h2 {text-align:center; color: $white; display: block; font-size: 50px; font-family: "Prohibition"; line-height:1; font-weight: normal; }
+	h2 {text-align:center; color: $white; display: block; font-size: 50px; font-family: "Teko", sans-serif; line-height:1; font-weight: normal; }
 	span {color: $primary; }
 	svg {width: 130px; margin: auto; }
 }
@@ -190,8 +190,8 @@ a:hover {
 		position: relative; border: 2px solid black; border-left: none; border-right: none; overflow:hidden; 
 		img {z-index: -1; min-width: 100%; max-width: none; display:block; }
 		.text_overlay {width: 100%; max-width: none; position: absolute; top: 50%; left: 0; @include prefix(transform, translateY(-50%)); }
-		h2 {font-size: 2.5rem; }
-		h3 {font-size: 1.1rem; font-weight: normal; }
+		// h2 {font-size: 2.5rem; }
+		// h3 {font-size: 1.1rem; font-weight: normal; }
 	}
 	.home_parallax {
 		overflow: hidden; height: 100vh; max-height: 600px;
@@ -207,7 +207,7 @@ a:hover {
 	}
 
 	.page_header_outer {
-		position: relative; overflow: hidden; padding: $pad4 0; padding-top: 10vh; 
+		position: relative; overflow: hidden; padding: $pad4 0;
 		&.news {padding-top: 20vh;}
 
 		.bg {position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; z-index: -1; }
@@ -218,9 +218,9 @@ a:hover {
 
 	.page_header {
 		position: relative; z-index: 5; 
-		h1 {margin: 0; font-size: 2.5rem; text-shadow: 1px 1px 4px black; display:inline-block; clear: both; }
-		h3 {font-size: 1.1rem; font-weight: normal; text-shadow: 1px 1px 2px black; display:inline-block; clear: both; }
-		.breadcrumbs { display:inline-block; clear: both; padding: $pad1 0; margin-left: -6px; }
+		h1 {margin: 0; font-size: 3.5rem; text-shadow: 1px 1px 4px black; display:inline-block; clear: both; }
+		h4 { text-shadow: 1px 1px 2px black; display:inline-block; clear: both; margin-top: 0; }
+		.breadcrumbs { display:inline-block; clear: both; padding: 0; margin-left: -6px; }
 	}
 	.breadcrumbs {
 		font-size: 0.9rem;

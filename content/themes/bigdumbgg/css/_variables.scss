@@ -8,26 +8,26 @@ $font-bold: 500;
 //============================================
 // Theme
 //============================================
-	// $primary: #a02c2f;
-	$primary: #e0b15a;
-	$secondary: #a02c2f;
+// $primary: #a02c2f;
+$primary: #e0b15a;
+$secondary: #a02c2f;
 
-	// $black: #252830;
-	// $black: #2C333B;
-	$black: #1e232a;
-	$white: #f0f4ff;
+// $black: #252830;
+// $black: #2C333B;
+$black: #1e232a;
+$white: #f0f4ff;
 
-	$grey: rgba(mix($white, $black, 50%), 0.3);
+$grey: rgba(mix($white, $black, 50%), 0.3);
 
-	$background: $black;
-	$text: $white;
-	$dark: #181A1F;
-	$light-grey: #393944;
-	$dark-grey: darken($background, 2%);
+$background: $black;
+$text: $white;
+$dark: #181A1F;
+$light-grey: #393944;
+$dark-grey: darken($background, 2%);
 
-	$h1: 2rem;
-	$h2: 1.5rem;
-	$h3: 1.3rem;
-	$h4: 1.2rem;
-	$h5: 1.0rem;
-	$h6: 0.8rem;
+$h1: 3.4rem;
+$h2: 2.7rem;
+$h3: 1.5rem;
+$h4: 1.2rem;
+$h5: 1.0rem;
+$h6: 0.8rem;

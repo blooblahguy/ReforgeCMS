@@ -22,7 +22,7 @@ $sub = $page['subtitle'];
 		<h1><?= $page['title']; ?></h1>
 		<div class="clear"></div>
 		<? if ($sub) { ?>
-			<h3><?= $sub; ?></h3>
+			<h4><?= $sub; ?></h4>
 		<? } ?>
 		<div class="breadcrumbs_outer">
 			<?

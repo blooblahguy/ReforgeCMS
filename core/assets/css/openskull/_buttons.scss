@@ -3,7 +3,7 @@
 	$el_bg: mix($text, $background, 20%);
 	$el_hover: hover($primary, $hover-difference);
 
-	font-size: 0.9rem; border: 2px solid $primary; background: none; text-decoration:none; padding: $pad1 $pad2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: $text; line-height: $pad2; border-radius: $border-radius; font-weight: bold; text-transform: uppercase;
+	border: 2px solid $primary; background: none; text-decoration:none; padding: $pad1 $pad2; cursor:pointer; text-align:center; box-shadow:none; display: inline-block; color: $text; border-radius: $border-radius; font-weight: bold; text-transform: uppercase; line-height: 1.5;
 	&:hover, &:focus {
 		text-decoration:none; color: contrast($el_hover); background: $el_hover; border-color: $el_hover;
 	}

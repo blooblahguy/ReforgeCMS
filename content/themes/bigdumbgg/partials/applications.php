@@ -3,7 +3,8 @@ if (! $user->can("view_applications")) { return; }
 
 $open = new Post();
 $open = $open->find("*", "post_type = 'application' AND post_status = 'open'", array(
-	"order by" => "created DESC"
+	"order by" => "created DESC",
+	"limit" => "5"
 ));
 
 if (count($open) == 0) {
@@ -60,5 +61,8 @@ if (count($open) == 0) {
 				</div>
 			</div>
 		<? } ?>
+	</div>
+	<div class="padt2">
+		<div class="text-center"><a href="/applications" class="btn">View All Apps</a></div>
 	</div>
 </div>

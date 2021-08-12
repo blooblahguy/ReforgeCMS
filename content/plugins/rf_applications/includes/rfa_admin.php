@@ -140,6 +140,13 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 					the_date($r['id']);	
 				},
 			),
+			'remove' => array (
+				"label" => "Remove",
+				"class" => "min",
+				"calculate" => function($s, $r) {
+					return "<a href='{$this->link}/delete/{$r['id']}' class='delete_btn' onclick=\"return confirm('Are you sure you want to delete this item?');\"><i>delete_forever</i></a>";
+				}
+			)
 		);
 
 		?>
@@ -314,8 +321,15 @@ class RFA_Applications_Admin extends RF_Admin_Page {
 		redirect("/admin/applications/edit/".$app->id);
 	}
 
-	function delete_page() {
+	function delete($args) {
+		if ($this->can_delete()) {
+			$post = new Post();
+			$post->load("*", array("id = :id", ":id" => $args['id']));
+			$post->erase();
 
+			\Alerts::instance()->success("Deleted application");
+			redirect($this->link);
+		}
 	}
 }
 

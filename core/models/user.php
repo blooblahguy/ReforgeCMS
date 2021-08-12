@@ -189,11 +189,11 @@ class User extends \RF\Mapper {
 	 */
 	private function remembered() {
 		$lc = new LoginCookie();
-
+		
 		if (session()->get("user_mimic")) {
 			return true;
 		}
-
+		
 		// shortcut the code if we're good to go
 		if ($this->logged_in) { 
 			return true;
@@ -201,8 +201,9 @@ class User extends \RF\Mapper {
 
 		// if we have a cookie, log us in if possible
 		if (isset($_COOKIE['logincookie'])) {
-			list($user_id, $token) = explode(':', $_COOKIE['logincookie']);
-			// debug($user_id, $token);
+			$cookie = $_COOKIE['logincookie'];
+			list($user_id, $token) = explode(':', $cookie);
+
 			$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
 
 

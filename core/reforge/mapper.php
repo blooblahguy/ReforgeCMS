@@ -48,10 +48,10 @@ class Mapper extends \Magic {
 			foreach ($schema as $col => $props) {
 				$this->schema[$col] = $props['type'];
 			}
-			if ($this->schema["created"] !== false) {
+			if (isset($this->schema["created"]) && $this->schema["created"] !== false) {
 				$this->schema["created"] = "DATETIME";
 			}
-			if ($this->schema["modified"] !== false) {
+			if (isset($this->schema["modified"]) && $this->schema["modified"] !== false) {
 				$this->schema["modified"] = "DATETIME";
 			}
 		
@@ -206,7 +206,8 @@ class Mapper extends \Magic {
 	function query($cmds, $args = null, $ttl = 0, $log = true, $stamp = false) {
 		global $db;
 
-		$op = reset(explode(" ", trim($cmds)));
+		$reset = explode(" ", trim($cmds));
+		$op = reset($reset);
 		$cache = $this->cache['queries'];
 		$sql_key = md5(serialize(array(
 			$cmds, $args
@@ -270,6 +271,7 @@ class Mapper extends \Magic {
 	 */
 	function load($fields, $filter = null, array $options = null, $ttl = 0) {
 		$rs = $this->find($fields, $filter, $options);
+
 		if (count($rs) > 1) {
 			echo "error";
 			return;

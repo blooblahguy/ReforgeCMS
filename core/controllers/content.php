@@ -281,7 +281,8 @@ class Content extends \Prefab {
 	// create content class
 	function __construct() {
 		global $core;
-		$user = current_user();
+		// $user = current_user();
+		
 		$pages = get_pages();
 		$home = get_option("site_homepage");
 
@@ -305,16 +306,22 @@ class Content extends \Prefab {
 		}
 	}
 
-	function error($core, $args) {
-		global $root; 
+	function error($core) {
+		global $root;
 
+		locate_template(array("header.php"), true, true);
+		
 		$error = $core->ERROR;
+
+	
 		$page = locate_template(array($error['code'].".php"), false);
 		if ($page) {
 			require $page;
 		} else {
 			require $root."/core/error.php";
 		}
+
+		locate_template(array("footer.php"), true, true);
 	}
 
 	function add_page($info) {

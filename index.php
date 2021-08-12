@@ -20,7 +20,6 @@ function logp($name = null) {
 	echo "</pre>";
 }
 
-
 $PATH = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");	
 list($CONTROLLER) = explode("/", $PATH);
 

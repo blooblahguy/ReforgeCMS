@@ -42,10 +42,10 @@ class RFApplications extends \Prefab {
 	function apply_shortcode() {
 		// if (current_user()->can("view_applications")) {
 		// 	return "";
-		// }
+		// }\
 
 		if (! logged_in()) {
-			echo '<a class="btn-secondary" href="/register">Register or Login to Apply</a>';
+			echo '<a class="btn" href="/register">Register or Login to Apply</a>';
 			return;
 		}
 

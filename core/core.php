@@ -63,6 +63,11 @@ if (! logged_in()) {
 	});
 }
 
+$core->set("ONERROR", function($core) {
+	$content = Content::instance();
+	$content->error($core);
+});
+
 $core->run();
 
 $reforge_load_time += hrtime(true);

@@ -56,7 +56,7 @@ class Reforge extends \Prefab {
 		if (! $class) {
 			$class = $namespace;
 		}
-		
+
 		$model = $this->root."/core/models/".$class.".php";
 		$reforge = $this->root."/core/reforge/".$class.".php";
 

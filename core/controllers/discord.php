@@ -4,7 +4,16 @@ $discord_webhook = 'https://discordapp.com/api/webhooks/715993969645060209/vwhnD
 
 function send_discord_app($app) {
 	global $discord_webhook;
-	$timestamp = $app->created;
+
+	$day = date("Y-m-d", strtotime($app->created));
+	$time = date("H:i", strtotime($app->created));
+	$timestamp = $day."T".$time.".000Z";
+
+	// YYYY-MM-DDTHH:MM:SS.MSSZ
+
+	// debug($timestamp);
+
+	// debug($app); exit();
 	$author = new User();
 	$author->get_user($app->author);
 	$meta = RCF()->get_fields("application", $app->id);//get_meta("application_".$app->id);

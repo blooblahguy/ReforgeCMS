@@ -8,3 +8,8 @@ core/imports
 core/logs
 webgrind
 content/themes/bigdumbgg/lib/tweet-php/cache/twitter-array.txt
+admin/css/dist/dark_openskull.min.css
+admin/css/dist/default_openskull.min.css
+admin/css/dist/light_openskull.min.css
+admin/css/dist/openskull.min.css
+content/themes/bigdumbgg/css/openskull.min.css

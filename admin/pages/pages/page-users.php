@@ -133,7 +133,8 @@ class admin_page_USERS extends RF_Admin_Page {
 		$code->user_id = $id; 
 		$code->save();
 
-		rf_mail($this->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://bigdumb.gg/verify?code=".$code->code."'>Verify Email</a>");
+		// rf_mail($this->email, "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://bigdumb.gg/verify?code=".$code->code."'>Verify Email</a>");
+		rf_mail("test-u7x0kq1sk@srv1.mail-tester.com", "Verify Your Email Address", "Click the link below to verify your email address. <br> <a href='https://bigdumb.gg/verify?code=".$code->code."'>Verify Email</a>");
 
 		\Alerts::instance()->success("Email resent");
 		redirect("/admin/users/edit/{$id}");

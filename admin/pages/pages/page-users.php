@@ -31,7 +31,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		// query all users, sorted by role
 		$all_users = $user->query("SELECT users.*, roles.label as role FROM {$user->table} as users
 			LEFT JOIN {$role->table} as roles ON roles.id = users.role_id
-			ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
+			ORDER BY roles.priority ASC, users.role_id ASC, users.id DESC
 		");
 		$users = array();
 		$tabs = array();

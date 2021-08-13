@@ -310,6 +310,7 @@ function registration_form($options) {
 				"type" => "text",
 				"name" => "character_name",
 				"layout" => "os-6",
+				"required" => true,
 			));
 			render_html_field($user, array(
 				"label" => "Class",
@@ -406,6 +407,12 @@ function profile_form($attrs) {
 						"name" => "bio",
 						"layout" => "os-12",
 					));
+
+
+					// $cf = new CustomField();
+					// $field = reset($cf->find("*", array("id = :id", ":id" => $user->id)));
+
+					// do_action("admin/custom_fields", "user");
 
 					?>
 				</div>

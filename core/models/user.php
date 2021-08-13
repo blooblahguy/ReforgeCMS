@@ -120,7 +120,7 @@ class User extends \RF\Mapper {
 			// store this login
 			$token = password_hash(random_bytes(32).time(), PASSWORD_DEFAULT);
 			$this->token = $token;
-			$this->reup_login();
+			$this->reup_login(true);
 
 			// now log them in
 			$user->last_login = date("Y-m-d H:i:s");
@@ -138,8 +138,9 @@ class User extends \RF\Mapper {
 	/**
 	 * Reups user's login cookie/session
 	 */
-	private function reup_login() {
+	private function reup_login($force = false) {
 		if (! $this->id || ! $this->token) { return false; }
+
 		$today = strtotime(Date("ymd"));
 		$last = session()->get('reup_date');
 
@@ -153,7 +154,7 @@ class User extends \RF\Mapper {
 
 		// up database
 		// don't reup more than once a day
-		if ($last && $last == $today) {
+		if (! $force && $last && $last == $today) {
 			return;
 		}
 
@@ -204,8 +205,11 @@ class User extends \RF\Mapper {
 			$cookie = $_COOKIE['logincookie'];
 			list($user_id, $token) = explode(':', $cookie);
 
+			// debug($user_id, $token);
+
 			$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
 
+			// debug($lc);
 
 			// we didn't have a correct cookie, get out of here
 			if ($lc->id) {
@@ -219,6 +223,7 @@ class User extends \RF\Mapper {
 		// we can also use session
 		$user_id = session()->get('user_id');
 		$token = session()->get('token');
+
 		$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
 
 		// we didn't have a correct session, get out of here

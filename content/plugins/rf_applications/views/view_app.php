@@ -1,6 +1,8 @@
 <?php
 	$sent = get_meta("application_".$app->id, "sent_to_discord");
-	if ($sent != "1") {
+	$last_week = strtotime("-7 days");
+	$created = strtotime($app->created);
+	if ($sent != "1" && $created > $last_week) {
 		send_discord_app($app);
 		set_meta("application_".$app->id, "sent_to_discord", "1");
 	}

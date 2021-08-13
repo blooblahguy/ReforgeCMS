@@ -349,7 +349,28 @@ class Content extends \Prefab {
 	}
 
 	function page($core, $args) {
+		// debug($core->PATTERN, $args);
+
+		$request_uri = filter_var($core->PATTERN, FILTER_SANITIZE_URL);
+		$request_uri = rtrim($request_uri, '/');
+		$request_uri = ltrim($request_uri, '/');
+		$request_uri = strtok($request_uri, '?');
+
+		// $this->request_uri = $request_uri;
+
+		$params = explode("/", $request_uri);
+		$vars = [];
+		foreach ($params as $k => $key) {
+			if( preg_match("/^[@]/", $key) ){
+				$vars[] = str_replace("@", "", $key);
+			}
+		}
+		// debug($vars);
+		// $wild = $args
 		$templates = array();
+		foreach($vars as $k => $var) {
+			$templates[] = "{$this->page->post_type}-{$this->page->slug}-{$var}.php";
+		}
 		$templates[] = "{$this->page->post_type}-{$this->page->slug}.php";
 		$templates[] = "{$this->page->post_type}-{$this->page->id}.php";
 		$templates[] = "{$this->page->post_type}.php";

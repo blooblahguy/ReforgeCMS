@@ -245,7 +245,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 						<?
 						render_html_field($post, array(
 							"type" => "text",
-							"name" => "permalink",
+							"name" => "slug",
 							"label" => "Permalink",
 							"class" => "post_permalink",
 							"required" => true,
@@ -370,7 +370,7 @@ class admin_page_POSTS extends RF_Admin_Page {
 		// update normal fields
 		$post->title = $_POST["title"];
 		$post->subtitle = $_POST["subtitle"];
-		$post->slug = $_POST["permalink"];
+		$post->slug = $_POST["slug"];
 		$post->created = $_POST["created"];
 		if (isset($_POST['content'])) {
 			$post->content = $_POST["content"];

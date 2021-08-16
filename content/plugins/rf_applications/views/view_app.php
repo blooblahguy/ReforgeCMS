@@ -2,34 +2,40 @@
 	$sent = get_meta("application_".$app->id, "sent_to_discord");
 	$last_week = strtotime("-7 days");
 	$created = strtotime($app->created);
-	if ($sent != "1" && $created > $last_week) {
+	if ($app->author && $sent != "1" && $created > $last_week) {
 		send_discord_app($app);
 		set_meta("application_".$app->id, "sent_to_discord", "1");
 	}
-	// debug($meta);
+
+	
 ?>
 <div class="post">
-	<div class="post_header padx1 bg-dark">
-		<div class="row g1 content-middle">
-			<div class="os-min padx2">
-				<div class="avatar_icon">
-					<img src="<?= get_user($app['author'])->avatar; ?>" alt="">
-				</div>
+	<? if (! $app['author']) { ?>
+		<div class="post_header padx1 bg-dark">
+			<div class="row g1 content-middle">
+				<div class="os">No User Listed</div>
 			</div>
-			<div class="os">
-				<div class="post_title strong">
-					<?= the_title($app['id']); ?>
+		</div>
+	<? } else { ?>
+		<div class="post_header padx1 bg-dark">
+			<div class="row g1 content-middle">
+				<div class="os-min padx2">
+					<div class="avatar_icon">
+						<img src="<?= get_user($app['author'])->avatar; ?>" alt="">
+					</div>
 				</div>
-				<div class="post_info">
-					<span class="user"><?= the_author($app['id']); ?></span>
-					<span class="date small muted">on <?= the_date($app['id']); ?></span>
+				<div class="os">
+					<div class="post_title strong">
+						<?= the_title($app['id']); ?>
+					</div>
+					<div class="post_info">
+						<span class="user"><?= the_author($app['id']); ?></span>
+						<span class="date small muted">on <?= the_date($app['id']); ?></span>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="user_info row g1">
-			
-		</div>
-	</div>
+	<? } ?>
 	<div class="post_content bg-black pad2 pady1 application_view">
 		<?
 

@@ -52,7 +52,7 @@ class reforge_field_TABS extends reforge_field {
 			</div>
 
 			
-			<div class="template template_<?= $friendly; ?>">
+			<template class="template template_<?= $friendly; ?>">
 				<? 
 				$template = array( 
 					'fields' => $children,
@@ -63,7 +63,7 @@ class reforge_field_TABS extends reforge_field {
 
 				rcf_get_template('group-results', $template); 
 				?>
-			</div>
+			</template>
 		</div>
 
 		<?
@@ -109,7 +109,7 @@ class reforge_field_TABS extends reforge_field {
 				<div class="btn-primary pull-right" data-rcf-template=".template_<?= $friendly ; ?>" data-replace="<?= $field['key']; ?>index" data-index="<?= $index; ?>" data-target=".tab_<?= $friendly ; ?>"><?= $field['button_label']; ?></div>
 				<div class="clear"></div>
 			</div>
-			<div class="template template_<?= $friendly; ?>">
+			<template class="template template_<?= $friendly; ?>">
 				<? 
 				$template = array( 
 					'fields' => $children,
@@ -120,7 +120,7 @@ class reforge_field_TABS extends reforge_field {
 
 				rcf_get_template('group-fields', $template); 
 				?>
-			</div>
+			</template>
 		</div>
 
 		<?

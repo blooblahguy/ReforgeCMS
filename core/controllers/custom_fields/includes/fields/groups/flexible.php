@@ -21,7 +21,7 @@ class reforge_field_FLEXIBLE extends reforge_field {
 
 		// build templates from children
 		foreach ($templates as $child) { ?>
-			<div class="template <?= $context; ?>_template_<?= $child['slug']; ?>">
+			<template class="template <?= $context; ?>_template_<?= $child['slug']; ?>">
 				<? 
 				$template = array( 
 					'fields' => array($child),
@@ -31,7 +31,7 @@ class reforge_field_FLEXIBLE extends reforge_field {
 				);
 
 				rcf_get_template('group-fields', $template); ?>
-			</div>
+			</template>
 			<?
 		}
 

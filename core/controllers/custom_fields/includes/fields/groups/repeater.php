@@ -51,7 +51,7 @@ class reforge_field_REPEATER extends reforge_field {
 				?>
 			</div>
 
-			<div class="template template_<?= $friendly; ?>">
+			<template class="template template_<?= $friendly; ?>">
 				<? 
 				$template = array( 
 					'fields' => $children,
@@ -62,7 +62,7 @@ class reforge_field_REPEATER extends reforge_field {
 
 				rcf_get_template('group-results', $template); 
 				?>
-			</div>
+			</template>
 		</div>
 
 		<?
@@ -120,9 +120,9 @@ class reforge_field_REPEATER extends reforge_field {
 			?>
 
 
-			<div class="template template_<?= $friendly; ?>">
+			<template class="template template_<?= $friendly; ?>">
 				<? rcf_get_template('group-fields', $template); ?>
-			</div>
+			</template>
 		</div>
 
 		<?

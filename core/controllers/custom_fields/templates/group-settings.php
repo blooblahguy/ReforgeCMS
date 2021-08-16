@@ -26,6 +26,6 @@
 	"post_id" => $post_id
 ); ?>
 
-<div class="template blank_field">
+<template class="template blank_field">
 	<? rcf_get_template('group-setting', array( 'field' => $clone, 'i' => 0 )); ?>
-</div>
+</template>

@@ -130,13 +130,13 @@ class admin_page_MENUS extends RF_Admin_Page {
 						$notfirst = true;
 					} ?>
 
-					<div class="template menu_item">
+					<template class="template menu_item">
 						<? $this->menu_link_template(array(
 							"label" => "\$label",
 							"url" => "\$url",
 							"children" => array(),
 						)); ?>
-					</div>
+					</template>
 				</div>
 			</div>
 			<div class="os">

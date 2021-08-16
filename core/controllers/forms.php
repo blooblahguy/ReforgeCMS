@@ -95,6 +95,7 @@ class Forms extends \Prefab {
 		$user->password = $password;
 		$user->username = $_POST['username'];
 		$user->email = $_POST['email'];
+		$user->twitter = $_POST['twitter'];
 		$user->twitch = $_POST['twitch'];
 		$user->class = $_POST['class'];
 		$user->role_id = $default_role;
@@ -296,6 +297,13 @@ function registration_form($options) {
 				"name" => "confirm_password",
 				"layout" => "os-6",
 				"required" => true,
+			));
+
+			render_html_field($user, array(
+				"label" => "Twitter Username",
+				"type" => "text",
+				"name" => "twitter",
+				"layout" => "os-12",
 			));
 
 			render_html_field($user, array(

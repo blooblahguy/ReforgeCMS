@@ -40,6 +40,8 @@ i {
 // 	src: url("/content/themes/bigdumbgg/css/Prohibition-Regular.otf") format('opentype');
 // }
 
+.disablemouse {pointer-events: none;}
+
 // BG
 .background-svg1 {
 	background-color: #000000; filter: blur(4px);
@@ -84,13 +86,22 @@ $wow-colors: (
 //===========================================
 body {background: $background; color: $white; font-family: 'Roboto', sans-serif; color: #d0d1d3; font-weight: 400; line-height: 2;}
 .container {max-width: 1400px;}
-.fill-primary {fill: $primary; }
-.fill-facebook {fill: #3b5998}
-.fill-youtube {fill: #FF0000}
-.fill-instagram {fill: #405de6}
-.fill-twitch {fill: #6441a5}
-.fill-twitter {fill: #1da1f2}
-.fill-discord {fill: #7289da}
+
+$social-colors: (
+	facebook: #3b5998,
+	instagram: #405de6,
+	youtube: #FF0000,
+	twitch: #6441a5,
+	twitter: #1da1f2,
+	discord: #7289da,
+);
+
+@each $name, $color in $social-colors {
+	.fill-#{$name} {fill: $color; }
+	.bg-#{$name} {background: $color; }
+} 
+
+.font-header {font-family: 'Teko', sans-serif;}
 
 h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500; }
 
@@ -157,6 +168,14 @@ h1, .h1, h2, .h2, h3, .h3 {color: #fff; font-weight: 500; }
 	a {display: inline-block; opacity: 0.8; margin: 0 0.5rem; padding: 1rem; width: 3.65rem; height: 3.65rem; background: $light-grey; border-radius: 50%; }
 	span { display:block; position:relative; height:100%; }
 	svg {fill:$white; display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); width:100%; height: auto !important; }
+}
+
+.user_socials {
+	font-size:0.01rem;
+	a {opacity: 0.8; display: inline-block; margin: 0 0.5rem; padding: 0.8rem; width: 3rem; height: 3rem; border-radius: 2px }
+	span { display:block; position:relative; height:100%; }
+	svg {fill:$white; display:block; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); width:100%; height: auto !important; }
+	a:hover {opacity: 1; }
 }
 
 a:hover {
@@ -427,9 +446,11 @@ a:hover {
 //===========================================
 
 .player_card {
-	border: 2px solid $dark; padding: $pad2 $pad4; position: relative; text-align: center; overflow: hidden; background: $dark;
-	img {z-index: 0; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; opacity: 0.2;} 
+	border: 2px solid $dark; padding: $pad2 $pad4; position: relative; text-align: center; overflow: hidden; 
+	img {z-index: 0; position: absolute; top: 50%; left: 50%; @include prefix(transform, translate(-50%, -50%)); max-width: none; min-width: 100%; min-height: 100%; opacity: 0.1; z-index: -1; background: $dark;}
 	strong {font-size: 1.2rem; text-shadow: 0 0 20px $black; position: relative; z-index: 2; }
+
+	.player_name {font-weight: 600; line-height: 1;}
 }
 
 .streamer_tab {

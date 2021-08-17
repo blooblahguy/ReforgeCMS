@@ -377,7 +377,7 @@ function profile_form($attrs) {
 					));
 
 					render_html_field($user, array(
-						"label" => "Twitch",
+						"label" => "Twitch Username",
 						"type" => "text",
 						"name" => "twitch",
 						"placeholder" => "Twitch Channel Username",
@@ -385,7 +385,7 @@ function profile_form($attrs) {
 					));
 					
 					render_html_field($user, array(
-						"label" => "Twitter",
+						"label" => "Twitter Username",
 						"type" => "text",
 						"name" => "twitter",
 						"layout" => "os-12",

@@ -63,6 +63,6 @@ if (count($open) == 0) {
 		<? } ?>
 	</div>
 	<div class="padt2">
-		<div class="text-center"><a href="/applications" class="btn">View All Apps</a></div>
+		<div class="text-center"><a href="/recruitment/applications" class="btn">View All Apps</a></div>
 	</div>
 </div>

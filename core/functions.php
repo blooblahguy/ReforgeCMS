@@ -837,7 +837,7 @@ function add_recaptcha($label = "Submit") {
 			document.getElementById("recaptcha-form").submit();
 		}
 	</script>
-	<button class="btn-secondary g-recaptcha" 
+	<button class="form_submit btn-secondary g-recaptcha" 
         data-sitekey="6LdLF_8UAAAAALGVy69oBTwtqNRhn3--dgon9_DT" 
         data-theme="dark" 
         data-callback='onSubmit'><?= $label; ?></button>

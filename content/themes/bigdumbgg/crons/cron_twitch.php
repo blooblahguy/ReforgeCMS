@@ -1,6 +1,15 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$root = "/home/runcloud/webapps/bigdumb";
+
+
 require $root."/vendor/autoload.php";
+
+
 
 
 $twitch_client_id = 'so3d8hae0pmk8nz6kuwel6fhdbpofw3';
@@ -19,9 +28,10 @@ try {
     $twitch_access_token = $data->access_token ?? null;
 
     // The scopes from the API
-    $twitch_scopes = $data->scope;
+	// print_r($data);
+    // $twitch_scopes = $data->scope;
 } catch (Exception $e) {
-    //TODO: Handle Error
+	//TODO: Handle Error
 }
 
 // get team streamers
@@ -67,9 +77,9 @@ try {
 	}
 
 } catch (GuzzleException $e) {
-	debug($e);
+	print_r($e);
 }
 
-debug($live_streams);
+print_r($live_streams);
 
 set_option("live_streams", $live_streams);

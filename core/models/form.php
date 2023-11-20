@@ -22,9 +22,20 @@ class Form extends \RF\Mapper {
 			$type = $args['type'];
 		}
 
+		$label = "Submit";
+		if (! $args['hide_title']) {
+			$label = $this->title;
+		}
+
 		?>
 		<div class="rf_form">
-			<form method="POST" onkeydown="return event.key != 'Enter';" <?if ($args['target']) {echo "target='_blank' "; }?>action="/rf_form/process/<?= $this->id; ?>">
+			<script>
+				function disableButton(form) {
+					var btn = $(form).find(".form_submit")
+					btn.disabled = true
+				}
+			</script>
+			<form id="recaptcha-form" onsubmit="disableButton(this)" method="POST" onkeydown="return event.key != 'Enter';" <?if ($args['target']) {echo "target='_blank' "; }?> action="/rf_form/process/<?= $this->id; ?>">
 				<? if (! $args['hide_title']) { ?>
 					<h3 class="form_title"><?= $this->title; ?></h3>
 				<? } ?>
@@ -36,7 +47,7 @@ class Form extends \RF\Mapper {
 
 				<input type="hidden" name="redirect" value="<? echo $core->SERVER['REDIRECT_URL']; ?>">
 
-				<input type="submit">
+				<? add_recaptcha($label); ?>
 			</form>
 		</div>
 		<?
@@ -45,6 +56,12 @@ class Form extends \RF\Mapper {
 	function submit($entry_id = 0, $type = "form_entry") {
 		if (! $this->id) {
 			return;
+		}
+
+		$captcha = new \Web\Google\Recaptcha();
+		if (! $captcha->verify("6LdLF_8UAAAAAMFZM_8K_7x1KAIVwo1VGvJ7acXO")) {
+			Alerts::instance()->error("Invalid recaptcha");
+			redirect();
 		}
 
 		$type = apply_filters("form/submit/type", $type, $this->id);

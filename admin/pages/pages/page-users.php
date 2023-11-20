@@ -64,6 +64,12 @@ class admin_page_USERS extends RF_Admin_Page {
 			'role' => array(
 				"label" => "Role",
 			),
+			'twitch' => array(
+				"label" => "Twitch",
+			),
+			'twitter' => array(
+				"label" => "Twitter",
+			),
 			'last_login' => array(
 				"label" => "Last Login",
 				"calculate" => function($label, $r) {
@@ -263,6 +269,11 @@ class admin_page_USERS extends RF_Admin_Page {
 						"name" => "twitch",
 						"label" => "Twitch Username",
 					)); 
+					render_html_field($user, array(
+						"type" => "text",
+						"name" => "twitter",
+						"label" => "Twitter Handle",
+					)); 
 					?>
 				</div>
 				<? do_action("admin/custom_fields", "user"); ?>
@@ -287,6 +298,7 @@ class admin_page_USERS extends RF_Admin_Page {
 		// $avatar = get_file_size($_POST["avatar"], 200);
 		$user->username = $_POST['username'];
 		$user->twitch = $_POST['twitch'];
+		$user->twitter = $_POST['twitter'];
 		$user->email = $_POST['email'];
 		$role_id = $_POST['role_id'];
 		if ($role_id >= current_user()->role_id || current_user()->can("administrator")) {

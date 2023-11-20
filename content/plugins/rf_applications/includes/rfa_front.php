@@ -3,6 +3,7 @@
 class RFA_Applications_Front extends \Prefab {
 	public $applications, $apply, $form;
 	private $character_name;
+	private $character_region;
 
 	function __construct() {
 		global $core;
@@ -18,6 +19,7 @@ class RFA_Applications_Front extends \Prefab {
 		add_filter("page/title", array($this, "application_page"));
 		add_filter("form/redirect", array($this, "submit_redirect"));
 
+		add_action("group_results/after_render/application/character-region", array($this, "get_character_region"));
 		add_action("group_results/after_render/application/character_name", array($this, "get_character_info"));
 		add_action("group_results/after_render/application/character_server", array($this, "display_character_info"));
 	}
@@ -108,21 +110,34 @@ class RFA_Applications_Front extends \Prefab {
 	function get_character_info($field, $data) {
 		$this->character_name = $data['meta_value'];
 	}
+
+	function get_character_region($field, $data) {
+		$this->character_region = $data['meta_value'];
+	}
+
 	function display_character_info($field, $data) {
 		$server = $data['meta_value'];
 		$character = $this->character_name;
 
-		// debug($server);
-		// debug($character);
+		// by default "us" / "en-us"
+		$region = $this->character_region;
+		$prefix = "en-us";
+		
+		if (! $region || $region == "") {
+			$region = "us";
+		}
+		if ($region == "eu") {
+			$prefix = "en-gb";
+		}
 
 		$realm = str_replace (" ", "-", $server);
 		$realm = preg_replace ("/[^a-zA-Z0-9-]/", "", $realm);
 
-		$wcl = "https://www.warcraftlogs.com/character/us/{$realm}/{$character}";
-		$armory = "https://worldofwarcraft.com/en-us/character/{$realm}/{$character}";
-		$analyzer = "https://wowanalyzer.com/character/US/{$realm}/{$character}";
-		$wipefest = "https://www.wipefest.net/character/{$character}/{$realm}/US";
-		$raiderio = "https://raider.io/characters/us/{$realm}/{$character}";
+		$wcl = "https://www.warcraftlogs.com/character/{$region}/{$realm}/{$character}";
+		$armory = "https://worldofwarcraft.com/{$prefix}/character/{$realm}/{$character}";
+		$analyzer = "https://wowanalyzer.com/character/{$region}/{$realm}/{$character}";
+		$wipefest = "https://www.wipefest.net/character/{$character}/{$realm}/{$region}";
+		$raiderio = "https://raider.io/characters/{$region}/{$realm}/{$character}";
 
 		?>
 		<div class="field os-12">

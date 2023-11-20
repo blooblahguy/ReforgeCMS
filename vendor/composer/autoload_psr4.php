@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'TwitchApi\\' => array($vendorDir . '/nicklaw5/twitch-api-php/src'),
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'NewTwitchApi\\Tests\\' => array($vendorDir . '/nicklaw5/twitch-api-php/test/NewTwitchApi'),
     'NewTwitchApi\\' => array($vendorDir . '/nicklaw5/twitch-api-php/src/NewTwitchApi'),

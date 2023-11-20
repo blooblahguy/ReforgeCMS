@@ -6,7 +6,7 @@
 			<?= get_file_contents_url(theme_url()."/img/bdgg.svg"); ?>
 		</div>
 		<div class="os">
-			<h2 class='title'>BD<span class="text-primary">GG</span> - Illidan</h2>
+			<h2 class='title'>BDG - Illidan</h2>
 			<h3>US WoW Raiding Team</h3>
 			<?= $page->content; ?>
 		</div>
@@ -47,7 +47,7 @@
 
 	$players = $user->query("SELECT users.*, roles.label as role FROM {$user->table} as users
 		LEFT JOIN {$role->table} as roles ON roles.id = users.role_id 
-		WHERE character_name != '' AND (users.role_id = 1 OR users.role_id = 2 OR users.role_id = 4)
+		WHERE character_name != '' AND users.role_id IN (1, 2, 4, 10)
 		ORDER BY roles.priority ASC, users.role_id ASC, users.id ASC
 	");
 
@@ -59,8 +59,10 @@
 		// debug($user['role_id']);
 		if ($user['role_id'] == 1 || $user['role_id'] == 2) {
 			$user['role'] = "Leadership";
-		} else {
+		} elseif ($user['role_id'] == 4) {
 			$user['role'] = "Raiders";
+		} else {
+			$user['role'] = "Content Creators";
 		}
 		$groups[$user['role']] = $user['role'];
 		$users[$user['role']][] = $user;

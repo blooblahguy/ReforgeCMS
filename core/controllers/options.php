@@ -1,5 +1,10 @@
 <?php
 
+function isJson($string) {
+   json_decode($string);
+   return json_last_error() === JSON_ERROR_NONE;
+}
+
 function get_option($key, $force = false) {
 	global $options;
 	global $db;
@@ -11,17 +16,31 @@ function get_option($key, $force = false) {
 		$options[$key] = $rs[0]['value'];//->value;
 	}
 
-	if (is_serial($options[$key])) {
-		return unserialize($options[$key]);
+	$value = $options[$key];
+
+	if (is_serial($value)) {
+		return unserialize($value);
+	} elseif (isJson($value)) {
+		return json_decode($value, true);
 	}
 
 	return $options[$key];
 }
 function set_option($key, $value = "") {
 	global $options;
+	// global $db;
+
+	// $db->exec("ALTER TABLE rf_options CONVERT TO CHARACTER SET utf8mb4;");
+	# For each database:
+	// $db->exec("ALTER DATABASE bigdumb_dev CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;");
+	# For each table:
+	// $db->exec("ALTER TABLE rf_options CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+	# For each column:
+	// $db->exec("ALTER TABLE rf_options CHANGE column_name column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
 	if (is_array($value)) {
-		$value = serialize($value);
+		$value = json_encode($value);
+		// $value = serialize($value);
 	}
 	
 	// debug($value);
@@ -41,7 +60,9 @@ function set_option($key, $value = "") {
 	
 	$option->key = $key;
 	$option->value = $value;
+
 	// debug($option);
+	debug($value);
 
 	$option->save();
 

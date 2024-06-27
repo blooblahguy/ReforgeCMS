@@ -6,6 +6,7 @@ tmp/
 content/uploads/*
 core/imports
 core/logs
+core/deploy.php
 webgrind
 content/themes/bigdumbgg/lib/tweet-php/cache/twitter-array.txt
 admin/css/dist/dark_openskull.min.css

@@ -54,7 +54,7 @@ class Template extends Preview {
 	*	@return string
 	*	@param $node array
 	**/
-	protected function _require array $node {
+	protected function _require (array $node) {
 		$attrib=$node['@attrib'];
 		$hive=isset($attrib['with']) &&
 			($attrib['with']=$this->token($attrib['with'])) &&

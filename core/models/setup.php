@@ -69,7 +69,7 @@ class Setup extends \Prefab {
 		set_option( "sitename", $sitename );
 		set_option( "seo_seperator", "-" );
 		set_option( "seo_keywords", "My Reforge Site" );
-		set_option( "active_theme", "reforge2020" );
+		set_option( "active_theme", "bigdumbgg" );
 		set_option( "active-plugins", serialize( array() ) );
 
 		$alert->message( "First setup successful" );

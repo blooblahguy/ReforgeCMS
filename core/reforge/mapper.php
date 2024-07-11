@@ -29,6 +29,9 @@ class Mapper extends \Magic {
 		$this->cache['queries'] = new \RF\Cache( "{$cache_key}.queries" );
 		$this->cache['schema'] = new \RF\Cache( "{$cache_key}.schema" );
 
+		// $this->cache['queries']->reset();
+		// $this->cache['schema']->reset();
+
 		// Build schema out, and store for reference
 		if ( ! isset( $schema_checked[ $table ] ) && $schema !== false && count( $schema ) > 0 ) {
 			$this->ensure_schema( $schema );

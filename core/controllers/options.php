@@ -68,9 +68,6 @@ function set_option( $key, $value = "" ) {
 	$option->key = $key;
 	$option->value = $value;
 
-	// debug($option);
-	debug( $option, $key, $value );
-
 	$option->save();
 
 	$options[ $key ] = $value;

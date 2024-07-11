@@ -17,66 +17,74 @@ class admin_page_THEMES extends RF_Admin_Page {
 		$this->link = "/admin/{$this->name}";
 		$this->disable_header = true;
 
-		$this->cache = new RF\Cache("THEMES");
+		$this->cache = new RF\Cache( "THEMES" );
 
 		// Be sure to set up the parent
 		parent::__construct();
 
 		$this->scan_themes();
 
-		$core->route("GET {$this->route}/rescan", function() {
+		$core->route( "GET {$this->route}/rescan", function () {
 			$this->cache->reset();
-			redirect("/admin/themes");
-		});
+			redirect( "/admin/themes" );
+		} );
 
-		$core->route("GET {$this->route}/activate/@theme_slug", "admin_page_THEMES->activate");
+		$core->route( "GET {$this->link}/activate/@theme_slug", "admin_page_THEMES->activate" );
 	}
 
-	function activate($core, $args) {
-		if ($this->can_save()) {
+	function activate( $core, $args ) {
+		debug( "test" );
+		if ( $this->can_save() ) {
 			$theme = $args['theme_slug'];
 
-			set_option("active_theme", $theme);
+			set_option( "active_theme", $theme );
 
-			\Alerts::instance()->success("Theme '{$theme}' activated");
-			redirect("/admin/themes");
+			\Alerts::instance()->success( "Theme '{$theme}' activated" );
+			redirect( "/admin/themes" );
 		}
 	}
 
 	function scan_themes() {
 		global $root;
-		$themes = $this->cache->get("themes");
+		$themes = $this->cache->get( "themes" );
 
-		if ($themes) { return $themes; }
+		if ( $themes ) {
+			return $themes;
+		}
 		$themes = array();
 
-		$path = $root.'/content/themes/'; // '.' for current
-		foreach (new DirectoryIterator($path) as $file) {
-			if ($file->isDot()) continue;
+		$path = $root . '/content/themes/'; // '.' for current
+		foreach ( new DirectoryIterator( $path ) as $file ) {
+			if ( $file->isDot() )
+				continue;
 
-			if ($file->isDir()) {
+			if ( $file->isDir() ) {
 				$folder = $file->getFilename();
-				$ini = $path.$file."/theme.ini";
-				$thumbnail = "/content/themes/".$file."/theme.jpg";
-				if (! file_exists($ini)) { continue; }
-				if (! file_exists($root.$thumbnail)) { $thumbnail = "/core/img/default_theme.jpg"; }
+				$ini = $path . $file . "/theme.ini";
+				$thumbnail = "/content/themes/" . $file . "/theme.jpg";
+				if ( ! file_exists( $ini ) ) {
+					continue;
+				}
+				if ( ! file_exists( $root . $thumbnail ) ) {
+					$thumbnail = "/core/img/default_theme.jpg";
+				}
 
-				$info = parse_ini_file($ini);
+				$info = parse_ini_file( $ini );
 				$info['thumbnail'] = $thumbnail;
 
-				$themes[$folder] = $info;				
+				$themes[ $folder ] = $info;
 			}
 		}
 
-		\Alerts::instance()->success("Themes scanned");
-		$this->cache->set("themes", $themes);
+		\Alerts::instance()->success( "Themes scanned" );
+		$this->cache->set( "themes", $themes );
 
 		return $themes;
 	}
 
-	function index($args) {
+	function index( $args ) {
 		$themes = $this->scan_themes();
-		$active = get_option('active_theme');
+		$active = get_option( 'active_theme' );
 
 		?>
 
@@ -90,19 +98,23 @@ class admin_page_THEMES extends RF_Admin_Page {
 		</div>
 
 		<div class="row g2 themlist">
-			<? foreach ($themes as $slug => $info) {
+			<? foreach ( $themes as $slug => $info ) {
 				$current = false;
-				if ($slug == $active) { $current = true; }
+				if ( $slug == $active ) {
+					$current = true;
+				}
 				?>
 				<div class="os-3">
-					<div class="section padb1 theme_card<? if ($current) {echo " active"; } ?>">
+					<div class="section padb1 theme_card<? if ( $current ) {
+						echo " active";
+					} ?>">
 						<img src="<?= $info['thumbnail']; ?>" class="bg" alt="<?= $info['name']; ?>">
 						<div class="footer pad1 row content-middle">
 							<div class="os strong">
 								<?= $info['name']; ?>
 							</div>
 							<div class="os-min">
-								<? if (! $current) { ?>
+								<? if ( ! $current ) { ?>
 									<a href="/admin/themes/activate/<?= $slug; ?>" class="btn">Activate</a>
 								<? } else { ?>
 									<button class="btn-primary" disabled>Active</button>
@@ -115,15 +127,15 @@ class admin_page_THEMES extends RF_Admin_Page {
 		</div>
 	<? }
 
-	function edit($args) {
-		
-	}
-
-	function save($args) {
+	function edit( $args ) {
 
 	}
 
-	function delete($args) {
+	function save( $args ) {
+
+	}
+
+	function delete( $args ) {
 
 	}
 
@@ -134,23 +146,23 @@ class admin_page_THEMES extends RF_Admin_Page {
 
 	/*
 
-	protected function can_view($args) {
+								  protected function can_view($args) {
 
-	}
+								  }
 
-	protected function can_edit($args) {
+								  protected function can_edit($args) {
 
-	}
+								  }
 
-	protected function can_save($args) {
+								  protected function can_save($args) {
 
-	}
+								  }
 
-	protected function can_delete($args) {
+								  protected function can_delete($args) {
 
-	}
-	
-	*/
+								  }
+								  
+								  */
 }
 
 new admin_page_THEMES();

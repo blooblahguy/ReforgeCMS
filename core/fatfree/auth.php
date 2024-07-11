@@ -78,7 +78,7 @@ class Auth {
 	**/
 	protected function _mongo($id,$pw,$realm) {
 		$success = (bool)
-			$this->mapper->load("*", 
+			$this->mapper->load(
 				[$this->args['id']=>$id]+
 				($this->func?[]:[$this->args['pw']=>$pw])+
 				(isset($this->args['realm'])?
@@ -146,7 +146,7 @@ class Auth {
 			@ldap_close($dc)) {
 			return in_array($id,(array_map(function($value){return $value[0];},
 				array_intersect_key($info[0],
-					array_flip($this->args['attr'])))),true);
+					array_flip($this->args['attr'])))),TRUE);
 		}
 		user_error(self::E_LDAP,E_USER_ERROR);
 	}
@@ -162,7 +162,7 @@ class Auth {
 			(strtolower($this->args['scheme'])=='ssl'?
 				'ssl://':'').$this->args['host'],
 				$this->args['port']);
-		$dialog=function($cmd=null) use($socket) {
+		$dialog=function($cmd=NULL) use($socket) {
 			if (!is_null($cmd))
 				fputs($socket,$cmd."\r\n");
 			$reply='';
@@ -177,14 +177,14 @@ class Auth {
 			return $reply;
 		};
 		if ($socket) {
-			stream_set_blocking($socket,true);
+			stream_set_blocking($socket,TRUE);
 			$dialog();
 			$fw=Base::instance();
 			$dialog('EHLO '.$fw->HOST);
 			if (strtolower($this->args['scheme'])=='tls') {
 				$dialog('STARTTLS');
 				stream_socket_enable_crypto(
-					$socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
+					$socket,TRUE,STREAM_CRYPTO_METHOD_TLS_CLIENT);
 				$dialog('EHLO '.$fw->HOST);
 			}
 			// Authenticate
@@ -205,7 +205,7 @@ class Auth {
 	*	@param $pw string
 	*	@param $realm string
 	**/
-	function login($id,$pw,$realm=null) {
+	function login($id,$pw,$realm=NULL) {
 		return $this->{'_'.$this->storage}($id,$pw,$realm);
 	}
 
@@ -214,10 +214,10 @@ class Auth {
 	*	@return bool
 	*	@param $func callback
 	**/
-	function basic($func=null) {
+	function basic($func=NULL) {
 		$fw=Base::instance();
 		$realm=$fw->REALM;
-		$hdr=null;
+		$hdr=NULL;
 		if (isset($_SERVER['HTTP_AUTHORIZATION']))
 			$hdr=$_SERVER['HTTP_AUTHORIZATION'];
 		elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']))
@@ -233,11 +233,11 @@ class Auth {
 					$_SERVER['PHP_AUTH_PW'],
 				$realm
 			))
-			return true;
+			return TRUE;
 		if (PHP_SAPI!='cli')
 			header('WWW-Authenticate: Basic realm="'.$realm.'"');
 		$fw->status(401);
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Auth {
 	*	@param $args array
 	*	@param $func callback
 	**/
-	function __construct($storage,array $args=null,$func=null) {
+	function __construct($storage,?array $args=NULL,$func=NULL) {
 		if (is_object($storage) && is_a($storage,'DB\Cursor')) {
 			$this->storage=$storage->dbtype();
 			$this->mapper=$storage;

@@ -19,8 +19,6 @@ class admin_page_MEDIA extends RF_Admin_Page {
 		$media = Media::instance();
 
 		$media->display();
-
-
 	}
 
 	function edit($args) {

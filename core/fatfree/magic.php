@@ -1,6 +1,5 @@
 <?php
 
-return;
 /*
 
 	Copyright (c) 2009-2019 F3::Factory/Bong Cosca, All rights reserved.
@@ -25,7 +24,7 @@ return;
 abstract class Magic implements ArrayAccess {
 
 	/**
-	*	Return true if key is not empty
+	*	Return TRUE if key is not empty
 	*	@return bool
 	*	@param $key string
 	**/
@@ -48,7 +47,7 @@ abstract class Magic implements ArrayAccess {
 
 	/**
 	*	Unset key
-	*	@return null
+	*	@return NULL
 	*	@param $key string
 	**/
 	abstract function clear($key);
@@ -58,10 +57,11 @@ abstract class Magic implements ArrayAccess {
 	*	@return mixed
 	*	@param $key string
 	**/
+	#[\ReturnTypeWillChange]
 	function offsetexists($key) {
 		return Base::instance()->visible($this,$key)?
 			isset($this->$key):
-			($this->exists($key) && $this->get($key)!==null);
+			($this->exists($key) && $this->get($key)!==NULL);
 	}
 
 	/**
@@ -70,6 +70,7 @@ abstract class Magic implements ArrayAccess {
 	*	@param $key string
 	*	@param $val mixed
 	**/
+	#[\ReturnTypeWillChange]
 	function offsetset($key,$val) {
 		return Base::instance()->visible($this,$key)?
 			($this->$key=$val):$this->set($key,$val);
@@ -80,6 +81,7 @@ abstract class Magic implements ArrayAccess {
 	*	@return mixed
 	*	@param $key string
 	**/
+	#[\ReturnTypeWillChange]
 	function &offsetget($key) {
 		if (Base::instance()->visible($this,$key))
 			$val=&$this->$key;
@@ -90,9 +92,10 @@ abstract class Magic implements ArrayAccess {
 
 	/**
 	*	Convenience method for removing property value
-	*	@return null
+	*	@return NULL
 	*	@param $key string
 	**/
+	#[\ReturnTypeWillChange]
 	function offsetunset($key) {
 		if (Base::instance()->visible($this,$key))
 			unset($this->$key);

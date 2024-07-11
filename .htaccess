@@ -37,6 +37,8 @@ RewriteRule . index.php [L]
 	# ExpiresByType application/atom+xml                  "access plus 1 hour"
     # ExpiresByType application/rss+xml                   "access plus 1 hour"
 	#media
+
+	
 	ExpiresByType image/x-icon							"access plus 1 day"
 	ExpiresByType audio/ogg                             "access plus 1 year"
     ExpiresByType image/gif                             "access plus 1 year"

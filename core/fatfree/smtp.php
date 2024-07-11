@@ -27,7 +27,8 @@ class SMTP extends Magic {
 	const
 		E_Header='%s: header is required',
 		E_Blank='Message must not be blank',
-		E_Attach='Attachment %s not found';
+		E_Attach='Attachment %s not found',
+		E_DIALOG='SMTP dialog error: %s';
 	//@}
 
 	protected
@@ -59,11 +60,11 @@ class SMTP extends Magic {
 	**/
 	protected function fixheader($key) {
 		return str_replace(' ','-',
-			ucwords(preg_replace('/[_-]/',' ',strtolower($key))));
+			ucwords(preg_replace('/[_\-]/',' ',strtolower($key))));
 	}
 
 	/**
-	*	Return true if header exists
+	*	Return TRUE if header exists
 	*	@return bool
 	*	@param $key
 	**/
@@ -85,7 +86,7 @@ class SMTP extends Magic {
 
 	/**
 	*	Return value of e-mail header
-	*	@return string|null
+	*	@return string|NULL
 	*	@param $key string
 	**/
 	function &get($key) {
@@ -93,13 +94,13 @@ class SMTP extends Magic {
 		if (isset($this->headers[$key]))
 			$val=&$this->headers[$key];
 		else
-			$val=null;
+			$val=NULL;
 		return $val;
 	}
 
 	/**
 	*	Remove header
-	*	@return null
+	*	@return NULL
 	*	@param $key string
 	**/
 	function clear($key) {
@@ -122,12 +123,12 @@ class SMTP extends Magic {
 	*	@param $log bool|string
 	*	@param $mock bool
 	**/
-	protected function dialog($cmd=null,$log=true,$mock=false) {
+	protected function dialog($cmd=NULL,$log=TRUE,$mock=FALSE) {
 		$reply='';
 		if ($mock) {
 			$host=str_replace('ssl://','',$this->host);
 			switch ($cmd) {
-			case null:
+			case NULL:
 				$reply='220 '.$host.' ESMTP ready'."\n";
 				break;
 			case 'DATA':
@@ -157,17 +158,19 @@ class SMTP extends Magic {
 				$this->log.=$cmd."\n";
 			$this->log.=str_replace("\r",'',$reply);
 		}
+		if (preg_match('/^(4|5)\d{2}\s.*$/', $reply))
+			user_error(sprintf(self::E_DIALOG,$reply),E_USER_ERROR);
 		return $reply;
 	}
 
 	/**
 	*	Add e-mail attachment
-	*	@return null
+	*	@return NULL
 	*	@param $file string
 	*	@param $alias string
 	*	@param $cid string
 	**/
-	function attach($file,$alias=null,$cid=null) {
+	function attach($file,$alias=NULL,$cid=NULL) {
 		if (!is_file($file))
 			user_error(sprintf(self::E_Attach,$file),E_USER_ERROR);
 		if ($alias)
@@ -182,9 +185,9 @@ class SMTP extends Magic {
 	*	@param $log bool|string
 	*	@param $mock bool
 	**/
-	function send($message,$log=true,$mock=false) {
+	function send($message,$log=TRUE,$mock=FALSE) {
 		if ($this->scheme=='ssl' && !extension_loaded('openssl'))
-			return false;
+			return FALSE;
 		// Message should not be blank
 		if (!$message)
 			user_error(self::E_Blank,E_USER_ERROR);
@@ -199,12 +202,12 @@ class SMTP extends Magic {
 				STREAM_CLIENT_CONNECT,$this->context);
 			if (!$socket) {
 				$fw->error(500,$errstr);
-				return false;
+				return FALSE;
 			}
-			stream_set_blocking($socket,true);
+			stream_set_blocking($socket,TRUE);
 		}
 		// Get server's initial response
-		$this->dialog(null,$log,$mock);
+		$this->dialog(NULL,$log,$mock);
 		// Announce presence
 		$reply=$this->dialog('EHLO '.$fw->HOST,$log,$mock);
 		if (strtolower($this->scheme)=='tls') {
@@ -215,7 +218,7 @@ class SMTP extends Magic {
 					$method|=STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
 					$method|=STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
 				}
-				stream_socket_enable_crypto($socket,true,$method);
+				stream_socket_enable_crypto($socket,TRUE,$method);
 			}
 			$reply=$this->dialog('EHLO '.$fw->HOST,$log,$mock);
 		}
@@ -236,11 +239,11 @@ class SMTP extends Magic {
 				$this->dialog('QUIT',$log,$mock);
 				if (!$mock && $socket)
 					fclose($socket);
-				return false;
+				return FALSE;
 			}
 		}
 		if (empty($headers['Message-Id']))
-			$headers['Message-Id']='<'.uniqid('',true).'@'.$this->host.'>';
+			$headers['Message-Id']='<'.uniqid('',TRUE).'@'.$this->host.'>';
 		if (empty($headers['Date']))
 			$headers['Date']=date('r');
 		// Required headers
@@ -253,7 +256,7 @@ class SMTP extends Magic {
 		foreach ($headers as $key=>&$val) {
 			if (in_array($key,['From','To','Cc','Bcc'])) {
 				$email='';
-				preg_match_all('/(?:".+?" )?(?:<.+?>|[^ ,]+)/',
+				preg_match_all('/(?:".+?" |=\?.+?\?= )?(?:<.+?>|[^ ,]+)/',
 					$val,$matches,PREG_SET_ORDER);
 				foreach ($matches as $raw)
 					$email.=($email?', ':'').
@@ -280,7 +283,7 @@ class SMTP extends Magic {
 			unset($headers['Content-Type']);
 			$enc=$headers['Content-Transfer-Encoding'];
 			unset($headers['Content-Transfer-Encoding']);
-			$hash=uniqid(null,true);
+			$hash=uniqid('',TRUE);
 			// Send mail headers
 			$out='Content-Type: multipart/mixed; boundary="'.$hash.'"'.$eol;
 			foreach ($headers as $key=>$val)
@@ -330,7 +333,7 @@ class SMTP extends Magic {
 		$this->dialog('QUIT',$log,$mock);
 		if (!$mock && $socket)
 			fclose($socket);
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -343,13 +346,13 @@ class SMTP extends Magic {
 	*	@param $ctx resource
 	**/
 	function __construct(
-		$host='localhost',$port=25,$scheme=null,$user=null,$pw=null,$ctx=null) {
+		$host='localhost',$port=25,$scheme=NULL,$user=NULL,$pw=NULL,$ctx=NULL) {
 		$this->headers=[
 			'MIME-Version'=>'1.0',
 			'Content-Type'=>'text/plain; '.
 				'charset='.Base::instance()->ENCODING
 		];
-		$this->host=strtolower((($this->scheme=strtolower($scheme))=='ssl'?
+		$this->host=strtolower((($this->scheme=strtolower($scheme?:''))=='ssl'?
 			'ssl':'tcp').'://'.$host);
 		$this->port=$port;
 		$this->user=$user;

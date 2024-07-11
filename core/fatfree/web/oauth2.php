@@ -37,23 +37,23 @@ class OAuth2 extends \Magic {
 	*	@param $endpoint string
 	*	@param $query bool
 	**/
-	function uri($endpoint,$query=true) {
+	function uri($endpoint,$query=TRUE) {
 		return $endpoint.($query?('?'.
-				http_build_query($this->args,null,'&',$this->enc_type)):'');
+				http_build_query($this->args,'','&',$this->enc_type)):'');
 	}
 
 	/**
 	*	Send request to API/token endpoint
-	*	@return string|false
+	*	@return string|array|FALSE
 	*	@param $uri string
 	*	@param $method string
-	*	@param $token array
+	*	@param $token string
 	**/
-	function request($uri,$method,$token=null) {
+	function request($uri,$method,$token=NULL) {
 		$web=\Web::instance();
 		$options=[
 			'method'=>$method,
-			'content'=>http_build_query($this->args,null,'&',$this->enc_type),
+			'content'=>http_build_query($this->args,'','&',$this->enc_type),
 			'header'=>['Accept: application/json']
 		];
 		if ($token)
@@ -71,7 +71,7 @@ class OAuth2 extends \Magic {
 		if (isset($response['body'])) {
 			if (preg_grep('/^Content-Type:.*application\/json/i',
 				$response['headers'])) {
-				$token=json_decode($response['body'],true);
+				$token=json_decode($response['body'],TRUE);
 				if (isset($token['error_description']))
 					user_error($token['error_description'],E_USER_ERROR);
 				if (isset($token['error']))
@@ -81,7 +81,7 @@ class OAuth2 extends \Magic {
 			else
 				return $response['body'];
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class OAuth2 extends \Magic {
 			base64_decode(
 				str_replace(['-','_'],['+','/'],explode('.',$token)[1])
 			),
-			true
+			TRUE
 		);
 	}
 
@@ -116,7 +116,7 @@ class OAuth2 extends \Magic {
 	}
 
 	/**
-	*	Return true if scope/claim exists
+	*	Return TRUE if scope/claim exists
 	*	@return bool
 	*	@param $key string
 	**/
@@ -143,16 +143,16 @@ class OAuth2 extends \Magic {
 		if (isset($this->args[$key]))
 			$val=&$this->args[$key];
 		else
-			$val=null;
+			$val=NULL;
 		return $val;
 	}
 
 	/**
 	*	Remove scope/claim
-	*	@return null
+	*	@return NULL
 	*	@param $key string
 	**/
-	function clear($key=null) {
+	function clear($key=NULL) {
 		if ($key)
 			unset($this->args[$key]);
 		else

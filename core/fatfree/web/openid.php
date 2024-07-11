@@ -33,7 +33,7 @@ class OpenID extends \Magic {
 
 	/**
 	*	Determine OpenID provider
-	*	@return string|false
+	*	@return string|FALSE
 	*	@param $proxy string
 	**/
 	protected function discover($proxy) {
@@ -52,12 +52,12 @@ class OpenID extends \Magic {
 		$req=\Web::instance()->
 			request($this->args['endpoint'],['proxy'=>$proxy]);
 		if (!$req)
-			return false;
+			return FALSE;
 		$type=array_values(preg_grep('/Content-Type:/',$req['headers']));
 		if ($type &&
 			preg_match('/application\/xrds\+xml|text\/xml/',$type[0]) &&
 			($sxml=simplexml_load_string($req['body'])) &&
-			($xrds=json_decode(json_encode($sxml),true)) &&
+			($xrds=json_decode(json_encode($sxml),TRUE)) &&
 			isset($xrds['XRD'])) {
 			// XRDS document
 			$svc=$xrds['XRD']['Service'];
@@ -103,7 +103,7 @@ class OpenID extends \Magic {
 					$ptr+=strlen($parts[0]);
 				}
 				else
-					$ptr++;
+					++$ptr;
 		}
 		// Get OpenID provider's endpoint URL
 		if (isset($this->args['provider'])) {
@@ -130,18 +130,18 @@ class OpenID extends \Magic {
 			// OpenID 1.1
 			return $this->args['server'];
 		else
-			return false;
+			return FALSE;
 	}
 
 	/**
-	*	Initiate OpenID authentication sequence; Return false on failure
+	*	Initiate OpenID authentication sequence; Return FALSE on failure
 	*	or redirect to OpenID provider URL
 	*	@return bool
 	*	@param $proxy string
 	*	@param $attr array
 	*	@param $reqd string|array
 	**/
-	function auth($proxy=null,$attr=[],array $reqd=null) {
+	function auth($proxy=NULL,$attr=[],?array $reqd=NULL) {
 		$fw=\Base::instance();
 		$root=$fw->SCHEME.'://'.$fw->HOST;
 		if (empty($this->args['trust_root']))
@@ -163,15 +163,15 @@ class OpenID extends \Magic {
 				$var['openid.'.$key]=$val;
 			$fw->reroute($this->url.'?'.http_build_query($var));
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
-	*	Return true if OpenID verification was successful
+	*	Return TRUE if OpenID verification was successful
 	*	@return bool
 	*	@param $proxy string
 	**/
-	function verified($proxy=null) {
+	function verified($proxy=NULL) {
 		preg_match_all('/(?<=^|&)openid\.([^=]+)=([^&]+)/',
 			$_SERVER['QUERY_STRING'],$matches,PREG_SET_ORDER);
 		foreach ($matches as $match)
@@ -193,7 +193,7 @@ class OpenID extends \Magic {
 			);
 			return (bool)preg_match('/is_valid:true/i',$req['body']);
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -205,7 +205,7 @@ class OpenID extends \Magic {
 	}
 
 	/**
-	*	Return true if OpenID request parameter exists
+	*	Return TRUE if OpenID request parameter exists
 	*	@return bool
 	*	@param $key string
 	**/
@@ -232,13 +232,13 @@ class OpenID extends \Magic {
 		if (isset($this->args[$key]))
 			$val=&$this->args[$key];
 		else
-			$val=null;
+			$val=NULL;
 		return $val;
 	}
 
 	/**
 	*	Remove OpenID request parameter
-	*	@return null
+	*	@return NULL
 	*	@param $key
 	**/
 	function clear($key) {

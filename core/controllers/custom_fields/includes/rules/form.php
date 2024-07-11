@@ -1,6 +1,11 @@
 <?php
 
 class rcf_rule_FORM extends rcf_rule {
+	public
+	$name = "",
+	$label = "",
+	$action = "",
+	$rule_class = "";
 	function __construct() {
 		$this->name = 'form';
 		$this->label = "Form";

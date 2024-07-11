@@ -55,7 +55,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@return array
 	*	@param $obj object
 	**/
-	abstract function cast($obj=null);
+	abstract function cast($obj=NULL);
 
 	/**
 	*	Return records (array of mapper objects) that match criteria
@@ -64,7 +64,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	abstract function find($filter=null,array $options=null,$ttl=0);
+	abstract function find($filter=NULL,?array $options=NULL,$ttl=0);
 
 	/**
 	*	Count records that match criteria
@@ -73,7 +73,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	abstract function count($filter=null,array $options=null,$ttl=0);
+	abstract function count($filter=NULL,?array $options=NULL,$ttl=0);
 
 	/**
 	*	Insert new record
@@ -89,15 +89,15 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Hydrate mapper object using hive array variable
-	*	@return null
+	*	@return NULL
 	*	@param $var array|string
 	*	@param $func callback
 	**/
-	abstract function copyfrom($var,$func=null);
+	abstract function copyfrom($var,$func=NULL);
 
 	/**
 	*	Populate hive array variable with mapper fields
-	*	@return null
+	*	@return NULL
 	*	@param $key string
 	**/
 	abstract function copyto($key);
@@ -107,11 +107,12 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	Causes a fatal error in PHP 5.3.5 if uncommented
 	*	return ArrayIterator
 	**/
+	#[\ReturnTypeWillChange]
 	abstract function getiterator();
 
 
 	/**
-	*	Return true if current cursor position is not mapped to any record
+	*	Return TRUE if current cursor position is not mapped to any record
 	*	@return bool
 	**/
 	function dry() {
@@ -120,17 +121,17 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Return first record (mapper object) that matches criteria
-	*	@return static|false
+	*	@return static|FALSE
 	*	@param $filter string|array
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	function findone($filter=null,array $options=null,$ttl=0) {
+	function findone($filter=NULL,?array $options=NULL,$ttl=0) {
 		if (!$options)
 			$options=[];
 		// Override limit
 		$options['limit']=1;
-		return ($data=$this->find("*", $filter,$options,$ttl))?$data[0]:false;
+		return ($data=$this->find($filter,$options,$ttl))?$data[0]:FALSE;
 	}
 
 	/**
@@ -146,13 +147,13 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@param $bounce bool
 	**/
 	function paginate(
-		$pos=0,$size=10,$filter=null,array $options=null,$ttl=0,$bounce=true) {
+		$pos=0,$size=10,$filter=NULL,?array $options=NULL,$ttl=0,$bounce=TRUE) {
 		$total=$this->count($filter,$options,$ttl);
-		$count=ceil($total/$size);
+		$count=(int)ceil($total/$size);
 		if ($bounce)
 			$pos=max(0,min($pos,$count-1));
 		return [
-			'subset'=>($bounce || $pos<$count)?$this->find("*", $filter,
+			'subset'=>($bounce || $pos<$count)?$this->find($filter,
 				array_merge(
 					$options?:[],
 					['limit'=>$size,'offset'=>$pos*$size]
@@ -168,15 +169,15 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Map to first record that matches criteria
-	*	@return array|false
+	*	@return \DB\SQL\Mapper|FALSE
 	*	@param $filter string|array
 	*	@param $options array
 	*	@param $ttl int
 	**/
-	function load($filter=null,array $options=null,$ttl=0) {
+	function load($filter=NULL,?array $options=NULL,$ttl=0) {
 		$this->reset();
-		return ($this->query=$this->find("*", $filter,$options,$ttl)) &&
-			$this->skip(0)?$this->query[$this->ptr]:false;
+		return ($this->query=$this->find($filter,$options,$ttl)) &&
+			$this->skip(0)?$this->query[$this->ptr]:FALSE;
 	}
 
 	/**
@@ -211,7 +212,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	function skip($ofs=1) {
 		$this->ptr+=$ofs;
 		return $this->ptr>-1 && $this->ptr<count($this->query)?
-			$this->query[$this->ptr]:false;
+			$this->query[$this->ptr]:FALSE;
 	}
 
 	/**
@@ -250,8 +251,8 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 	*	@return int|bool
 	**/
 	function erase() {
-		$this->query=array_slice($this->query,0,$this->ptr,true)+
-			array_slice($this->query,$this->ptr,null,true);
+		$this->query=array_slice($this->query,0,$this->ptr,TRUE)+
+			array_slice($this->query,$this->ptr,NULL,TRUE);
 		$this->skip(0);
 	}
 
@@ -378,7 +379,7 @@ abstract class Cursor extends \Magic implements \IteratorAggregate {
 
 	/**
 	*	Reset cursor
-	*	@return null
+	*	@return NULL
 	**/
 	function reset() {
 		$this->query=[];

@@ -2,7 +2,7 @@
 
 class admin_page_DASHBOARD extends RF_Admin_Page {
 	function __construct() {
-		global $core; 
+		global $core;
 
 		$this->name = "dashboard";
 		$this->label = "Dashboard";
@@ -15,33 +15,33 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 		$this->link = "/admin/dashboard";
 
 		// CUSTOM Routes (index, edit, and save are automatically created)
-		$core->route("GET /admin", "admin_page_DASHBOARD->goto_dashboard");
+		$core->route( "GET /admin", "admin_page_DASHBOARD->goto_dashboard" );
 
 		// Be sure to set up the parent
 		parent::__construct();
 	}
 
-	function goto_dashboard($core, $args) {
-		$core->reroute("/admin/dashboard");
+	function goto_dashboard( $core, $args ) {
+		$core->reroute( "/admin/dashboard" );
 	}
 
-	function index($args) {
+	function index( $args ) {
 		$user = current_user();
 
 		?>
-			<div class="row h100 g2">
-				<div class="os">
+		<div class="row h100 g2">
+			<div class="os">
 
-					<div class="os widget activity section">
-						Stuff will go here eventually
-						<!-- <h2>Last Two Weeks</h2>
+				<div class="os widget activity section">
+					Stuff will go here eventually
+					<!-- <h2>Last Two Weeks</h2>
 						<div class="row dashboard_calendar g1">
 						<? // loop through last 2 weeks
-						for ($i = -13; $i <= 0; $i++) {
-							$time = strtotime("{$i} days");
-							$weekday = strtoupper(Date("D", $time));
-							$day = Date("j", $time);
-							?>
+								for ( $i = -13; $i <= 0; $i++ ) {
+									$time = strtotime( "{$i} days" );
+									$weekday = strtoupper( Date( "D", $time ) );
+									$day = Date( "j", $time );
+									?>
 							<div class="os-sv1 day pad1 margb2">
 								<div class="date">
 									<div class="weekday text-center h5 marg0 text-dark-grey">
@@ -57,43 +57,43 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 							</div>
 						<? } ?>
 						</div> -->
-					</div>
 				</div>
+			</div>
 
-				<div class="os-3 h100">
-					<div class="section dashboard_profile">
-						<div class="row content-middle">
-							<div class="profile os">
-								<h2>Profile</h2>
-							</div>
-							<div class="os-min">
-								<a href="/admin/users/edit/<?= $user->id; ?>" class="pad1 border display-block"><i class="edit display-block">edit</i></a>
-							</div>
+			<div class="os-3 h100">
+				<div class="section dashboard_profile">
+					<div class="row content-middle">
+						<div class="profile os">
+							<h2>Profile</h2>
 						</div>
-						<div class="pady2 text-center">
-							<div class="pad2">
-								<img src="<?= $user->avatar; ?>" class="avatar" alt="<?= $user->username; ?>">
-							</div>
-							<a href="" class="username strong">
-								<?= $user->username; ?>
-							</a>
-							<div class="role"><?= $user->role; ?></div>
+						<div class="os-min">
+							<a href="/admin/users/edit/<?= $user->id; ?>" class="pad1 border display-block"><i class="edit display-block">edit</i></a>
 						</div>
+					</div>
+					<div class="pady2 text-center">
+						<div class="pad2">
+							<img src="<?= $user->avatar; ?>" class="avatar" alt="<?= $user->username; ?>">
+						</div>
+						<a href="" class="username strong">
+							<?= $user->username; ?>
+						</a>
+						<div class="role"><?= $user->role; ?></div>
 					</div>
 				</div>
 			</div>
-		<?
+		</div>
+	<?
 	}
 
-	function edit($args) {
+	function edit( $args ) {
 		echo "edit dashboard";
 	}
 
-	function save($args) {
+	function save( $args ) {
 
 	}
 
-	function delete($args) {
+	function delete( $args ) {
 
 	}
 
@@ -104,23 +104,23 @@ class admin_page_DASHBOARD extends RF_Admin_Page {
 
 	/*
 
-	protected function can_view($args) {
+					  protected function can_view($args) {
 
-	}
+					  }
 
-	protected function can_edit($args) {
+					  protected function can_edit($args) {
 
-	}
+					  }
 
-	protected function can_save($args) {
+					  protected function can_save($args) {
 
-	}
+					  }
 
-	protected function can_delete($args) {
+					  protected function can_delete($args) {
 
-	}
-	
-	*/
+					  }
+					  
+					  */
 }
 
 new admin_page_DASHBOARD();

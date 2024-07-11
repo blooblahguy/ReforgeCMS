@@ -59,7 +59,7 @@ class StaticMap {
 					return ($out.=($out?'&':'').
 						urlencode($item[0]).'='.urlencode($item[1]));
 				}
-			))) && $req['body']?$req['body']:false;
+			))) && $req['body']?$req['body']:FALSE;
 	}
 
 }

@@ -1,5 +1,6 @@
 <?php
-function rf_config() {
+function rf_config()
+{
 	//===================================
 	## MySQL Connection - Common
 	//===================================
@@ -7,7 +8,7 @@ function rf_config() {
 	$config["database"] = "reforge";
 	$config["database_user"] = "root";
 	$config["database_password"] = "";
-	
+
 	//===================================
 	## MySQL Connection - Uncommon
 	//===================================
@@ -28,7 +29,7 @@ function rf_config() {
 	$config["smtp_port"] = 587;
 	$config["smtp_user"] = "";
 	$config["smtp_password"] = "";
-	
+
 
 	//===================================
 	## Misc Variables

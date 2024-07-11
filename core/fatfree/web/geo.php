@@ -48,10 +48,10 @@ class Geo extends \Prefab {
 
 	/**
 	*	Return geolocation data based on specified/auto-detected IP address
-	*	@return array|false
+	*	@return array|FALSE
 	*	@param $ip string
 	**/
-	function location($ip=null) {
+	function location($ip=NULL) {
 		$fw=\Base::instance();
 		$web=\Web::instance();
 		if (!$ip)
@@ -74,7 +74,7 @@ class Geo extends \Prefab {
 		}
 		if (($req=$web->request('http://www.geoplugin.net/json.gp'.
 			($public?('?ip='.$ip):''))) &&
-			$data=json_decode($req['body'],true)) {
+			$data=json_decode($req['body'],TRUE)) {
 			$out=[];
 			foreach ($data as $key=>$val)
 				if (!strpos($key,'currency') && $key!=='geoplugin_status'
@@ -82,12 +82,12 @@ class Geo extends \Prefab {
 					$out[$fw->snakecase(substr($key, 10))]=$val;
 			return $out;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
 	*	Return weather data based on specified latitude/longitude
-	*	@return array|false
+	*	@return array|FALSE
 	*	@param $latitude float
 	*	@param $longitude float
 	*	@param $key string
@@ -104,8 +104,8 @@ class Geo extends \Prefab {
 		return ($req=$web->request(
 			'http://api.openweathermap.org/data/2.5/weather?'.
 				http_build_query($query)))?
-			json_decode($req['body'],true):
-			false;
+			json_decode($req['body'],TRUE):
+			FALSE;
 	}
 
 }

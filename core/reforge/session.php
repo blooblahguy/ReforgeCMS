@@ -5,21 +5,21 @@ class Session extends \Prefab {
 		session_start();
 	}
 
-	function set($key, $value = "") {
+	function set( $key, $value = "" ) {
 		session_start();
-		$_SESSION[$key] = $value;	
+		$_SESSION[ $key ] = $value;
 		session_write_close();
 	}
 
-	function clear($key) {
+	function clear( $key ) {
 		session_start();
-		unset($_SESSION[$key]);	
+		unset( $_SESSION[ $key ] );
 		session_write_close();
 	}
-	
-	function get($key) {
+
+	function get( $key ) {
 		session_start();
-		$val = $_SESSION[$key];
+		$val = isset( $_SESSION[ $key ] ) ? $_SESSION[ $key ] : null;
 		session_write_close();
 		return $val;
 	}
@@ -30,5 +30,6 @@ class Session extends \Prefab {
 }
 
 function session() {
+	global $reforge;
 	return Session::instance();
 }

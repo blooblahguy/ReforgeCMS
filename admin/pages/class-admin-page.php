@@ -1,54 +1,79 @@
 <?php
 
 class RF_Admin_Page {
+	public
+	$id = -1,
+	$name = "",
+	$label = "",
+	$label_plural = "",
+	$admin_menu_parent = "",
+	$admin_menu = "",
+	$icon = "",
+	$permissions = array(),
+	$link = "",
+	$routes = array(),
+	$route = "",
+	$admin_page = "",
+	$slug = "",
+	$method = "",
+	$post_type = "",
+	$is_post = false,
+	$disable_header = false;
+
 	function __construct() {
 		global $core;
-
 		// allow user to do anything here
-		if (! $this->can_view()) { return false; }
+		if ( ! $this->can_view() ) {
+			return;
+		}
 
 		// defaults
-		$this->routes = isset($this->routes) ? $this->routes : array();
-		$this->link = isset($this->link) ? $this->link : "/admin/{$this->name}";
+		// $this->routes = count( $this->routes ) > 0 ? $this->routes : array();
+		$this->link = $this->link !== "" ? $this->link : "/admin/{$this->name}";
+
 
 		// set default routes
-		$this->routes = array_merge(array(
-			"index" => array("GET", "", "index"),
-			"edit" => array("GET", "/edit/@id", "edit"),
-			"save" => array("POST", "/save/@id", "save"),
-			"delete" => array("GET", "/delete/@id", "delete"),
-		), $this->routes);
+		$this->routes = array_merge( array(
+			"index" => array( "GET", "", "index" ),
+			"edit" => array( "GET", "/edit/@id", "edit" ),
+			"save" => array( "POST", "/save/@id", "save" ),
+			"delete" => array( "GET", "/delete/@id", "delete" ),
+		), $this->routes );
 
 		// automatically register routes with named routed
-		foreach ($this->routes as $key => $route) {
-			list($header, $ext, $method) = $route;
+		foreach ( $this->routes as $key => $route ) {
+			list( $header, $ext, $method ) = $route;
+
+			// debug( $header, $ext, $method, $this->link );
 			// echo "{$this->link}{$ext}";
 			// echo "<br>";
-			$core->route("$header @{$this->name}___$method: {$this->link}{$ext}", "RF_Admin_Pages->route");
+			// debug( "$header @{$this->name}___$method: {$this->link}{$ext}" );
+			// $core->route( "$header @{$this->name}___$method: {$this->link}{$ext}", "RF_Admin_Pages->route" );
+			$core->route( "$header @{$this->name}___$method: {$this->link}{$ext}", "RF_Admin_Pages->route" );
 		}
 
 		// Register with RF_Admin
-		RF_Admin_Pages::instance()->register_page($this);
+		RF_Admin_Pages::instance()->register_page( $this );
 	}
 
-	function route($method, $args) {
+	function execute_route( $method, $args ) {
 		// do a global and automatic permission check
-		if ($method == "edit" && ! $this->can_edit()) {
-			return false;	
-		} elseif ($method == "save" && ! $this->can_save()) {
+		if ( $method == "edit" && ! $this->can_edit() ) {
 			return false;
-		} elseif ($method == "delete" && ! $this->can_delete()) {
+		} elseif ( $method == "save" && ! $this->can_save() ) {
 			return false;
-		} elseif (! $this->can_view()) {
+		} elseif ( $method == "delete" && ! $this->can_delete() ) {
+			return false;
+		} elseif ( ! $this->can_view() ) {
 			return false;
 		}
 
-		if (method_exists($this, "pre_".$method)) {
-			$this->{"pre_".$method}($args);
+		if ( method_exists( $this, "pre_" . $method ) ) {
+			$this->{"pre_" . $method}( $args );
 		}
-		$this->{$method}($args);
-		if (method_exists($this, "post_".$method)) {
-			$this->{"post_".$method}($args);
+		$this->{$method}( $args );
+		if ( method_exists( $this, "post_" . $method ) ) {
+			$this->{"post_" . $method}( $args );
 		}
 	}
 
@@ -62,13 +87,13 @@ class RF_Admin_Page {
 	// 	$this->render_title();
 	// 	$this->render_index($core, $args);
 	// }
-	function pre_edit($args) {
+	function pre_edit( $args ) {
 		global $core;
 		$save_url = $this->link;
-		$save_url .= $core->build($this->routes['save'][1], $args);
+		$save_url .= $core->build( $this->routes['save'][1], $args );
 		echo "<form action='{$save_url}' method='POST' enctype='multipart/form-data'>";
 	}
-	function post_edit($args) {
+	function post_edit( $args ) {
 		echo "</form>";
 	}
 	// function save($core, $args) {
@@ -90,25 +115,25 @@ class RF_Admin_Page {
 	 * @return $id (int)
 	 */
 	function get_uid() {
-		if ($this->is_post) {
+		if ( $this->is_post ) {
 			return $this->id;
 		} else {
-			return $this->name."_".$this->id;
+			return $this->name . "_" . $this->id;
 		}
 	}
 
-	function check_permission($ask) {
-		return current_user()->can($ask);
+	function check_permission( $ask ) {
+		return current_user()->can( $ask );
 	}
 
 	/**
 	 * Checks if user can view index of page
 	 */
 	function can_view() {
-		if ($this->permissions['all']) {
-			return $this->check_permission($this->permissions['all']);
-		} elseif ($this->permissions['view']) {
-			return $this->check_permission($this->permissions['view']);
+		if ( isset( $this->permissions['all'] ) && $this->permissions['all'] ) {
+			return $this->check_permission( $this->permissions['all'] );
+		} elseif ( $this->permissions['view'] ) {
+			return $this->check_permission( $this->permissions['view'] );
 		}
 
 		return false;
@@ -118,13 +143,13 @@ class RF_Admin_Page {
 	 * Checks if user can view index of page
 	 */
 	function can_edit() {
-		if ($this->permissions['all']) {
-			return $this->check_permission($this->permissions['all']);
-		} elseif ($this->permissions['update']) {
-			return $this->check_permission($this->permissions['update']);
-		} elseif ($this->object && $this->permissions['update_own']) {
-			if (current_user()->id == $this->object->author) {
-				return $this->check_permission($this->permissions['update_own']);
+		if ( isset( $this->permissions['all'] ) && $this->permissions['all'] ) {
+			return $this->check_permission( $this->permissions['all'] );
+		} elseif ( isset( $this->permissions['update'] ) && $this->permissions['update'] ) {
+			return $this->check_permission( $this->permissions['update'] );
+		} elseif ( isset( $this->object ) && $this->permissions['update_own'] ) {
+			if ( current_user()->id == $this->object->author ) {
+				return $this->check_permission( $this->permissions['update_own'] );
 			}
 		}
 
@@ -135,10 +160,10 @@ class RF_Admin_Page {
 	 * Checks if user can view index of page
 	 */
 	function can_save() {
-		if ($this->permissions['all']) {
-			return $this->check_permission($this->permissions['all']);
-		} elseif ($this->permissions['update']) {
-			return $this->check_permission($this->permissions['update']);
+		if ( isset( $this->permissions['all'] ) && $this->permissions['all'] ) {
+			return $this->check_permission( $this->permissions['all'] );
+		} elseif ( isset( $this->permissions['update'] ) && $this->permissions['update'] ) {
+			return $this->check_permission( $this->permissions['update'] );
 		}
 
 		return false;
@@ -148,13 +173,13 @@ class RF_Admin_Page {
 	 * Checks if user can view index of page
 	 */
 	function can_delete() {
-		if ($this->permissions['all']) {
-			return $this->check_permission($this->permissions['all']);
-		} elseif ($this->permissions['delete']) {
-			return $this->check_permission($this->permissions['delete']);
-		} elseif ($this->object && $this->permissions['delete_own']) {
-			if (current_user()->id == $this->object->author) {
-				return $this->check_permission($this->permissions['delete_own']);
+		if ( isset( $this->permissions['all'] ) && $this->permissions['all'] ) {
+			return $this->check_permission( $this->permissions['all'] );
+		} elseif ( isset( $this->permissions['delete'] ) && $this->permissions['delete'] ) {
+			return $this->check_permission( $this->permissions['delete'] );
+		} elseif ( isset( $this->object ) && $this->permissions['delete_own'] ) {
+			if ( current_user()->id == $this->object->author ) {
+				return $this->check_permission( $this->permissions['delete_own'] );
 			}
 		}
 
@@ -165,25 +190,25 @@ class RF_Admin_Page {
 	/**
 	 * Probably we move this at some point, renders page title + edit button if relevant
 	 */
-	function render_title($edit = true) {
+	function render_title( $edit = true ) {
 		// display template header
-		if (! $this->disable_header) {
-			render_admin_title(array(
+		if ( ! $this->disable_header ) {
+			render_admin_title( array(
 				"label" => $this->label,
 				"plural" => $this->label_plural,
 				"link" => $this->link,
 				"icon" => $this->icon,
 				"id" => $this->id
-			), $edit);
+			), $edit );
 		}
 	}
 
 	/**
 	 * Probably redundant, stored message and redirects on its own
 	 */
-	function save_success($title, $changed, $id) {
-		\Alerts::instance()->success("{$this->label} $title $changed");
-		redirect("{$this->link}/edit/{$id}");
+	function save_success( $title, $changed, $id ) {
+		\Alerts::instance()->success( "{$this->label} $title $changed" );
+		redirect( "{$this->link}/edit/{$id}" );
 	}
 }
 

@@ -3,7 +3,7 @@
 class RF_Hook {
 	public $callbacks = array();
 
-	function unique_func($function) {
+	function unique_func( $function ) {
 		if ( is_string( $function ) ) {
 			return $function;
 		}
@@ -27,16 +27,18 @@ class RF_Hook {
 	 * @param mixed $value	
 	 * @param array $args	
 	 */
-	function apply_filters($value, $args) {
-		if (! $this->callbacks) { return $value; }
-		$num_args = count($args);
+	function apply_filters( $value, $args ) {
+		if ( ! $this->callbacks ) {
+			return $value;
+		}
+		$num_args = count( $args );
 
 		// simply call through each callback and keep updating the value
 		// not going to worry about whether we determined the # of arguments ahead of time
 		// var_dump($this->callbacks);
-		foreach ($this->callbacks as $priority => $keys) {
+		foreach ( $this->callbacks as $priority => $keys ) {
 			// var_dump($keys);
-			foreach ($keys as $callback) {
+			foreach ( $keys as $callback ) {
 				$value = call_user_func_array( $callback, $args );
 			}
 		}
@@ -47,8 +49,8 @@ class RF_Hook {
 	/**
 	 * 
 	 */
-	function add_filter($action, $func, $priority = 10) {
-		$key = $this->unique_func($func);
+	function add_filter( $action, $func, $priority = 10 ) {
+		$key = $this->unique_func( $func );
 		$priority_existed = isset( $this->callbacks[ $priority ] );
 
 		$this->callbacks[ $priority ][ $key ] = $func;
@@ -62,8 +64,8 @@ class RF_Hook {
 	/**
 	 * 
 	 */
-	function remove_filter($action, $func, $priority = 10) {
-		$key = $this->unique_func($func);
+	function remove_filter( $action, $func, $priority = 10 ) {
+		$key = $this->unique_func( $func );
 
 		$exists = isset( $this->callbacks[ $priority ][ $key ] );
 		if ( $exists ) {
@@ -77,8 +79,8 @@ class RF_Hook {
 	/**
 	 * 
 	 */
-	function do_action($args) {
-		$this->apply_filters("", $args);
+	function do_action( $args ) {
+		$this->apply_filters( "", $args );
 	}
 }
 
@@ -87,16 +89,16 @@ class RF_Hook {
  * Wrapper Functions
  * FILTERS
  */
-function apply_filters($action, $value) {
+function apply_filters( $action, $value ) {
 	global $rf_filters;
 	$args = func_get_args();
 
-	if (! $rf_filters[$action]) {
+	if ( ! array_key_exists( $action, $rf_filters ) ) {
 		return $value;
 	}
 
 	array_shift( $args );
-	$filtered = $rf_filters[$action]->apply_filters($value, $args);
+	$filtered = $rf_filters[ $action ]->apply_filters( $value, $args );
 
 	return $filtered;
 }
@@ -129,20 +131,24 @@ function remove_filter( $action, $func, $priority = 10 ) {
  * ACTIONS
  */
 
-function do_action($action, ...$args) {
+function do_action( $action, ...$args ) {
 	global $rf_filters;
 
-	if (! $rf_filters[ $action ] ) { return; }
+	if ( ! isset( $rf_filters[ $action ] ) ) {
+		return;
+	}
 
-	if ( empty($args) ) { $args[] = ''; }
+	if ( empty( $args ) ) {
+		$args[] = '';
+	}
 
 	$rf_filters[ $action ]->do_action( $args );
 }
 
-function add_action($action, $func, $priority = 10) {
+function add_action( $action, $func, $priority = 10 ) {
 	return add_filter( $action, $func, $priority );
 }
 
-function remove_action($action, $func, $priority = 10) {
+function remove_action( $action, $func, $priority = 10 ) {
 	return remove_filter( $action, $func, $priority );
 }

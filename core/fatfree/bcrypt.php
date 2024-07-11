@@ -37,12 +37,12 @@ class Bcrypt extends Prefab {
 
 	/**
 	*	Generate bcrypt hash of string
-	*	@return string|false
+	*	@return string|FALSE
 	*	@param $pw string
 	*	@param $salt string
 	*	@param $cost int
 	**/
-	function hash($pw,$salt=null,$cost=self::COST) {
+	function hash($pw,$salt=NULL,$cost=self::COST) {
 		if ($cost<4 || $cost>31)
 			user_error(self::E_CostArg,E_USER_ERROR);
 		$len=22;
@@ -56,13 +56,13 @@ class Bcrypt extends Prefab {
 			if (!$iv && extension_loaded('openssl'))
 				$iv=openssl_random_pseudo_bytes($raw);
 			if (!$iv)
-				for ($i=0;$i<$raw;$i++)
+				for ($i=0;$i<$raw;++$i)
 					$iv.=chr(mt_rand(0,255));
 			$salt=str_replace('+','.',base64_encode($iv));
 		}
 		$salt=substr($salt,0,$len);
 		$hash=crypt($pw,sprintf('$2y$%02d$',$cost).$salt);
-		return strlen($hash)>13?$hash:false;
+		return strlen($hash)>13?$hash:FALSE;
 	}
 
 	/**
@@ -86,9 +86,9 @@ class Bcrypt extends Prefab {
 		$val=crypt($pw,$hash);
 		$len=strlen($val);
 		if ($len!=strlen($hash) || $len<14)
-			return false;
+			return FALSE;
 		$out=0;
-		for ($i=0;$i<$len;$i++)
+		for ($i=0;$i<$len;++$i)
 			$out|=(ord($val[$i])^ord($hash[$i]));
 		return $out===0;
 	}

@@ -31,29 +31,30 @@ class Audit extends Prefab {
 	//@}
 
 	/**
-	*	Return true if string is a valid URL
+	*	Return TRUE if string is a valid URL
 	*	@return bool
 	*	@param $str string
 	**/
 	function url($str) {
-		return is_string(filter_var($str,FILTER_VALIDATE_URL));
+		return is_string(filter_var($str,FILTER_VALIDATE_URL))
+			&& !preg_match('/^(javascript|php):\/\/.*$/i', $str);
 	}
 
 	/**
-	*	Return true if string is a valid e-mail address;
+	*	Return TRUE if string is a valid e-mail address;
 	*	Check DNS MX records if specified
 	*	@return bool
 	*	@param $str string
 	*	@param $mx boolean
 	**/
-	function email($str,$mx=true) {
+	function email($str,$mx=TRUE) {
 		$hosts=[];
-		return is_string(filter_var($str, FILTER_VALIDATE_EMAIL)) &&
+		return is_string(filter_var($str,FILTER_VALIDATE_EMAIL)) &&
 			(!$mx || getmxrr(substr($str,strrpos($str,'@')+1),$hosts));
 	}
 
 	/**
-	*	Return true if string is a valid IPV4 address
+	*	Return TRUE if string is a valid IPV4 address
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -62,7 +63,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return true if string is a valid IPV6 address
+	*	Return TRUE if string is a valid IPV6 address
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -71,17 +72,17 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return true if IP address is within private range
+	*	Return TRUE if IP address is within private range
 	*	@return bool
 	*	@param $addr string
 	**/
 	function isprivate($addr) {
-		return !(bool)filter_var($addr,FILTER_VALIDATE_IP,
-			FILTER_FLAG_IPV4|FILTER_FLAG_IPV6|FILTER_FLAG_NO_PRIV_RANGE);
+		return (bool)filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)
+			&& !(bool)filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE);
 	}
 
 	/**
-	*	Return true if IP address is within reserved range
+	*	Return TRUE if IP address is within reserved range
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -91,7 +92,7 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return true if IP address is neither private nor reserved
+	*	Return TRUE if IP address is neither private nor reserved
 	*	@return bool
 	*	@param $addr string
 	**/
@@ -102,11 +103,11 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return true if user agent is a desktop browser
+	*	Return TRUE if user agent is a desktop browser
 	*	@return bool
 	*	@param $agent string
 	**/
-	function isdesktop($agent=null) {
+	function isdesktop($agent=NULL) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Desktop.')/i',$agent) &&
@@ -114,45 +115,45 @@ class Audit extends Prefab {
 	}
 
 	/**
-	*	Return true if user agent is a mobile device
+	*	Return TRUE if user agent is a mobile device
 	*	@return bool
 	*	@param $agent string
 	**/
-	function ismobile($agent=null) {
+	function ismobile($agent=NULL) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Mobile.')/i',$agent);
 	}
 
 	/**
-	*	Return true if user agent is a Web bot
+	*	Return TRUE if user agent is a Web bot
 	*	@return bool
 	*	@param $agent string
 	**/
-	function isbot($agent=null) {
+	function isbot($agent=NULL) {
 		if (!isset($agent))
 			$agent=Base::instance()->AGENT;
 		return (bool)preg_match('/('.self::UA_Bot.')/i',$agent);
 	}
 
 	/**
-	*	Return true if specified ID has a valid (Luhn) Mod-10 check digit
+	*	Return TRUE if specified ID has a valid (Luhn) Mod-10 check digit
 	*	@return bool
 	*	@param $id string
 	**/
 	function mod10($id) {
 		if (!ctype_digit($id))
-			return false;
+			return FALSE;
 		$id=strrev($id);
 		$sum=0;
-		for ($i=0,$l=strlen($id);$i<$l;$i++)
+		for ($i=0,$l=strlen($id);$i<$l;++$i)
 			$sum+=$id[$i]+$i%2*(($id[$i]>4)*-4+$id[$i]%5);
 		return !($sum%10);
 	}
 
 	/**
 	*	Return credit card type if number is valid
-	*	@return string|false
+	*	@return string|FALSE
 	*	@param $id string
 	**/
 	function card($id) {
@@ -172,7 +173,7 @@ class Audit extends Prefab {
 			if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/',$id))
 				return 'Visa';
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -187,5 +188,15 @@ class Audit extends Prefab {
 			6*(bool)(preg_match(
 				'/[A-Z].*?[0-9[:punct:]]|[0-9[:punct:]].*?[A-Z]/',$str));
 	}
+
+    /**
+     *	Return TRUE if string is a valid MAC address including EUI-64 format
+     *	@return bool
+     *	@param $addr string
+     **/
+    function mac($addr) {
+        return (bool)filter_var($addr,FILTER_VALIDATE_MAC)
+            || preg_match('/^([0-9a-f]{2}:){3}ff:fe(:[0-9a-f]{2}){3}$/i', $addr);
+    }
 
 }

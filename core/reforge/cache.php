@@ -4,19 +4,19 @@ namespace RF;
 
 class Cache {
 	protected
-		//! Cache engine
-		$engine,
-		//! name for cache entries
-		$name,
-		//! MemCache or Redis object
-		$ref;
+	//! Cache engine
+	$engine,
+	//! name for cache entries
+	$name,
+	//! MemCache or Redis object
+	$ref;
 
 	/**
 	 *	Class constructor
 	 *	@param $engine bool|string
 	 **/
-	function __construct($name, $engine = true) {
-		$this->load($name, $engine);
+	function __construct( $name, $engine = true ) {
+		$this->load( $name, $engine );
 	}
 
 	/**
@@ -25,45 +25,47 @@ class Cache {
 	 *	@param $key string
 	 *	@param $val mixed
 	 **/
-	function exists($key, &$val = null) {
-		if ( ! $this->engine) { return false; }
+	function exists( $key, &$val = null ) {
+		if ( ! $this->engine ) {
+			return false;
+		}
 		$fw = \Base::instance();
 
 		$ndx = $this->name . '.' . $key;
-		$parts = explode('=', $this->engine, 2);
-		switch ($parts[0]) {
+		$parts = explode( '=', $this->engine, 2 );
+		switch ( $parts[0] ) {
 			case 'apc':
 			case 'apcu':
-				$raw = apcu_fetch($ndx);
+				$raw = apcu_fetch( $ndx );
 				// $raw = call_user_func($parts[0] . '_fetch', $ndx);
 				break;
 			case 'redis':
-				$raw = $this->ref->get($ndx);
+				$raw = $this->ref->get( $ndx );
 				break;
 			case 'memcache':
-				$raw = memcache_get($this->ref, $ndx);
+				$raw = memcache_get( $this->ref, $ndx );
 				break;
 			case 'memcached':
-				$raw = $this->ref->get($ndx);
+				$raw = $this->ref->get( $ndx );
 				break;
 			case 'wincache':
-				$raw = wincache_ucache_get($ndx);
+				$raw = wincache_ucache_get( $ndx );
 				break;
 			case 'xcache':
-				$raw = xcache_get($ndx);
+				$raw = xcache_get( $ndx );
 				break;
 			case 'folder':
-				$raw = $fw->read($parts[1] . $ndx);
+				$raw = $fw->read( $parts[1] . $ndx );
 				break;
 		}
-		if (! empty($raw)) {
-			list($val, $time, $ttl) = (array) $fw->unserialize($raw);
+		if ( ! empty( $raw ) ) {
+			list( $val, $time, $ttl ) = (array) $fw->unserialize( $raw );
 
-			if ($ttl === 0 || $time + $ttl > microtime(true))
-				return [$time, $ttl];
-			
+			if ( $ttl === 0 || $time + $ttl > microtime( true ) )
+				return [ $time, $ttl ];
+
 			$val = null;
-			$this->clear($key);
+			$this->clear( $key );
 		}
 		return false;
 	}
@@ -75,35 +77,35 @@ class Cache {
 	 *	@param $val mixed
 	 *	@param $ttl int
 	 **/
-	function set($key, $val, $ttl = 500) {
+	function set( $key, $val, $ttl = 500 ) {
 		$fw = \Base::instance();
-		if (!$this->engine)
+		if ( ! $this->engine )
 			return true;
 		$ndx = $this->name . '.' . $key;
-		if ($cached = $this->exists($key))
+		if ( $cached = $this->exists( $key ) )
 			$ttl = $cached[1];
 
 		// debug($val);
-		$data = $fw->serialize([$val, microtime(true), $ttl]);
-		$parts = explode('=', $this->engine, 2);
-		switch ($parts[0]) {
+		$data = $fw->serialize( [ $val, microtime( true ), $ttl ] );
+		$parts = explode( '=', $this->engine, 2 );
+		switch ( $parts[0] ) {
 			case 'apc':
-			case 'apcu':				
-				return apcu_store($ndx, $data, $ttl);
-				// return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
+			case 'apcu':
+				return apcu_store( $ndx, $data, $ttl );
+			// return call_user_func($parts[0] . '_store', $ndx, $data, $ttl);
 			case 'redis':
-				return $this->ref->set($ndx, $data, $ttl ? ['ex' => $ttl] : []);
+				return $this->ref->set( $ndx, $data, $ttl ? [ 'ex' => $ttl ] : [] );
 			case 'memcache':
-				return memcache_set($this->ref, $ndx, $data, 0, $ttl);
+				return memcache_set( $this->ref, $ndx, $data, 0, $ttl );
 			case 'memcached':
-				return $this->ref->set($ndx, $data, $ttl);
+				return $this->ref->set( $ndx, $data, $ttl );
 			case 'wincache':
-				return wincache_ucache_set($ndx, $data, $ttl);
+				return wincache_ucache_set( $ndx, $data, $ttl );
 			case 'xcache':
-				return xcache_set($ndx, $data, $ttl);
+				return xcache_set( $ndx, $data, $ttl );
 			case 'folder':
-				return $fw->write($parts[1] .
-					str_replace(['/', '\\'], '', $ndx), $data);
+				return $fw->write( $parts[1] .
+					str_replace( [ '/', '\\' ], '', $ndx ), $data );
 		}
 		return false;
 	}
@@ -113,9 +115,9 @@ class Cache {
 	 *	@return mixed|false
 	 *	@param $key string
 	 **/
-	function get($key) {
+	function get( $key ) {
 		// return false;
-		return $this->engine && $this->exists($key, $data) ? $data : false;
+		return $this->engine && $this->exists( $key, $data ) ? $data : false;
 	}
 
 	/**
@@ -123,27 +125,29 @@ class Cache {
 	 *	@return bool
 	 *	@param $key string
 	 **/
-	function clear($key) {
-		if ( ! $this->engine) { return; }
+	function clear( $key ) {
+		if ( ! $this->engine ) {
+			return;
+		}
 		$ndx = $this->name . '.' . $key;
-		$parts = explode('=', $this->engine, 2);
-		switch ($parts[0]) {
+		$parts = explode( '=', $this->engine, 2 );
+		switch ( $parts[0] ) {
 			case 'apc':
 			case 'apcu':
-				return apcu_delete($ndx);
-				// return call_user_func($parts[0] . '_delete', $ndx);
+				return apcu_delete( $ndx );
+			// return call_user_func($parts[0] . '_delete', $ndx);
 			case 'redis':
-				return $this->ref->del($ndx);
+				return $this->ref->del( $ndx );
 			case 'memcache':
-				return memcache_delete($this->ref, $ndx);
+				return memcache_delete( $this->ref, $ndx );
 			case 'memcached':
-				return $this->ref->delete($ndx);
+				return $this->ref->delete( $ndx );
 			case 'wincache':
-				return wincache_ucache_delete($ndx);
+				return wincache_ucache_delete( $ndx );
 			case 'xcache':
-				return xcache_unset($ndx);
+				return xcache_unset( $ndx );
 			case 'folder':
-				return @unlink($parts[1] . $ndx);
+				return @unlink( $parts[1] . $ndx );
 		}
 		return false;
 	}
@@ -153,14 +157,21 @@ class Cache {
 	 *	@return bool
 	 *	@param $suffix string
 	 **/
-	function reset($suffix = null) {
-		if ( ! $this->engine) { return true; }
+	function reset( $suffix = null ) {
+		if ( ! $this->engine ) {
+			return true;
+		}
 
-		$regex = '/' . preg_quote($this->name . '.', '/') . '.*' .
-			preg_quote($suffix, '/') . '/';
+		$regex = '/' . preg_quote( $this->name . '.', '/' ) . '.*';
+		if ( $suffix != null ) {
+			$regex .= preg_quote( $suffix, '/' );
+		}
+		$regex .= '/';
 
-		$parts = explode('=', $this->engine, 2);
-		switch ($parts[0]) {
+		// debug( $regex );
+
+		$parts = explode( '=', $this->engine, 2 );
+		switch ( $parts[0] ) {
 			case 'apc':
 			case 'apcu':
 				$info = apcu_cache_info();
@@ -168,67 +179,56 @@ class Cache {
 				// 	$parts[0] . '_cache_info',
 				// 	$parts[0] == 'apcu' ? false : 'user'
 				// );
-				if (!empty($info['cache_list'])) {
+				if ( ! empty( $info['cache_list'] ) ) {
 					$key = array_key_exists(
 						'info',
 						$info['cache_list'][0]
 					) ? 'info' : 'key';
-					foreach ($info['cache_list'] as $item)
-						if (preg_match($regex, $item[$key]))
-							apcu_delete($item[$key]);
-							// call_user_func($parts[0] . '_delete', $item[$key]);
+					foreach ( $info['cache_list'] as $item )
+						if ( preg_match( $regex, $item[ $key ] ) )
+							apcu_delete( $item[ $key ] );
+					// call_user_func($parts[0] . '_delete', $item[$key]);
 				}
 				return true;
 			case 'redis':
-				$keys = $this->ref->keys($this->name . '.*' . $suffix);
-				foreach ($keys as $key)
-					$this->ref->del($key);
+				$keys = $this->ref->keys( $this->name . '.*' . $suffix );
+				foreach ( $keys as $key )
+					$this->ref->del( $key );
 				return true;
 			case 'memcache':
-				foreach (memcache_get_extended_stats(
-					$this->ref,
-					'slabs'
-				) as $slabs)
-					foreach (array_filter(array_keys($slabs), 'is_numeric')
-						as $id)
-						foreach (memcache_get_extended_stats(
-							$this->ref,
-							'cachedump',
-							$id
-						) as $data)
-							if (is_array($data))
-								foreach (array_keys($data) as $key)
-									if (preg_match($regex, $key))
-										memcache_delete($this->ref, $key);
+				foreach ( memcache_get_extended_stats( $this->ref, 'slabs' ) as $slabs ) foreach ( array_filter( array_keys( $slabs ), 'is_numeric' ) as $id ) foreach ( memcache_get_extended_stats( $this->ref, 'cachedump', $id ) as $data )
+							if ( is_array( $data ) ) foreach ( array_keys( $data ) as $key )
+									if ( preg_match( $regex, $key ) )
+										memcache_delete( $this->ref, $key );
 				return true;
 			case 'memcached':
-				foreach ($this->ref->getallkeys() ?: [] as $key)
-					if (preg_match($regex, $key))
-						$this->ref->delete($key);
+				foreach ( $this->ref->getallkeys() ?: [] as $key )
+					if ( preg_match( $regex, $key ) )
+						$this->ref->delete( $key );
 				return true;
 			case 'wincache':
 				$info = wincache_ucache_info();
-				foreach ($info['ucache_entries'] as $item)
-					if (preg_match($regex, $item['key_name']))
-						wincache_ucache_delete($item['key_name']);
+				foreach ( $info['ucache_entries'] as $item )
+					if ( preg_match( $regex, $item['key_name'] ) )
+						wincache_ucache_delete( $item['key_name'] );
 				return true;
 			case 'xcache':
-				if ($suffix && !ini_get('xcache.admin.enable_auth')) {
-					$cnt = xcache_count(XC_TYPE_VAR);
-					for ($i = 0; $i < $cnt; $i++) {
-						$list = xcache_list(XC_TYPE_VAR, $i);
-						foreach ($list['cache_list'] as $item)
-							if (preg_match($regex, $item['name']))
-								xcache_unset($item['name']);
+				if ( $suffix && ! ini_get( 'xcache.admin.enable_auth' ) ) {
+					$cnt = xcache_count( XC_TYPE_VAR );
+					for ( $i = 0; $i < $cnt; $i++ ) {
+						$list = xcache_list( XC_TYPE_VAR, $i );
+						foreach ( $list['cache_list'] as $item )
+							if ( preg_match( $regex, $item['name'] ) )
+								xcache_unset( $item['name'] );
 					}
 				} else
-					xcache_unset_by_name($this->name . '.');
+					xcache_unset_by_name( $this->name . '.' );
 				return true;
 			case 'folder':
-				if ($glob = @glob($parts[1] . '*'))
-					foreach ($glob as $file)
-						if (preg_match($regex, basename($file)))
-							@unlink($file);
+				if ( $glob = @glob( $parts[1] . '*' ) )
+					foreach ( $glob as $file )
+						if ( preg_match( $regex, basename( $file ) ) )
+							@unlink( $file );
 				return true;
 		}
 		return false;
@@ -240,62 +240,64 @@ class Cache {
 	 *	@param $engine bool|string
 	 *	@param $name bool|string
 	 **/
-	function load($name, $engine) {
-		if (! $engine) { return false; }
+	function load( $name, $engine ) {
+		if ( ! $engine ) {
+			return false;
+		}
 		$fw = \Base::instance();
 
-		if ($engine = trim($engine)) {
-			if (extension_loaded('apcu') || extension_loaded('apc')) {
+		if ( $engine = trim( $engine ) ) {
+			if ( extension_loaded( 'apcu' ) || extension_loaded( 'apc' ) ) {
 				$engine = "apcu";
-				$this->ref = array("found");
+				$this->ref = array( "found" );
 			} elseif (
-				preg_match('/^redis=(.+)/', $engine, $parts) &&
-				extension_loaded('redis')
+				preg_match( '/^redis=(.+)/', $engine, $parts ) &&
+				extension_loaded( 'redis' )
 			) {
-				list($host, $port, $db, $password) = explode(':', $parts[1]) + [1 => 6379, 2 => null, 3 => null];
+				list( $host, $port, $db, $password ) = explode( ':', $parts[1] ) + [ 1 => 6379, 2 => null, 3 => null ];
 				$this->ref = new Redis;
-				if (!$this->ref->connect($host, $port, 2))
+				if ( ! $this->ref->connect( $host, $port, 2 ) )
 					$this->ref = null;
-				if (!empty($password))
-					$this->ref->auth($password);
-				if (isset($db))
-					$this->ref->select($db);
+				if ( ! empty( $password ) )
+					$this->ref->auth( $password );
+				if ( isset( $db ) )
+					$this->ref->select( $db );
 			} elseif (
-				preg_match('/^memcache=(.+)/', $engine, $parts) &&
-				extension_loaded('memcache')
+				preg_match( '/^memcache=(.+)/', $engine, $parts ) &&
+				extension_loaded( 'memcache' )
 			) {
-				foreach ($fw->split($parts[1]) as $server) {
-					list($host, $port) = explode(':', $server) + [1 => 11211];
-					if (empty($this->ref))
-						$this->ref = @memcache_connect($host, $port) ?: null;
+				foreach ( $fw->split( $parts[1] ) as $server ) {
+					list( $host, $port ) = explode( ':', $server ) + [ 1 => 11211 ];
+					if ( empty( $this->ref ) )
+						$this->ref = @memcache_connect( $host, $port ) ?: null;
 					else
-						memcache_add_server($this->ref, $host, $port);
+						memcache_add_server( $this->ref, $host, $port );
 				}
 			} elseif (
-				preg_match('/^memcached=(.+)/', $engine, $parts) &&
-				extension_loaded('memcached')
+				preg_match( '/^memcached=(.+)/', $engine, $parts ) &&
+				extension_loaded( 'memcached' )
 			) {
-				foreach ($fw->split($parts[1]) as $server) {
-					list($host, $port) = explode(':', $server) + [1 => 11211];
-					if (empty($this->ref))
+				foreach ( $fw->split( $parts[1] ) as $server ) {
+					list( $host, $port ) = explode( ':', $server ) + [ 1 => 11211 ];
+					if ( empty( $this->ref ) )
 						$this->ref = new Memcached();
-					$this->ref->addServer($host, $port);
+					$this->ref->addServer( $host, $port );
 				}
 			}
-			if (empty($this->ref) && !preg_match('/^folder\h*=/', $engine)) {
-				$engine = ($grep = preg_grep(
+			if ( empty( $this->ref ) && ! preg_match( '/^folder\h*=/', $engine ) ) {
+				$engine = ( $grep = preg_grep(
 					'/^(apc|wincache|xcache)/',
-					array_map('strtolower', get_loaded_extensions())
-				)) ?
+					array_map( 'strtolower', get_loaded_extensions() )
+				) ) ?
 					// Auto-detect
-					current($grep) :
-					// Use filesystem as fallback
-					('folder=' . $fw->TEMP . 'cache/');
+					current( $grep ) :
+						// Use filesystem as fallback
+					( 'folder=' . $fw->TEMP . 'cache/' );
 			}
 
 			// make sure folder is created
-			if ( preg_match('/^folder\h*=\h*(.+)/', $engine, $parts) && ! is_dir($parts[1]) ) {
-				mkdir($parts[1], \Base::MODE, true);
+			if ( preg_match( '/^folder\h*=\h*(.+)/', $engine, $parts ) && ! is_dir( $parts[1] ) ) {
+				mkdir( $parts[1], \Base::MODE, true );
 			}
 		}
 

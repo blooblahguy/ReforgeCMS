@@ -3,16 +3,16 @@
 /**
  * Add arbitrary links to the admin menu, with parenting
  */
-function add_admin_menu($info) {
+function add_admin_menu( $info ) {
 	global $admin_menu;
 
-	$info = array_merge(array(
+	$info = array_merge( array(
 		"label" => "Menu Item",
 		"link" => "/admin",
 		"order" => "30",
 		"icon" => "30",
 		"parent" => false,
-		),
+	),
 		$info
 	);
 
@@ -28,19 +28,20 @@ function admin_head() {
 
 	echo '<meta name="robots" content="noindex" />';
 
+
 	$parts = array();
-	$seperator = $options['seo_seperator'];
-	$sitename = $options['sitename'];
+	$seperator = isset( $options['seo_seperator'] ) ? $options['seo_seperator'] : " - ";
+	$sitename = isset( $options['sitename'] ) ? $options['sitename'] : " - ";
 	$title = $request['page_title'];
 	$category = "Admin";
 
 	$parts[] = $title;
-	if ($category != '') {
+	if ( $category != '' ) {
 		$parts[] = $category;
 	}
 	$parts[] = $sitename;
 
-	$title = implode(" $seperator ", $parts);
+	$title = implode( " $seperator ", $parts );
 
 	// Title and description
 	echo "<title>$title</title>";
@@ -50,7 +51,8 @@ function admin_head() {
 	echo '<meta name=viewport content="width=device-width, initial-scale=1">';
 
 	// favicon
-	echo '<link rel="shortcut icon" href="'.$favicon.'" type="image/x-icon" />';
+	echo '<link rel="shortcut icon" href="' . $favicon . '" type="image/x-icon" />';
+
 
 	// styles
 	rf_styles();
@@ -59,102 +61,115 @@ function admin_head() {
 function render_admin_menu() {
 	global $admin_menu;
 
-	$request = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
 
-	$info = explode("/", $request, 4);
-	$info1 = array_slice($info, 0, 2);
-	$info2 = array_slice($info, 0, 3);
-	$path = "/".implode("/", $info);
-	$path1 = "/".implode("/", $info1);
-	$path2 = "/".implode("/", $info2);
+	$request = trim( parse_url( $_SERVER["REQUEST_URI"], PHP_URL_PATH ), "/" );
+
+	$info = explode( "/", $request, 4 );
+	$info1 = array_slice( $info, 0, 2 );
+	$info2 = array_slice( $info, 0, 3 );
+	$path = "/" . implode( "/", $info );
+	$path1 = "/" . implode( "/", $info1 );
+	$path2 = "/" . implode( "/", $info2 );
 
 	// add seperators
-	$admin_menu[] = array("order" => 29, "type" => "seperator");
-	$admin_menu[] = array("order" => 69, "type" => "seperator");
-	$admin_menu = apply_filters("admin/menu", $admin_menu);
+	$admin_menu = apply_filters( "admin/menu", $admin_menu );
+	// $admin_menu[] = array( "order" => 29, "type" => "seperator" );
+	// $admin_menu[] = array( "order" => 69, "type" => "seperator" );
 
-	usort($admin_menu, function($a, $b) {
-		return $a['order'] > $b['order'];
-	});
+	usort( $admin_menu, function ($a, $b) {
+		return $a['order'] > $b['order'] ? 1 : -1;
+	} );
 
-	foreach ($admin_menu as $menu) {
+
+	foreach ( $admin_menu as $menu ) {
 		// seperator
-		if ($menu['type'] == "seperator") {
+		if ( isset( $menu['type'] ) && $menu['type'] == "seperator" ) {
 			echo '<div class="pad1"></div>';
 			continue;
 		}
 
+
 		// build classes
 		$class = array();
-		if ($menu['link'] == $path1) {
+		if ( $menu['link'] == $path1 ) {
 			$class[] = "active idk";
 		}
-		if ($menu['link'] == $path2) {
+		if ( $menu['link'] == $path2 ) {
 			$class[] = "ancestor idk";
 		} else {
-			foreach ($menu['children'] as $c) {
-				if ($c['link'] == $path) {
+			foreach ( $menu['children'] as $c ) {
+				if ( $c['link'] == $path ) {
 					$class[] = "active";
 					break;
 				}
 			}
 		}
-		$class = implode(" ", $class);
+		$class = implode( " ", $class );
 
 		?>
 		<div class="menu-item <?= $class; ?>">
 			<a href="<?= $menu["link"]; ?>" class="<?= $class; ?>"><i><?= $menu["icon"]; ?></i> <?= $menu["label"]; ?></a>
-			
-			<? if (count($menu['children'])) { ?>
+
+			<? if ( count( $menu['children'] ) ) { ?>
 				<div class="sub-menu">
 					<a href="<?= $menu["link"]; ?>" class="<?= $class; ?>"><?= $menu["label"]; ?></a>
-					<? foreach ($menu['children'] as $child) {
+					<? foreach ( $menu['children'] as $child ) {
 						$class = array();
-						if ($child['link'] == $path1) {
+						if ( $child['link'] == $path1 ) {
 							$class[] = "active";
 						}
-						if ($child['link'] == $path2) {
+						if ( $child['link'] == $path2 ) {
 							$class[] = "ancestor";
 						}
-						$class = implode(" ", $class);
+						$class = implode( " ", $class );
 						?>
 						<a href="<?= $child["link"]; ?>" class="<?= $class; ?>"><?= $child["label"]; ?></a>
-						<?
+					<?
 					} ?>
-				
+
 				</div>
-				
+
 			<? } ?>
 		</div>
-		<?
+	<?
 	}
 }
 
-function display_results_table($rs, $fields) {
-	
+function display_results_table( $rs, $fields ) {
+	// debug( $fields );
 	?>
 	<table>
 		<thead>
 			<tr>
-				<? foreach ($fields as $k => $f) { ?>
-					<th class="<?= $k." ".$f["class"]; ?>"><?= $f["label"]; ?></th>
+				<? foreach ( $fields as $k => $f ) {
+					$class = isset( $f["class"] ) ? $f["class"] : "";
+					$label = isset( $f["label"] ) ? $f["label"] : "";
+					?>
+					<th class="<?= $k . " " . $class; ?>"><?= $label; ?></th>
 				<? } ?>
 			</tr>
 		</thead>
 		<tbody>
-			<? foreach ($rs as $k => $r) { ?>
+			<? foreach ( $rs as $k => $r ) { ?>
 				<tr>
-					<? 
-					foreach ($fields as $i => $f) {
-						$val = isset($r[$i]) ? $r[$i] : $i;
+					<?
+					foreach ( $fields as $i => $f ) {
+						$val = isset( $r[ $i ] ) ? $r[ $i ] : $i;
+						$class = isset( $f["class"] ) ? $f["class"] : "";
+						$label = isset( $f["label"] ) ? $f["label"] : "";
+						$calculate = isset( $f["calculate"] ) ? $f["calculate"] : "";
+						$html = isset( $f["html"] ) ? $f["html"] : "";
+
 						?>
-						<td class="<?= $i." ".$f["class"]; ?>">
-							<? if ($f["calculate"]) {
-								echo $f["calculate"]($val, $r);
-							} elseif ($f["html"]) {
-								echo sprintf($f["html"], $val, $r["id"]);
+						<td class="<?= $i . " " . $class; ?>">
+							<? if ( $calculate ) {
+								echo $calculate( $val, $r );
+							} elseif ( $html ) {
+								echo sprintf( $html, $val, $r["id"] );
 							} else {
-								echo $r[$i]; 
+								if ( isset( $r[ $i ] ) ) {
+									echo $r[ $i ];
+								}
 							} ?>
 						</td>
 					<? } ?>
@@ -164,32 +179,32 @@ function display_results_table($rs, $fields) {
 	</table>
 <? }
 
-function render_admin_header($title) { ?>
+function render_admin_header( $title ) { ?>
 	<div class="row content-middle padb2">
 		<div class="os-min padr2">
 			<h2 class="marg0"><?= $title; ?></h1>
 		</div>
 	</div>
-	<?
-} 
+<?
+}
 
-function render_admin_title($title, $edit = true) {
+function render_admin_title( $title, $edit = true ) {
 	global $PATH;
 
-	$link_base = ltrim($title["link"], "/");
+	$link_base = ltrim( $title["link"], "/" );
 	$id = $title["id"];
 	$btn = true;
 
-	if ($link_base == $PATH) {
+	if ( $link_base == $PATH ) {
 		$label = $title['plural'];
-	} elseif ($id == 0) {
-		$label = "Create ".$title['label'];
+	} elseif ( $id == 0 ) {
+		$label = "Create " . $title['label'];
 		$btn = false;
-	} elseif ($id > 0) {
-		$label = "Edit ".$title['label'];
+	} elseif ( $id > 0 ) {
+		$label = "Edit " . $title['label'];
 	}
 
-	if (! $edit) {
+	if ( ! $edit ) {
 		$btn = false;
 	}
 
@@ -198,12 +213,12 @@ function render_admin_title($title, $edit = true) {
 		<div class="os-min padr2">
 			<h1 class="marg0"><?= $label; ?></h1>
 		</div>
-		<? if ($btn) { ?>
+		<? if ( $btn ) { ?>
 			<div class="os padl2">
 				<a href="<?= "{$title["link"]}/edit/0"; ?>" class="btn"><i><?= $title["icon"]; ?></i>New <?= $title["label"]; ?></a>
 			</div>
 		<? } ?>
 	</div>
 
-	<?
+<?
 }

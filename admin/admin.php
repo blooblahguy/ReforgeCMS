@@ -4,7 +4,7 @@ class Admin extends \Prefab {
 	function __construct() {
 		global $core;
 
-		$core->route("GET|POST /logout", "User->logout");
+		$core->route( "GET|POST /logout", "User->logout" );
 	}
 
 	/**
@@ -12,12 +12,12 @@ class Admin extends \Prefab {
 	 */
 	function login_form() {
 		global $root;
-		require $root."/admin/pages/views/login.php";
+		require $root . "/admin/pages/views/login.php";
 	}
 
 	/**
 	 * Process login form
-	*/
+	 */
 	// function login() {
 	// 	$user = new User();
 	// 	$redirect = $_POST["redirect"];
@@ -34,10 +34,10 @@ class Admin extends \Prefab {
 }
 
 // Force logins
-if (! logged_in()) {
-	$core->route("GET /admin", "Admin->login_form");
-	$core->route("GET /admin/*", "Admin->login_form");
-	$core->route("POST /admin/login", "Forms->login_submit", 0, 64);
+if ( ! logged_in() ) {
+	$core->route( "GET /admin", "Admin->login_form" );
+	$core->route( "GET /admin/*", "Admin->login_form" );
+	$core->route( "POST /admin/login", "Forms->login_submit", 0, 64 );
 	$core->run();
 	exit();
 }
@@ -47,27 +47,26 @@ $request["user_id"] = current_user()->id;
 $request["user_role"] = current_user()->role_id;
 
 // Header scripts
-queue_script("/core/assets/js/quill.min.js", 5);
-queue_script("/core/assets/js/admin.js", 25);
+queue_script( "/core/assets/js/quill.min.js", 5 );
+queue_script( "/core/assets/js/admin.js", 25 );
 
 // allow for global cache clear
-if (current_user()->can("administrator")) {
-	$core->route("GET /admin/clear-cache", function ($core, $args) {
-		// debug("WTF");
-		// exit();
-		resetCaches();
-		$ref = $_SERVER['HTTP_REFERER'];
-		redirect($ref);
-	});
-};
+// if (current_user()->can("administrator")) {
+$core->route( "GET /admin/clear-cache", function ($core, $args) {
+	resetCaches();
+	$ref = $_SERVER['HTTP_REFERER'];
+	redirect( $ref );
+} );
+// };
 
-if (current_user()->can("manage_users")) {
-	$core->route("GET /admin/mimic-user/@id", function($core, $args) {
+if ( current_user()->can( "manage_users" ) ) {
+	$core->route( "GET /admin/mimic-user/@id", function ($core, $args) {
 		$id = $args['id'];
-		session()->set("user_mimic", $id);
-		redirect("/");
-	});
-};
+		session()->set( "user_mimic", $id );
+		redirect( "/" );
+	} );
+}
+;
 
 // include the admin pages
 require "init.php";

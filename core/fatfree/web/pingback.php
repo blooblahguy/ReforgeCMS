@@ -30,14 +30,14 @@ class Pingback extends \Prefab {
 		$log;
 
 	/**
-	*	Return true if URL points to a pingback-enabled resource
+	*	Return TRUE if URL points to a pingback-enabled resource
 	*	@return bool
 	*	@param $url
 	**/
 	protected function enabled($url) {
 		$web=\Web::instance();
 		$req=$web->request($url);
-		$found=false;
+		$found=FALSE;
 		if ($req['body']) {
 			// Look for pingback header
 			foreach ($req['headers'] as $header)
@@ -58,7 +58,7 @@ class Pingback extends \Prefab {
 	/**
 	*	Load local page contents, parse HTML anchor tags, find permalinks,
 	*	and send XML-RPC calls to corresponding pingback servers
-	*	@return null
+	*	@return NULL
 	*	@param $source string
 	**/
 	function inspect($source) {
@@ -69,8 +69,8 @@ class Pingback extends \Prefab {
 			$parts['host']==$fw->HOST) {
 			$req=$web->request($source);
 			$doc=new \DOMDocument('1.0',$fw->ENCODING);
-			$doc->stricterrorchecking=false;
-			$doc->recover=true;
+			$doc->stricterrorchecking=FALSE;
+			$doc->recover=TRUE;
 			if (@$doc->loadhtml($req['body'])) {
 				// Parse anchor tags
 				$links=$doc->getelementsbytagname('a');
@@ -107,7 +107,7 @@ class Pingback extends \Prefab {
 	*	@param $func callback
 	*	@param $path string
 	**/
-	function listen($func,$path=null) {
+	function listen($func,$path=NULL) {
 		$fw=\Base::instance();
 		if (PHP_SAPI!='cli') {
 			header('X-Powered-By: '.$fw->PACKAGE);
@@ -140,20 +140,20 @@ class Pingback extends \Prefab {
 						if ($link->getattribute('href')==$permalink) {
 							call_user_func_array($func,[$source,$req['body']]);
 							// Success
-							die(xmlrpc_encode_request(null,$source,$options));
+							die(xmlrpc_encode_request(NULL,$source,$options));
 						}
 					}
 					// No link to local page
-					die(xmlrpc_encode_request(null,0x11,$options));
+					die(xmlrpc_encode_request(NULL,0x11,$options));
 				}
 				// Source failure
-				die(xmlrpc_encode_request(null,0x10,$options));
+				die(xmlrpc_encode_request(NULL,0x10,$options));
 			}
 			// Doesn't exist (or not pingback-enabled)
-			die(xmlrpc_encode_request(null,0x21,$options));
+			die(xmlrpc_encode_request(NULL,0x21,$options));
 		}
 		// Access denied
-		die(xmlrpc_encode_request(null,0x31,$options));
+		die(xmlrpc_encode_request(NULL,0x31,$options));
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Pingback extends \Prefab {
 	**/
 	function __construct() {
 		// Suppress errors caused by invalid HTML structures
-		libxml_use_internal_errors(true);
+		libxml_use_internal_errors(TRUE);
 	}
 
 }

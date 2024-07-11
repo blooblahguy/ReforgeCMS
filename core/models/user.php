@@ -1,17 +1,17 @@
 <?php
 
 class User extends \RF\Mapper {
-	private 
-		$token,
-		$role,
-		$logged_in = false,
-		$permissions;
+	private
+	$token,
+	$role,
+	$logged_in = false,
+	$permissions;
 
 	function __construct() {
 		$schema = array(
 			"username" => array(
 				"type" => "VARCHAR(256)"
-			), 
+			),
 			"email" => array(
 				"type" => "VARCHAR(190)",
 				"unique" => true,
@@ -53,21 +53,23 @@ class User extends \RF\Mapper {
 			"modified" => false
 		);
 
-		parent::__construct("rf_users", $schema);
+		parent::__construct( "rf_users", $schema );
 	}
 
 	function afterinsert() {
 		$this->check_avatar();
 	}
 
-	function get_user(int $id = 0) {
-		if ($id === 0) {
-			if ($this->remembered()) {
-				$this->load("*", array("id = :id", ":id" => $this->id));
+	function get_user( int $id = 0 ) {
+		// debug( $id );
+		if ( $id === 0 ) {
+			// var_dump( $this->remembered() );
+			if ( $this->remembered() ) {
+				$this->load( "*", array( "id = :id", ":id" => $this->id ) );
 				$this->reup_login();
 			}
 		} else {
-			$this->load("*", array("id = :id", ":id" => $id));
+			$this->load( "*", array( "id = :id", ":id" => $id ) );
 		}
 	}
 
@@ -81,9 +83,11 @@ class User extends \RF\Mapper {
 
 	function check_avatar() {
 		global $root;
-		if (! $this->id) { return; }
-		if ($this->avatar == "" || ! file_exists($root.$this->avatar)) {
-			$img = rand(1, 7);
+		if ( ! $this->id ) {
+			return;
+		}
+		if ( $this->avatar == "" || ! file_exists( $root . $this->avatar ) ) {
+			$img = rand( 1, 7 );
 			$img = "/core/assets/img/avatar_$img.png";
 			$this->avatar = $img;
 			$this->update();
@@ -93,42 +97,48 @@ class User extends \RF\Mapper {
 
 	function logout() {
 		// clear session
-		session()->clear("user_id");
-		session()->clear("token");
-		session()->clear("reup_date");
+		session()->clear( "user_id" );
+		session()->clear( "token" );
+		session()->clear( "reup_date" );
 
 		// clear cookie
-		setcookie('logincookie', "", -1, "/");
+		setcookie( 'logincookie', "", -1, "/" );
 
 		// clear database
 		$lc = new LoginCookie();
-		$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id));
-		if ($lc->id > 0) {
+		$lc->load( "*", array( "token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id ) );
+		if ( $lc->id > 0 ) {
 			$lc->erase();
 		}
 
-		\Alerts::instance()->success("Logged out");
-		redirect("/");
+		\Alerts::instance()->success( "Logged out" );
+		redirect( "/" );
 	}
 
 	function login() {
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 
-		$user = $this->load("*", array("email = :email", ":email" => $email));
-		if ($user->id && $user->verified && password_verify($password, $user->password)) {
+		$user = $this->load( "*", array( "email = :email", ":email" => $email ) );
+		// debug( $user );
+
+		// if (!$user->verified) {
+		// 	return false;
+		// }
+
+		if ( $user->id && password_verify( $password, $user->password ) ) {
 			// store this login
-			$token = password_hash(random_bytes(32).time(), PASSWORD_DEFAULT);
+			$token = password_hash( random_bytes( 32 ) . time(), PASSWORD_DEFAULT );
 			$this->token = $token;
-			$this->reup_login(true);
+			$this->reup_login( true );
 
 			// now log them in
-			$user->last_login = date("Y-m-d H:i:s");
+			$user->last_login = date( "Y-m-d H:i:s" );
 			$user->save();
 
 			// delete old cookies
 			$lc = new LoginCookie();
-			$lc->query("DELETE FROM {$lc->table} WHERE modified < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))");
+			$lc->query( "DELETE FROM {$lc->table} WHERE modified < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))" );
 			return true;
 		}
 
@@ -138,49 +148,64 @@ class User extends \RF\Mapper {
 	/**
 	 * Reups user's login cookie/session
 	 */
-	private function reup_login($force = false) {
-		if (! $this->id || ! $this->token) { return false; }
+	private function reup_login( $force = false ) {
 
-		$today = strtotime(Date("ymd"));
-		$last = session()->get('reup_date');
+		if ( ! $this->id || ! $this->token ) {
+			return false;
+		}
+
+
+
+		$today = strtotime( Date( "ymd" ) );
+		$last = session()->get( 'reup_date' );
 
 		// up session
-		session()->set('user_id', $this->id);
-		session()->set('token', $this->token);
-		session()->set('reup_date', strtotime(Date("ymd")));
-		
+		session()->set( 'user_id', $this->id );
+		session()->set( 'token', $this->token );
+		session()->set( 'reup_date', strtotime( Date( "ymd" ) ) );
+
 		// up cookie
-		setcookie('logincookie', $this->id.":".$this->token, time() + 60 * 60 * 24 * 30, "/"); // reup the cookie (30 days)
+		setcookie( 'logincookie', $this->id . ":" . $this->token, time() + 60 * 60 * 24 * 30, "/" ); // reup the cookie (30 days)
 
 		// up database
 		// don't reup more than once a day
-		if (! $force && $last && $last == $today) {
+		if ( ! $force && $last && $last == $today ) {
 			return;
 		}
 
-		$lc = new LoginCookie();
-		$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id));
 
-		if (! $lc->id || time() != strtotime($lc->modified)) {
+		$lc = new LoginCookie();
+		// debug( $this );
+		$lc->load( "*", array( "token = :token AND user_id = :user_id", ":token" => $this->token, ":user_id" => $this->id ) );
+
+		// debug( $lc );
+		// var_dump( $lc->id );
+
+
+		if ( $lc->id == null || time() != strtotime( $lc->modified ) ) {
+			$lc->clear( 'id' );
 			$lc->user_id = $this->id;
 			$lc->token = $this->token;
 
+			// debug( $lc );
 			$lc->save();
 		}
 
+		// exit();
 
 		// now log them in
 		// $user->last_login = date("Y-m-d H:i:s");
 		// $user->save();
 
 		// Only allow 3 devices
-		$stored = $lc->find("*", array("user_id = :user_id", ":user_id" => $this->id), array(
+		$stored = $lc->find( "*", array( "user_id = :user_id", ":user_id" => $this->id ), array(
 			"order by" => "modified DESC"
-		));
-		$stored = array_slice($stored, 3);
-		if ($stored && count($stored) > 0) {
-			foreach ($stored as $key => $val) {
-				$lc->query("DELETE FROM $lc->table WHERE id = {$val['id']}");
+		) );
+		$stored = array_slice( $stored, 3 );
+
+		if ( $stored && count( $stored ) > 0 ) {
+			foreach ( $stored as $key => $val ) {
+				$lc->query( "DELETE FROM $lc->table WHERE id = {$val['id']}" );
 			}
 		}
 	}
@@ -190,44 +215,44 @@ class User extends \RF\Mapper {
 	 */
 	private function remembered() {
 		$lc = new LoginCookie();
-		
-		if (session()->get("user_mimic")) {
+
+		if ( session()->get( "user_mimic" ) ) {
 			return true;
 		}
-		
+
 		// shortcut the code if we're good to go
-		if ($this->logged_in) { 
+		if ( $this->logged_in ) {
 			return true;
 		}
 
 		// if we have a cookie, log us in if possible
-		if (isset($_COOKIE['logincookie'])) {
+		if ( isset( $_COOKIE['logincookie'] ) ) {
 			$cookie = $_COOKIE['logincookie'];
-			list($user_id, $token) = explode(':', $cookie);
+			list( $user_id, $token ) = explode( ':', $cookie );
 
-			// debug($user_id, $token);
+			// debug( $user_id, $token );
 
-			$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
+			$lc->load( "*", array( "token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id ) );
 
 			// debug($lc);
 
 			// we didn't have a correct cookie, get out of here
-			if ($lc->id) {
+			if ( $lc->id ) {
 				$this->id = $user_id;
 				$this->token = $token;
 				$this->logged_in = true;
 				return true;
 			}
 		}
-		
-		// we can also use session
-		$user_id = session()->get('user_id');
-		$token = session()->get('token');
 
-		$lc->load("*", array("token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id));
+		// we can also use session
+		$user_id = session()->get( 'user_id' );
+		$token = session()->get( 'token' );
+
+		$lc->load( "*", array( "token = :token AND user_id = :user_id", ":token" => $token, ":user_id" => $user_id ) );
 
 		// we didn't have a correct session, get out of here
-		if ($lc->id) {
+		if ( $lc->id ) {
 			$this->id = $user_id;
 			$this->token = $token;
 			$this->logged_in = true;
@@ -238,25 +263,35 @@ class User extends \RF\Mapper {
 	}
 
 	// PERMISSIONS, YAY
-	function can($request = null) {
-		if (! $this->logged_in) { return false; }
-		if (! $this->role_id) { return false; }
-		if (! $this->permissions) {
+	function can( $request = null ) {
+		if ( ! $this->logged_in ) {
+			return false;
+		}
+		if ( ! $this->role_id ) {
+			return false;
+		}
+		if ( ! $this->permissions ) {
 			$role = new Role();
-			$role->load("*", array("id = :id", ":id" => $this->role_id));
+			$role->load( "*", array( "id = :id", ":id" => $this->role_id ) );
 
-			$this->permissions = unserialize($role->permissions);
+			$this->permissions = unserialize( $role->permissions );
 			$this->role = $role->label;
 		}
 
 		$permissions = $this->permissions;
-		if ($request == null) {return;}
-		if ($permissions == null) {return;}
 
-		if (is_array($request)) {
+		if ( $request == null ) {
+			return;
+		}
+		if ( $permissions == null ) {
+			return;
+		}
+
+		// if it's an array of checks, let's check them through here recursively
+		if ( is_array( $request ) ) {
 			// return singular permission status
-			foreach ($request as $r) {
-				if ($this->can($r)) {
+			foreach ( $request as $r ) {
+				if ( $this->can( $r ) ) {
 					return true;
 				}
 			}
@@ -264,22 +299,44 @@ class User extends \RF\Mapper {
 		}
 
 		// administratos can do literally anything
-		if (in_array("administrator", $permissions)) { return true; }
+		if ( in_array( "administrator", $permissions ) ) {
+			return true;
+		}
 
 		// return singular permission status
-		if (in_array($request, $permissions)) { return true; }
+		if ( in_array( $request, $permissions ) ) {
+			return true;
+		}
 
 		// any of these permissions allows you backend access
-		if ($request == "access_admin") {
-			if (in_array("manage_settings", $permissions)) { return true; }
-			if (in_array("manage_users", $permissions)) { return true; }
-			if (in_array("manage_roles", $permissions)) { return true; }
-			if (in_array("manage_post_types", $permissions)) { return true; }
-			if (in_array("manage_custom_fields", $permissions)) { return true; }
-			if (in_array("manage_forms", $permissions)) { return true; }
-			if (in_array("manage_menus", $permissions)) { return true; }
-			if (in_array("manage_comments", $permissions)) { return true; }
-			if (in_array("manage_widgets", $permissions)) { return true; }
+		if ( $request == "access_admin" ) {
+			if ( in_array( "manage_settings", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_users", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_roles", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_post_types", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_custom_fields", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_forms", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_menus", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_comments", $permissions ) ) {
+				return true;
+			}
+			if ( in_array( "manage_widgets", $permissions ) ) {
+				return true;
+			}
 		}
 
 
@@ -298,14 +355,14 @@ class LoginCookie extends \RF\Mapper {
 		$schema = array(
 			"token" => array(
 				"type" => "VARCHAR(256)"
-			), 
+			),
 			"user_id" => array(
 				"type" => "INT(7)"
 			),
 			"created" => false
 		);
 
-		parent::__construct("rf_login_cookies", $schema);
+		parent::__construct( "rf_login_cookies", $schema );
 	}
 }
 
@@ -315,7 +372,7 @@ class VerifyCode extends \RF\Mapper {
 		$schema = array(
 			"code" => array(
 				"type" => "VARCHAR(256)"
-			), 
+			),
 			"user_id" => array(
 				"type" => "INT(7)"
 			),
@@ -325,6 +382,6 @@ class VerifyCode extends \RF\Mapper {
 			"modified" => false
 		);
 
-		parent::__construct("rf_verify_codes", $schema);
+		parent::__construct( "rf_verify_codes", $schema );
 	}
 }

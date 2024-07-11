@@ -34,7 +34,9 @@ class Test {
 		//! Test results
 		$data=[],
 		//! Success indicator
-		$passed=true;
+		$passed=TRUE,
+		//! Reporting level
+		$level;
 
 	/**
 	*	Return test results
@@ -45,7 +47,7 @@ class Test {
 	}
 
 	/**
-	*	Return false if at least one test case fails
+	*	Return FALSE if at least one test case fails
 	*	@return bool
 	**/
 	function passed() {
@@ -58,10 +60,10 @@ class Test {
 	*	@param $cond bool
 	*	@param $text string
 	**/
-	function expect($cond,$text=null) {
+	function expect($cond,$text=NULL) {
 		$out=(bool)$cond;
 		if ($this->level==$out || $this->level==self::FLAG_Both) {
-			$data=['status'=>$out,'text'=>$text,'source'=>null];
+			$data=['status'=>$out,'text'=>$text,'source'=>NULL];
 			foreach (debug_backtrace() as $frame)
 				if (isset($frame['file'])) {
 					$data['source']=Base::instance()->
@@ -71,22 +73,22 @@ class Test {
 			$this->data[]=$data;
 		}
 		if (!$out && $this->passed)
-			$this->passed=false;
+			$this->passed=FALSE;
 		return $this;
 	}
 
 	/**
 	*	Append message to test results
-	*	@return null
+	*	@return NULL
 	*	@param $text string
 	**/
 	function message($text) {
-		$this->expect(true,$text);
+		$this->expect(TRUE,$text);
 	}
 
 	/**
 	*	Class constructor
-	*	@return null
+	*	@return NULL
 	*	@param $level int
 	**/
 	function __construct($level=self::FLAG_Both) {

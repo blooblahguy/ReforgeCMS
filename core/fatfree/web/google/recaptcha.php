@@ -35,12 +35,12 @@ class Recaptcha {
 	 *	@param string $response
 	 *	@return bool
 	 **/
-	static function verify($secret,$response=null) {
+	static function verify($secret,$response=NULL) {
 		$fw=\Base::instance();
 		if (!isset($response))
 			$response=$fw->{'POST.g-recaptcha-response'};
 		if (!$response)
-			return false;
+			return FALSE;
 		$web=\Web::instance();
 		$out=$web->request(self::URL_Recaptcha,[
 			'method'=>'POST',
@@ -51,7 +51,7 @@ class Recaptcha {
 			]),
 		]);
 		return isset($out['body']) &&
-			($json=json_decode($out['body'],true)) &&
+			($json=json_decode($out['body'],TRUE)) &&
 			isset($json['success']) && $json['success'];
 	}
 

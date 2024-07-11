@@ -7,7 +7,7 @@ require "$root/admin/pages/class-admin-pages.php";
 
 function build_pages() {
 	global $root;
-	
+
 	$pages = array();
 	// $pages["comments"] = "page-comments.php";
 	$pages["customfields"] = "page-custom-fields.php";
@@ -23,13 +23,13 @@ function build_pages() {
 	$pages["partials"] = "page-partials.php";
 	$pages["plugins"] = "page-plugins.php";
 	$pages["themes"] = "page-themes.php";
-	
-	$pages = apply_filters("admin/pages", $pages);
-	
-	foreach ($pages as $class => $path) {
+
+	$pages = apply_filters( "admin/pages", $pages );
+
+	foreach ( $pages as $class => $path ) {
 		include "$root/admin/pages/pages/$path";
 	}
 }
 
-add_action("admin/init", "build_pages", 20);
-add_action("admin/init", array(RF_Admin_Pages::instance(), "build_menus"), 30);
+add_action( "admin/init", "build_pages", 20 );
+add_action( "admin/init", array( RF_Admin_Pages::instance(), "build_menus" ), 30 );
